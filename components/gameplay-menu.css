@@ -1,0 +1,118 @@
+.mori-gameplay-shell {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #141f1d;
+}
+.mori-gameplay-content {
+  flex: 1;
+  position: relative;
+  min-height: 0;
+}
+.mori-campaign-busy {
+  position: absolute;
+  inset: 0;
+  z-index: 200;
+  background: #10221df2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  color: #f0d393;
+  padding: 24px;
+  text-align: center;
+}
+.mori-campaign-busy p {
+  color: #aab8a3;
+  font-size: 14px;
+}
+.mori-gameplay-layer {
+  position: absolute;
+  inset: 0;
+  display: none;
+}
+.mori-gameplay-layer.is-active {
+  display: block;
+}
+.mori-gameplay-shell .game-app {
+  height: 100%;
+}
+.mori-gameplay-shell .portrait-notice {
+  bottom: 65px;
+}
+.mori-gameplay-menu {
+  position: relative;
+  z-index: 110;
+  height: 65px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 0;
+  border-top: 1px solid #71817166;
+  background: #111d1cf5;
+  padding: 0 max(12px, env(safe-area-inset-right)) env(safe-area-inset-bottom)
+    max(12px, env(safe-area-inset-left));
+}
+.mori-gameplay-menu > button {
+  position: relative;
+  width: min(230px, 33.3333%);
+  height: 100%;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #a2b0a3;
+  display: flex;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 700;
+}
+.mori-gameplay-menu > button small {
+  color: #758879;
+  font-size: 12px;
+  font-weight: 400;
+}
+.mori-gameplay-menu > button.selected {
+  background: linear-gradient(#bea36120, #bea36105);
+  color: #f0d18e;
+}
+.mori-gameplay-menu > button.selected::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 3px;
+  background: #dfbf76;
+}
+.mori-gameplay-menu > button.selected small {
+  color: #b8b394;
+}
+.mori-gameplay-menu > button:hover {
+  background-color: #33433855;
+}
+@media (max-width: 520px) {
+  .mori-gameplay-menu {
+    padding-inline: 0;
+  }
+  .mori-gameplay-menu > button {
+    font-size: 12px;
+    flex-direction: column;
+    gap: 3px;
+    padding-inline: 3px;
+  }
+  .mori-gameplay-menu > button svg {
+    width: 18px;
+  }
+  .mori-gameplay-menu > button small {
+    display: none;
+  }
+  .mori-gameplay-menu {
+    height: 59px;
+  }
+  .mori-gameplay-shell .portrait-notice {
+    bottom: 59px;
+  }
+}

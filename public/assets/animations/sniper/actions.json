@@ -1,0 +1,412 @@
+{
+  "clips": [
+    {
+      "name": "walk",
+      "pixelsPerUnit": 131.875,
+      "frames": [
+        {
+          "x": 0,
+          "y": 0,
+          "w": 443,
+          "h": 443,
+          "anchorX": 208.21,
+          "anchorY": 436,
+          "duration": 0.12,
+          "visibleHeight": 422,
+          "muzzleX": 414.20500000000004,
+          "muzzleY": 84.17
+        },
+        {
+          "x": 443,
+          "y": 0,
+          "w": 444,
+          "h": 443,
+          "anchorX": 186.47,
+          "anchorY": 437,
+          "duration": 0.12,
+          "visibleHeight": 423,
+          "muzzleX": 415.14000000000004,
+          "muzzleY": 84.17
+        },
+        {
+          "x": 887,
+          "y": 0,
+          "w": 443,
+          "h": 443,
+          "anchorX": 164.7,
+          "anchorY": 423,
+          "duration": 0.12,
+          "visibleHeight": 409,
+          "muzzleX": 414.20500000000004,
+          "muzzleY": 84.17
+        },
+        {
+          "x": 1330,
+          "y": 0,
+          "w": 444,
+          "h": 443,
+          "anchorX": 158.47,
+          "anchorY": 436,
+          "duration": 0.12,
+          "visibleHeight": 422,
+          "muzzleX": 415.14000000000004,
+          "muzzleY": 84.17
+        },
+        {
+          "x": 0,
+          "y": 443,
+          "w": 443,
+          "h": 444,
+          "anchorX": 208.82,
+          "anchorY": 425,
+          "duration": 0.12,
+          "visibleHeight": 417,
+          "muzzleX": 414.20500000000004,
+          "muzzleY": 84.36
+        },
+        {
+          "x": 443,
+          "y": 443,
+          "w": 444,
+          "h": 444,
+          "anchorX": 190.59,
+          "anchorY": 425,
+          "duration": 0.12,
+          "visibleHeight": 416,
+          "muzzleX": 415.14000000000004,
+          "muzzleY": 84.36
+        },
+        {
+          "x": 887,
+          "y": 443,
+          "w": 443,
+          "h": 444,
+          "anchorX": 170.79,
+          "anchorY": 407,
+          "duration": 0.12,
+          "visibleHeight": 399,
+          "muzzleX": 414.20500000000004,
+          "muzzleY": 84.36
+        },
+        {
+          "x": 1330,
+          "y": 443,
+          "w": 444,
+          "h": 444,
+          "anchorX": 157.9,
+          "anchorY": 427,
+          "duration": 0.12,
+          "visibleHeight": 417,
+          "muzzleX": 415.14000000000004,
+          "muzzleY": 84.36
+        }
+      ]
+    },
+    {
+      "name": "crouch",
+      "pixelsPerUnit": 124.6875,
+      "frames": [
+        {
+          "x": 0,
+          "y": 0,
+          "w": 443,
+          "h": 445,
+          "anchorX": 208.21,
+          "anchorY": 425,
+          "duration": 0.16,
+          "visibleHeight": 399,
+          "muzzleX": 414.20500000000004,
+          "muzzleY": 66.75
+        },
+        {
+          "x": 443,
+          "y": 0,
+          "w": 444,
+          "h": 445,
+          "anchorX": 208.68,
+          "anchorY": 420,
+          "duration": 0.14,
+          "visibleHeight": 347,
+          "muzzleX": 415.14000000000004,
+          "muzzleY": 93.45
+        },
+        {
+          "x": 887,
+          "y": 0,
+          "w": 443,
+          "h": 445,
+          "anchorX": 208.21,
+          "anchorY": 416,
+          "duration": 0.16,
+          "visibleHeight": 303,
+          "muzzleX": 414.20500000000004,
+          "muzzleY": 120.15
+        },
+        {
+          "x": 1330,
+          "y": 0,
+          "w": 444,
+          "h": 445,
+          "anchorX": 208.68,
+          "anchorY": 431,
+          "duration": 0.28,
+          "visibleHeight": 285,
+          "muzzleX": 415.14000000000004,
+          "muzzleY": 155.75
+        },
+        {
+          "x": 0,
+          "y": 445,
+          "w": 443,
+          "h": 442,
+          "anchorX": 208.21,
+          "anchorY": 416,
+          "duration": 0.1,
+          "visibleHeight": 284,
+          "muzzleX": 414.20500000000004,
+          "muzzleY": 145.86
+        },
+        {
+          "x": 443,
+          "y": 445,
+          "w": 444,
+          "h": 442,
+          "anchorX": 208.68,
+          "anchorY": 415,
+          "duration": 0.45,
+          "visibleHeight": 282,
+          "muzzleX": 415.14000000000004,
+          "muzzleY": 154.7
+        },
+        {
+          "x": 887,
+          "y": 445,
+          "w": 443,
+          "h": 442,
+          "anchorX": 208.21,
+          "anchorY": 403,
+          "duration": 0.18,
+          "visibleHeight": 341,
+          "muzzleX": 414.20500000000004,
+          "muzzleY": 106.08
+        },
+        {
+          "x": 1330,
+          "y": 445,
+          "w": 444,
+          "h": 442,
+          "anchorX": 208.68,
+          "anchorY": 407,
+          "duration": 0.18,
+          "visibleHeight": 391,
+          "muzzleX": 415.14000000000004,
+          "muzzleY": 66.3
+        }
+      ]
+    },
+    {
+      "name": "grenade",
+      "pixelsPerUnit": 127.5,
+      "frames": [
+        {
+          "x": 0,
+          "y": 0,
+          "w": 443,
+          "h": 449,
+          "anchorX": 208.21,
+          "anchorY": 435,
+          "duration": 0.18,
+          "visibleHeight": 408,
+          "muzzleX": 414.20500000000004,
+          "muzzleY": 85.31
+        },
+        {
+          "x": 443,
+          "y": 0,
+          "w": 444,
+          "h": 449,
+          "anchorX": 208.68,
+          "anchorY": 434,
+          "duration": 0.18,
+          "visibleHeight": 407,
+          "muzzleX": 415.14000000000004,
+          "muzzleY": 85.31
+        },
+        {
+          "x": 887,
+          "y": 0,
+          "w": 443,
+          "h": 449,
+          "anchorX": 208.21,
+          "anchorY": 434,
+          "duration": 0.16,
+          "visibleHeight": 407,
+          "muzzleX": 414.20500000000004,
+          "muzzleY": 85.31
+        },
+        {
+          "x": 1330,
+          "y": 0,
+          "w": 444,
+          "h": 449,
+          "anchorX": 208.68,
+          "anchorY": 433,
+          "duration": 0.2,
+          "visibleHeight": 402,
+          "muzzleX": 415.14000000000004,
+          "muzzleY": 85.31
+        },
+        {
+          "x": 0,
+          "y": 449,
+          "w": 443,
+          "h": 438,
+          "anchorX": 208.21,
+          "anchorY": 405,
+          "duration": 0.1,
+          "visibleHeight": 390,
+          "muzzleX": 414.20500000000004,
+          "muzzleY": 83.22
+        },
+        {
+          "x": 443,
+          "y": 449,
+          "w": 444,
+          "h": 438,
+          "anchorX": 208.68,
+          "anchorY": 406,
+          "duration": 0.18,
+          "visibleHeight": 371,
+          "muzzleX": 415.14000000000004,
+          "muzzleY": 83.22
+        },
+        {
+          "x": 887,
+          "y": 449,
+          "w": 443,
+          "h": 438,
+          "anchorX": 208.21,
+          "anchorY": 409,
+          "duration": 0.2,
+          "visibleHeight": 383,
+          "muzzleX": 414.20500000000004,
+          "muzzleY": 83.22
+        },
+        {
+          "x": 1330,
+          "y": 449,
+          "w": 444,
+          "h": 438,
+          "anchorX": 208.68,
+          "anchorY": 409,
+          "duration": 0.2,
+          "visibleHeight": 390,
+          "muzzleX": 415.14000000000004,
+          "muzzleY": 83.22
+        }
+      ]
+    },
+    {
+      "name": "death",
+      "pixelsPerUnit": 124.375,
+      "frames": [
+        {
+          "x": 0,
+          "y": 0,
+          "w": 443,
+          "h": 533,
+          "anchorX": 208.21,
+          "anchorY": 461,
+          "duration": 0.08,
+          "visibleHeight": 398,
+          "muzzleX": 414.20500000000004,
+          "muzzleY": 101.27
+        },
+        {
+          "x": 443,
+          "y": 0,
+          "w": 444,
+          "h": 533,
+          "anchorX": 208.68,
+          "anchorY": 457,
+          "duration": 0.14,
+          "visibleHeight": 350,
+          "muzzleX": 415.14000000000004,
+          "muzzleY": 101.27
+        },
+        {
+          "x": 887,
+          "y": 0,
+          "w": 443,
+          "h": 533,
+          "anchorX": 208.21,
+          "anchorY": 459,
+          "duration": 0.16,
+          "visibleHeight": 292,
+          "muzzleX": 414.20500000000004,
+          "muzzleY": 101.27
+        },
+        {
+          "x": 1330,
+          "y": 0,
+          "w": 444,
+          "h": 533,
+          "anchorX": 208.68,
+          "anchorY": 461,
+          "duration": 0.16,
+          "visibleHeight": 261,
+          "muzzleX": 415.14000000000004,
+          "muzzleY": 101.27
+        },
+        {
+          "x": 0,
+          "y": 533,
+          "w": 443,
+          "h": 354,
+          "anchorX": 225.93,
+          "anchorY": 288,
+          "duration": 0.15,
+          "visibleHeight": 215,
+          "muzzleX": 414.20500000000004,
+          "muzzleY": 67.26
+        },
+        {
+          "x": 443,
+          "y": 533,
+          "w": 444,
+          "h": 354,
+          "anchorX": 226.44,
+          "anchorY": 276,
+          "duration": 0.14,
+          "visibleHeight": 157,
+          "muzzleX": 415.14000000000004,
+          "muzzleY": 67.26
+        },
+        {
+          "x": 887,
+          "y": 533,
+          "w": 443,
+          "h": 354,
+          "anchorX": 225.93,
+          "anchorY": 278,
+          "duration": 0.16,
+          "visibleHeight": 135,
+          "muzzleX": 414.20500000000004,
+          "muzzleY": 67.26
+        },
+        {
+          "x": 1330,
+          "y": 533,
+          "w": 444,
+          "h": 354,
+          "anchorX": 226.44,
+          "anchorY": 277,
+          "duration": 0.5,
+          "visibleHeight": 130,
+          "muzzleX": 415.14000000000004,
+          "muzzleY": 67.26
+        }
+      ]
+    }
+  ]
+}

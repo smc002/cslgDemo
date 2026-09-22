@@ -1,0 +1,461 @@
+.loop-page.city-scene-page {
+  position: relative;
+  isolation: isolate;
+  height: 100%;
+  width: 100%;
+  padding: 0 !important;
+  overflow: hidden;
+  background: #bfa879;
+  color: #fff8dd;
+  touch-action: manipulation;
+}
+.city-world {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  transition: translate 0.3s ease;
+}
+.city-terrain {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.city-world-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    #152a3a60,
+    transparent 20%,
+    transparent 83%,
+    #18382b42
+  );
+  pointer-events: none;
+}
+.city-scene-heading {
+  position: absolute;
+  left: 14px;
+  right: 12px;
+  top: 13px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+  z-index: 3;
+}
+.city-scene-heading h1 {
+  font-size: 24px;
+  line-height: 29px;
+  font-weight: 950;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 3px #283628;
+}
+.city-scene-heading div > small {
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-shadow: 0 1px #2d3e2d;
+  color: #ffecb5;
+}
+.city-scene-heading > span {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  padding: 8px 9px;
+  border: 1px solid #e5d5a780;
+  border-radius: 12px;
+  background: #183c37d9;
+  box-shadow: 0 3px 8px #243e292c;
+  font-size: 16px;
+}
+.city-scene-heading > span small {
+  font-size: 11px;
+  color: #efe4b6;
+}
+.city-hq-label {
+  position: absolute;
+  top: 19%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  color: #fff2c9;
+  background: #3145369c;
+  border: 1px solid #bdad7480;
+  border-radius: 4px;
+  padding: 2px 7px;
+  pointer-events: none;
+}
+.city-scene-page .city-building {
+  position: absolute;
+  width: 59%;
+  height: 33%;
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  transform: translate(-50%, -100%);
+  overflow: visible;
+  border-radius: 35%;
+  isolation: isolate;
+  transition:
+    filter 0.2s,
+    translate 0.3s ease;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.city-building.workshop {
+  left: 29%;
+  top: 49%;
+  z-index: 2;
+}
+.city-building.factory {
+  left: 71%;
+  top: 76%;
+  z-index: 3;
+}
+.city-scene-page:has(.city-inspector) .city-world,
+.city-scene-page:has(.city-inspector) .city-building,
+.city-scene-page:has(.city-inspector) .city-hq-label {
+  translate: 0 -94px;
+}
+.city-building-sprite {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  pointer-events: none;
+  filter: drop-shadow(1px 0 1px #f5eb9d) drop-shadow(-1px 0 1px #f5eb9d)
+    drop-shadow(0 2px 5px #bbf5bf88);
+  transition: filter 0.2s;
+}
+.city-building-glow {
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  height: 30%;
+  bottom: 0;
+  border-radius: 50%;
+  border: 2px solid #e3f3bda0;
+  background: radial-gradient(ellipse, #bce18575, transparent 70%);
+  box-shadow: 0 0 14px #d5f9a459;
+  transform: rotate(-5deg);
+  pointer-events: none;
+  z-index: -1;
+}
+.city-building.is-selected .city-building-sprite,
+.city-building:hover .city-building-sprite,
+.city-building:focus-visible .city-building-sprite {
+  filter: drop-shadow(2px 0 0 #fff1a6) drop-shadow(-2px 0 0 #fff1a6)
+    drop-shadow(0 2px 0 #fff1a6) drop-shadow(0 0 9px #ffce58);
+}
+.city-building.is-selected .city-building-glow,
+.city-building:focus-visible .city-building-glow {
+  border-color: #ffe783;
+  background: #f8d45b5c;
+  box-shadow: 0 0 24px #fff0a770;
+}
+.city-building.is-building .city-building-sprite {
+  animation: city-build-flash 1s ease-out;
+}
+.city-building-caption {
+  position: absolute;
+  left: 50%;
+  bottom: -12px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  background: #153b33e8;
+  border: 1px solid #e9d192;
+  border-radius: 7px;
+  padding: 4px 8px;
+  box-shadow: 0 3px 6px #313a2e50;
+  color: #fff4c6;
+  text-shadow: 0 1px #102a28;
+  font-size: 12px;
+  pointer-events: none;
+}
+.city-building-caption small {
+  font-size: 10px;
+  color: #ffe282;
+}
+.city-production-bubble {
+  position: absolute;
+  top: 8%;
+  left: 55%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  min-height: 27px;
+  white-space: nowrap;
+  padding: 5px 8px;
+  background: #254a42e8;
+  color: #eff6d3;
+  font-size: 12px;
+  border: 1px solid #d4daa480;
+  border-radius: 9px;
+  box-shadow: 0 3px 4px #25362c55;
+  pointer-events: none;
+}
+.city-production-bubble.can-collect {
+  background: linear-gradient(#fff1a3, #edb638);
+  border: 2px solid #fff5ca;
+  color: #573618;
+  font-weight: 900;
+  animation: city-resource-float 2.4s ease-in-out infinite;
+}
+.city-scene-tip {
+  position: absolute;
+  right: 12px;
+  bottom: 17px;
+  color: #fff8d7;
+  font-size: 11px;
+  text-shadow: 0 1px #1b3b34;
+  background: #193e3370;
+  border: 1px solid #dbd9a166;
+  border-radius: 20px;
+  padding: 6px 8px;
+  pointer-events: none;
+}
+.city-feedback {
+  position: absolute;
+  top: 25%;
+  left: 0;
+  right: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  z-index: 15;
+}
+.city-feedback > span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #153a2ee8;
+  color: #ffe993;
+  border: 1px solid #ead78e;
+  border-radius: 10px;
+  padding: 8px 14px;
+  box-shadow: 0 3px 9px #142e3355;
+  font-size: 14px;
+}
+.city-inspector {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  right: 8px;
+  z-index: 25;
+  padding: 11px 12px 10px;
+  border: 2px solid #edd399;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #22615af5, #093e40fa);
+  box-shadow:
+    0 5px 18px #122f3670,
+    inset 0 1px #99d7b88c;
+  color: #fff4d0;
+  animation: city-sheet-in 0.18s ease-out;
+}
+.city-inspector .city-inspector-close {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 9px;
+  background: #133f35a1;
+  color: #e9edce;
+}
+.city-inspector-title {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding-right: 17px;
+}
+.city-inspector-title > img {
+  height: 56px;
+  width: 70px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.city-inspector h2 {
+  font-size: 17px;
+  line-height: 21px;
+  font-weight: 900;
+  color: #fff4c7;
+}
+.city-inspector h2 small {
+  font-size: 11px;
+  color: #ecd688;
+}
+.city-inspector-title p {
+  font-size: 11px;
+  line-height: 16px;
+  margin: 3px 0 0;
+  color: #d6e5c9;
+}
+.city-stock {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-top: 7px;
+  gap: 5px;
+}
+.city-stock b {
+  font-size: 17px;
+  color: #fff097;
+}
+.city-stock small {
+  font-size: 11px;
+  color: #c8debd;
+}
+.city-inspector > progress {
+  width: 100%;
+  height: 5px;
+  display: block;
+  margin-top: 4px;
+}
+.city-building-actions {
+  display: flex;
+  gap: 7px;
+  margin-top: 10px;
+}
+.city-inspector .city-building-actions > button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 43px;
+  border-radius: 12px;
+  padding: 7px 5px;
+  font-size: 13px;
+  flex: 1;
+  border: 2px solid #fff0b0;
+  background: linear-gradient(#fff0a0, #edb338);
+  color: #573914;
+  box-shadow: 0 2px #62421e;
+  font-weight: 900;
+}
+.city-inspector .city-building-actions > button.city-collect {
+  flex: 0.75;
+  background: linear-gradient(#6eb69b, #34826c);
+  border-color: #abd6a4;
+  color: #fff4d0;
+  box-shadow: 0 2px #143f38;
+}
+.city-inspector footer {
+  font-size: 11px;
+  line-height: 15px;
+  margin-top: 8px;
+  color: #eed9aa;
+  text-align: center;
+}
+.city-inspector footer > small {
+  font-size: 9px;
+  color: #a7cdbd;
+  display: block;
+}
+.mori-gameplay-shell[data-gameplay='city']:has(.city-inspector)
+  .battle-layer.is-mini {
+  bottom: auto;
+  top: 75px;
+  width: 107px;
+  height: 39px;
+  left: 9px;
+}
+@keyframes city-resource-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -4px;
+  }
+}
+@keyframes city-build-flash {
+  0% {
+    filter: brightness(1.9) drop-shadow(0 0 18px #fff099);
+    scale: 0.95;
+  }
+  50% {
+    scale: 1.035;
+  }
+  100% {
+    scale: 1;
+  }
+}
+@keyframes city-sheet-in {
+  from {
+    translate: 0 15px;
+    opacity: 0;
+  }
+  to {
+    translate: 0 0;
+    opacity: 1;
+  }
+}
+@media (max-height: 700px) {
+  .city-scene-page:has(.city-inspector) .city-world,
+  .city-scene-page:has(.city-inspector) .city-building,
+  .city-scene-page:has(.city-inspector) .city-hq-label {
+    translate: 0 -116px;
+  }
+  .city-scene-heading {
+    top: 8px;
+  }
+  .city-scene-heading h1 {
+    font-size: 20px;
+  }
+  .city-scene-heading > span {
+    padding: 5px 7px;
+  }
+  .city-building.workshop {
+    top: 48%;
+  }
+  .city-building.factory {
+    top: 77%;
+  }
+  .city-inspector {
+    padding: 8px 10px;
+  }
+  .city-inspector-title > img {
+    height: 39px;
+    width: 53px;
+  }
+  .city-inspector h2 {
+    font-size: 15px;
+  }
+  .city-inspector-title p {
+    font-size: 10px;
+    line-height: 13px;
+  }
+  .city-building-actions {
+    margin-top: 7px;
+  }
+  .city-inspector footer {
+    margin-top: 5px;
+  }
+  .city-scene-tip {
+    font-size: 9px;
+    bottom: 20px;
+  }
+  .city-building-caption {
+    font-size: 11px;
+    padding: 3px 6px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .city-building.is-building .city-building-sprite,
+  .city-production-bubble.can-collect,
+  .city-inspector {
+    animation: none;
+  }
+}

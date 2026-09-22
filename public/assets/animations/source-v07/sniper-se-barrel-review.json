@@ -1,0 +1,78 @@
+[
+  {
+    "frame": 0,
+    "bbox": [
+      52,
+      185,
+      519,
+      635
+    ],
+    "approxMuzzle": [
+      515.2,
+      474.9
+    ],
+    "barrelAngleDeg": 34.63,
+    "barrelAxisPoint": [
+      445.3,
+      426.6
+    ],
+    "method": "PCA of alpha>96 suppressor segment behind approximate muzzle, 95px long and44px wide; coordinate endpoints are approximate."
+  },
+  {
+    "frame": 1,
+    "bbox": [
+      544,
+      183,
+      1030,
+      635
+    ],
+    "approxMuzzle": [
+      1026.2,
+      464.7
+    ],
+    "barrelAngleDeg": 33.76,
+    "barrelAxisPoint": [
+      955.6,
+      417.5
+    ],
+    "method": "PCA of alpha>96 suppressor segment behind approximate muzzle, 95px long and44px wide; coordinate endpoints are approximate."
+  },
+  {
+    "frame": 2,
+    "bbox": [
+      1059,
+      185,
+      1530,
+      635
+    ],
+    "approxMuzzle": [
+      1526.6,
+      474.3
+    ],
+    "barrelAngleDeg": 34.13,
+    "barrelAxisPoint": [
+      1456.3,
+      426.6
+    ],
+    "method": "PCA of alpha>96 suppressor segment behind approximate muzzle, 95px long and44px wide; coordinate endpoints are approximate."
+  },
+  {
+    "frame": 3,
+    "bbox": [
+      1567,
+      185,
+      2039,
+      635
+    ],
+    "approxMuzzle": [
+      2035.2,
+      474.1
+    ],
+    "barrelAngleDeg": 34.23,
+    "barrelAxisPoint": [
+      1964.9,
+      426.2
+    ],
+    "method": "PCA of alpha>96 suppressor segment behind approximate muzzle, 95px long and44px wide; coordinate endpoints are approximate."
+  }
+]

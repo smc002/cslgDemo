@@ -1,0 +1,162 @@
+[
+  {
+    "row": 0,
+    "col": 0,
+    "bbox": [
+      70,
+      75,
+      320,
+      503
+    ],
+    "approxMuzzle": [
+      294.0,
+      77.8
+    ],
+    "barrelAngleDeg": -66.97,
+    "barrelAxisPoint": [
+      272.5,
+      128.5
+    ],
+    "method": "PCA of alpha>96 muzzle segment behind approximate endpoint,65px long36px wide; approximate coordinates."
+  },
+  {
+    "row": 0,
+    "col": 1,
+    "bbox": [
+      474,
+      73,
+      720,
+      502
+    ],
+    "approxMuzzle": [
+      708.6,
+      75.3
+    ],
+    "barrelAngleDeg": -62.77,
+    "barrelAxisPoint": [
+      683.4,
+      124.2
+    ],
+    "method": "PCA of alpha>96 muzzle segment behind approximate endpoint,65px long36px wide; approximate coordinates."
+  },
+  {
+    "row": 0,
+    "col": 2,
+    "bbox": [
+      862,
+      72,
+      1111,
+      503
+    ],
+    "approxMuzzle": [
+      1080.0,
+      74.6
+    ],
+    "barrelAngleDeg": -65.87,
+    "barrelAxisPoint": [
+      1057.5,
+      124.8
+    ],
+    "method": "PCA of alpha>96 muzzle segment behind approximate endpoint,65px long36px wide; approximate coordinates."
+  },
+  {
+    "row": 0,
+    "col": 3,
+    "bbox": [
+      1263,
+      72,
+      1509,
+      502
+    ],
+    "approxMuzzle": [
+      1497.6,
+      75.1
+    ],
+    "barrelAngleDeg": -62.02,
+    "barrelAxisPoint": [
+      1471.8,
+      123.7
+    ],
+    "method": "PCA of alpha>96 muzzle segment behind approximate endpoint,65px long36px wide; approximate coordinates."
+  },
+  {
+    "row": 1,
+    "col": 0,
+    "bbox": [
+      48,
+      615,
+      378,
+      910
+    ],
+    "approxMuzzle": [
+      373.9,
+      644.6
+    ],
+    "barrelAngleDeg": -14.25,
+    "barrelAxisPoint": [
+      320.6,
+      658.1
+    ],
+    "method": "PCA of alpha>96 muzzle segment behind approximate endpoint,65px long36px wide; approximate coordinates."
+  },
+  {
+    "row": 1,
+    "col": 1,
+    "bbox": [
+      427,
+      617,
+      791,
+      911
+    ],
+    "approxMuzzle": [
+      787.6,
+      637.2
+    ],
+    "barrelAngleDeg": -14.59,
+    "barrelAxisPoint": [
+      734.4,
+      651.0
+    ],
+    "method": "PCA of alpha>96 muzzle segment behind approximate endpoint,65px long36px wide; approximate coordinates."
+  },
+  {
+    "row": 1,
+    "col": 2,
+    "bbox": [
+      843,
+      619,
+      1200,
+      910
+    ],
+    "approxMuzzle": [
+      1196.7,
+      639.9
+    ],
+    "barrelAngleDeg": -15.09,
+    "barrelAxisPoint": [
+      1143.6,
+      654.2
+    ],
+    "method": "PCA of alpha>96 muzzle segment behind approximate endpoint,65px long36px wide; approximate coordinates."
+  },
+  {
+    "row": 1,
+    "col": 3,
+    "bbox": [
+      1225,
+      616,
+      1563,
+      910
+    ],
+    "approxMuzzle": [
+      1558.9,
+      644.4
+    ],
+    "barrelAngleDeg": -13.74,
+    "barrelAxisPoint": [
+      1505.4,
+      657.5
+    ],
+    "method": "PCA of alpha>96 muzzle segment behind approximate endpoint,65px long36px wide; approximate coordinates."
+  }
+]

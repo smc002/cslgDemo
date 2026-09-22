@@ -1,0 +1,209 @@
+.merged-prototype button {
+  cursor: pointer;
+}
+.merged-prototype button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.merged-icon {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #a2c9a3aa;
+  border-radius: 9px;
+  background: #173d3577;
+}
+.merged-portrait {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+.merged-portrait img {
+  position: absolute;
+  max-width: none;
+  pointer-events: none;
+}
+.merged-lanes {
+  position: absolute;
+  top: 76px;
+  left: 4%;
+  right: 4%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  text-align: center;
+}
+.merged-lanes > div {
+  background: #174b41e8;
+  border-top: 2px solid;
+  border-radius: 8px;
+  padding: 5px;
+}
+.merged-lanes b {
+  font-size: 14px;
+}
+.merged-lanes span {
+  display: block;
+  font-size: 11px;
+  color: #e0edcd;
+}
+.merged-brief {
+  position: absolute;
+  top: 23%;
+  width: 100%;
+  text-align: center;
+  color: #214b3a;
+  text-shadow: 0 1px #fff6;
+  pointer-events: none;
+}
+.merged-brief b {
+  font-size: 18px;
+}
+.merged-brief p {
+  font-size: 13px;
+  margin: 8px 0;
+  line-height: 1.7;
+}
+.merged-deploy-slots {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.merged-deploy-slots button {
+  position: absolute;
+  width: 62px;
+  height: 72px;
+  transform: translate(-50%, -80%);
+  background: transparent;
+  border: 1px dashed #407d6499;
+  border-radius: 14px;
+  pointer-events: auto;
+  touch-action: none;
+}
+.merged-deploy-slots button.selected {
+  border: 2px solid #ffe29c;
+  box-shadow: 0 0 0 2px #35583d;
+  z-index: 1;
+}
+.merged-deploy-slots span {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 4px;
+  background: #1a4b3ceb;
+  color: #e2ecc8;
+  font-size: 10px;
+  white-space: nowrap;
+  padding: 1px 5px;
+  pointer-events: none;
+}
+.merged-drag-ghost {
+  position: absolute;
+  transform: translate(-50%, -65%);
+  pointer-events: none;
+  z-index: 10;
+  filter: drop-shadow(0 0 5px #ffee88);
+}
+.merged-prep-controls,
+.merged-battle-controls {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: #174b42f8;
+  border-top: 2px solid #b7d19c;
+  padding: 8px 10px;
+}
+.merged-hero-detail {
+  display: flex;
+  gap: 8px;
+  min-height: 42px;
+  align-items: center;
+}
+.merged-hero-detail b {
+  font-size: 13px;
+}
+.merged-hero-detail p {
+  font-size: 11px;
+  line-height: 1.4;
+  margin: 2px 0;
+  color: #dbe8c6;
+}
+.merged-hero-detail > div {
+  flex: 1;
+}
+.merged-roster {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 3px;
+  margin: 6px 0;
+}
+.merged-roster button {
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #7ba78c;
+  border-radius: 5px;
+  background: #12352d;
+}
+.merged-roster button.selected {
+  background: #4d6b46;
+  border-color: #ffe4a2;
+}
+.merged-prep-actions,
+.merged-battle-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.merged-prep-actions button,
+.merged-battle-actions button,
+.merged-prototype .portrait-result button {
+  min-height: 35px;
+  padding: 6px 10px;
+  border: 1px solid #a9bf92;
+  border-radius: 7px;
+  background: #245a45;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 13px;
+}
+.merged-prep-actions .primary {
+  flex: 1;
+  color: #28452e;
+  background: #edd080;
+  font-weight: 700;
+}
+.merged-stats {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: #dce5bf;
+}
+.merged-stats b {
+  color: #ffe7a2;
+}
+.merged-battle-actions > div {
+  display: flex;
+  gap: 2px;
+}
+.merged-battle-actions button.selected {
+  background: #edd080;
+  color: #28452e;
+}
+.merged-battle-actions > span {
+  font-size: 11px;
+  color: #b8d79f;
+}
+.merged-prototype .portrait-state-label {
+  top: 23%;
+  font-size: 13px;
+  white-space: nowrap;
+}

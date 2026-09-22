@@ -1,0 +1,41 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@source '../components';
+:root {
+  font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+  color: #ecefe5;
+  background: #131d21;
+  font-synthesis: none;
+  --primary: #e9bc64;
+  --primary-foreground: #172125;
+  --radius: 0.4rem;
+  --ring: #e9bc64;
+  --border: #536268;
+  --foreground: #ecede7;
+  --background: #172328;
+  --muted: #28373c;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+button {
+  font: inherit;
+}
+button:focus-visible {
+  outline: 2px solid #ffdb8d;
+  outline-offset: 3px;
+}
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+button:not(:disabled) {
+  cursor: pointer;
+}
+svg {
+  flex-shrink: 0;
+}
+

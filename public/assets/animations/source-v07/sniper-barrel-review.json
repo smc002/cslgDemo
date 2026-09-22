@@ -1,0 +1,282 @@
+[
+  {
+    "row": 0,
+    "col": 0,
+    "approxMuzzle": [
+      140.3,
+      10.1
+    ],
+    "barrelAngleDeg": -90.97,
+    "barrelAxisPoint": [
+      141.1,
+      60.1
+    ],
+    "method": "PCA of alpha>96 muzzle segment, 54px long, 26px wide around visually estimated direction"
+  },
+  {
+    "row": 0,
+    "col": 1,
+    "approxMuzzle": [
+      427.9,
+      10.2
+    ],
+    "barrelAngleDeg": -90.45,
+    "barrelAxisPoint": [
+      428.3,
+      60.2
+    ],
+    "method": "PCA of alpha>96 muzzle segment, 54px long, 26px wide around visually estimated direction"
+  },
+  {
+    "row": 0,
+    "col": 2,
+    "approxMuzzle": [
+      710.0,
+      10.2
+    ],
+    "barrelAngleDeg": -90.21,
+    "barrelAxisPoint": [
+      710.2,
+      60.2
+    ],
+    "method": "PCA of alpha>96 muzzle segment, 54px long, 26px wide around visually estimated direction"
+  },
+  {
+    "row": 0,
+    "col": 3,
+    "approxMuzzle": [
+      985.0,
+      10.1
+    ],
+    "barrelAngleDeg": -89.94,
+    "barrelAxisPoint": [
+      984.9,
+      60.1
+    ],
+    "method": "PCA of alpha>96 muzzle segment, 54px long, 26px wide around visually estimated direction"
+  },
+  {
+    "row": 1,
+    "col": 0,
+    "approxMuzzle": [
+      241.5,
+      311.0
+    ],
+    "barrelAngleDeg": -44.79,
+    "barrelAxisPoint": [
+      206.0,
+      346.2
+    ],
+    "method": "PCA of alpha>96 muzzle segment, 54px long, 26px wide around visually estimated direction"
+  },
+  {
+    "row": 1,
+    "col": 1,
+    "approxMuzzle": [
+      538.9,
+      311.1
+    ],
+    "barrelAngleDeg": -44.73,
+    "barrelAxisPoint": [
+      503.4,
+      346.3
+    ],
+    "method": "PCA of alpha>96 muzzle segment, 54px long, 26px wide around visually estimated direction"
+  },
+  {
+    "row": 1,
+    "col": 2,
+    "approxMuzzle": [
+      816.9,
+      310.1
+    ],
+    "barrelAngleDeg": -44.69,
+    "barrelAxisPoint": [
+      781.4,
+      345.3
+    ],
+    "method": "PCA of alpha>96 muzzle segment, 54px long, 26px wide around visually estimated direction"
+  },
+  {
+    "row": 1,
+    "col": 3,
+    "approxMuzzle": [
+      1098.6,
+      309.9
+    ],
+    "barrelAngleDeg": -44.06,
+    "barrelAxisPoint": [
+      1062.7,
+      344.7
+    ],
+    "method": "PCA of alpha>96 muzzle segment, 54px long, 26px wide around visually estimated direction"
+  },
+  {
+    "row": 2,
+    "col": 0,
+    "approxMuzzle": [
+      275.8,
+      667.2
+    ],
+    "barrelAngleDeg": -3.52,
+    "barrelAxisPoint": [
+      225.9,
+      670.3
+    ],
+    "method": "PCA of alpha>96 muzzle segment, 54px long, 26px wide around visually estimated direction"
+  },
+  {
+    "row": 2,
+    "col": 1,
+    "approxMuzzle": [
+      564.9,
+      667.4
+    ],
+    "barrelAngleDeg": -1.76,
+    "barrelAxisPoint": [
+      514.9,
+      668.9
+    ],
+    "method": "PCA of alpha>96 muzzle segment, 54px long, 26px wide around visually estimated direction"
+  },
+  {
+    "row": 2,
+    "col": 2,
+    "approxMuzzle": [
+      852.8,
+      667.8
+    ],
+    "barrelAngleDeg": -2.11,
+    "barrelAxisPoint": [
+      802.8,
+      669.6
+    ],
+    "method": "PCA of alpha>96 muzzle segment, 54px long, 26px wide around visually estimated direction"
+  },
+  {
+    "row": 2,
+    "col": 3,
+    "approxMuzzle": [
+      1113.9,
+      667.9
+    ],
+    "barrelAngleDeg": -2.3,
+    "barrelAxisPoint": [
+      1063.9,
+      669.9
+    ],
+    "method": "PCA of alpha>96 muzzle segment, 54px long, 26px wide around visually estimated direction"
+  },
+  {
+    "row": 3,
+    "col": 0,
+    "approxMuzzle": [
+      181.7,
+      1087.2
+    ],
+    "barrelAngleDeg": 69.83,
+    "barrelAxisPoint": [
+      164.5,
+      1040.3
+    ],
+    "method": "PCA of alpha>96 muzzle segment, 54px long, 26px wide around visually estimated direction"
+  },
+  {
+    "row": 3,
+    "col": 1,
+    "approxMuzzle": [
+      467.0,
+      1090.0
+    ],
+    "barrelAngleDeg": 70.14,
+    "barrelAxisPoint": [
+      450.0,
+      1043.0
+    ],
+    "method": "PCA of alpha>96 muzzle segment, 54px long, 26px wide around visually estimated direction"
+  },
+  {
+    "row": 3,
+    "col": 2,
+    "approxMuzzle": [
+      761.5,
+      1089.3
+    ],
+    "barrelAngleDeg": 68.83,
+    "barrelAxisPoint": [
+      743.4,
+      1042.7
+    ],
+    "method": "PCA of alpha>96 muzzle segment, 54px long, 26px wide around visually estimated direction"
+  },
+  {
+    "row": 3,
+    "col": 3,
+    "approxMuzzle": [
+      1034.2,
+      1090.5
+    ],
+    "barrelAngleDeg": 71.49,
+    "barrelAxisPoint": [
+      1018.3,
+      1043.1
+    ],
+    "method": "PCA of alpha>96 muzzle segment, 54px long, 26px wide around visually estimated direction"
+  },
+  {
+    "row": 4,
+    "col": 0,
+    "approxMuzzle": [
+      137.0,
+      1384.7
+    ],
+    "barrelAngleDeg": 89.53,
+    "barrelAxisPoint": [
+      136.6,
+      1334.7
+    ],
+    "method": "PCA of alpha>96 muzzle segment, 54px long, 26px wide around visually estimated direction"
+  },
+  {
+    "row": 4,
+    "col": 1,
+    "approxMuzzle": [
+      428.0,
+      1385.5
+    ],
+    "barrelAngleDeg": 90.26,
+    "barrelAxisPoint": [
+      428.2,
+      1335.5
+    ],
+    "method": "PCA of alpha>96 muzzle segment, 54px long, 26px wide around visually estimated direction"
+  },
+  {
+    "row": 4,
+    "col": 2,
+    "approxMuzzle": [
+      710.2,
+      1383.9
+    ],
+    "barrelAngleDeg": 89.03,
+    "barrelAxisPoint": [
+      709.4,
+      1333.9
+    ],
+    "method": "PCA of alpha>96 muzzle segment, 54px long, 26px wide around visually estimated direction"
+  },
+  {
+    "row": 4,
+    "col": 3,
+    "approxMuzzle": [
+      988.8,
+      1383.6
+    ],
+    "barrelAngleDeg": 89.25,
+    "barrelAxisPoint": [
+      988.1,
+      1333.6
+    ],
+    "method": "PCA of alpha>96 muzzle segment, 54px long, 26px wide around visually estimated direction"
+  }
+]

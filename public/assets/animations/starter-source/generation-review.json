@@ -1,0 +1,30 @@
+{
+  "generator": "built-in image_gen",
+  "requestedDimensions": [
+    2048,
+    2560
+  ],
+  "actualDimensions": [
+    1122,
+    1402
+  ],
+  "sheetLayout": {
+    "columns": 4,
+    "rows": 5,
+    "frames": 20
+  },
+  "pixelFormat": "32bpp ARGB",
+  "transparency": "Actual alpha confirmed, corner pixel alpha 0; no painted background.",
+  "artReview": {
+    "shield": "20 visible frames, consistent upper-right back view and retained equipment. Walk limb differences visible; shield bash and defensive brace visible; death ends collapsed horizontal. Some walk poses very similar; normalize anchors.",
+    "medic": "20 visible frames, consistent upper-right back view and retained costume. Walk limb differences visible; firing/medical aim animation subtle. Death ends stable lying horizontally. Some walk poses very similar; normalize anchors.",
+    "drone": "20 visible frames, upper-right back view retained. Tablet action and close drone launch are visible; final death fully collapsed. A small handheld controller appears in basic attack cell 10. Special launch cell 14 drone extends slightly across the nominal x=841.5 grid boundary toward the next cell; there is still separation from neighboring character. First walking row feet may extend a few pixels beyond nominal y=280.4. Use silhouette-aware slices / adjusted row boundaries to avoid clipping."
+  },
+  "padding": "Requested >=40 at 2048 canvas not consistently honored; preserve full silhouettes during slicing. No rerolls because all sheets are usable with adaptive extraction.",
+  "files": [
+    "shield-sheet.png",
+    "medic-sheet.png",
+    "drone-sheet.png"
+  ],
+  "promptsFile": "prompts.json"
+}

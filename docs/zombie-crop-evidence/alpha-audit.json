@@ -1,0 +1,111 @@
+{
+  "source": "public/assets/hunt/zombies.png",
+  "output": "public/assets/hunt/zombies-isolated.png",
+  "sourceSize": 1254,
+  "cell": 512,
+  "apron": 47,
+  "bodies": [
+    {
+      "left": 65,
+      "top": 40,
+      "right": 385,
+      "bottom": 402,
+      "col": 0,
+      "row": 0,
+      "kind": 0,
+      "connectedPixels": 68040,
+      "preservedPixels": 68187
+    },
+    {
+      "left": 504,
+      "top": 36,
+      "right": 758,
+      "bottom": 419,
+      "col": 1,
+      "row": 0,
+      "kind": 1,
+      "connectedPixels": 56354,
+      "preservedPixels": 56591
+    },
+    {
+      "left": 871,
+      "top": 21,
+      "right": 1209,
+      "bottom": 404,
+      "col": 2,
+      "row": 0,
+      "kind": 2,
+      "connectedPixels": 82163,
+      "preservedPixels": 82258
+    },
+    {
+      "left": 15,
+      "top": 439,
+      "right": 450,
+      "bottom": 806,
+      "col": 0,
+      "row": 1,
+      "kind": 3,
+      "connectedPixels": 115096,
+      "preservedPixels": 115179
+    },
+    {
+      "left": 512,
+      "top": 439,
+      "right": 781,
+      "bottom": 805,
+      "col": 1,
+      "row": 1,
+      "kind": 4,
+      "connectedPixels": 74481,
+      "preservedPixels": 74606
+    },
+    {
+      "left": 880,
+      "top": 422,
+      "right": 1203,
+      "bottom": 809,
+      "col": 2,
+      "row": 1,
+      "kind": 5,
+      "connectedPixels": 80503,
+      "preservedPixels": 80659
+    },
+    {
+      "left": 37,
+      "top": 812,
+      "right": 390,
+      "bottom": 1223,
+      "col": 0,
+      "row": 2,
+      "kind": 6,
+      "connectedPixels": 90301,
+      "preservedPixels": 90466
+    },
+    {
+      "left": 467,
+      "top": 805,
+      "right": 809,
+      "bottom": 1221,
+      "col": 1,
+      "row": 2,
+      "kind": 7,
+      "connectedPixels": 92681,
+      "preservedPixels": 92841
+    },
+    {
+      "left": 867,
+      "top": 819,
+      "right": 1207,
+      "bottom": 1224,
+      "col": 2,
+      "row": 2,
+      "kind": 8,
+      "connectedPixels": 94514,
+      "preservedPixels": 94718
+    }
+  ],
+  "preservedPixels": 755505,
+  "zeroDiscardedPixels": true,
+  "transparentGutter": true
+}

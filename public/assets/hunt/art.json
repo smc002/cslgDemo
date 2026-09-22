@@ -1,0 +1,17 @@
+{
+  "ground": "/assets/hunt/arena.png?v=cartoon2",
+  "zombies": "/assets/hunt/zombies-isolated.png?v=cropfix1",
+  "gunner": "/assets/hunt/support.png?v=cartoon2",
+  "atlas": true,
+  "rows": 3,
+  "zombiePadding": 47,
+  "supportSheet": true,
+  "courier": "/assets/hunt/courier.png?v=armored1",
+  "vehicle": "/assets/hunt/vehicle.png?v=expedition1",
+  "weapons": "/assets/hunt/weapon-zombies.png?v=expedition1",
+  "scenes": [
+    "/assets/hunt/arena-frozen.png?v=expedition1",
+    "/assets/hunt/arena-substation.png?v=expedition1"
+  ],
+  "source": "Original bright cartoon assets generated with image_gen on 2026-09-15: arena, nine-zombie 3x3 atlas, gunner and barbed-wire ring 2x1 sheet."
+}

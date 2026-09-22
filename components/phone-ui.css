@@ -1,0 +1,714 @@
+/* Single portrait game viewport; HUD, battlefield and controls share these bounds. */
+:root {
+  --phone-width: min(100vw, 480px, 50dvh);
+  --hud-gold: #f7d278;
+  --ink: #142c32;
+}
+@media (max-width: 600px) and (orientation: portrait) {
+  :root {
+    --phone-width: min(100vw, 480px);
+  }
+}
+body {
+  height: 100dvh;
+  overflow: hidden;
+  background: radial-gradient(ellipse at center, #244b44, #071715 72%);
+}
+.mori-gameplay-shell {
+  position: relative;
+  isolation: isolate;
+  width: var(--phone-width);
+  height: 100dvh;
+  margin: auto;
+  max-width: 100vw;
+  border-inline: 1px solid #78978460;
+  background: #173b32;
+  box-shadow: 0 0 65px #0009;
+  container-type: inline-size;
+}
+.global-resources {
+  height: 86px;
+  min-height: 86px;
+  padding: 5px 10px 4px;
+  display: block;
+  border: 0;
+  border-bottom: 2px solid #142d31;
+  background: linear-gradient(#356c59, #173e35);
+  position: relative;
+  z-index: 6;
+  color: #fff1c7;
+}
+.squad-growth {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 46px;
+}
+.level-medallion {
+  width: 45px;
+  height: 45px;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #ffe6a0, #ce862f);
+  border: 2px solid #fff2ac;
+  border-radius: 15px;
+  box-shadow:
+    0 3px 0 #583e2d,
+    0 0 0 2px #182e2b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-shadow:
+    0 2px #563629,
+    -1px 0 #563629,
+    1px 0 #563629;
+}
+.level-medallion small {
+  font-size: 9px;
+  line-height: 10px;
+}
+.level-medallion b {
+  font-size: 25px;
+  line-height: 26px;
+}
+.squad-meter {
+  flex: 1;
+  min-width: 0;
+}
+.squad-meter > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  margin-bottom: 4px;
+  gap: 4px;
+}
+.squad-meter > div span {
+  font-size: 13px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+.squad-meter progress {
+  height: 16px;
+  border: 2px solid #142d2d;
+  box-shadow: 0 1px #c0c89780;
+  border-radius: 10px;
+  display: block;
+  background: #142c2a;
+}
+.squad-meter progress::-webkit-progress-value {
+  background: repeating-linear-gradient(
+    120deg,
+    #ffd357 0px,
+    #ffd357 10px,
+    #efb33e 10px,
+    #efb33e 18px
+  );
+}
+.global-resources .settings-button {
+  width: 32px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 2px solid #122e2a;
+  border-radius: 10px;
+  background: #63866a;
+  box-shadow:
+    inset 0 1px #c7dca8,
+    0 2px #102b28;
+  padding: 0;
+}
+.resource-pills {
+  height: 29px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+  padding-left: 2px;
+  margin-top: 2px;
+}
+.resource-pills > span {
+  min-width: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 22px;
+  padding: 0 8px 0 3px;
+  border-radius: 7px;
+  background: #102d2da6;
+  border: 1px solid #85a68345;
+  font-size: 12px;
+  font-weight: 800;
+  gap: 2px;
+}
+.global-resources .resource-pills img {
+  width: 23px;
+  height: 25px;
+  object-fit: contain;
+}
+.global-resources .resource-pills button {
+  position: relative;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px 5px;
+}
+.mission-button i {
+  position: absolute;
+  right: 0;
+  top: 1px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ffcc58;
+  box-shadow: 0 0 0 2px #344d3c;
+}
+.mori-gameplay-content {
+  overflow: hidden;
+  min-height: 0;
+}
+.mori-gameplay-layer.secondary-layer {
+  inset: 0;
+  z-index: 2;
+}
+.loop-page {
+  max-width: none;
+  width: 100%;
+}
+.loop-page.hero-page,
+.loop-page.city-page {
+  padding-bottom: 58px;
+}
+.mori-gameplay-shell:not([data-gameplay='merged']) .loop-locked {
+  padding-top: 30px;
+}
+.mori-gameplay-menu {
+  height: 76px;
+  padding: 4px 6px max(4px, env(safe-area-inset-bottom));
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 7px;
+  align-items: stretch;
+  z-index: 20;
+  background: linear-gradient(#244b40, #102d29);
+  border-top: 2px solid #91a67d70;
+  box-shadow: 0 -4px 14px #183f3480;
+  flex-shrink: 0;
+}
+.mori-gameplay-menu > button {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  border: 2px solid #102b2c;
+  border-radius: 13px;
+  background: linear-gradient(#6b8c72, #365f50);
+  box-shadow:
+    inset 0 2px #c1d2a66b,
+    0 3px #081c21;
+  color: #f7efd0;
+  font-size: 13px;
+  text-shadow: 0 2px #16382f;
+  font-weight: 900;
+  padding: 3px 2px;
+}
+.mori-gameplay-menu > button.selected {
+  background: linear-gradient(#dfad4f, #8b6133);
+  border-color: #ffe495;
+  box-shadow:
+    inset 0 2px #fff1b2,
+    0 3px #172b27;
+  color: #fff5d0;
+}
+.mori-gameplay-menu > button.selected::before {
+  display: none;
+}
+.mori-gameplay-menu > button:hover {
+  filter: brightness(1.08);
+}
+.nav-emblem {
+  height: 30px;
+  width: 38px;
+  display: grid;
+  place-items: center;
+  color: #d5eac8;
+  filter: drop-shadow(0 2px #142f29);
+}
+.mori-gameplay-menu > button svg {
+  width: 28px;
+  height: 28px;
+  stroke-width: 2.5;
+}
+.nav-emblem.hunt {
+  color: #ffdb74;
+}
+.nav-emblem.recruit {
+  color: #a6dafa;
+}
+.nav-emblem.city {
+  color: #ffd29b;
+}
+.nav-emblem.merged {
+  color: #ced7f5;
+}
+.loop-notice {
+  position: absolute;
+  z-index: 70;
+  left: 12px;
+  right: 12px;
+  top: 91px;
+  border: 1px solid #f3ce77;
+  border-radius: 9px;
+  background: #193e32ef;
+  box-shadow: 0 4px 12px #142e3255;
+  color: #fff0c0;
+  padding: 8px 24px 8px 10px;
+  font-size: 12px;
+  line-height: 1.4;
+  max-height: 54px;
+  overflow: hidden;
+  text-align: center;
+  pointer-events: auto;
+}
+.loop-notice span {
+  top: 6px;
+  right: 8px;
+}
+.tutorial-strip {
+  display: none;
+}
+/* The arena itself is full bleed. Controls float above its edge, not in extra rows. */
+.hunt-page {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  display: block;
+  padding: 0;
+  background: #c5cca4;
+}
+.hunt-page .hunt-arena {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  aspect-ratio: auto;
+  display: block;
+  background: #c4dca4;
+  box-shadow: none;
+}
+.hunt-page .hunt-arena canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  aspect-ratio: auto;
+  object-fit: fill;
+  touch-action: none;
+}
+.hunt-page .hunt-hint {
+  bottom: 133px;
+  background: #123b3277;
+  font-size: 10px;
+  padding: 3px 8px;
+  color: #eaf0d2;
+  left: 53%;
+  border: 1px solid #bace9477;
+}
+.hunt-scene-label {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  pointer-events: none;
+  color: #244b40;
+  text-shadow: 0 1px #f7f0ce;
+  font-weight: 900;
+}
+.hunt-scene-label > span {
+  font-size: 9px;
+  letter-spacing: 2px;
+  opacity: 0.8;
+}
+.hunt-scene-label > b {
+  font-size: 19px;
+}
+.hunt-page .hunt-tracker-button {
+  position: absolute;
+  top: 12px;
+  right: 10px;
+  width: 67px;
+  height: 81px;
+  padding: 4px 5px;
+  background: linear-gradient(#415945f5, #213e34f5);
+  border: 2px solid #fff0bc;
+  border-radius: 13px;
+  box-shadow:
+    0 0 0 2px #223d35,
+    0 3px #172f32;
+  color: #ffe6a0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1px;
+}
+.hunt-tracker-button svg {
+  width: 27px;
+  height: 27px;
+  fill: #df9b39;
+  stroke: #ffe699;
+  stroke-width: 2;
+}
+.hunt-tracker-button b {
+  font-size: 11px;
+}
+.hunt-tracker-button small {
+  font-size: 11px;
+  line-height: 12px;
+}
+.hunt-tracker-button progress {
+  height: 5px;
+  margin-top: 3px;
+}
+.hunt-bonus-badge {
+  position: absolute;
+  top: 48px;
+  left: 12px;
+  max-width: 65%;
+  background: #73468fdc;
+  border: 2px solid #e6b8ff;
+  border-radius: 9px;
+  color: #fff1ae;
+  font-size: 12px;
+  padding: 5px 8px;
+  font-weight: 800;
+}
+.hunt-console {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 125px;
+  background: linear-gradient(transparent, #214736d9 18%, #1c3e32f5);
+  padding: 3px 9px 8px;
+}
+.hunt-page .hunt-actions {
+  height: 66px;
+  padding: 0 2px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.hunt-page .ammo-count {
+  grid-template-columns: 34px 1fr;
+  min-width: 100px;
+  color: #fff0bf;
+  filter: drop-shadow(0 2px #152a26);
+}
+.hunt-page .ammo-count strong {
+  font-size: 21px;
+  line-height: 23px;
+}
+.hunt-page .ammo-count img {
+  width: 34px;
+  height: 41px;
+}
+.hunt-page .ammo-count span {
+  font-size: 10px;
+}
+.hunt-page .hunt-actions > .fire-button {
+  flex: 0 1 142px;
+  height: 62px;
+  min-width: 98px;
+  position: relative;
+  border: 3px solid #fff0ac;
+  border-radius: 24px;
+  background: linear-gradient(#ffd66e, #e89831);
+  box-shadow:
+    0 0 0 2px #59422c,
+    inset 0 3px #fff0b7,
+    0 4px #704c2d;
+  color: #483629;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 5px;
+  font-size: 15px;
+  font-weight: 900;
+  text-shadow: 0 1px #ffe49b;
+}
+.fire-button svg {
+  width: 24px;
+  height: 24px;
+}
+.hunt-page .hunt-actions > .is-firing {
+  background: linear-gradient(#ffb666, #db702e);
+}
+.hunt-page .hunt-actions > button:not(.fire-button) {
+  flex: 0 0 39px;
+  width: 39px;
+  height: 39px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 2px solid #bed3a5;
+  box-shadow: 0 3px #0d2d2d;
+  border-radius: 12px;
+  background: #446e58;
+}
+.hunt-actions > button:not(.fire-button) svg {
+  width: 17px;
+  height: 17px;
+}
+.hunt-page .hunt-multipliers {
+  padding: 7px 0 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 7px;
+}
+.hunt-page .hunt-multipliers > button {
+  height: 41px;
+  min-width: 0;
+  padding: 3px 1px;
+  font-size: 16px;
+  border: 2px solid #182f2e;
+  border-radius: 10px;
+  background: linear-gradient(#6f9876, #416c53);
+  box-shadow:
+    inset 0 1px #c5ddb490,
+    0 2px #152b2a;
+  color: #f1e9bf;
+  line-height: 17px;
+}
+.hunt-page .hunt-multipliers > button.selected {
+  background: linear-gradient(#ffe691, #e2b757);
+  border-color: #fff2b1;
+  color: #385139;
+}
+.hunt-page .hunt-multipliers small {
+  font-size: 9px;
+  line-height: 11px;
+}
+.hunt-page .hunt-multipliers > button:disabled {
+  opacity: 0.56;
+}
+.hunt-page .hunt-tools {
+  position: absolute;
+  right: 10px;
+  bottom: 142px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  align-items: flex-end;
+}
+.hunt-page .hunt-tools button {
+  width: 63px;
+  min-height: 57px;
+  padding: 5px 3px;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  border: 2px solid #e8eac2;
+  box-shadow:
+    0 0 0 2px #223d35,
+    0 3px #172f32;
+  background: linear-gradient(#548989, #2a5558);
+  border-radius: 12px;
+}
+.hunt-tools svg {
+  width: 24px;
+  height: 24px;
+}
+/* Compact lower-left progress prompt, contained in the phone on every screen. */
+.mori-gameplay-layer.battle-layer.is-mini {
+  inset: auto auto 138px 10px;
+  display: block;
+  width: 106px;
+  height: 81px;
+  border: 2px solid #f7d480;
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 8;
+  background: #1b4638;
+  box-shadow:
+    0 0 0 2px #213934,
+    0 3px 8px #18333190;
+}
+.is-mini .portrait-prototype {
+  position: absolute;
+  inset: 0;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+}
+.is-mini .portrait-frame {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+}
+.is-mini .portrait-canvas {
+  object-fit: cover;
+}
+.battle-mini-cover {
+  inset: 0;
+  padding: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0;
+  background: linear-gradient(
+    #14352ad9,
+    transparent 33%,
+    transparent 56%,
+    #14352ae8
+  );
+  border: 0;
+}
+.battle-mini-cover strong,
+.battle-mini-cover span {
+  width: 100%;
+  background: transparent;
+  font-size: 10px;
+  line-height: 13px;
+  text-align: center;
+  padding: 3px 1px;
+  color: #fff1b5;
+}
+.battle-mini-cover span {
+  font-size: 9px;
+}
+.mori-gameplay-shell:not([data-gameplay='hunt']) .battle-layer.is-mini {
+  height: 42px;
+  width: 119px;
+  bottom: 8px;
+}
+.mori-gameplay-shell:not([data-gameplay='hunt']) .is-mini .portrait-prototype {
+  display: none;
+}
+.mori-gameplay-shell:not([data-gameplay='hunt']) .battle-mini-cover {
+  justify-content: center;
+  background: #204d3e;
+  gap: 0;
+}
+.mori-gameplay-shell:not([data-gameplay='hunt']) .battle-mini-cover strong,
+.mori-gameplay-shell:not([data-gameplay='hunt']) .battle-mini-cover span {
+  padding: 1px;
+}
+.mori-gameplay-layer.battle-layer.is-active .portrait-frame {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+}
+.loop-page button:focus-visible,
+.mori-gameplay-menu button:focus-visible {
+  outline: 3px solid #fff3a9;
+  outline-offset: 1px;
+}
+.loop-dialog {
+  width: calc(var(--phone-width) - 24px) !important;
+  max-width: calc(var(--phone-width) - 24px) !important;
+  max-height: calc(100dvh - 36px);
+  border: 2px solid #ddce9a;
+  border-radius: 16px;
+  box-shadow:
+    0 8px 0 #122e2b,
+    0 0 30px #0008;
+}
+.loop-dialog button {
+  min-height: 42px;
+}
+.loop-dialog .courier-progress small {
+  display: block;
+}
+[data-slot='dialog-overlay'] {
+  left: 50%;
+  right: auto;
+  width: var(--phone-width);
+  transform: translateX(-50%);
+}
+@media (max-height: 700px) {
+  .global-resources {
+    height: 77px;
+    min-height: 77px;
+    padding-top: 3px;
+  }
+  .squad-growth {
+    height: 40px;
+  }
+  .level-medallion {
+    height: 38px;
+    width: 40px;
+  }
+  .level-medallion b {
+    font-size: 22px;
+  }
+  .level-medallion small {
+    font-size: 8px;
+  }
+  .resource-pills {
+    height: 26px;
+  }
+  .mori-gameplay-menu {
+    height: 68px;
+    gap: 5px;
+    padding-top: 3px;
+  }
+  .mori-gameplay-menu > button {
+    font-size: 12px;
+  }
+  .nav-emblem {
+    height: 27px;
+  }
+  .mori-gameplay-menu > button svg {
+    height: 24px;
+    width: 24px;
+  }
+  .hunt-console {
+    height: 114px;
+  }
+  .hunt-page .hunt-actions {
+    height: 59px;
+  }
+  .hunt-page .hunt-actions > .fire-button {
+    height: 55px;
+    font-size: 14px;
+  }
+  .hunt-page .hunt-multipliers > button {
+    height: 37px;
+  }
+  .mori-gameplay-layer.battle-layer.is-mini {
+    bottom: 125px;
+    width: 97px;
+    height: 72px;
+  }
+  .hunt-page .hunt-tools {
+    bottom: 127px;
+  }
+  .hunt-page .hunt-hint {
+    bottom: 120px;
+  }
+  .hunt-page .hunt-tracker-button {
+    width: 60px;
+    height: 73px;
+    right: 8px;
+    top: 10px;
+  }
+  .loop-notice {
+    top: 81px;
+  }
+}

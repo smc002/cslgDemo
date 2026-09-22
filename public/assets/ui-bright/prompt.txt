@@ -1,0 +1,13 @@
+Use case: ui-mockup.
+Asset type: production game UI sprite atlas, a single transparent PNG atlas.
+Input image 1 is STYLE REFERENCE ONLY: match its exact bright cartoon game UI language, especially bottom gold fire button, teal navigation tiles, gold selected navigation tile, top teal resource panels and gold winged level shield. Do not reproduce the scene.
+Generate ONE clean text-free UI kit atlas arranged on a 1536 x 1536 square canvas in 2 columns by 3 equal rows. Each cell is 768 x 512; place exactly one asset centered inside each cell, fully isolated, with generous transparent gutters and no overlap.
+Cell top-left: wide horizontal golden yellow pill fire button, empty interior, no crosshair and no text, approximately 630 x 230.
+Cell top-right: empty rounded-square teal navigation button, approximately 360 x 360.
+Cell middle-left: wide teal rounded rectangular resource panel/pill with recessed dark teal center, empty, approximately 630 x 210.
+Cell middle-right: empty rounded-square golden selected navigation button, approximately 360 x 360.
+Cell bottom-left: gold winged shield level medallion, blank shield, no digit, approximately 410 x 350.
+Cell bottom-right: wide teal header panel, rounded rectangle with slightly raised teal beveled rim, empty center, approximately 650 x 250.
+Style: exact reference's polished 2D cartoon UI, saturated golden yellow and warm orange depth on gold pieces, saturated teal with dark petrol recesses on teal pieces; consistent thick near-black outline, secondary pale warm gold or mint edge highlights, shiny upper-left specular highlights, crisp chunky bevels and controlled darker bottom edges. Straight-on orthographic front view, no perspective rotation.
+Background: ACTUAL transparent alpha channel everywhere outside the six separate UI pieces. No white background, no checkerboard drawn into image. No cast shadow outside asset silhouettes.
+Constraints: no text, no letters, no digits, no icons, no symbols, no crosshair, no crown, no scene, no characters, no separators, no cell labels, no watermark. All six interiors must remain empty for runtime text/icons. Keep all pieces fully inside their own equal grid cell and never touching.

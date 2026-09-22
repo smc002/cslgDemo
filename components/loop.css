@@ -1,0 +1,684 @@
+.global-resources {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  min-height: 40px;
+  flex-shrink: 0;
+  background: #102f29;
+  color: #e6e9cb;
+  border-bottom: 1px solid #668773;
+  font-size: 13px;
+}
+.global-resources span {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.global-resources img {
+  width: 25px;
+  height: 28px;
+  object-fit: contain;
+}
+.global-resources button {
+  padding: 7px;
+}
+.mori-gameplay-menu > button {
+  width: min(190px, 25%);
+}
+.loop-page {
+  max-width: 520px;
+  height: 100%;
+  margin: auto;
+  overflow-y: auto;
+  background: #143f35;
+  color: #f4efd8;
+  scrollbar-width: thin;
+  padding-bottom: 18px;
+}
+.loop-page button,
+.loop-dialog button,
+.loop-locked button {
+  border: 1px solid #8dad7a;
+  border-radius: 8px;
+  padding: 9px 12px;
+  background: #265c48;
+  color: #f5ebc8;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 14px;
+}
+.loop-page button:disabled,
+.loop-dialog button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.loop-page .gold,
+.loop-dialog .gold {
+  background: linear-gradient(#f5d989, #dca957);
+  border-color: #ffe7a8;
+  color: #34412b;
+}
+.loop-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 16px;
+  background: linear-gradient(120deg, #337966, #184d42);
+  border-bottom: 2px solid #95b47c;
+}
+.loop-heading > span {
+  font-size: 23px;
+  font-weight: 900;
+}
+.loop-heading small {
+  font-size: 13px;
+  color: #d4dec1;
+}
+.loop-help {
+  padding: 8px 16px;
+  color: #d0dac1;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.loop-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.loop-row > button {
+  flex: 1;
+}
+.loop-dialog {
+  color: #efe9cf;
+  background: #17473c;
+  border: 1px solid #acb881;
+  max-height: 90dvh;
+  overflow-y: auto;
+}
+.loop-dialog p {
+  font-size: 14px;
+}
+.loop-rewards {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  max-height: 55dvh;
+  overflow: auto;
+}
+.loop-rewards > div {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 95px;
+}
+.loop-rewards b {
+  font-size: 14px;
+}
+.loop-rewards small {
+  font-size: 12px;
+}
+.loop-dialog button {
+  min-height: 40px;
+}
+.loop-tabs {
+  display: flex;
+  width: calc(100% - 24px);
+  margin: 12px;
+  background: #0d3028;
+}
+.loop-tabs > * {
+  flex: 1;
+}
+.core-progress {
+  display: flex;
+  align-items: center;
+  padding: 12px 14px;
+  gap: 10px;
+}
+.core-progress img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+.core-progress > div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.core-progress b {
+  font-size: 16px;
+}
+.core-progress span,
+.core-progress small {
+  font-size: 12px;
+  color: #d9e6cd;
+}
+progress {
+  width: 100%;
+  height: 8px;
+  border-radius: 6px;
+  overflow: hidden;
+  accent-color: #e6c76b;
+}
+progress::-webkit-progress-bar {
+  background: #092f29;
+}
+progress::-webkit-progress-value {
+  background: #e3c967;
+}
+.hunt-arena {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 600/660;
+  overflow: hidden;
+  background: #d6c59d;
+}
+.hunt-arena canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+}
+.hunt-hint {
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  background: #163c2acb;
+  border-radius: 20px;
+  padding: 4px 10px;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.hunt-actions {
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.hunt-actions > .gold {
+  flex: 1;
+}
+.ammo-count {
+  display: grid;
+  grid-template-columns: 35px 1fr;
+  align-items: center;
+  column-gap: 4px;
+  min-width: 105px;
+}
+.ammo-count img {
+  width: 35px;
+  height: 43px;
+  grid-row: span 2;
+  object-fit: contain;
+}
+.ammo-count strong {
+  font-size: 20px;
+  color: #ffe095;
+}
+.ammo-count span {
+  font-size: 11px;
+}
+.hunt-multipliers {
+  display: flex;
+  gap: 6px;
+  padding: 0 12px;
+}
+.hunt-multipliers > button {
+  flex: 1;
+  padding: 6px;
+}
+.hunt-multipliers small {
+  display: block;
+  font-size: 10px;
+  font-weight: 400;
+}
+.hunt-multipliers .selected {
+  background: #d8b260;
+  color: #243d2a;
+}
+.courier-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 14px;
+  color: #e9d69f;
+}
+.courier-progress span,
+.courier-progress small {
+  font-size: 12px;
+}
+.loop-cover {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: #183b31;
+}
+.hunt-page > .loop-row {
+  padding: 0 12px;
+}
+.recruit-banner {
+  position: relative;
+  height: 290px;
+  overflow: hidden;
+  background: #122d35;
+}
+.recruit-banner > img {
+  width: 70%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 22%;
+  margin-left: 30%;
+  mask-image: linear-gradient(to right, transparent, #000 35%);
+}
+.recruit-banner > div {
+  position: absolute;
+  inset: 30px auto auto 18px;
+  max-width: 65%;
+  text-shadow: 0 2px 8px #000;
+}
+.recruit-banner h2 {
+  font-size: 29px;
+  font-weight: 900;
+  line-height: 1.3;
+  margin: 20px 0;
+}
+.recruit-banner p {
+  font-size: 13px;
+  color: #d6dec3;
+}
+.recruit-banner small {
+  font-size: 12px;
+  color: #ead18e;
+}
+.recruit-draw {
+  padding: 18px;
+}
+.recruit-draw > strong {
+  font-size: 20px;
+  display: block;
+  margin-bottom: 15px;
+}
+.recruit-draw p {
+  font-size: 12px;
+  color: #adc6b3;
+  margin: 12px 0;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding: 6px 12px;
+}
+.hero-grid > button {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+  padding: 12px 4px;
+  background: linear-gradient(#305949, #153a31);
+}
+.hero-grid b {
+  font-size: 14px;
+}
+.hero-grid small,
+.hero-grid span:not(.merged-portrait) {
+  font-size: 12px;
+}
+.hero-grid .unowned {
+  filter: grayscale(0.8);
+  opacity: 0.6;
+}
+.hero-detail-art {
+  display: flex;
+  justify-content: center;
+  background: radial-gradient(#49705c, #143e33);
+  padding: 16px;
+}
+.city-art {
+  height: 340px;
+  position: relative;
+  overflow: hidden;
+}
+.city-art > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 36%;
+}
+.city-label {
+  position: absolute;
+  top: 64%;
+  font-size: 12px;
+  color: #ffe59a;
+  background: #123e34eb;
+  padding: 5px;
+  border-radius: 6px;
+}
+.city-label.workshop {
+  left: 8%;
+}
+.city-label.factory {
+  right: 5%;
+  top: 48%;
+}
+.city-buildings {
+  padding: 12px;
+}
+.city-buildings article {
+  border: 1px solid #638d70;
+  border-radius: 10px;
+  background: #1e5142;
+  padding: 14px;
+  margin-bottom: 10px;
+}
+.city-buildings h2 {
+  font-size: 18px;
+  font-weight: 800;
+}
+.city-buildings p {
+  font-size: 13px;
+  margin: 7px 0;
+}
+.city-buildings small {
+  font-size: 12px;
+  color: #c4d7b7;
+}
+.city-buildings .loop-row {
+  margin-top: 12px;
+}
+.loop-notice {
+  background: #b88a3c;
+  color: #fff9da;
+  padding: 7px 32px 7px 12px;
+  text-align: left;
+  position: relative;
+  font-size: 12px;
+  flex-shrink: 0;
+  max-height: 64px;
+  overflow: auto;
+}
+.loop-notice span {
+  position: absolute;
+  right: 12px;
+  top: 8px;
+}
+.tutorial-strip {
+  background: #173d33;
+  color: #dfdcb8;
+  font-size: 12px;
+  padding: 6px 12px;
+  max-height: 54px;
+  overflow: auto;
+  flex-shrink: 0;
+}
+.loop-locked {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: #e7e0bd;
+  padding: 32px;
+  text-align: center;
+  gap: 18px;
+  background: #143b32;
+}
+.loop-locked h2 {
+  font-size: 25px;
+  font-weight: 900;
+}
+.loop-locked p {
+  max-width: 330px;
+  font-size: 15px;
+  line-height: 1.7;
+}
+.mori-gameplay-layer.is-mini {
+  display: block;
+  inset: auto 10px 10px auto;
+  width: 108px;
+  height: 190px;
+  border: 2px solid #bfa160;
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 50;
+  box-shadow: 0 4px 16px #0008;
+}
+.is-mini .portrait-header,
+.is-mini .merged-lanes,
+.is-mini .merged-prep-controls,
+.is-mini .merged-battle-controls,
+.is-mini .merged-brief,
+.is-mini .merged-deploy-slots,
+.is-mini .portrait-overlay,
+.is-mini .portrait-state-label {
+  display: none;
+}
+.is-mini .portrait-frame {
+  width: 100%;
+  height: 100%;
+}
+.battle-mini-cover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #fff5c7;
+  cursor: pointer;
+  background: transparent;
+  text-shadow: 0 1px 3px #000;
+}
+.battle-mini-cover strong,
+.battle-mini-cover span {
+  background: #11382de8;
+  width: 100%;
+  padding: 4px 2px;
+  font-size: 11px;
+}
+.secondary-layer {
+  z-index: 2;
+}
+.merged-battle-actions label {
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.merged-roster button:disabled {
+  filter: grayscale(1);
+  opacity: 0.25;
+}
+.merged-deploy-slots button:disabled {
+  border-color: #5554;
+  background: #163e341a;
+}
+.loop-page .merged-portrait {
+  max-width: none;
+}
+@media (min-width: 850px) {
+  .mori-gameplay-layer.is-mini {
+    right: calc(50% - 390px);
+    width: 148px;
+    height: 264px;
+    bottom: 20px;
+  }
+  .global-resources {
+    gap: 26px;
+  }
+  .loop-notice,
+  .tutorial-strip {
+    text-align: center;
+  }
+}
+@media (max-height: 740px) {
+  .recruit-banner {
+    height: 220px;
+  }
+  .hunt-arena {
+    aspect-ratio: 600/580;
+  }
+  .city-art {
+    height: 240px;
+  }
+  .tutorial-strip {
+    max-height: 38px;
+  }
+  .loop-notice {
+    max-height: 44px;
+  }
+  .global-resources {
+    min-height: 34px;
+  }
+  .mori-gameplay-menu {
+    height: 50px;
+  }
+}
+.hunt-page {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding-bottom: 4px;
+}
+.hunt-page .loop-heading {
+  padding: 8px 14px;
+  flex-shrink: 0;
+}
+.hunt-page .loop-heading > span {
+  font-size: 20px;
+}
+.hunt-page .loop-heading small {
+  display: none;
+}
+.hunt-page .core-progress {
+  padding: 7px 12px;
+  flex-shrink: 0;
+}
+.hunt-page .core-progress img {
+  width: 37px;
+  height: 37px;
+}
+.hunt-page .core-progress > div {
+  gap: 2px;
+}
+.hunt-page .hunt-arena {
+  aspect-ratio: auto;
+  flex: 1;
+  min-height: 210px;
+}
+.hunt-page .hunt-actions {
+  padding: 7px 12px;
+  flex-shrink: 0;
+}
+.hunt-page .hunt-multipliers {
+  flex-shrink: 0;
+}
+.hunt-page .courier-progress {
+  padding: 8px 12px;
+  flex-shrink: 0;
+  gap: 3px;
+}
+.hunt-page .courier-progress b {
+  font-size: 13px;
+}
+.hunt-page .courier-progress small {
+  font-size: 11px;
+}
+.hunt-page .courier-progress span {
+  font-size: 11px;
+}
+@media (max-width: 849px) {
+  .mori-gameplay-layer.is-mini {
+    top: 156px;
+    bottom: auto;
+    width: 88px;
+    height: 144px;
+    right: 7px;
+  }
+  .battle-mini-cover strong,
+  .battle-mini-cover span {
+    font-size: 10px;
+  }
+  .hero-page,
+  .city-page {
+    padding-right: 0;
+  }
+}
+@media (max-width: 849px) {
+  .mori-gameplay-layer.is-mini {
+    inset: 0 0 auto;
+    width: 100%;
+    height: 72px;
+    border: 0;
+    border-bottom: 1px solid #8ca778;
+    border-radius: 0;
+    background: #173d32;
+    box-shadow: none;
+  }
+  .is-mini .portrait-prototype {
+    position: absolute;
+    left: 10px;
+    top: 3px;
+    width: 48px;
+    height: 65px;
+    overflow: hidden;
+    border: 1px solid #9caa73;
+    border-radius: 4px;
+  }
+  .battle-mini-cover {
+    padding-left: 72px;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 4px;
+  }
+  .battle-mini-cover strong,
+  .battle-mini-cover span {
+    width: auto;
+    background: transparent;
+    font-size: 13px;
+    padding: 0;
+  }
+  .battle-mini-cover span {
+    color: #d7d5b6;
+  }
+  .secondary-layer {
+    top: 72px;
+  }
+  .mori-gameplay-shell:not([data-gameplay='merged']) .loop-locked {
+    padding-top: 100px;
+  }
+  .hunt-page .hunt-arena {
+    min-height: 165px;
+  }
+  .hunt-page .courier-progress {
+    padding: 6px 12px;
+  }
+  .hunt-page .courier-progress small {
+    display: none;
+  }
+}
+.hunt-page .hunt-arena {
+  background-image:
+    linear-gradient(#193f3460, #193f3460), url('/assets/hunt/arena.png');
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+}
+.hunt-page .hunt-arena canvas {
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: contain;
+}
+.hunt-page .hunt-arena {
+  background-image: linear-gradient(90deg, #18392f, #2e5745 50%, #18392f);
+  box-shadow: inset 0 0 24px #071e2580;
+}

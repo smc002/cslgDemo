@@ -1,0 +1,367 @@
+/* A: image-backed bright cartoon skin. All text and values remain live UI. */
+.mori-gameplay-shell {
+  --bright-teal: #07646a;
+  color: #fffbe0;
+  border-inline-color: #0b393d;
+  background: #07585b;
+}
+.global-resources {
+  background: linear-gradient(135deg, #147c78, #075052);
+  border: 3px solid #05292d;
+  border-radius: 0 0 15px 15px;
+  box-shadow:
+    inset 0 3px #8aead4,
+    0 2px #1b8b7d;
+  padding-inline: 7px;
+}
+.level-medallion {
+  background: url('/assets/ui-bright/medallion.png') center/100% 100% no-repeat;
+  width: 63px;
+  height: 49px;
+  border: 0;
+  box-shadow: none;
+  padding-bottom: 4px;
+}
+.level-medallion small {
+  display: none;
+}
+.level-medallion b {
+  color: #fffce0;
+  font-size: 31px;
+  line-height: 35px;
+  -webkit-text-stroke: 1px #332819;
+  text-shadow: 0 2px #251d14;
+}
+.squad-meter > div {
+  color: #fffde7;
+  text-shadow: 0 2px #052c2e;
+}
+.squad-meter progress {
+  height: 17px;
+  background: #012e34;
+  border-color: #02262b;
+  box-shadow: 0 1px #5bada0;
+}
+.squad-meter progress::-webkit-progress-bar {
+  background: #012e34;
+  border-radius: 8px;
+}
+.squad-meter progress::-webkit-progress-value {
+  background: linear-gradient(#fff2a2, #ffce2b 45%, #f49b0c);
+  border-radius: 8px;
+  box-shadow: inset 0 2px #fffac3;
+}
+.resource-pills > span {
+  background: url('/assets/ui-bright/pill.png') center/100% 100% no-repeat;
+  border: 0;
+  height: 28px;
+  flex: 1;
+  min-width: 0;
+  padding: 3px 5px;
+  gap: 3px;
+  font-size: 14px;
+  color: #fffad9;
+  text-shadow: 0 2px #042b2e;
+}
+.global-resources .resource-pills img {
+  width: 23px;
+  height: 24px;
+}
+.global-resources .settings-button,
+.global-resources .resource-pills button {
+  border: 0;
+  box-shadow: none;
+  background: url('/assets/ui-bright/nav.png') center/100% 100% no-repeat;
+  color: #e5fff0;
+}
+.global-resources .settings-button {
+  width: 36px;
+  height: 36px;
+}
+.global-resources .resource-pills button {
+  height: 28px;
+  padding: 3px 7px;
+}
+.mori-gameplay-menu {
+  height: 89px;
+  padding: 3px 4px max(4px, env(safe-area-inset-bottom));
+  gap: 4px;
+  background: #064e53;
+  border: 0;
+  box-shadow: 0 -3px 8px #05444855;
+}
+.mori-gameplay-menu > button,
+.mori-gameplay-menu > button.selected {
+  background: transparent url('/assets/ui-bright/nav.png') center/100% 100%
+    no-repeat;
+  box-shadow: none;
+  border: 0;
+  border-radius: 18px;
+  padding: 5px 3px 8px;
+  gap: 0;
+  color: #fffef0;
+  font-size: 17px;
+  font-weight: 950;
+  text-shadow:
+    0 2px #072529,
+    1px 0 #072529,
+    -1px 0 #072529;
+}
+.mori-gameplay-menu > button.selected {
+  background-image: url('/assets/ui-bright/nav-selected.png');
+  color: #fffbe2;
+  text-shadow:
+    0 2px #6f3703,
+    1px 0 #6f3703,
+    -1px 0 #6f3703;
+}
+.nav-emblem {
+  height: 45px;
+  width: 55px;
+  filter: none;
+}
+.nav-emblem img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.mori-gameplay-menu button:active,
+.hunt-page button:active {
+  transform: translateY(2px);
+}
+.hunt-console {
+  height: 124px;
+  padding: 2px 7px 5px;
+  background: linear-gradient(transparent, #066367 25%, #064e53 95%);
+}
+.hunt-page .hunt-actions {
+  gap: 3px;
+  height: 70px;
+  padding: 0;
+}
+.hunt-page .ammo-count {
+  background: url('/assets/ui-bright/pill.png') center/100% 100% no-repeat;
+  padding: 7px 6px;
+  min-width: 90px;
+  max-width: 33%;
+  height: 47px;
+  filter: none;
+  grid-template-columns: 27px minmax(0, 1fr);
+  column-gap: 3px;
+}
+.hunt-page .ammo-count img {
+  width: 28px;
+  height: 33px;
+}
+.hunt-page .ammo-count strong {
+  font-size: 21px;
+  color: #fffade;
+  line-height: 25px;
+  text-shadow: 0 2px #09292c;
+}
+.hunt-page .ammo-count span {
+  display: none;
+}
+.hunt-page .hunt-actions > .fire-button,
+.hunt-page .hunt-actions > .fire-button.is-firing {
+  flex: 1;
+  height: 68px;
+  min-width: 100px;
+  border: 0;
+  box-shadow: none;
+  background: transparent url('/assets/ui-bright/fire.png') center/100% 100%
+    no-repeat;
+  color: #573207;
+  font-size: 27px;
+  font-weight: 950;
+  letter-spacing: 2px;
+  text-shadow: 0 1px #fff6a2;
+  gap: 6px;
+  padding: 4px 8px 8px;
+}
+.hunt-page .hunt-actions > .fire-button.is-firing {
+  filter: hue-rotate(-13deg) saturate(1.25);
+}
+.fire-button svg {
+  width: 31px;
+  height: 31px;
+  stroke-width: 3;
+}
+.hunt-page .hunt-actions > button:not(.fire-button) {
+  background: url('/assets/ui-bright/nav.png') center/100% 100% no-repeat;
+  box-shadow: none;
+  border: 0;
+  flex-basis: 33px;
+  width: 33px;
+  height: 39px;
+}
+.hunt-page .hunt-multipliers {
+  padding: 2px 0 0;
+  gap: 4px;
+}
+.hunt-page .hunt-multipliers > button {
+  border: 0;
+  box-shadow: none;
+  border-radius: 12px;
+  height: 42px;
+  padding: 4px 1px;
+  background: transparent url('/assets/ui-bright/nav.png') center/100% 100%
+    no-repeat;
+  color: #e8fff0;
+  font-size: 20px;
+  line-height: 21px;
+  font-weight: 900;
+  text-shadow: 0 2px #143536;
+}
+.hunt-page .hunt-multipliers > button.selected {
+  background: transparent url('/assets/ui-bright/nav-selected.png') center/100%
+    100% no-repeat;
+  color: #53300a;
+  text-shadow: 0 1px #fff5a4;
+}
+.hunt-page .hunt-multipliers small {
+  font-size: 9px;
+  line-height: 10px;
+  font-weight: 600;
+}
+.hunt-page .hunt-tracker-button {
+  background: transparent url('/assets/ui-bright/nav-selected.png') center/100%
+    100% no-repeat;
+  border: 0;
+  box-shadow: none;
+  width: 68px;
+  height: 91px;
+  padding: 6px 8px;
+  gap: 0;
+  color: #fffde3;
+  text-shadow:
+    0 1px #482d14,
+    1px 0 #482d14,
+    -1px 0 #482d14;
+}
+.援军-avatar {
+  height: 49px;
+  width: 50px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.hunt-tracker-button > svg {
+  position: absolute;
+  right: 1px;
+  top: -8px;
+  width: 27px;
+  height: 27px;
+  fill: #ffd32f;
+  stroke: #613514;
+  filter: drop-shadow(0 1px #fff3b2);
+}
+.hunt-tracker-button progress {
+  height: 4px;
+  margin-top: 2px;
+}
+.hunt-tracker-button b,
+.hunt-tracker-button small {
+  font-size: 10px;
+  line-height: 11px;
+}
+.hunt-scene-label > span {
+  display: none;
+}
+.hunt-scene-label > b {
+  font-size: 16px;
+  color: #fff6d0;
+  text-shadow:
+    0 2px #153f38,
+    1px 0 #153f38,
+    -1px 0 #153f38;
+}
+.hunt-page .hunt-hint {
+  pointer-events: none;
+  bottom: 128px;
+  font-size: 9px;
+  white-space: nowrap;
+  left: auto;
+  right: 6px;
+  transform: none;
+  max-width: 64%;
+  padding: 3px 5px;
+  background: #064e5380;
+  border-color: #a6ddc780;
+}
+.mori-gameplay-layer.battle-layer.is-mini {
+  border: 3px solid #ffe870;
+  box-shadow:
+    0 0 0 2px #064149,
+    0 3px #062b31;
+  border-radius: 12px;
+}
+.battle-mini-cover strong {
+  font-size: 12px;
+  font-weight: 950;
+  text-shadow: 0 1px #082c30;
+}
+.battle-mini-cover span {
+  color: #ecfff1;
+}
+.loop-dialog {
+  background: #075054;
+  color: #fff6d5;
+  border: 3px solid #edcf6c;
+}
+.loop-dialog button.gold {
+  background: linear-gradient(#ffe775, #ffb30f);
+  color: #50300b;
+  border: 2px solid #fff1a6;
+  font-weight: 900;
+}
+@media (max-height: 700px) {
+  .level-medallion {
+    height: 43px;
+    width: 55px;
+  }
+  .level-medallion b {
+    font-size: 28px;
+  }
+  .resource-pills > span {
+    height: 24px;
+    font-size: 12px;
+  }
+  .global-resources .resource-pills button {
+    height: 24px;
+  }
+  .mori-gameplay-menu {
+    height: 78px;
+  }
+  .nav-emblem {
+    height: 36px;
+    width: 47px;
+  }
+  .mori-gameplay-menu > button {
+    font-size: 15px;
+  }
+  .hunt-console {
+    height: 112px;
+  }
+  .hunt-page .hunt-actions {
+    height: 61px;
+  }
+  .hunt-page .hunt-actions > .fire-button {
+    height: 59px;
+    font-size: 24px;
+  }
+  .hunt-page .hunt-multipliers > button {
+    height: 39px;
+    font-size: 18px;
+  }
+  .hunt-page .hunt-hint {
+    bottom: 116px;
+  }
+  .hunt-page .hunt-tracker-button {
+    width: 62px;
+    height: 85px;
+  }
+  .援军-avatar {
+    height: 43px;
+  }
+}

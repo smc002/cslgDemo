@@ -1,0 +1,182 @@
+// Bounds follow individual alpha silhouettes, not equal atlas cells.
+// Foot pivots are measured in the bottom boot band of each silhouette.
+export type SpriteFrame = {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  footX: number;
+  footY: number;
+};
+export const REAR_FRAMES: SpriteFrame[] = [
+  {
+    x: 59,
+    y: 41,
+    w: 276,
+    h: 306,
+    footX: 138.5,
+    footY: 295.5,
+  },
+  {
+    x: 410,
+    y: 46,
+    w: 261,
+    h: 296,
+    footX: 129.5,
+    footY: 285.7,
+  },
+  {
+    x: 754,
+    y: 42,
+    w: 280,
+    h: 299,
+    footX: 137.5,
+    footY: 288.6,
+  },
+  {
+    x: 87,
+    y: 406,
+    w: 218,
+    h: 298,
+    footX: 111.0,
+    footY: 287.7,
+  },
+  {
+    x: 459,
+    y: 420,
+    w: 206,
+    h: 284,
+    footX: 92.0,
+    footY: 274.0,
+  },
+  {
+    x: 815,
+    y: 413,
+    w: 191,
+    h: 291,
+    footX: 79.0,
+    footY: 280.9,
+  },
+  {
+    x: 82,
+    y: 744,
+    w: 216,
+    h: 319,
+    footX: 108.0,
+    footY: 308.2,
+  },
+  {
+    x: 447,
+    y: 742,
+    w: 204,
+    h: 320,
+    footX: 99.5,
+    footY: 309.1,
+  },
+  {
+    x: 814,
+    y: 737,
+    w: 203,
+    h: 326,
+    footX: 98.5,
+    footY: 315.0,
+  },
+  {
+    x: 69,
+    y: 1123,
+    w: 241,
+    h: 280,
+    footX: 115.5,
+    footY: 270.1,
+  },
+  {
+    x: 427,
+    y: 1112,
+    w: 221,
+    h: 291,
+    footX: 109.0,
+    footY: 280.8,
+  },
+  {
+    x: 717,
+    y: 1086,
+    w: 341,
+    h: 323,
+    footX: 170.5,
+    footY: 312.0,
+  },
+];
+export const FRONT_FRAMES: SpriteFrame[] = [
+  {
+    x: 13,
+    y: 48,
+    w: 347,
+    h: 392,
+    footX: 170.5,
+    footY: 379.3,
+  },
+  {
+    x: 379,
+    y: 48,
+    w: 339,
+    h: 390,
+    footX: 165.0,
+    footY: 377.4,
+  },
+  {
+    x: 743,
+    y: 47,
+    w: 339,
+    h: 392,
+    footX: 171.0,
+    footY: 379.3,
+  },
+  {
+    x: 39,
+    y: 463,
+    w: 291,
+    h: 437,
+    footX: 144.5,
+    footY: 423.2,
+  },
+  {
+    x: 410,
+    y: 477,
+    w: 268,
+    h: 424,
+    footX: 140.5,
+    footY: 410.5,
+  },
+  {
+    x: 775,
+    y: 485,
+    w: 277,
+    h: 415,
+    footX: 140.5,
+    footY: 401.8,
+  },
+  {
+    x: 40,
+    y: 949,
+    w: 286,
+    h: 457,
+    footX: 144.5,
+    footY: 442.7,
+  },
+  {
+    x: 397,
+    y: 951,
+    w: 293,
+    h: 456,
+    footX: 145.0,
+    footY: 441.7,
+  },
+  {
+    x: 770,
+    y: 944,
+    w: 284,
+    h: 465,
+    footX: 165.5,
+    footY: 450.5,
+  },
+];

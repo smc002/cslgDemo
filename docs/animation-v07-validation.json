@@ -1,0 +1,26 @@
+[
+  {
+    "hero": "shield",
+    "visibleLockedPixels": 8759,
+    "lowerBodyPixelComparisons": 240288,
+    "identical": true
+  },
+  {
+    "hero": "medic",
+    "visibleLockedPixels": 7972,
+    "lowerBodyPixelComparisons": 353280,
+    "identical": true
+  },
+  {
+    "hero": "drone",
+    "visibleLockedPixels": 8716,
+    "lowerBodyPixelComparisons": 331776,
+    "identical": true
+  },
+  {
+    "sniperSourceDirections": 8,
+    "mirroring": true,
+    "sampledAngles": 1080,
+    "maxResidualDegrees": 23.68282602806562
+  }
+]

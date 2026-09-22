@@ -1,0 +1,9 @@
+{
+  "kind": "imagegen-original-artwork",
+  "cardCount": 20,
+  "dimensions": [1024, 1536],
+  "rarities": { "blue": 8, "purple": 7, "orange": 5 },
+  "sourceDirectories": ["art/recruit-generated", "art/recruit-expanded"],
+  "revision": "clean20",
+  "notes": "17 additional individually generated hero illustrations and an imagegen cleanup of Valkyrie. Clean backgrounds without floating gold light particles, glitter, sparks or embers. Existing scout and guitarist retained. No UI or text baked into new illustrations."
+}

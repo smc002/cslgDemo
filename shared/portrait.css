@@ -1,0 +1,278 @@
+.portrait-prototype {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 50% 30%, #344d42, #122720 72%);
+}
+.portrait-frame {
+  position: relative;
+  height: 100%;
+  max-width: 100%;
+  aspect-ratio: 390 / 752;
+  overflow: hidden;
+  background: #dfcaa0;
+  color: #fffae8;
+  box-shadow: 0 0 60px #06171288;
+  isolation: isolate;
+  container-type: inline-size;
+}
+.portrait-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.portrait-header {
+  position: absolute;
+  inset: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  min-height: 65px;
+  background: linear-gradient(125deg, #397f69f5, #154c45f5);
+  border-bottom: 2px solid #b2d6a2;
+  box-shadow: 0 3px 10px #14372a40;
+  border-radius: 0 0 14px 14px;
+}
+.portrait-eyebrow {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 1.3px;
+  color: #c7e0bd;
+}
+.portrait-header h1 {
+  font-size: clamp(17px, 5cqw, 25px);
+  font-weight: 900;
+  margin: 2px 0 0;
+  line-height: 1.15;
+  letter-spacing: 1px;
+}
+.portrait-wave {
+  text-align: center;
+  flex-shrink: 0;
+}
+.portrait-wave strong {
+  font-size: 14px;
+  color: #fff1b9;
+}
+.portrait-wave > div {
+  display: flex;
+  gap: 5px;
+  margin-top: 5px;
+  justify-content: center;
+}
+.portrait-wave i {
+  height: 5px;
+  width: 18px;
+  border-radius: 8px;
+  background: #092f2a;
+  border: 1px solid #91b49b66;
+}
+.portrait-wave i.lit {
+  background: #efcf75;
+}
+.portrait-frame .portrait-icon-button {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  min-width: 36px;
+  background: #173d3577;
+  border: 1px solid #a2c9a3aa;
+  border-radius: 9px;
+  color: #fbf6da;
+  box-shadow: none;
+}
+.portrait-lane-names {
+  position: absolute;
+  top: 75px;
+  left: 0;
+  right: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  text-align: center;
+  pointer-events: none;
+}
+.portrait-lane-names > div {
+  justify-self: center;
+  background: #164638d9;
+  border: 1px solid #b2d5ab88;
+  border-radius: 8px;
+  padding: 4px 7px;
+  box-shadow: 0 2px 6px #15382640;
+}
+.portrait-lane-names b {
+  display: block;
+  font-size: 13px;
+  color: var(--lane-color);
+}
+.portrait-lane-names span {
+  display: block;
+  font-size: 10px;
+  margin-top: 1px;
+  color: #f6edd0;
+}
+.portrait-state-label {
+  position: absolute;
+  top: 24%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  padding: 8px 14px;
+  border-radius: 20px;
+  color: #fff1c3;
+  background: #164338ed;
+  box-shadow: 0 2px 12px #11291c44;
+  border: 1px solid #c6d9a577;
+  font-size: 14px;
+}
+.portrait-base {
+  position: absolute;
+  bottom: 17%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 12px;
+  background: #184c3fed;
+  border: 1px solid #b4cc9a;
+  border-radius: 6px;
+  padding: 5px 8px;
+  white-space: nowrap;
+}
+.portrait-base b {
+  color: #d1ee9b;
+}
+.portrait-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(125deg, #32795ff5, #164b42fa);
+  border-top: 2px solid #a5c699;
+  padding: 10px 12px 8px;
+}
+.portrait-team-health {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.portrait-team-health span {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+.portrait-team-health b {
+  color: #e6eed4;
+}
+.portrait-team-health em {
+  font-style: normal;
+  color: #f5e3ad;
+  font-weight: 800;
+}
+.portrait-health-track {
+  background: #0b322c;
+  height: 5px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.portrait-health-track i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  transition: width 0.15s linear;
+}
+.portrait-control-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  gap: 8px;
+}
+.portrait-survivors {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.portrait-survivors svg:first-child {
+  color: #b1ee94;
+}
+.portrait-survivors svg:nth-child(2) {
+  margin-left: 6px;
+  color: #f0c679;
+}
+.portrait-speed {
+  display: flex;
+  border-radius: 7px;
+  border: 1px solid #98ba9088;
+  overflow: hidden;
+}
+.portrait-speed button {
+  color: #dcebc9;
+  width: 33px;
+  height: 32px;
+  padding: 0;
+  border-radius: 0;
+  background: #123f35aa;
+  font-size: 13px;
+  box-shadow: none;
+}
+.portrait-speed button.selected {
+  background: #ebce7c;
+  color: #234d3e;
+}
+.portrait-overlay {
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  background: #183d35e8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+  padding: 25px;
+}
+.portrait-overlay strong {
+  font-size: 23px;
+  color: #ffe1a1;
+}
+.portrait-overlay span,
+.portrait-overlay p {
+  font-size: 14px;
+  color: #c7ddc4;
+}
+.portrait-overlay button {
+  background: #efd28a;
+  color: #234b3e;
+  border-radius: 9px;
+  min-height: 44px;
+  font-weight: 800;
+}
+.portrait-result {
+  background: #153e35df;
+  backdrop-filter: blur(3px);
+}
+.portrait-result h2 {
+  font-size: 25px;
+  font-weight: 900;
+  margin: 0;
+  color: #ffe5a5;
+}
+.portrait-result p {
+  margin: 0 0 12px;
+}
+
+.portrait-wave-caption {
+  display: block;
+  margin-top: 4px;
+  font-size: 10px;
+  color: #c7e0bd;
+}
