@@ -1,0 +1,111 @@
+{
+  "cell": [
+    320,
+    320
+  ],
+  "atlas": [
+    2560,
+    1600
+  ],
+  "frames": 40,
+  "trueAlpha": true,
+  "uniformScales": {
+    "walk": {
+      "size": [
+        1122,
+        1402
+      ],
+      "scale": 1.0260869565217392
+    },
+    "hit": {
+      "size": [
+        972,
+        1619
+      ],
+      "scale": 0.855072463768116
+    }
+  },
+  "checks": [
+    {
+      "direction": "S",
+      "fixedLowerSourceFrame": 4,
+      "mask": {
+        "seam": 217,
+        "anatomicalArmsExcluded": true,
+        "outlinePadding": 4
+      },
+      "fixedLowerMismatchBytes": 0,
+      "edgeAlpha": 0,
+      "walkLowerDifferences": [
+        14294,
+        18589,
+        19660
+      ]
+    },
+    {
+      "direction": "SE",
+      "fixedLowerSourceFrame": 12,
+      "mask": {
+        "seam": 216,
+        "anatomicalArmsExcluded": true,
+        "outlinePadding": 4
+      },
+      "fixedLowerMismatchBytes": 0,
+      "edgeAlpha": 0,
+      "walkLowerDifferences": [
+        18955,
+        19796,
+        18269
+      ]
+    },
+    {
+      "direction": "E",
+      "fixedLowerSourceFrame": 20,
+      "mask": {
+        "seam": 210,
+        "anatomicalArmsExcluded": true,
+        "outlinePadding": 4
+      },
+      "fixedLowerMismatchBytes": 0,
+      "edgeAlpha": 0,
+      "walkLowerDifferences": [
+        18602,
+        21876,
+        22639
+      ]
+    },
+    {
+      "direction": "NE",
+      "fixedLowerSourceFrame": 28,
+      "mask": {
+        "seam": 211,
+        "anatomicalArmsExcluded": true,
+        "outlinePadding": 4
+      },
+      "fixedLowerMismatchBytes": 0,
+      "edgeAlpha": 0,
+      "walkLowerDifferences": [
+        20174,
+        15693,
+        17208
+      ]
+    },
+    {
+      "direction": "N",
+      "fixedLowerSourceFrame": 36,
+      "mask": {
+        "seam": 210,
+        "anatomicalArmsExcluded": true,
+        "outlinePadding": 4
+      },
+      "fixedLowerMismatchBytes": 0,
+      "edgeAlpha": 0,
+      "walkLowerDifferences": [
+        17028,
+        16414,
+        17928
+      ]
+    }
+  ],
+  "visualReview": "Five authored body views verified: front, front-right, right profile, rear-right, full back. Walk has low staggered contact, relaxed wrists, no raised-knee athletic running. Hit lower-body masks exclude low hanging hands; exposed core pelvis and complete knees/feet are copied from row prepare. Runtime verification remains with integrating task."
+}

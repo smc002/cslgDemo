@@ -1,62 +1,62 @@
 'use client';
-import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
-import { Hammer, Package, ArrowUp, X, Check, Clock3 } from 'lucide-react';
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type CSSProperties,
+} from 'react';
+import {
+  Package,
+  ArrowUp,
+  X,
+  Check,
+  Clock3,
+  ChevronRight,
+  LockKeyhole,
+} from 'lucide-react';
 import { campaign, production, collectCity, buildCity } from '@/lib/campaign';
+import {
+  CITY_BUILDINGS,
+  CITY_STAGES,
+  CITY_MAX_LEVEL,
+  cityMeta,
+  cityBuilding,
+  cityArt,
+  cityStage,
+  cityEffect,
+  cityUpgradeBlock,
+  cityCost,
+  cityCapacity,
+  type CityKind,
+} from '@/lib/city';
+import { positionCityPopover } from './popover-position';
 import './city-scene.css';
-
-type Kind = 'workshop' | 'factory';
-const BUILDINGS: Record<
-  Kind,
-  { name: string; resource: string; amount: number; stages: string[] }
-> = {
-  workshop: {
-    name: '建材工坊',
-    resource: '建材',
-    amount: 10,
-    stages: [
-      '待建地基',
-      '木棚工坊',
-      '扩建工坊',
-      '砖石工坊',
-      '加固锯木厂',
-      '重型建材厂',
-    ],
-  },
-  factory: {
-    name: '黑金弹工厂',
-    resource: '黑金弹',
-    amount: 15,
-    stages: [
-      '待建地基',
-      '弹药作坊',
-      '砖石弹药厂',
-      '机械弹药厂',
-      '加固生产线',
-      '重型军械厂',
-    ],
-  },
-};
-const VISUAL_LEVELS = [0, 1, 2, 3, 5, 8];
-const visualStage = (level: number) =>
-  VISUAL_LEVELS.reduce((index, min, i) => (level >= min ? i : index), 0);
-const art = (kind: Kind, level: number) =>
-  `/assets/city-scene/${kind}-${visualStage(level)}.png`;
 
 export default function CityPanel({ active }: { active: boolean }) {
   const d = useSyncExternalStore(
-      campaign.subscribe,
-      campaign.read,
-      campaign.read,
-    ),
-    [now, setNow] = useState(Date.now()),
-    [selected, setSelected] = useState<Kind | null>(null),
-    [feedback, setFeedback] = useState(''),
-    [buildingFlash, setBuildingFlash] = useState<Kind | null>(null);
-  const buttons = useRef<Partial<Record<Kind, HTMLButtonElement | null>>>({});
+    campaign.subscribe,
+    campaign.read,
+    campaign.read,
+  );
+  const [now, setNow] = useState(Date.now());
+  const [selected, setSelected] = useState<CityKind | null>(null);
+  const [feedback, setFeedback] = useState('');
+  const [flash, setFlash] = useState<CityKind | null>(null);
+  const [position, setPosition] = useState<ReturnType<
+    typeof positionCityPopover
+  > | null>(null);
+  const viewport = useRef<HTMLElement>(null);
+  const scroll = useRef<HTMLDivElement>(null);
+  const inspector = useRef<HTMLElement>(null);
+  const closeButton = useRef<HTMLButtonElement>(null);
+  const buttons = useRef<Partial<Record<CityKind, HTMLButtonElement | null>>>(
+    {},
+  );
   const close = () => {
-    const last = selected;
     setSelected(null);
-    if (last) buttons.current[last]?.focus();
+    if (selected) buttons.current[selected]?.focus({ preventScroll: true });
   };
   useEffect(() => {
     const timer = setInterval(() => setNow(Date.now()), 1000);
@@ -64,110 +64,190 @@ export default function CityPanel({ active }: { active: boolean }) {
   }, []);
   useEffect(() => {
     if (!feedback) return;
-    const timer = setTimeout(() => setFeedback(''), 2500);
+    const timer = setTimeout(() => setFeedback(''), 2600);
     return () => clearTimeout(timer);
   }, [feedback]);
   useEffect(() => {
-    if (!buildingFlash) return;
-    const timer = setTimeout(() => setBuildingFlash(null), 1100);
+    if (!flash) return;
+    const timer = setTimeout(() => setFlash(null), 850);
     return () => clearTimeout(timer);
-  }, [buildingFlash]);
+  }, [flash]);
   useEffect(() => {
-    const escape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setSelected(null);
-        if (selected) buttons.current[selected]?.focus();
-      }
+    if (!selected) return;
+    closeButton.current?.focus({ preventScroll: true });
+    const dismiss = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return;
+      setSelected(null);
+      buttons.current[selected]?.focus({ preventScroll: true });
     };
-    window.addEventListener('keydown', escape);
-    return () => window.removeEventListener('keydown', escape);
+    window.addEventListener('keydown', dismiss);
+    return () => window.removeEventListener('keydown', dismiss);
   }, [selected]);
-  const info = selected ? BUILDINGS[selected] : null,
-    building = selected ? d.city[selected] : null,
-    output = selected ? production(d, selected, now) : null,
-    nextAppearance = building
-      ? VISUAL_LEVELS.find((level) => level > building.level)
-      : undefined;
+  useLayoutEffect(() => {
+    if (!selected) {
+      setPosition(null);
+      return;
+    }
+    const root = viewport.current,
+      anchor = buttons.current[selected],
+      panel = inspector.current;
+    if (!root || !anchor || !panel) return;
+    const update = () => {
+      const bounds = root.getBoundingClientRect(),
+        a = anchor.getBoundingClientRect();
+      if (a.bottom < bounds.top || a.top > bounds.bottom) {
+        setSelected(null);
+        return;
+      }
+      setPosition(
+        positionCityPopover(
+          {
+            left: a.left - bounds.left,
+            top: a.top - bounds.top,
+            width: a.width,
+            height: a.height,
+          },
+          {
+            width: Math.min(280, bounds.width - 16),
+            height: panel.offsetHeight,
+          },
+          { width: bounds.width, height: bounds.height },
+        ),
+      );
+    };
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(root);
+    observer.observe(panel);
+    const scroller = scroll.current;
+    scroller?.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    return () => {
+      observer.disconnect();
+      scroller?.removeEventListener('scroll', update);
+      window.removeEventListener('resize', update);
+    };
+  }, [selected]);
+  const meta = selected ? cityMeta(selected) : null;
+  const b = selected ? cityBuilding(d, selected) : null;
+  const output =
+    selected === 'workshop' || selected === 'factory'
+      ? production(d, selected, now)
+      : null;
+  const resource = selected === 'workshop' ? '建材' : '黑金弹';
+  const block = selected ? cityUpgradeBlock(d, selected) : '';
+  const collect = () => {
+    if (!active || (selected !== 'workshop' && selected !== 'factory')) return;
+    const amount = production(campaign.read(), selected).amount;
+    let success = false;
+    campaign.update((x) => {
+      success = collectCity(x, selected);
+    });
+    if (success) {
+      setNow(Date.now());
+      setFeedback(`获得 ${amount} ${resource}`);
+    }
+  };
+  const upgrade = () => {
+    if (!active || !selected) return;
+    let success = false;
+    campaign.update((x) => {
+      success = buildCity(x, selected);
+    });
+    if (success) {
+      setNow(Date.now());
+      setFlash(selected);
+      setFeedback(
+        `${cityMeta(selected).name} · Lv.${cityBuilding(campaign.read(), selected).level}`,
+      );
+    }
+  };
   return (
     <section
+      ref={viewport}
       className="loop-page city-page city-scene-page"
-      aria-label="曙光营地"
+      aria-label="曙光基地"
     >
-      <div className="city-world" onClick={() => setSelected(null)}>
-        <img
-          className="city-terrain"
-          src="/assets/city-scene/camp-ground.png"
-          alt="阳光下的幸存者营地，石板路连接工坊、工厂和指挥部"
-          draggable={false}
-        />
-        <div className="city-world-shade" />
+      <div
+        ref={scroll}
+        className="city-scroll"
+        onClick={() => setSelected(null)}
+      >
+        <div className="city-map">
+          <img
+            className="city-terrain"
+            src="/assets/city-v08/terrain.png"
+            alt="废墟中重建的武装基地，旧城墙、废车与路障围绕军工设施"
+            draggable={false}
+          />
+          {CITY_BUILDINGS.map((item) => {
+            const building = cityBuilding(d, item.id);
+            const p =
+              item.id === 'workshop' || item.id === 'factory'
+                ? production(d, item.id, now)
+                : null;
+            return (
+              <button
+                key={item.id}
+                ref={(el) => {
+                  buttons.current[item.id] = el;
+                }}
+                className={`city-building ${selected === item.id ? 'is-selected' : ''} ${flash === item.id ? 'is-building' : ''} ${!building.level ? 'is-dormant' : ''}`}
+                style={{
+                  left: `${item.x}%`,
+                  top: `${item.y}%`,
+                  width: `${item.width}%`,
+                  height: `${item.height}%`,
+                  zIndex: Math.round(item.y),
+                }}
+                aria-label={`${item.name}，${!item.live ? '规划设施' : building.level ? `等级 ${building.level}` : '待修复'}`}
+                aria-expanded={selected === item.id}
+                aria-controls={
+                  selected === item.id ? 'city-building-details' : undefined
+                }
+                onClick={(event) => {
+                  event.stopPropagation();
+                  setSelected(selected === item.id ? null : item.id);
+                  setPosition(null);
+                }}
+              >
+                <img
+                  className="city-building-sprite"
+                  src={cityArt(item.id, building.level)}
+                  alt=""
+                  draggable={false}
+                />
+                <span className="city-building-caption">
+                  <b>{item.name}</b>
+                  {item.live && (
+                    <small>
+                      {building.level ? `Lv.${building.level}` : '修复'}
+                    </small>
+                  )}
+                </span>
+                {!!p?.amount && (
+                  <span className="city-production-bubble">
+                    <Package size={12} />
+                    {p.amount}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
       </div>
       <header className="city-scene-heading">
         <div>
-          <small>DAWN OUTPOST</small>
-          <h1>曙光营地</h1>
+          <small>DAWN STRONGHOLD</small>
+          <h1>曙光基地</h1>
         </div>
-        <span aria-label={`建材 ${d.city.materials}`}>
-          <Package size={18} />
+        <span>
+          <Package size={16} />
           <b>{d.city.materials}</b>
           <small>建材</small>
         </span>
       </header>
-      <span className="city-hq-label">营地指挥部</span>
-      {(['workshop', 'factory'] as Kind[]).map((kind) => {
-        const b = d.city[kind],
-          p = production(d, kind, now),
-          meta = BUILDINGS[kind],
-          stage = visualStage(b.level);
-        return (
-          <button
-            key={kind}
-            ref={(el) => {
-              buttons.current[kind] = el;
-            }}
-            className={`city-building ${kind} ${selected === kind ? 'is-selected' : ''} ${p.amount ? 'is-ready' : ''} ${buildingFlash === kind ? 'is-building' : ''}`}
-            aria-label={`${meta.name} ${b.level ? `等级 ${b.level}` : '待建造'}${p.amount ? `，可领取 ${p.amount} ${meta.resource}` : ''}`}
-            aria-expanded={selected === kind}
-            aria-controls="city-building-details"
-            onClick={() => setSelected(selected === kind ? null : kind)}
-          >
-            <span className="city-building-glow" />
-            <img
-              className="city-building-sprite"
-              src={art(kind, b.level)}
-              alt={meta.stages[stage]}
-              draggable={false}
-            />
-            <span className="city-building-caption">
-              <b>{meta.name}</b>
-              <small>{b.level ? `Lv.${b.level}` : '待建造'}</small>
-            </span>
-            <span
-              className={`city-production-bubble ${p.amount ? 'can-collect' : ''}`}
-            >
-              {p.amount ? (
-                <>
-                  <Package size={14} />
-                  <b>+{p.amount}</b>
-                </>
-              ) : b.level ? (
-                <>
-                  <Clock3 size={13} />
-                  {p.next}s
-                </>
-              ) : (
-                <>
-                  <Hammer size={14} />
-                  建造
-                </>
-              )}
-            </span>
-          </button>
-        );
-      })}
-      {!selected && (
-        <p className="city-scene-tip">点击高亮建筑 · 领取物资与扩建</p>
-      )}
+      {!selected && <p className="city-scene-tip">点击建筑 · 查看与扩建</p>}
       <div className="city-feedback" role="status" aria-live="polite">
         {feedback && (
           <span>
@@ -176,110 +256,144 @@ export default function CityPanel({ active }: { active: boolean }) {
           </span>
         )}
       </div>
-      {selected && info && building && output && (
+      {selected && meta && b && (
         <aside
+          ref={inspector}
           id="city-building-details"
           className="city-inspector"
-          aria-label={`${info.name}操作面板`}
+          role="dialog"
+          aria-modal="false"
+          aria-labelledby="city-building-title"
+          data-side={position?.side ?? 'top'}
+          style={
+            {
+              left: position?.left ?? 8,
+              top: position?.top ?? 8,
+              width: position?.width ?? 280,
+              maxHeight: position?.maxHeight,
+              visibility: position ? 'visible' : 'hidden',
+              '--arrow': `${position?.arrow ?? 40}px`,
+            } as CSSProperties
+          }
         >
-          <button
-            className="city-inspector-close"
-            onClick={close}
-            aria-label="关闭建筑面板"
-          >
-            <X size={20} />
-          </button>
-          <div className="city-inspector-title">
-            <img src={art(selected, building.level)} alt="" />
-            <div>
-              <h2>
-                {info.name}{' '}
-                <small>
-                  {building.level ? `Lv.${building.level}` : '待建造'}
-                </small>
-              </h2>
-              <p>
-                {info.stages[visualStage(building.level)]} ·{' '}
-                {building.level
-                  ? `每 ${output.period / 1000} 秒产出 ${building.level * info.amount} ${info.resource}`
-                  : '修复生产线，开始供应黑金弹'}
+          <i className="city-inspector-arrow" aria-hidden="true" />
+          <div className="city-inspector-content">
+            <button
+              ref={closeButton}
+              className="city-inspector-close"
+              onClick={close}
+              aria-label="关闭建筑信息"
+            >
+              <X size={18} />
+            </button>
+            <div className="city-inspector-title">
+              <img src={cityArt(selected, b.level)} alt="" />
+              <div>
+                <h2 id="city-building-title">
+                  {meta.name}
+                  <small>
+                    {meta.live
+                      ? b.level
+                        ? `Lv.${b.level}`
+                        : '待修复'
+                      : '规划设施'}
+                  </small>
+                </h2>
+                <p>{meta.role}</p>
+              </div>
+            </div>
+            {meta.live ? (
+              <>
+                <p className="city-effect">
+                  {b.level
+                    ? cityEffect(d, selected)
+                    : `修复后：${cityEffect(d, selected, true)}`}
+                </p>
+                {output && (
+                  <div className="city-stock">
+                    <span>
+                      <Package size={14} />
+                      库存 <b>{output.amount}</b>
+                    </span>
+                    <small>
+                      {!b.level ? (
+                        '修复后开始生产'
+                      ) : output.cycles >= cityCapacity(d) ? (
+                        '库存已满'
+                      ) : (
+                        <>
+                          <Clock3 size={12} />
+                          {output.next}s · {output.cycles}/{cityCapacity(d)} 批
+                        </>
+                      )}
+                    </small>
+                  </div>
+                )}
+                {b.level > 0 && b.level < CITY_MAX_LEVEL && (
+                  <p className="city-next">
+                    <ChevronRight size={14} />
+                    下级：{cityEffect(d, selected, true)}
+                  </p>
+                )}
+                <div className="city-building-actions">
+                  {output && (
+                    <button
+                      className="city-collect"
+                      disabled={!active || !output.amount}
+                      onClick={collect}
+                    >
+                      领取
+                    </button>
+                  )}
+                  <button
+                    className="city-upgrade"
+                    disabled={!active || !!block}
+                    onClick={upgrade}
+                  >
+                    <ArrowUp size={16} />
+                    {b.level >= CITY_MAX_LEVEL
+                      ? '已满级'
+                      : `${b.level ? '升级' : '修复'} · ${cityCost(d, selected)} 建材`}
+                  </button>
+                </div>
+                <p className="city-requirement">
+                  {!active
+                    ? '请在当前游戏标签页继续'
+                    : block ||
+                      (b.level < CITY_MAX_LEVEL
+                        ? '即时完成 · 自动保存'
+                        : '基地设施已完成扩建')}
+                </p>
+              </>
+            ) : (
+              <p className="city-planned">
+                <LockKeyhole size={15} />
+                <span>
+                  {meta.plan}
+                  <small>专属玩法筹备中，暂不消耗建材。</small>
+                </span>
               </p>
+            )}
+            <div className="city-stages" aria-label="建筑外观规划">
+              {CITY_STAGES.map((level, index) => (
+                <div
+                  className={
+                    b.level > 0 && cityStage(b.level) === index ? 'current' : ''
+                  }
+                  key={level}
+                >
+                  <img
+                    src={cityArt(selected, level)}
+                    alt={meta.stages[index]}
+                  />
+                  <span>
+                    Lv.{level}
+                    {index === 0 ? '–3' : index === 1 ? '–7' : '–10'}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
-          <div className="city-stock">
-            <span>
-              可领取 <b>{output.amount}</b> {info.resource}
-            </span>
-            <small>
-              {building.level
-                ? output.cycles >= 20
-                  ? '仓库已满'
-                  : `下批 ${output.next} 秒`
-                : '建成后自动生产'}
-            </small>
-          </div>
-          {building.level > 0 && (
-            <progress
-              aria-label="建筑库存进度"
-              max={20}
-              value={output.cycles}
-            />
-          )}
-          <div className="city-building-actions">
-            <button
-              className="city-collect"
-              disabled={!active || !output.amount}
-              onClick={() => {
-                let collected = false;
-                campaign.update((x) => {
-                  collected = collectCity(x, selected);
-                });
-                if (collected) {
-                  setNow(Date.now());
-                  setFeedback(`获得 ${output.amount} ${info.resource}`);
-                }
-              }}
-            >
-              <Package size={18} />
-              领取{output.amount ? ` ${output.amount}` : ''}
-            </button>
-            <button
-              className="city-upgrade"
-              disabled={
-                !active ||
-                building.level >= 10 ||
-                d.city.materials < 100 * (building.level + 1)
-              }
-              onClick={() => {
-                let built = false;
-                campaign.update((x) => {
-                  built = buildCity(x, selected);
-                });
-                if (built) {
-                  setNow(Date.now());
-                  setBuildingFlash(selected);
-                  setFeedback(
-                    `${info.name} ${building.level ? '升级' : '建造'}完成`,
-                  );
-                }
-              }}
-            >
-              <ArrowUp size={18} />
-              <span>
-                {building.level >= 10
-                  ? '已满级'
-                  : `${building.level ? '升级' : '建造'} · ${100 * (building.level + 1)} 建材`}
-              </span>
-            </button>
-          </div>
-          <footer>
-            {building.level >= 10
-              ? '已完成全部扩建'
-              : d.city.materials < 100 * (building.level + 1)
-                ? `还需 ${100 * (building.level + 1) - d.city.materials} 建材，可从工坊领取`
-                : `${nextAppearance === building.level + 1 ? '本次升级解锁新外观' : nextAppearance ? `Lv.${nextAppearance} 解锁下一阶段外观` : '提升生产效率'}`}
-            <small>离线生产 · 最多储存 20 批</small>
-          </footer>
         </aside>
       )}
     </section>

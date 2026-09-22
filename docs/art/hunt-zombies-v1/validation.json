@@ -1,0 +1,103 @@
+{
+  "generatedWith": "built-in image_gen",
+  "date": "2026-09-22",
+  "runtimeChecksPending": "Main agent must verify move-hit-move, pause, speed, death interruption in actual renderer.",
+  "archetypes": [
+    {
+      "name": "normal",
+      "fixedLowerMismatchBytes": 0,
+      "edgeAlpha": 0,
+      "walkLowerDifferences": [
+        17075,
+        15642,
+        16807
+      ],
+      "frames": 8,
+      "alpha": true,
+      "oneScaleAcrossActions": 0.5959595959595959,
+      "foot": [
+        160,
+        296
+      ],
+      "pelvis": [
+        160,
+        217
+      ],
+      "fixedSource": 4,
+      "manualSourceReview": true,
+      "manualBakedAtlasReview": true
+    },
+    {
+      "name": "armored",
+      "fixedLowerMismatchBytes": 0,
+      "edgeAlpha": 0,
+      "walkLowerDifferences": [
+        20680,
+        20592,
+        22505
+      ],
+      "frames": 8,
+      "alpha": true,
+      "oneScaleAcrossActions": 0.6194225721784777,
+      "foot": [
+        160,
+        296
+      ],
+      "pelvis": [
+        160,
+        215
+      ],
+      "fixedSource": 4,
+      "manualSourceReview": true,
+      "manualBakedAtlasReview": true
+    },
+    {
+      "name": "explosive",
+      "fixedLowerMismatchBytes": 0,
+      "edgeAlpha": 0,
+      "walkLowerDifferences": [
+        16565,
+        16350,
+        14111
+      ],
+      "frames": 8,
+      "alpha": true,
+      "oneScaleAcrossActions": 0.5686746987951807,
+      "foot": [
+        160,
+        296
+      ],
+      "pelvis": [
+        160,
+        225
+      ],
+      "fixedSource": 4,
+      "manualSourceReview": true,
+      "manualBakedAtlasReview": true
+    },
+    {
+      "name": "giant",
+      "fixedLowerMismatchBytes": 0,
+      "edgeAlpha": 0,
+      "walkLowerDifferences": [
+        27647,
+        27995,
+        28262
+      ],
+      "frames": 8,
+      "alpha": true,
+      "oneScaleAcrossActions": 0.6573816155988857,
+      "foot": [
+        160,
+        296
+      ],
+      "pelvis": [
+        160,
+        196
+      ],
+      "fixedSource": 4,
+      "manualSourceReview": true,
+      "manualBakedAtlasReview": true
+    }
+  ]
+}

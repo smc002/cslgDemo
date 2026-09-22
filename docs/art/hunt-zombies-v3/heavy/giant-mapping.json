@@ -1,0 +1,779 @@
+{
+  "normalizedScale": 289.07423580786025,
+  "sourceSizes": {
+    "walk": [
+      1122,
+      1402
+    ],
+    "hit": [
+      971,
+      1619
+    ]
+  },
+  "mapping": [
+    {
+      "frame": 0,
+      "source": "walk",
+      "sourceBounds": [
+        32,
+        26,
+        239,
+        255
+      ],
+      "sourceCellSize": 280.5,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 1.0305676855895196,
+      "placement": [
+        61,
+        60,
+        213,
+        236
+      ],
+      "footCenterSourceX": 128.5,
+      "sourceSoleY": 255
+    },
+    {
+      "frame": 1,
+      "source": "walk",
+      "sourceBounds": [
+        311,
+        26,
+        512,
+        246
+      ],
+      "sourceCellSize": 280.5,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 1.0305676855895196,
+      "placement": [
+        61,
+        69,
+        207,
+        227
+      ],
+      "footCenterSourceX": 407,
+      "sourceSoleY": 246
+    },
+    {
+      "frame": 2,
+      "source": "walk",
+      "sourceBounds": [
+        577,
+        26,
+        785,
+        256
+      ],
+      "sourceCellSize": 280.5,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 1.0305676855895196,
+      "placement": [
+        49,
+        59,
+        214,
+        237
+      ],
+      "footCenterSourceX": 685,
+      "sourceSoleY": 256
+    },
+    {
+      "frame": 3,
+      "source": "walk",
+      "sourceBounds": [
+        870,
+        26,
+        1081,
+        252
+      ],
+      "sourceCellSize": 280.5,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 1.0305676855895196,
+      "placement": [
+        49,
+        63,
+        217,
+        233
+      ],
+      "footCenterSourceX": 978,
+      "sourceSoleY": 252
+    },
+    {
+      "frame": 4,
+      "source": "hit",
+      "sourceBounds": [
+        42,
+        25,
+        284,
+        287
+      ],
+      "sourceCellSize": 323.6666666666667,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 0.8931232826195475,
+      "placement": [
+        60,
+        62,
+        216,
+        234
+      ],
+      "footCenterSourceX": 154.5,
+      "sourceSoleY": 287
+    },
+    {
+      "frame": 5,
+      "source": "hit",
+      "sourceBounds": [
+        344,
+        13,
+        618,
+        287
+      ],
+      "sourceCellSize": 323.6666666666667,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 0.8931232826195475,
+      "placement": [
+        35,
+        51,
+        245,
+        245
+      ],
+      "footCenterSourceX": 483.5,
+      "sourceSoleY": 287
+    },
+    {
+      "frame": 6,
+      "source": "hit",
+      "sourceBounds": [
+        682,
+        27,
+        928,
+        287
+      ],
+      "sourceCellSize": 323.6666666666667,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 0.8931232826195475,
+      "placement": [
+        49,
+        64,
+        220,
+        232
+      ],
+      "footCenterSourceX": 806.5,
+      "sourceSoleY": 287
+    },
+    {
+      "frame": 8,
+      "source": "walk",
+      "sourceBounds": [
+        44,
+        292,
+        242,
+        523
+      ],
+      "sourceCellSize": 280.5,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 1.0305676855895196,
+      "placement": [
+        58,
+        58,
+        204,
+        238
+      ],
+      "footCenterSourceX": 143,
+      "sourceSoleY": 523
+    },
+    {
+      "frame": 9,
+      "source": "walk",
+      "sourceBounds": [
+        326,
+        290,
+        515,
+        520
+      ],
+      "sourceCellSize": 280.5,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 1.0305676855895196,
+      "placement": [
+        62,
+        59,
+        195,
+        237
+      ],
+      "footCenterSourceX": 421.5,
+      "sourceSoleY": 520
+    },
+    {
+      "frame": 10,
+      "source": "walk",
+      "sourceBounds": [
+        594,
+        294,
+        798,
+        521
+      ],
+      "sourceCellSize": 280.5,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 1.0305676855895196,
+      "placement": [
+        46,
+        62,
+        210,
+        234
+      ],
+      "footCenterSourceX": 704.5,
+      "sourceSoleY": 521
+    },
+    {
+      "frame": 11,
+      "source": "walk",
+      "sourceBounds": [
+        881,
+        293,
+        1084,
+        520
+      ],
+      "sourceCellSize": 280.5,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 1.0305676855895196,
+      "placement": [
+        55,
+        62,
+        209,
+        234
+      ],
+      "footCenterSourceX": 982.5,
+      "sourceSoleY": 520
+    },
+    {
+      "frame": 12,
+      "source": "hit",
+      "sourceBounds": [
+        54,
+        323,
+        289,
+        590
+      ],
+      "sourceCellSize": 323.6666666666667,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 0.8931232826195475,
+      "placement": [
+        60,
+        58,
+        210,
+        238
+      ],
+      "footCenterSourceX": 165.5,
+      "sourceSoleY": 590
+    },
+    {
+      "frame": 13,
+      "source": "hit",
+      "sourceBounds": [
+        352,
+        309,
+        628,
+        590
+      ],
+      "sourceCellSize": 323.6666666666667,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 0.8931232826195475,
+      "placement": [
+        41,
+        45,
+        247,
+        251
+      ],
+      "footCenterSourceX": 485.5,
+      "sourceSoleY": 590
+    },
+    {
+      "frame": 14,
+      "source": "hit",
+      "sourceBounds": [
+        696,
+        325,
+        933,
+        587
+      ],
+      "sourceCellSize": 323.6666666666667,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 0.8931232826195475,
+      "placement": [
+        58,
+        62,
+        212,
+        234
+      ],
+      "footCenterSourceX": 810.5,
+      "sourceSoleY": 587
+    },
+    {
+      "frame": 16,
+      "source": "walk",
+      "sourceBounds": [
+        54,
+        561,
+        224,
+        804
+      ],
+      "sourceCellSize": 280.5,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 1.0305676855895196,
+      "placement": [
+        83,
+        46,
+        175,
+        250
+      ],
+      "footCenterSourceX": 129,
+      "sourceSoleY": 804
+    },
+    {
+      "frame": 17,
+      "source": "walk",
+      "sourceBounds": [
+        344,
+        561,
+        493,
+        804
+      ],
+      "sourceCellSize": 280.5,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 1.0305676855895196,
+      "placement": [
+        86,
+        46,
+        154,
+        250
+      ],
+      "footCenterSourceX": 415.5,
+      "sourceSoleY": 804
+    },
+    {
+      "frame": 18,
+      "source": "walk",
+      "sourceBounds": [
+        611,
+        559,
+        777,
+        803
+      ],
+      "sourceCellSize": 280.5,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 1.0305676855895196,
+      "placement": [
+        85,
+        45,
+        171,
+        251
+      ],
+      "footCenterSourceX": 683.5,
+      "sourceSoleY": 803
+    },
+    {
+      "frame": 19,
+      "source": "walk",
+      "sourceBounds": [
+        903,
+        562,
+        1070,
+        805
+      ],
+      "sourceCellSize": 280.5,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 1.0305676855895196,
+      "placement": [
+        87,
+        46,
+        172,
+        250
+      ],
+      "footCenterSourceX": 973.5,
+      "sourceSoleY": 805
+    },
+    {
+      "frame": 20,
+      "source": "hit",
+      "sourceBounds": [
+        67,
+        615,
+        262,
+        905
+      ],
+      "sourceCellSize": 323.6666666666667,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 0.8931232826195475,
+      "placement": [
+        84,
+        37,
+        174,
+        259
+      ],
+      "footCenterSourceX": 152.5,
+      "sourceSoleY": 905
+    },
+    {
+      "frame": 21,
+      "source": "hit",
+      "sourceBounds": [
+        391,
+        605,
+        577,
+        905
+      ],
+      "sourceCellSize": 323.6666666666667,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 0.8931232826195475,
+      "placement": [
+        88,
+        28,
+        166,
+        268
+      ],
+      "footCenterSourceX": 471.5,
+      "sourceSoleY": 905
+    },
+    {
+      "frame": 22,
+      "source": "hit",
+      "sourceBounds": [
+        711,
+        618,
+        904,
+        905
+      ],
+      "sourceCellSize": 323.6666666666667,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 0.8931232826195475,
+      "placement": [
+        87,
+        40,
+        172,
+        256
+      ],
+      "footCenterSourceX": 793,
+      "sourceSoleY": 905
+    },
+    {
+      "frame": 24,
+      "source": "walk",
+      "sourceBounds": [
+        48,
+        834,
+        236,
+        1078
+      ],
+      "sourceCellSize": 280.5,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 1.0305676855895196,
+      "placement": [
+        74,
+        45,
+        194,
+        251
+      ],
+      "footCenterSourceX": 131.5,
+      "sourceSoleY": 1078
+    },
+    {
+      "frame": 25,
+      "source": "walk",
+      "sourceBounds": [
+        331,
+        832,
+        519,
+        1079
+      ],
+      "sourceCellSize": 280.5,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 1.0305676855895196,
+      "placement": [
+        75,
+        41,
+        194,
+        255
+      ],
+      "footCenterSourceX": 413.5,
+      "sourceSoleY": 1079
+    },
+    {
+      "frame": 26,
+      "source": "walk",
+      "sourceBounds": [
+        603,
+        834,
+        804,
+        1079
+      ],
+      "sourceCellSize": 280.5,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 1.0305676855895196,
+      "placement": [
+        72,
+        44,
+        207,
+        252
+      ],
+      "footCenterSourceX": 688,
+      "sourceSoleY": 1079
+    },
+    {
+      "frame": 27,
+      "source": "walk",
+      "sourceBounds": [
+        887,
+        834,
+        1083,
+        1079
+      ],
+      "sourceCellSize": 280.5,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 1.0305676855895196,
+      "placement": [
+        68,
+        44,
+        202,
+        252
+      ],
+      "footCenterSourceX": 976.5,
+      "sourceSoleY": 1079
+    },
+    {
+      "frame": 28,
+      "source": "hit",
+      "sourceBounds": [
+        48,
+        933,
+        274,
+        1216
+      ],
+      "sourceCellSize": 323.6666666666667,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 0.8931232826195475,
+      "placement": [
+        70,
+        43,
+        202,
+        253
+      ],
+      "footCenterSourceX": 149,
+      "sourceSoleY": 1216
+    },
+    {
+      "frame": 29,
+      "source": "hit",
+      "sourceBounds": [
+        362,
+        920,
+        626,
+        1215
+      ],
+      "sourceCellSize": 323.6666666666667,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 0.8931232826195475,
+      "placement": [
+        57,
+        33,
+        236,
+        263
+      ],
+      "footCenterSourceX": 477.5,
+      "sourceSoleY": 1215
+    },
+    {
+      "frame": 30,
+      "source": "hit",
+      "sourceBounds": [
+        701,
+        935,
+        928,
+        1216
+      ],
+      "sourceCellSize": 323.6666666666667,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 0.8931232826195475,
+      "placement": [
+        68,
+        45,
+        203,
+        251
+      ],
+      "footCenterSourceX": 803.5,
+      "sourceSoleY": 1216
+    },
+    {
+      "frame": 32,
+      "source": "walk",
+      "sourceBounds": [
+        25,
+        1110,
+        249,
+        1367
+      ],
+      "sourceCellSize": 280.5,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 1.0305676855895196,
+      "placement": [
+        55,
+        31,
+        231,
+        265
+      ],
+      "footCenterSourceX": 127,
+      "sourceSoleY": 1367
+    },
+    {
+      "frame": 33,
+      "source": "walk",
+      "sourceBounds": [
+        308,
+        1112,
+        528,
+        1362
+      ],
+      "sourceCellSize": 280.5,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 1.0305676855895196,
+      "placement": [
+        46,
+        38,
+        227,
+        258
+      ],
+      "footCenterSourceX": 418.5,
+      "sourceSoleY": 1362
+    },
+    {
+      "frame": 34,
+      "source": "walk",
+      "sourceBounds": [
+        578,
+        1109,
+        808,
+        1367
+      ],
+      "sourceCellSize": 280.5,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 1.0305676855895196,
+      "placement": [
+        41,
+        30,
+        237,
+        266
+      ],
+      "footCenterSourceX": 693.5,
+      "sourceSoleY": 1367
+    },
+    {
+      "frame": 35,
+      "source": "walk",
+      "sourceBounds": [
+        870,
+        1111,
+        1096,
+        1367
+      ],
+      "sourceCellSize": 280.5,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 1.0305676855895196,
+      "placement": [
+        43,
+        32,
+        233,
+        264
+      ],
+      "footCenterSourceX": 983.5,
+      "sourceSoleY": 1367
+    },
+    {
+      "frame": 36,
+      "source": "hit",
+      "sourceBounds": [
+        28,
+        1247,
+        291,
+        1535
+      ],
+      "sourceCellSize": 323.6666666666667,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 0.8931232826195475,
+      "placement": [
+        46,
+        39,
+        235,
+        257
+      ],
+      "footCenterSourceX": 155.5,
+      "sourceSoleY": 1535
+    },
+    {
+      "frame": 37,
+      "source": "hit",
+      "sourceBounds": [
+        343,
+        1239,
+        628,
+        1537
+      ],
+      "sourceCellSize": 323.6666666666667,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 0.8931232826195475,
+      "placement": [
+        33,
+        30,
+        255,
+        266
+      ],
+      "footCenterSourceX": 485,
+      "sourceSoleY": 1537
+    },
+    {
+      "frame": 38,
+      "source": "hit",
+      "sourceBounds": [
+        681,
+        1247,
+        944,
+        1535
+      ],
+      "sourceCellSize": 323.6666666666667,
+      "normalizedScale": 289.07423580786025,
+      "pixelScale": 0.8931232826195475,
+      "placement": [
+        45,
+        39,
+        235,
+        257
+      ],
+      "footCenterSourceX": 810,
+      "sourceSoleY": 1535
+    }
+  ],
+  "lowerBodySource": "hit prepare col0 in each direction",
+  "maskFile": "giant-fixed-masks.png",
+  "checks": [
+    {
+      "direction": "S",
+      "fixedLowerMismatchBytes": 0,
+      "edgeAlpha": 0
+    },
+    {
+      "direction": "SE",
+      "fixedLowerMismatchBytes": 0,
+      "edgeAlpha": 0
+    },
+    {
+      "direction": "E",
+      "fixedLowerMismatchBytes": 0,
+      "edgeAlpha": 0
+    },
+    {
+      "direction": "NE",
+      "fixedLowerMismatchBytes": 0,
+      "edgeAlpha": 0
+    },
+    {
+      "direction": "N",
+      "fixedLowerMismatchBytes": 0,
+      "edgeAlpha": 0
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+Use case: stylized-concept. Create game sprite HIT REACTION sheet for the EXACT skinny green zombie in reference image, identical teal mohawk, pink headband, ragged blue sleeveless vest, ragged brown shorts, dark shoes, black fine outline bright cartoon paint rendering. Reference is identity and five-view turnaround. Preserve camera and proportions.
+Exactly THREE COLUMNS and FIVE ROWS, 15 distinct full bodies, evenly spaced, transparent alpha background, NO shadows, labels, lines, text. Canvas portrait 1152x1920. Each character has margin all sides.
+ROW1 SOUTH directly front/down facing viewer.
+ROW2 SOUTHEAST front-right three-quarter.
+ROW3 EAST right profile, one eye, face toes right.
+ROW4 NORTHEAST rear-right three-quarter facing away/up-right, mostly back of head/back vest.
+ROW5 NORTH completely back facing away/up, back mohawk/headband, back vest, NO eyes or face.
+Each row shows a stationary three-frame reaction: col1 prepared idle standing with slumped curved spine, hanging dropped head, uneven low shoulders, slack dangling OPEN hands; col2 HIT FLINCH head and shoulders recoil backward a little, chest twists, one open hand reflexively lifts toward chest while the other remains limp; col3 recovery settles back into original slumped idle. Distinct strong upper-body silhouettes but no jump.
+FEET, SHOES, KNEES, SHORTS AND HIPS absolutely same position and shape in all three columns of each row. Both feet planted at natural stance, no stepping, no knee lifting, no running or fists. Camera remains fixed slightly overhead; do not turn the zombie to front view on recoil, all 3 columns keep same row's direction. Upper body can flex but same body scale all frames. Crisp complete silhouettes and genuine alpha transparency.

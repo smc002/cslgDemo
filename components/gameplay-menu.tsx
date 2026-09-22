@@ -1,6 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { Settings, Radio, Ticket } from 'lucide-react';
+import { Settings, Ticket } from 'lucide-react';
+import CoreEnergy from './core-energy';
+import { BALANCE } from '@/lib/balance';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -18,6 +20,7 @@ import './gameplay-menu.css';
 import './loop.css';
 import './phone-ui.css';
 import './bright-ui.css';
+import './hunt-production.css';
 const MODES = [
   { id: 'merged', label: '物资搜刮' },
   { id: 'hunt', label: '禁区猎场' },
@@ -32,6 +35,7 @@ export default function GameplayMenu() {
     [owns, setOwns] = useState(true),
     [battle, setBattle] = useState<BattleStatus | null>(null),
     [settings, setSettings] = useState(false),
+    [energyOpen, setEnergyOpen] = useState(false),
     [confirmReset, setConfirmReset] = useState(false),
     [epoch, setEpoch] = useState(0),
     [now, setNow] = useState(Date.now()),
@@ -78,7 +82,7 @@ export default function GameplayMenu() {
   const hint =
     d.bestStage === 0
       ? '电台：前方发现弹药箱。先完成第一关，补给就能送往猎场。'
-      : d.hunt.expedition.points < 200
+      : d.hunt.expedition.points < BALANCE.corePerTicket
         ? '电台：把黑金弹装进猎场武器。收集核心能提升全队等级，还能换取招募券。'
         : d.recruit.spent === 0
           ? '电台：援军信号已经接通。前往英雄招募，试着呼叫一位新伙伴。'
@@ -93,46 +97,18 @@ export default function GameplayMenu() {
             <small>小队</small>
             <b>{d.hunt.level}</b>
           </div>
-          <div className="squad-meter">
-            <div>
-              <b>幸存者小队</b>
-              <span>
-                {d.hunt.xp}/{d.hunt.level * 200}
-              </span>
-            </div>
-            <progress
-              aria-label="小队升级进度"
-              max={d.hunt.level * 200}
-              value={d.hunt.xp}
-            />
-          </div>
+          <CoreEnergy
+            level={d.hunt.level}
+            xp={d.hunt.xp}
+            points={d.hunt.expedition.points}
+            onOpenChange={setEnergyOpen}
+          />
           <button
             className="settings-button"
             aria-label="游戏设置"
             onClick={() => setSettings(true)}
           >
             <Settings size={20} />
-          </button>
-        </div>
-        <div className="resource-pills">
-          <span title="黑金弹">
-            <img src="/assets/loop/black-gold-ammo.png" alt="" /> {d.ammo}
-          </span>
-          <span title="累计能源核心">
-            <img src="/assets/loop/energy-core.png" alt="" />{' '}
-            {d.hunt.expedition.points}
-          </span>
-          <span title="招募券">
-            <Ticket size={16} />
-            {ticketBalance(d)}
-          </span>
-          <button
-            className="mission-button"
-            aria-label="查看当前目标"
-            onClick={() => setMissionOpen(true)}
-          >
-            <Radio size={15} />
-            目标{hint && <i />}
           </button>
         </div>
       </div>
@@ -172,7 +148,7 @@ export default function GameplayMenu() {
             {visited && (
               <HuntPanel
                 key={`hunt-${epoch}`}
-                active={owns && !settings && !missionOpen}
+                active={owns && !settings && !missionOpen && !energyOpen}
               />
             )}
           </div>
@@ -222,13 +198,26 @@ export default function GameplayMenu() {
         {MODES.map((m) => (
           <Button
             key={m.id}
-            aria-label={m.label}
+            aria-label={
+              m.id === 'recruit'
+                ? `英雄，抽卡券 ${ticketBalance(d)} 张`
+                : m.label
+            }
             aria-current={mode === m.id ? 'page' : undefined}
             className={mode === m.id ? 'selected' : ''}
             onClick={() => {
               location.hash = m.id;
             }}
           >
+            {m.id === 'recruit' && (
+              <span
+                className="hero-ticket-bubble"
+                title={`当前抽卡券 ${ticketBalance(d)} 张`}
+              >
+                <Ticket size={15} />
+                {ticketBalance(d)}
+              </span>
+            )}
             <span className={`nav-emblem ${m.id}`}>
               <img src={`/assets/ui-bright/nav-${m.id}.png`} alt="" />
             </span>
@@ -252,8 +241,10 @@ export default function GameplayMenu() {
             已完成第 {d.bestStage} 关 · 全队 Lv.{d.hunt.level}
           </p>
           <p>
-            再获得 {200 - (d.hunt.expedition.points % 200)} 能源核心，招募券
-            +1。
+            再获得{' '}
+            {BALANCE.corePerTicket -
+              (d.hunt.expedition.points % BALANCE.corePerTicket)}{' '}
+            能量核心，抽卡券 +1。
           </p>
           <button className="gold" onClick={() => setMissionOpen(false)}>
             收到
@@ -273,6 +264,14 @@ export default function GameplayMenu() {
             本机自动存档。切换游戏页面仍会搜刮；关闭浏览器不会离线推关。
           </DialogDescription>
           <p>应急补给：黑金弹不足 5 发时可领 80 发，限 3 次，冷却 3 分钟。</p>
+          <button
+            onClick={() => {
+              setSettings(false);
+              setMissionOpen(true);
+            }}
+          >
+            查看当前目标
+          </button>
           <button
             disabled={
               !owns ||

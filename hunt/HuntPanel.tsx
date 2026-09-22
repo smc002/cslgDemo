@@ -5,7 +5,7 @@ import { HuntGame, ROOMS, ARENA } from './simulation';
 import { HuntView } from './view';
 import { RECRUIT_HEROES } from '@/lib/recruit';
 import HeroPortrait from '@/shared/HeroPortrait';
-import { Crosshair, Pause, Play, Crown, ChevronsRight } from 'lucide-react';
+import { Crosshair, ChevronsRight } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -22,8 +22,7 @@ export default function HuntPanel({ active }: { active: boolean }) {
     ),
     [error, setError] = useState(''),
     [ready, setReady] = useState(false),
-    [auto, setAuto] = useState(false),
-    [trackerOpen, setTrackerOpen] = useState(false);
+    [auto, setAuto] = useState(false);
   const autoRef = useRef(false);
   useEffect(() => {
     campaign.init();
@@ -124,9 +123,7 @@ export default function HuntPanel({ active }: { active: boolean }) {
       autoRef.current = false;
     }
   }, [active, ready]);
-  const g = sim.current,
-    core = state?.expedition.points ?? 0,
-    remaining = 200 - (core % 200);
+  const g = sim.current;
   const aim = (e: React.PointerEvent<HTMLCanvasElement>) => {
     const p = renderer.current?.point(e.clientX, e.clientY);
     if (p && g) {
@@ -165,24 +162,6 @@ export default function HuntPanel({ active }: { active: boolean }) {
         <span>SECTOR 01</span>
         <b>禁区猎场</b>
       </div>
-      <button
-        className="hunt-tracker-button"
-        aria-label="橙色英雄追踪"
-        onClick={() => {
-          autoRef.current = false;
-          setAuto(false);
-          g?.release();
-          setTrackerOpen(true);
-        }}
-      >
-        <span className="援军-avatar">
-          <HeroPortrait hero={2} height={52} />
-        </span>
-        <Crown />
-        <b>橙色援军</b>
-        <small>{state?.courier.progress ?? 0}/1000</small>
-        <progress max={1000} value={state?.courier.progress ?? 0} />
-      </button>
       {state?.bonus && (
         <div className="hunt-bonus-badge">
           奖励时间 <b>{Math.ceil(state.bonus.left)}s</b> · 免费弹{' '}
@@ -198,9 +177,16 @@ export default function HuntPanel({ active }: { active: boolean }) {
           </div>
           <button
             className={`gold fire-button ${auto ? 'is-firing' : ''}`}
-            disabled={!ready || !active}
+            disabled={
+              !ready ||
+              !active ||
+              (!auto &&
+                (state?.ammo ?? 0) < (state?.room ?? 1) &&
+                !state?.bonus &&
+                !state?.weapons.active)
+            }
             aria-pressed={auto}
-            aria-label={auto ? '停止自动开火' : '开火，开启自动连射'}
+            aria-label={`自动开火，${auto ? '已开启，点击关闭' : '未开启，点击开启'}`}
             onClick={() => {
               autoRef.current = !auto;
               setAuto(!auto);
@@ -208,19 +194,16 @@ export default function HuntPanel({ active }: { active: boolean }) {
               else g?.press(ARENA.gunX, 220);
             }}
           >
-            <Crosshair />
-            <span>{auto ? '停火' : '开火'}</span>
-          </button>
-          <button
-            aria-label="暂停猎场"
-            onClick={() => {
-              if (g) {
-                g.paused = !g.paused;
-                setState(g.snapshot());
-              }
-            }}
-          >
-            {state?.paused ? <Play /> : <Pause />}
+            <span>自动开火</span>
+            <small>
+              {auto
+                ? '已开启'
+                : (state?.ammo ?? 0) < (state?.room ?? 1) &&
+                    !state?.bonus &&
+                    !state?.weapons.active
+                  ? '弹药不足'
+                  : '未开启'}
+            </small>
           </button>
         </div>
         <div className="hunt-multipliers">
@@ -259,30 +242,6 @@ export default function HuntPanel({ active }: { active: boolean }) {
           )}
         </div>
       ) : null}
-      <Dialog open={trackerOpen} onOpenChange={setTrackerOpen}>
-        <DialogContent className="loop-dialog">
-          <DialogTitle>橙色英雄追踪</DialogTitle>
-          <DialogDescription>
-            每消耗 1000
-            发库存黑金弹，获得一次运钞僵尸挑战资格。击破它才会获得橙色英雄。
-          </DialogDescription>
-          <div className="courier-progress">
-            <b>{state?.courier.progress ?? 0} / 1000</b>
-            <progress max={1000} value={state?.courier.progress ?? 0} />
-            <span>累计实际耗弹 {state?.economy.spentAmmo ?? 0}</span>
-            <span>
-              待挑战 {state?.courier.queued ?? 0} 次
-              {state?.courier.active ? ' · 目标已出现' : ''}
-            </span>
-            <small>
-              免费派生弹不重复累计耗弹。再获得 {remaining} 能源核心，招募券 +1。
-            </small>
-          </div>
-          <button className="gold" onClick={() => setTrackerOpen(false)}>
-            返回猎场
-          </button>
-        </DialogContent>
-      </Dialog>
       <Dialog
         open={!!reward}
         onOpenChange={(open) => {

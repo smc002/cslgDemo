@@ -1,0 +1,1070 @@
+{
+  "commonScale": 0.7158348321342927,
+  "normalization": "Source sheets normalized once to 384px cells based on sheet height, then same common atlas scale applied to every frame. No per-pose bbox scaling.",
+  "mapping": [
+    {
+      "frame": 0,
+      "direction": "S",
+      "action": "walk",
+      "sourceIndex": 0,
+      "sourceBounds": [
+        48,
+        20,
+        252,
+        263
+      ],
+      "sourceCenterX": 151,
+      "sheetNormalization": 1.3694721825962912,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.9803158899413995,
+      "placement": [
+        59,
+        58,
+        200,
+        238
+      ]
+    },
+    {
+      "frame": 1,
+      "direction": "S",
+      "action": "walk",
+      "sourceIndex": 1,
+      "sourceBounds": [
+        326,
+        20,
+        525,
+        261
+      ],
+      "sourceCenterX": 426,
+      "sheetNormalization": 1.3694721825962912,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.9803158899413995,
+      "placement": [
+        62,
+        60,
+        195,
+        236
+      ]
+    },
+    {
+      "frame": 2,
+      "direction": "S",
+      "action": "walk",
+      "sourceIndex": 2,
+      "sourceBounds": [
+        602,
+        20,
+        804,
+        263
+      ],
+      "sourceCenterX": 704,
+      "sheetNormalization": 1.3694721825962912,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.9803158899413995,
+      "placement": [
+        60,
+        58,
+        198,
+        238
+      ]
+    },
+    {
+      "frame": 3,
+      "direction": "S",
+      "action": "walk",
+      "sourceIndex": 3,
+      "sourceBounds": [
+        881,
+        20,
+        1082,
+        259
+      ],
+      "sourceCenterX": 982,
+      "sheetNormalization": 1.3694721825962912,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.9803158899413995,
+      "placement": [
+        61,
+        62,
+        197,
+        234
+      ]
+    },
+    {
+      "frame": 4,
+      "direction": "S",
+      "action": "hit",
+      "sourceIndex": 0,
+      "sourceBounds": [
+        48,
+        23,
+        288,
+        301
+      ],
+      "sourceCenterX": 168,
+      "sheetNormalization": 1.18591723285979,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.8489208633093527,
+      "placement": [
+        58,
+        60,
+        204,
+        236
+      ]
+    },
+    {
+      "frame": 5,
+      "direction": "S",
+      "action": "hit",
+      "sourceIndex": 1,
+      "sourceBounds": [
+        370,
+        20,
+        619,
+        304
+      ],
+      "sourceCenterX": 497,
+      "sheetNormalization": 1.18591723285979,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.8489208633093527,
+      "placement": [
+        52,
+        55,
+        211,
+        241
+      ]
+    },
+    {
+      "frame": 6,
+      "direction": "S",
+      "action": "hit",
+      "sourceIndex": 2,
+      "sourceBounds": [
+        683,
+        26,
+        923,
+        301
+      ],
+      "sourceCenterX": 804,
+      "sheetNormalization": 1.18591723285979,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.8489208633093527,
+      "placement": [
+        57,
+        63,
+        204,
+        233
+      ]
+    },
+    {
+      "frame": 7,
+      "direction": "S",
+      "action": "hit",
+      "sourceIndex": 0,
+      "sourceBounds": [
+        48,
+        23,
+        288,
+        301
+      ],
+      "sourceCenterX": 168,
+      "sheetNormalization": 1.18591723285979,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.8489208633093527,
+      "placement": [
+        58,
+        60,
+        204,
+        236
+      ]
+    },
+    {
+      "frame": 8,
+      "direction": "SE",
+      "action": "walk",
+      "sourceIndex": 4,
+      "sourceBounds": [
+        66,
+        290,
+        242,
+        532
+      ],
+      "sourceCenterX": 149,
+      "sheetNormalization": 1.3694721825962912,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.9803158899413995,
+      "placement": [
+        79,
+        59,
+        173,
+        237
+      ]
+    },
+    {
+      "frame": 9,
+      "direction": "SE",
+      "action": "walk",
+      "sourceIndex": 5,
+      "sourceBounds": [
+        353,
+        290,
+        526,
+        532
+      ],
+      "sourceCenterX": 431,
+      "sheetNormalization": 1.3694721825962912,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.9803158899413995,
+      "placement": [
+        84,
+        59,
+        170,
+        237
+      ]
+    },
+    {
+      "frame": 10,
+      "direction": "SE",
+      "action": "walk",
+      "sourceIndex": 6,
+      "sourceBounds": [
+        627,
+        294,
+        798,
+        530
+      ],
+      "sourceCenterX": 704,
+      "sheetNormalization": 1.3694721825962912,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.9803158899413995,
+      "placement": [
+        85,
+        65,
+        168,
+        231
+      ]
+    },
+    {
+      "frame": 11,
+      "direction": "SE",
+      "action": "walk",
+      "sourceIndex": 7,
+      "sourceBounds": [
+        899,
+        289,
+        1082,
+        532
+      ],
+      "sourceCenterX": 982,
+      "sheetNormalization": 1.3694721825962912,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.9803158899413995,
+      "placement": [
+        79,
+        58,
+        179,
+        238
+      ]
+    },
+    {
+      "frame": 12,
+      "direction": "SE",
+      "action": "hit",
+      "sourceIndex": 3,
+      "sourceBounds": [
+        67,
+        336,
+        281,
+        611
+      ],
+      "sourceCenterX": 171,
+      "sheetNormalization": 1.18591723285979,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.8489208633093527,
+      "placement": [
+        72,
+        63,
+        182,
+        233
+      ]
+    },
+    {
+      "frame": 13,
+      "direction": "SE",
+      "action": "hit",
+      "sourceIndex": 4,
+      "sourceBounds": [
+        388,
+        324,
+        629,
+        612
+      ],
+      "sourceCenterX": 507,
+      "sheetNormalization": 1.18591723285979,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.8489208633093527,
+      "placement": [
+        59,
+        52,
+        205,
+        244
+      ]
+    },
+    {
+      "frame": 14,
+      "direction": "SE",
+      "action": "hit",
+      "sourceIndex": 5,
+      "sourceBounds": [
+        695,
+        336,
+        912,
+        611
+      ],
+      "sourceCenterX": 803,
+      "sheetNormalization": 1.18591723285979,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.8489208633093527,
+      "placement": [
+        68,
+        63,
+        184,
+        233
+      ]
+    },
+    {
+      "frame": 15,
+      "direction": "SE",
+      "action": "hit",
+      "sourceIndex": 3,
+      "sourceBounds": [
+        67,
+        336,
+        281,
+        611
+      ],
+      "sourceCenterX": 171,
+      "sheetNormalization": 1.18591723285979,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.8489208633093527,
+      "placement": [
+        72,
+        63,
+        182,
+        233
+      ]
+    },
+    {
+      "frame": 16,
+      "direction": "E",
+      "action": "walk",
+      "sourceIndex": 8,
+      "sourceBounds": [
+        70,
+        554,
+        228,
+        807
+      ],
+      "sourceCenterX": 135,
+      "sheetNormalization": 1.3694721825962912,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.9803158899413995,
+      "placement": [
+        96,
+        48,
+        155,
+        248
+      ]
+    },
+    {
+      "frame": 17,
+      "direction": "E",
+      "action": "walk",
+      "sourceIndex": 9,
+      "sourceBounds": [
+        352,
+        553,
+        507,
+        807
+      ],
+      "sourceCenterX": 416,
+      "sheetNormalization": 1.3694721825962912,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.9803158899413995,
+      "placement": [
+        97,
+        47,
+        152,
+        249
+      ]
+    },
+    {
+      "frame": 18,
+      "direction": "E",
+      "action": "walk",
+      "sourceIndex": 10,
+      "sourceBounds": [
+        625,
+        554,
+        782,
+        807
+      ],
+      "sourceCenterX": 691,
+      "sheetNormalization": 1.3694721825962912,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.9803158899413995,
+      "placement": [
+        95,
+        48,
+        154,
+        248
+      ]
+    },
+    {
+      "frame": 19,
+      "direction": "E",
+      "action": "walk",
+      "sourceIndex": 11,
+      "sourceBounds": [
+        913,
+        553,
+        1067,
+        807
+      ],
+      "sourceCenterX": 977,
+      "sheetNormalization": 1.3694721825962912,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.9803158899413995,
+      "placement": [
+        97,
+        47,
+        151,
+        249
+      ]
+    },
+    {
+      "frame": 20,
+      "direction": "E",
+      "action": "hit",
+      "sourceIndex": 6,
+      "sourceBounds": [
+        83,
+        634,
+        263,
+        925
+      ],
+      "sourceCenterX": 158,
+      "sheetNormalization": 1.18591723285979,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.8489208633093527,
+      "placement": [
+        96,
+        49,
+        153,
+        247
+      ]
+    },
+    {
+      "frame": 21,
+      "direction": "E",
+      "action": "hit",
+      "sourceIndex": 7,
+      "sourceBounds": [
+        408,
+        627,
+        600,
+        925
+      ],
+      "sourceCenterX": 493,
+      "sheetNormalization": 1.18591723285979,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.8489208633093527,
+      "placement": [
+        88,
+        43,
+        163,
+        253
+      ]
+    },
+    {
+      "frame": 22,
+      "direction": "E",
+      "action": "hit",
+      "sourceIndex": 8,
+      "sourceBounds": [
+        715,
+        634,
+        892,
+        925
+      ],
+      "sourceCenterX": 789,
+      "sheetNormalization": 1.18591723285979,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.8489208633093527,
+      "placement": [
+        97,
+        49,
+        150,
+        247
+      ]
+    },
+    {
+      "frame": 23,
+      "direction": "E",
+      "action": "hit",
+      "sourceIndex": 6,
+      "sourceBounds": [
+        83,
+        634,
+        263,
+        925
+      ],
+      "sourceCenterX": 158,
+      "sheetNormalization": 1.18591723285979,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.8489208633093527,
+      "placement": [
+        96,
+        49,
+        153,
+        247
+      ]
+    },
+    {
+      "frame": 24,
+      "direction": "NE",
+      "action": "walk",
+      "sourceIndex": 12,
+      "sourceBounds": [
+        64,
+        825,
+        239,
+        1080
+      ],
+      "sourceCenterX": 148,
+      "sheetNormalization": 1.3694721825962912,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.9803158899413995,
+      "placement": [
+        78,
+        46,
+        172,
+        250
+      ]
+    },
+    {
+      "frame": 25,
+      "direction": "NE",
+      "action": "walk",
+      "sourceIndex": 13,
+      "sourceBounds": [
+        341,
+        825,
+        521,
+        1081
+      ],
+      "sourceCenterX": 425,
+      "sheetNormalization": 1.3694721825962912,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.9803158899413995,
+      "placement": [
+        78,
+        45,
+        176,
+        251
+      ]
+    },
+    {
+      "frame": 26,
+      "direction": "NE",
+      "action": "walk",
+      "sourceIndex": 14,
+      "sourceBounds": [
+        626,
+        825,
+        804,
+        1081
+      ],
+      "sourceCenterX": 708,
+      "sheetNormalization": 1.3694721825962912,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.9803158899413995,
+      "placement": [
+        80,
+        45,
+        174,
+        251
+      ]
+    },
+    {
+      "frame": 27,
+      "direction": "NE",
+      "action": "walk",
+      "sourceIndex": 15,
+      "sourceBounds": [
+        908,
+        825,
+        1083,
+        1080
+      ],
+      "sourceCenterX": 987,
+      "sheetNormalization": 1.3694721825962912,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.9803158899413995,
+      "placement": [
+        83,
+        46,
+        172,
+        250
+      ]
+    },
+    {
+      "frame": 28,
+      "direction": "NE",
+      "action": "hit",
+      "sourceIndex": 9,
+      "sourceBounds": [
+        63,
+        945,
+        278,
+        1237
+      ],
+      "sourceCenterX": 163,
+      "sheetNormalization": 1.18591723285979,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.8489208633093527,
+      "placement": [
+        75,
+        48,
+        183,
+        248
+      ]
+    },
+    {
+      "frame": 29,
+      "direction": "NE",
+      "action": "hit",
+      "sourceIndex": 10,
+      "sourceBounds": [
+        371,
+        944,
+        630,
+        1235
+      ],
+      "sourceCenterX": 493,
+      "sheetNormalization": 1.18591723285979,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.8489208633093527,
+      "placement": [
+        56,
+        49,
+        220,
+        247
+      ]
+    },
+    {
+      "frame": 30,
+      "direction": "NE",
+      "action": "hit",
+      "sourceIndex": 11,
+      "sourceBounds": [
+        704,
+        946,
+        917,
+        1237
+      ],
+      "sourceCenterX": 803,
+      "sheetNormalization": 1.18591723285979,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.8489208633093527,
+      "placement": [
+        76,
+        49,
+        181,
+        247
+      ]
+    },
+    {
+      "frame": 31,
+      "direction": "NE",
+      "action": "hit",
+      "sourceIndex": 9,
+      "sourceBounds": [
+        63,
+        945,
+        278,
+        1237
+      ],
+      "sourceCenterX": 163,
+      "sheetNormalization": 1.18591723285979,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.8489208633093527,
+      "placement": [
+        75,
+        48,
+        183,
+        248
+      ]
+    },
+    {
+      "frame": 32,
+      "direction": "N",
+      "action": "walk",
+      "sourceIndex": 16,
+      "sourceBounds": [
+        48,
+        1098,
+        256,
+        1357
+      ],
+      "sourceCenterX": 153,
+      "sheetNormalization": 1.3694721825962912,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.9803158899413995,
+      "placement": [
+        57,
+        42,
+        204,
+        254
+      ]
+    },
+    {
+      "frame": 33,
+      "direction": "N",
+      "action": "walk",
+      "sourceIndex": 17,
+      "sourceBounds": [
+        326,
+        1099,
+        532,
+        1356
+      ],
+      "sourceCenterX": 431,
+      "sheetNormalization": 1.3694721825962912,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.9803158899413995,
+      "placement": [
+        57,
+        44,
+        202,
+        252
+      ]
+    },
+    {
+      "frame": 34,
+      "direction": "N",
+      "action": "walk",
+      "sourceIndex": 18,
+      "sourceBounds": [
+        605,
+        1100,
+        808,
+        1359
+      ],
+      "sourceCenterX": 706,
+      "sheetNormalization": 1.3694721825962912,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.9803158899413995,
+      "placement": [
+        61,
+        42,
+        199,
+        254
+      ]
+    },
+    {
+      "frame": 35,
+      "direction": "N",
+      "action": "walk",
+      "sourceIndex": 19,
+      "sourceBounds": [
+        885,
+        1100,
+        1092,
+        1357
+      ],
+      "sourceCenterX": 987,
+      "sheetNormalization": 1.3694721825962912,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.9803158899413995,
+      "placement": [
+        60,
+        44,
+        203,
+        252
+      ]
+    },
+    {
+      "frame": 36,
+      "direction": "N",
+      "action": "hit",
+      "sourceIndex": 12,
+      "sourceBounds": [
+        46,
+        1259,
+        292,
+        1553
+      ],
+      "sourceCenterX": 171,
+      "sheetNormalization": 1.18591723285979,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.8489208633093527,
+      "placement": [
+        54,
+        46,
+        209,
+        250
+      ]
+    },
+    {
+      "frame": 37,
+      "direction": "N",
+      "action": "hit",
+      "sourceIndex": 13,
+      "sourceBounds": [
+        363,
+        1256,
+        624,
+        1553
+      ],
+      "sourceCenterX": 493,
+      "sheetNormalization": 1.18591723285979,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.8489208633093527,
+      "placement": [
+        50,
+        44,
+        222,
+        252
+      ]
+    },
+    {
+      "frame": 38,
+      "direction": "N",
+      "action": "hit",
+      "sourceIndex": 14,
+      "sourceBounds": [
+        683,
+        1265,
+        931,
+        1553
+      ],
+      "sourceCenterX": 807,
+      "sheetNormalization": 1.18591723285979,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.8489208633093527,
+      "placement": [
+        55,
+        52,
+        211,
+        244
+      ]
+    },
+    {
+      "frame": 39,
+      "direction": "N",
+      "action": "hit",
+      "sourceIndex": 12,
+      "sourceBounds": [
+        46,
+        1259,
+        292,
+        1553
+      ],
+      "sourceCenterX": 171,
+      "sheetNormalization": 1.18591723285979,
+      "commonScale": 0.7158348321342927,
+      "effectiveScale": 0.8489208633093527,
+      "placement": [
+        54,
+        46,
+        209,
+        250
+      ]
+    }
+  ],
+  "fixedLower": {
+    "sourceFrames": [
+      4,
+      12,
+      20,
+      28,
+      36
+    ],
+    "polygons": [
+      [
+        [
+          129,
+          208
+        ],
+        [
+          191,
+          208
+        ],
+        [
+          199,
+          237
+        ],
+        [
+          211,
+          252
+        ],
+        [
+          109,
+          252
+        ],
+        [
+          119,
+          234
+        ]
+      ],
+      [
+        [
+          138,
+          210
+        ],
+        [
+          195,
+          210
+        ],
+        [
+          198,
+          252
+        ],
+        [
+          104,
+          252
+        ],
+        [
+          116,
+          238
+        ],
+        [
+          135,
+          236
+        ]
+      ],
+      [
+        [
+          119,
+          222
+        ],
+        [
+          152,
+          225
+        ],
+        [
+          165,
+          245
+        ],
+        [
+          201,
+          251
+        ],
+        [
+          202,
+          263
+        ],
+        [
+          101,
+          263
+        ],
+        [
+          104,
+          244
+        ]
+      ],
+      [
+        [
+          118,
+          218
+        ],
+        [
+          194,
+          218
+        ],
+        [
+          194,
+          245
+        ],
+        [
+          203,
+          257
+        ],
+        [
+          103,
+          257
+        ],
+        [
+          106,
+          237
+        ]
+      ],
+      [
+        [
+          111,
+          205
+        ],
+        [
+          208,
+          205
+        ],
+        [
+          211,
+          240
+        ],
+        [
+          214,
+          244
+        ],
+        [
+          103,
+          244
+        ],
+        [
+          107,
+          233
+        ]
+      ]
+    ],
+    "fullFrom": [
+      252,
+      252,
+      263,
+      257,
+      244
+    ]
+  },
+  "checks": {
+    "frameCount": 40,
+    "sourceBodyCounts": {
+      "walk": 20,
+      "hit": 15
+    },
+    "fixedLowerMismatchBytes": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "boundaryAlpha": 0,
+    "walkChangedBytes": [
+      28380,
+      26376,
+      28150,
+      25938,
+      27525,
+      28254,
+      28025,
+      28223,
+      27514,
+      25683,
+      26242,
+      26593,
+      24270,
+      24150,
+      24076
+    ]
+  }
+}

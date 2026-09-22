@@ -1,0 +1,99 @@
+{
+  "source": "C:\\Users\\hy\\.codex\\generated_images\\01a0c748-ad94-73e1-ac47-2d434ae0a431\\exec-ab2f6502-1f71-4692-9d1f-94937efab6a4.png",
+  "sprite": "platform.png",
+  "size": [
+    1128,
+    1037
+  ],
+  "source_crop": [
+    63,
+    122,
+    1191,
+    1159
+  ],
+  "anchor_px": [
+    564,
+    1013
+  ],
+  "anchor_kind": "bottom-center of visible platform; place at world (300,800)",
+  "visible_bbox_px": [
+    24,
+    24,
+    1104,
+    1013
+  ],
+  "standable_polygon_px": [
+    [
+      282,
+      116
+    ],
+    [
+      841,
+      116
+    ],
+    [
+      951,
+      769
+    ],
+    [
+      182,
+      769
+    ]
+  ],
+  "standable_bbox_px": [
+    182,
+    116,
+    951,
+    769
+  ],
+  "conservative_standable_rect_px": [
+    282,
+    116,
+    841,
+    769
+  ],
+  "far_edge_of_platform_px": 24,
+  "near_top_edge_px": 769,
+  "vertical_front_face_px": [
+    36,
+    858,
+    1096,
+    1013
+  ],
+  "recommended_uniform_scale": 0.21296296296296297,
+  "recommended_world_anchor": [
+    300,
+    800
+  ],
+  "recommended_world_bounds": [
+    185,
+    589.3796296296296,
+    415,
+    800
+  ],
+  "standable_polygon_world": [
+    [
+      239.94444444444446,
+      608.9722222222222
+    ],
+    [
+      358.99074074074076,
+      608.9722222222222
+    ],
+    [
+      382.4166666666667,
+      748.0370370370371
+    ],
+    [
+      218.64814814814815,
+      748.0370370370371
+    ]
+  ],
+  "note": "Preserve aspect ratio. At visible width 230, full platform height is 210.62 world units and far edge is y589.38; update former provisional top554 boundary to589.38. Car pivot(300,655), tail749 fits inner top (y608.97..748.04) with rear tire touching the low lip. Optionally car pivot y652 for 3px clearance.",
+  "processing": "Built-in image_gen. Original alpha preserved except near-invisible alpha<10 removed. Cropped with24px padding. No scaling or aspect ratio changes.",
+  "alpha": {
+    "min": 0,
+    "max": 255,
+    "transparent_pixels": 671450
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "giant": [
+    {
+      "direction": "S",
+      "fixedLowerMismatchBytes": 0,
+      "edgeAlpha": 0
+    },
+    {
+      "direction": "SE",
+      "fixedLowerMismatchBytes": 0,
+      "edgeAlpha": 0
+    },
+    {
+      "direction": "E",
+      "fixedLowerMismatchBytes": 0,
+      "edgeAlpha": 0
+    },
+    {
+      "direction": "NE",
+      "fixedLowerMismatchBytes": 0,
+      "edgeAlpha": 0
+    },
+    {
+      "direction": "N",
+      "fixedLowerMismatchBytes": 0,
+      "edgeAlpha": 0
+    }
+  ],
+  "explosive": [
+    {
+      "direction": "S",
+      "fixedLowerMismatchBytes": 0,
+      "edgeAlpha": 0
+    },
+    {
+      "direction": "SE",
+      "fixedLowerMismatchBytes": 0,
+      "edgeAlpha": 0
+    },
+    {
+      "direction": "E",
+      "fixedLowerMismatchBytes": 0,
+      "edgeAlpha": 0
+    },
+    {
+      "direction": "NE",
+      "fixedLowerMismatchBytes": 0,
+      "edgeAlpha": 0
+    },
+    {
+      "direction": "N",
+      "fixedLowerMismatchBytes": 0,
+      "edgeAlpha": 0
+    }
+  ]
+}

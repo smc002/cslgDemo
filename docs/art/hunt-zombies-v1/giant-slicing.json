@@ -1,0 +1,198 @@
+{
+  "name": "giant",
+  "source": "giant-source.png",
+  "sourceSize": [
+    1536,
+    1024
+  ],
+  "scale": 0.6573816155988857,
+  "canvas": [
+    320,
+    320
+  ],
+  "anchor": {
+    "foot": [
+      160,
+      296
+    ],
+    "pelvis": [
+      160,
+      196
+    ]
+  },
+  "lowerBodySourceFrame": 4,
+  "sourceSeamY": 791,
+  "mask": {
+    "seamY": 196,
+    "topHalfWidth": 45,
+    "widenPerPixel": 0.5,
+    "centralHalfWidth": 65,
+    "fullWidthFromY": 255
+  },
+  "mapping": [
+    {
+      "frame": 0,
+      "bounds": [
+        34,
+        95,
+        391,
+        468
+      ],
+      "sourceCenterX": 218,
+      "sourceSoleY": 468,
+      "scale": 0.6573816155988857,
+      "placement": [
+        39,
+        51,
+        235,
+        245
+      ],
+      "sourceAlphaPixels": 79722
+    },
+    {
+      "frame": 1,
+      "bounds": [
+        413,
+        98,
+        764,
+        468
+      ],
+      "sourceCenterX": 589,
+      "sourceSoleY": 468,
+      "scale": 0.6573816155988857,
+      "placement": [
+        44,
+        53,
+        231,
+        243
+      ],
+      "sourceAlphaPixels": 75507
+    },
+    {
+      "frame": 2,
+      "bounds": [
+        783,
+        103,
+        1135,
+        468
+      ],
+      "sourceCenterX": 956,
+      "sourceSoleY": 468,
+      "scale": 0.6573816155988857,
+      "placement": [
+        46,
+        56,
+        231,
+        240
+      ],
+      "sourceAlphaPixels": 79579
+    },
+    {
+      "frame": 3,
+      "bounds": [
+        1163,
+        97,
+        1513,
+        468
+      ],
+      "sourceCenterX": 1347,
+      "sourceSoleY": 468,
+      "scale": 0.6573816155988857,
+      "placement": [
+        39,
+        52,
+        230,
+        244
+      ],
+      "sourceAlphaPixels": 74863
+    },
+    {
+      "frame": 4,
+      "bounds": [
+        20,
+        584,
+        398,
+        943
+      ],
+      "sourceCenterX": 210,
+      "sourceSoleY": 943,
+      "scale": 0.6573816155988857,
+      "placement": [
+        35,
+        60,
+        248,
+        236
+      ],
+      "sourceAlphaPixels": 89340
+    },
+    {
+      "frame": 5,
+      "bounds": [
+        395,
+        557,
+        779,
+        943
+      ],
+      "sourceCenterX": 594,
+      "sourceSoleY": 943,
+      "scale": 0.6573816155988857,
+      "placement": [
+        29,
+        42,
+        252,
+        254
+      ],
+      "sourceAlphaPixels": 81023
+    },
+    {
+      "frame": 6,
+      "bounds": [
+        775,
+        599,
+        1141,
+        943
+      ],
+      "sourceCenterX": 964,
+      "sourceSoleY": 943,
+      "scale": 0.6573816155988857,
+      "placement": [
+        36,
+        70,
+        241,
+        226
+      ],
+      "sourceAlphaPixels": 80835
+    },
+    {
+      "frame": 7,
+      "bounds": [
+        1151,
+        584,
+        1525,
+        943
+      ],
+      "sourceCenterX": 1343,
+      "sourceSoleY": 943,
+      "scale": 0.6573816155988857,
+      "placement": [
+        34,
+        60,
+        246,
+        236
+      ],
+      "sourceAlphaPixels": 88386
+    }
+  ],
+  "checks": {
+    "fixedLowerMismatchBytes": 0,
+    "edgeAlpha": 0,
+    "walkLowerDifferences": [
+      27647,
+      27995,
+      28262
+    ],
+    "frames": 8,
+    "alpha": true
+  },
+  "review": "Source walk alternates leg contact and lifting; hit has distinct prepared/recoil/recovery upper body. Fixed lower body is baked from source 4; inspect checkerboard contact sheet and overlay."
+}

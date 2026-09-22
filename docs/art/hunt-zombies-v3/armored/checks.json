@@ -1,0 +1,32 @@
+{
+  "frameCount": 40,
+  "sourceBodyCounts": {
+    "walk": 20,
+    "hit": 15
+  },
+  "fixedLowerMismatchBytes": [
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "boundaryAlpha": 0,
+  "walkChangedBytes": [
+    28380,
+    26376,
+    28150,
+    25938,
+    27525,
+    28254,
+    28025,
+    28223,
+    27514,
+    25683,
+    26242,
+    26593,
+    24270,
+    24150,
+    24076
+  ]
+}

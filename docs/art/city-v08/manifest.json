@@ -1,0 +1,670 @@
+{
+  "generator": "built-in image_gen",
+  "spriteSize": [
+    512,
+    512
+  ],
+  "anchor": [
+    0.5,
+    0.96875
+  ],
+  "terrainSize": [
+    938,
+    1677
+  ],
+  "notes": [
+    "Genuine generated alpha retained. Major connected alpha components isolated with a 3px mask expansion.",
+    "Tier 0 and 1 are close in complexity; tier 2 adds practical solar panels, lighting and armor.",
+    "No AI re-drawing during slicing."
+  ],
+  "sprites": [
+    {
+      "id": "hq",
+      "tier": 0,
+      "file": "hq-0.png",
+      "sourceBox": [
+        11,
+        12,
+        373,
+        380
+      ],
+      "contentBox": [
+        20,
+        16,
+        492,
+        496
+      ],
+      "opaquePixels": 78263
+    },
+    {
+      "id": "power",
+      "tier": 0,
+      "file": "power-0.png",
+      "sourceBox": [
+        382,
+        64,
+        734,
+        358
+      ],
+      "contentBox": [
+        16,
+        95,
+        496,
+        496
+      ],
+      "opaquePixels": 63827
+    },
+    {
+      "id": "comms",
+      "tier": 0,
+      "file": "comms-0.png",
+      "sourceBox": [
+        761,
+        15,
+        1065,
+        370
+      ],
+      "contentBox": [
+        50,
+        16,
+        461,
+        496
+      ],
+      "opaquePixels": 61162
+    },
+    {
+      "id": "medical",
+      "tier": 0,
+      "file": "medical-0.png",
+      "sourceBox": [
+        1085,
+        106,
+        1429,
+        368
+      ],
+      "contentBox": [
+        16,
+        130,
+        496,
+        496
+      ],
+      "opaquePixels": 53244
+    },
+    {
+      "id": "factory",
+      "tier": 0,
+      "file": "factory-0.png",
+      "sourceBox": [
+        20,
+        380,
+        371,
+        735
+      ],
+      "contentBox": [
+        18,
+        16,
+        493,
+        496
+      ],
+      "opaquePixels": 77654
+    },
+    {
+      "id": "research",
+      "tier": 0,
+      "file": "research-0.png",
+      "sourceBox": [
+        390,
+        432,
+        708,
+        704
+      ],
+      "contentBox": [
+        16,
+        85,
+        496,
+        496
+      ],
+      "opaquePixels": 58739
+    },
+    {
+      "id": "barracks",
+      "tier": 0,
+      "file": "barracks-0.png",
+      "sourceBox": [
+        731,
+        435,
+        1075,
+        719
+      ],
+      "contentBox": [
+        16,
+        100,
+        496,
+        496
+      ],
+      "opaquePixels": 61135
+    },
+    {
+      "id": "armory",
+      "tier": 0,
+      "file": "armory-0.png",
+      "sourceBox": [
+        1088,
+        427,
+        1433,
+        718
+      ],
+      "contentBox": [
+        16,
+        91,
+        496,
+        496
+      ],
+      "opaquePixels": 69409
+    },
+    {
+      "id": "drone",
+      "tier": 0,
+      "file": "drone-0.png",
+      "sourceBox": [
+        17,
+        726,
+        369,
+        1053
+      ],
+      "contentBox": [
+        16,
+        50,
+        496,
+        496
+      ],
+      "opaquePixels": 74113
+    },
+    {
+      "id": "warehouse",
+      "tier": 0,
+      "file": "warehouse-0.png",
+      "sourceBox": [
+        376,
+        759,
+        724,
+        1024
+      ],
+      "contentBox": [
+        16,
+        130,
+        496,
+        496
+      ],
+      "opaquePixels": 61134
+    },
+    {
+      "id": "garage",
+      "tier": 0,
+      "file": "garage-0.png",
+      "sourceBox": [
+        737,
+        772,
+        1078,
+        1049
+      ],
+      "contentBox": [
+        16,
+        106,
+        496,
+        496
+      ],
+      "opaquePixels": 66432
+    },
+    {
+      "id": "workshop",
+      "tier": 0,
+      "file": "workshop-0.png",
+      "sourceBox": [
+        1089,
+        758,
+        1433,
+        1047
+      ],
+      "contentBox": [
+        16,
+        93,
+        496,
+        496
+      ],
+      "opaquePixels": 63596
+    },
+    {
+      "id": "hq",
+      "tier": 1,
+      "file": "hq-1.png",
+      "sourceBox": [
+        7,
+        22,
+        374,
+        381
+      ],
+      "contentBox": [
+        16,
+        26,
+        496,
+        496
+      ],
+      "opaquePixels": 80172
+    },
+    {
+      "id": "power",
+      "tier": 1,
+      "file": "power-1.png",
+      "sourceBox": [
+        379,
+        75,
+        725,
+        364
+      ],
+      "contentBox": [
+        16,
+        95,
+        496,
+        496
+      ],
+      "opaquePixels": 63153
+    },
+    {
+      "id": "comms",
+      "tier": 1,
+      "file": "comms-1.png",
+      "sourceBox": [
+        739,
+        10,
+        1078,
+        366
+      ],
+      "contentBox": [
+        27,
+        16,
+        484,
+        496
+      ],
+      "opaquePixels": 67111
+    },
+    {
+      "id": "medical",
+      "tier": 1,
+      "file": "medical-1.png",
+      "sourceBox": [
+        1086,
+        87,
+        1441,
+        364
+      ],
+      "contentBox": [
+        16,
+        121,
+        496,
+        496
+      ],
+      "opaquePixels": 56531
+    },
+    {
+      "id": "factory",
+      "tier": 1,
+      "file": "factory-1.png",
+      "sourceBox": [
+        11,
+        375,
+        372,
+        729
+      ],
+      "contentBox": [
+        16,
+        25,
+        496,
+        496
+      ],
+      "opaquePixels": 73826
+    },
+    {
+      "id": "research",
+      "tier": 1,
+      "file": "research-1.png",
+      "sourceBox": [
+        372,
+        403,
+        724,
+        717
+      ],
+      "contentBox": [
+        16,
+        68,
+        496,
+        496
+      ],
+      "opaquePixels": 69548
+    },
+    {
+      "id": "barracks",
+      "tier": 1,
+      "file": "barracks-1.png",
+      "sourceBox": [
+        727,
+        425,
+        1081,
+        711
+      ],
+      "contentBox": [
+        16,
+        108,
+        496,
+        496
+      ],
+      "opaquePixels": 63130
+    },
+    {
+      "id": "armory",
+      "tier": 1,
+      "file": "armory-1.png",
+      "sourceBox": [
+        1090,
+        392,
+        1443,
+        706
+      ],
+      "contentBox": [
+        16,
+        69,
+        496,
+        496
+      ],
+      "opaquePixels": 74261
+    },
+    {
+      "id": "drone",
+      "tier": 1,
+      "file": "drone-1.png",
+      "sourceBox": [
+        2,
+        743,
+        374,
+        1043
+      ],
+      "contentBox": [
+        16,
+        109,
+        496,
+        496
+      ],
+      "opaquePixels": 71937
+    },
+    {
+      "id": "warehouse",
+      "tier": 1,
+      "file": "warehouse-1.png",
+      "sourceBox": [
+        376,
+        746,
+        739,
+        1027
+      ],
+      "contentBox": [
+        16,
+        124,
+        496,
+        496
+      ],
+      "opaquePixels": 67823
+    },
+    {
+      "id": "garage",
+      "tier": 1,
+      "file": "garage-1.png",
+      "sourceBox": [
+        737,
+        729,
+        1087,
+        1053
+      ],
+      "contentBox": [
+        16,
+        52,
+        496,
+        496
+      ],
+      "opaquePixels": 73072
+    },
+    {
+      "id": "workshop",
+      "tier": 1,
+      "file": "workshop-1.png",
+      "sourceBox": [
+        1103,
+        744,
+        1446,
+        1037
+      ],
+      "contentBox": [
+        16,
+        86,
+        496,
+        496
+      ],
+      "opaquePixels": 60173
+    },
+    {
+      "id": "hq",
+      "tier": 2,
+      "file": "hq-2.png",
+      "sourceBox": [
+        6,
+        12,
+        350,
+        379
+      ],
+      "contentBox": [
+        31,
+        16,
+        481,
+        496
+      ],
+      "opaquePixels": 76491
+    },
+    {
+      "id": "power",
+      "tier": 2,
+      "file": "power-2.png",
+      "sourceBox": [
+        361,
+        76,
+        725,
+        388
+      ],
+      "contentBox": [
+        16,
+        85,
+        496,
+        496
+      ],
+      "opaquePixels": 72497
+    },
+    {
+      "id": "comms",
+      "tier": 2,
+      "file": "comms-2.png",
+      "sourceBox": [
+        746,
+        4,
+        1058,
+        391
+      ],
+      "contentBox": [
+        62,
+        16,
+        449,
+        496
+      ],
+      "opaquePixels": 68589
+    },
+    {
+      "id": "medical",
+      "tier": 2,
+      "file": "medical-2.png",
+      "sourceBox": [
+        1075,
+        78,
+        1445,
+        385
+      ],
+      "contentBox": [
+        16,
+        98,
+        496,
+        496
+      ],
+      "opaquePixels": 63382
+    },
+    {
+      "id": "factory",
+      "tier": 2,
+      "file": "factory-2.png",
+      "sourceBox": [
+        6,
+        383,
+        359,
+        727
+      ],
+      "contentBox": [
+        16,
+        28,
+        496,
+        496
+      ],
+      "opaquePixels": 81184
+    },
+    {
+      "id": "research",
+      "tier": 2,
+      "file": "research-2.png",
+      "sourceBox": [
+        365,
+        414,
+        711,
+        720
+      ],
+      "contentBox": [
+        16,
+        71,
+        496,
+        496
+      ],
+      "opaquePixels": 72390
+    },
+    {
+      "id": "barracks",
+      "tier": 2,
+      "file": "barracks-2.png",
+      "sourceBox": [
+        718,
+        432,
+        1075,
+        721
+      ],
+      "contentBox": [
+        16,
+        107,
+        496,
+        496
+      ],
+      "opaquePixels": 66188
+    },
+    {
+      "id": "armory",
+      "tier": 2,
+      "file": "armory-2.png",
+      "sourceBox": [
+        1084,
+        412,
+        1445,
+        725
+      ],
+      "contentBox": [
+        16,
+        80,
+        496,
+        496
+      ],
+      "opaquePixels": 75444
+    },
+    {
+      "id": "drone",
+      "tier": 2,
+      "file": "drone-2.png",
+      "sourceBox": [
+        7,
+        731,
+        357,
+        1056
+      ],
+      "contentBox": [
+        16,
+        50,
+        496,
+        496
+      ],
+      "opaquePixels": 76106
+    },
+    {
+      "id": "warehouse",
+      "tier": 2,
+      "file": "warehouse-2.png",
+      "sourceBox": [
+        359,
+        727,
+        724,
+        1034
+      ],
+      "contentBox": [
+        16,
+        92,
+        496,
+        496
+      ],
+      "opaquePixels": 73027
+    },
+    {
+      "id": "garage",
+      "tier": 2,
+      "file": "garage-2.png",
+      "sourceBox": [
+        729,
+        741,
+        1082,
+        1054
+      ],
+      "contentBox": [
+        16,
+        70,
+        496,
+        496
+      ],
+      "opaquePixels": 75523
+    },
+    {
+      "id": "workshop",
+      "tier": 2,
+      "file": "workshop-2.png",
+      "sourceBox": [
+        1091,
+        757,
+        1436,
+        1054
+      ],
+      "contentBox": [
+        16,
+        83,
+        496,
+        496
+      ],
+      "opaquePixels": 70262
+    }
+  ]
+}

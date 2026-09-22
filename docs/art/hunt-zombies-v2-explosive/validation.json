@@ -1,0 +1,34 @@
+{
+  "date": "2026-09-22",
+  "edit": "All 16 hands are matching charcoal gloves; upper arms remain green.",
+  "generatedWith": "built-in image_gen precise-object-edit",
+  "manualSourceReview": {
+    "eightPoses": true,
+    "sixteenMatchingGloves": true,
+    "canisterPreserved": true,
+    "clothingIdentityPreserved": true,
+    "poseSequencePreserved": true
+  },
+  "checks": {
+    "fixedLowerMismatchBytes": 0,
+    "edgeAlpha": 0,
+    "walkLowerDifferences": [
+      16192,
+      16094,
+      13829
+    ],
+    "frames": 8,
+    "alpha": true
+  },
+  "scale": 0.5673076923076923,
+  "anchor": {
+    "foot": [
+      160,
+      296
+    ],
+    "pelvis": [
+      160,
+      226
+    ]
+  }
+}

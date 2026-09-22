@@ -1,0 +1,84 @@
+{
+  "source_size": [
+    1536,
+    1024
+  ],
+  "orientation": "forward is negative Y; rear faces positive Y",
+  "camera": "centered elevated rear 3/4 view",
+  "processing": "Separated sprites with 24 px transparent padding. Only alpha below 10/255 removed as near-invisible background speckle; all other alpha and RGB pixels preserved. No aspect ratio change.",
+  "components": {
+    "chassis": {
+      "file": "chassis.png",
+      "size": [
+        698,
+        810
+      ],
+      "source_crop": [
+        113,
+        101,
+        811,
+        911
+      ],
+      "pivot_px": [
+        349,
+        299
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.3691358024691358
+      ]
+    },
+    "turret": {
+      "file": "turret.png",
+      "size": [
+        399,
+        653
+      ],
+      "source_crop": [
+        955,
+        171,
+        1354,
+        824
+      ],
+      "pivot_px": [
+        198,
+        515
+      ],
+      "pivot_normalized": [
+        0.49624060150375937,
+        0.7886676875957122
+      ],
+      "muzzle_px": [
+        195,
+        28
+      ],
+      "muzzle_normalized": [
+        0.48872180451127817,
+        0.042879019908116385
+      ]
+    }
+  },
+  "turret_scale_relative_to_chassis": 0.86,
+  "alignment": "Place turret pivot at chassis pivot. Render turret at 0.86 times chassis pixel scale. Rotate turret around its pivot. Derive projectile position from muzzle transformed by same scale and rotation.",
+  "alpha_validation": {
+    "mode": "RGBA",
+    "alpha_min": 0,
+    "alpha_max": 254,
+    "fully_transparent_pixels": 1032302,
+    "opaque_near_255_pixels": 519515
+  },
+  "coordinate_precision": "Pivots and muzzle hand-inspected to approximately 3 px on original generated sheet; rotation pivot is projected center of turret bearing.",
+  "recommended_world_scale": {
+    "chassis": 0.24615384615384617,
+    "turret": 0.2116923076923077,
+    "visible_chassis_width": 160,
+    "chassis_render_size": [
+      171.8153846153846,
+      199.3846153846154
+    ],
+    "turret_render_size": [
+      84.46523076923077,
+      138.23507692307692
+    ]
+  }
+}

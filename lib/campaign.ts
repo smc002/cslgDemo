@@ -12,6 +12,17 @@ import {
   type HuntSave,
 } from './hunt-save';
 import { BALANCE, stageAmmo } from './balance';
+import {
+  freshFacilities,
+  cityBuilding,
+  cityCapacity,
+  citySpeed,
+  cityYield,
+  cityCost,
+  cityUpgradeBlock,
+  type CityKind,
+  type SupportKind,
+} from './city';
 export { freshHunt } from './hunt-save';
 export type Growth = { quality: Quality; stars: number; used: number };
 export type Building = { level: number; collectedAt: number };
@@ -30,6 +41,7 @@ export type Campaign = {
     materials: number;
     workshop: Building;
     factory: Building;
+    facilities: Record<SupportKind, Building>;
   };
   emergency: { used: number; nextAt: number };
   tutorial: number;
@@ -56,6 +68,7 @@ export const freshCampaign = (): Campaign => {
       materials: 0,
       workshop: { level: 0, collectedAt: 0 },
       factory: { level: 0, collectedAt: 0 },
+      facilities: freshFacilities(),
     },
     emergency: { used: 0, nextAt: 0 },
     tutorial: 0,
@@ -167,7 +180,22 @@ export function parseCampaign(raw: string | null): Campaign {
           Number(v.city?.factory?.collectedAt) || Date.now(),
         ),
       },
+      facilities: freshFacilities(),
     };
+    for (const kind of Object.keys(d.city.facilities) as SupportKind[]) {
+      const previous = v.city?.facilities?.[kind];
+      d.city.facilities[kind].level = Math.min(
+        10,
+        integer(previous?.level, kind === 'hq' ? 1 : 0),
+      );
+    }
+    // Preserve existing production levels on migration; never downgrade an old base.
+    d.city.facilities.hq.level = Math.max(
+      1,
+      d.city.facilities.hq.level,
+      d.city.workshop.level,
+      d.city.factory.level,
+    );
     d.emergency = {
       used: Math.min(3, integer(v.emergency?.used)),
       nextAt: Math.max(0, Number(v.emergency?.nextAt) || 0),
@@ -196,6 +224,7 @@ export function completeStage(d: Campaign, stage: number, now = Date.now()) {
       materials: 100,
       workshop: { level: 1, collectedAt: now },
       factory: { level: 0, collectedAt: now },
+      facilities: freshFacilities(now),
     };
     d.notice += '。第二路与内城开放，三名援军抵达；工坊修复，建材 +100。';
     autoLineup(d);
@@ -223,10 +252,10 @@ export function saveHunt(d: Campaign, h: HuntSave) {
     Math.floor(h.expedition.points / BALANCE.corePerTicket) - before;
   if (tickets > 0) {
     d.ticketsEarned += tickets;
-    d.notice = `能源核心里程碑 · 招募券 +${tickets}`;
+    d.notice = `能量核心阶段奖励 · 抽卡券 +${tickets}`;
   }
   if (h.level > level)
-    d.notice = `全队提升至 Lv.${h.level}！所有已拥有与新招募英雄共享等级。`;
+    d.notice = `全队提升至 Lv.${h.level}！${tickets > 0 ? `抽卡券 +${tickets}，已自动到账。` : '所有已拥有与新招募英雄共享等级。'}`;
   return true;
 }
 export function promoteHero(d: Campaign, id: string) {
@@ -253,15 +282,18 @@ export function production(
   const b = d.city[kind],
     period =
       (kind === 'workshop' ? BALANCE.workshopPeriod : BALANCE.factoryPeriod) *
-      1000;
+      1000 *
+      citySpeed(d);
   if (!d.city.unlocked || !b.level)
     return { amount: 0, cycles: 0, period, next: 0 };
   const cycles = Math.min(
-    BALANCE.storageCycles,
+    cityCapacity(d),
     Math.max(0, Math.floor((now - b.collectedAt) / period)),
   );
   return {
-    amount: cycles * b.level * (kind === 'workshop' ? 10 : 15),
+    amount:
+      cycles *
+      Math.floor(b.level * (kind === 'workshop' ? 10 : 15) * cityYield(d)),
     cycles,
     period,
     next: Math.ceil(
@@ -282,19 +314,29 @@ export function collectCity(
   b.collectedAt = now - (Math.max(0, now - b.collectedAt) % p.period);
   return true;
 }
-export function buildCity(
-  d: Campaign,
-  kind: 'workshop' | 'factory',
-  now = Date.now(),
-) {
-  const b = d.city[kind],
-    cost = 100 * (b.level + 1);
-  if (!d.city.unlocked || b.level >= 10 || d.city.materials < cost)
-    return false;
-  collectCity(d, kind, now);
+export function buildCity(d: Campaign, kind: CityKind, now = Date.now()) {
+  const b = cityBuilding(d, kind),
+    cost = cityCost(d, kind);
+  if (cityUpgradeBlock(d, kind)) return false;
+  const fractions: Partial<Record<'workshop' | 'factory', number>> = {};
+  // Settle production at the old rate before changing global production bonuses.
+  if (kind === 'power' || kind === 'research' || kind === 'warehouse') {
+    for (const producer of ['workshop', 'factory'] as const) {
+      collectCity(d, producer, now);
+      const period = production(d, producer, now).period;
+      fractions[producer] =
+        (Math.max(0, now - d.city[producer].collectedAt) % period) / period;
+    }
+  } else if (kind === 'workshop' || kind === 'factory')
+    collectCity(d, kind, now);
   d.city.materials -= cost;
   b.level++;
   b.collectedAt = now;
+  for (const producer of ['workshop', 'factory'] as const) {
+    if (fractions[producer] !== undefined)
+      d.city[producer].collectedAt =
+        now - fractions[producer]! * production(d, producer, now).period;
+  }
   return true;
 }
 export function emergencySupply(d: Campaign, now = Date.now()) {

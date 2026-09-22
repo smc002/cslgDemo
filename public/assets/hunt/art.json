@@ -8,10 +8,14 @@
   "supportSheet": true,
   "courier": "/assets/hunt/courier.png?v=armored1",
   "vehicle": "/assets/hunt/vehicle.png?v=expedition1",
+  "chassis": "/assets/hunt/vehicle-v1/chassis.png",
+  "turret": "/assets/hunt/vehicle-v1/turret.png",
+  "platform": "/assets/hunt/platform-v1/platform.png",
+  "zombieAnimation": "/assets/hunt/zombies-v3/manifest.json",
   "weapons": "/assets/hunt/weapon-zombies.png?v=expedition1",
   "scenes": [
     "/assets/hunt/arena-frozen.png?v=expedition1",
     "/assets/hunt/arena-substation.png?v=expedition1"
   ],
-  "source": "Original bright cartoon assets generated with image_gen on 2026-09-15: arena, nine-zombie 3x3 atlas, gunner and barbed-wire ring 2x1 sheet."
+  "source": "Legacy backgrounds: image_gen 2026-09-15. Production vehicle, elevated platform and four shared zombie animation archetypes: built-in image_gen 2026-09-22; source prompts and validation in docs/art."
 }

@@ -1,0 +1,324 @@
+{
+  "version": 1,
+  "cell": 320,
+  "columns": 4,
+  "rows": 2,
+  "anchor": {
+    "foot": [
+      160,
+      296
+    ]
+  },
+  "archetypes": {
+    "normal": {
+      "atlas": "normal.png",
+      "visibleHeight": 236,
+      "displayHeight": 236,
+      "anchor": {
+        "foot": [
+          160,
+          296
+        ],
+        "pelvis": [
+          160,
+          217
+        ]
+      },
+      "clips": {
+        "idle": {
+          "frames": [
+            0
+          ],
+          "durations": [
+            1
+          ],
+          "loop": true
+        },
+        "walk": {
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 8,
+          "durations": [
+            0.125,
+            0.125,
+            0.125,
+            0.125
+          ],
+          "loop": true
+        },
+        "hit": {
+          "frames": [
+            4,
+            5,
+            6
+          ],
+          "durations": [
+            0.06,
+            0.1,
+            0.12
+          ],
+          "loop": false,
+          "impactFrame": 1
+        }
+      },
+      "direction": "front-down",
+      "mirrorAllowed": true,
+      "rotateBody": false
+    },
+    "armored": {
+      "atlas": "armored.png",
+      "visibleHeight": 236,
+      "displayHeight": 236,
+      "anchor": {
+        "foot": [
+          160,
+          296
+        ],
+        "pelvis": [
+          160,
+          215
+        ]
+      },
+      "clips": {
+        "idle": {
+          "frames": [
+            0
+          ],
+          "durations": [
+            1
+          ],
+          "loop": true
+        },
+        "walk": {
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 8,
+          "durations": [
+            0.125,
+            0.125,
+            0.125,
+            0.125
+          ],
+          "loop": true
+        },
+        "hit": {
+          "frames": [
+            4,
+            5,
+            6
+          ],
+          "durations": [
+            0.06,
+            0.1,
+            0.12
+          ],
+          "loop": false,
+          "impactFrame": 1
+        }
+      },
+      "direction": "front-down",
+      "mirrorAllowed": true,
+      "rotateBody": false
+    },
+    "explosive": {
+      "atlas": "explosive.png",
+      "visibleHeight": 236,
+      "displayHeight": 236,
+      "anchor": {
+        "foot": [
+          160,
+          296
+        ],
+        "pelvis": [
+          160,
+          225
+        ]
+      },
+      "clips": {
+        "idle": {
+          "frames": [
+            0
+          ],
+          "durations": [
+            1
+          ],
+          "loop": true
+        },
+        "walk": {
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 8,
+          "durations": [
+            0.125,
+            0.125,
+            0.125,
+            0.125
+          ],
+          "loop": true
+        },
+        "hit": {
+          "frames": [
+            4,
+            5,
+            6
+          ],
+          "durations": [
+            0.06,
+            0.1,
+            0.12
+          ],
+          "loop": false,
+          "impactFrame": 1
+        }
+      },
+      "direction": "front-down",
+      "mirrorAllowed": true,
+      "rotateBody": false
+    },
+    "giant": {
+      "atlas": "giant.png",
+      "visibleHeight": 236,
+      "displayHeight": 236,
+      "anchor": {
+        "foot": [
+          160,
+          296
+        ],
+        "pelvis": [
+          160,
+          196
+        ]
+      },
+      "clips": {
+        "idle": {
+          "frames": [
+            0
+          ],
+          "durations": [
+            1
+          ],
+          "loop": true
+        },
+        "walk": {
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 8,
+          "durations": [
+            0.125,
+            0.125,
+            0.125,
+            0.125
+          ],
+          "loop": true
+        },
+        "hit": {
+          "frames": [
+            4,
+            5,
+            6
+          ],
+          "durations": [
+            0.06,
+            0.1,
+            0.12
+          ],
+          "loop": false,
+          "impactFrame": 1
+        }
+      },
+      "direction": "front-down",
+      "mirrorAllowed": true,
+      "rotateBody": false
+    }
+  },
+  "kinds": {
+    "0": {
+      "archetype": "normal",
+      "filter": "",
+      "sharedAnimation": false,
+      "fps": 8
+    },
+    "1": {
+      "archetype": "normal",
+      "filter": "hue-rotate(35deg)",
+      "sharedAnimation": true,
+      "fps": 11
+    },
+    "2": {
+      "archetype": "armored",
+      "filter": "",
+      "sharedAnimation": false,
+      "fps": 6
+    },
+    "3": {
+      "archetype": "giant",
+      "filter": "",
+      "sharedAnimation": false,
+      "fps": 5
+    },
+    "4": {
+      "archetype": "normal",
+      "filter": "sepia(.65) saturate(1.7)",
+      "sharedAnimation": true,
+      "fps": 8
+    },
+    "5": {
+      "archetype": "explosive",
+      "filter": "",
+      "sharedAnimation": false,
+      "fps": 8
+    },
+    "6": {
+      "archetype": "explosive",
+      "filter": "hue-rotate(260deg)",
+      "sharedAnimation": true,
+      "fps": 8
+    },
+    "7": {
+      "archetype": "armored",
+      "filter": "hue-rotate(325deg) saturate(1.5)",
+      "sharedAnimation": true,
+      "fps": 8
+    },
+    "8": {
+      "archetype": "normal",
+      "filter": "hue-rotate(80deg) saturate(.65) brightness(1.2)",
+      "sharedAnimation": true,
+      "fps": 8
+    },
+    "9": {
+      "archetype": "armored",
+      "filter": "sepia(.85) saturate(1.8)",
+      "sharedAnimation": true,
+      "fps": 6
+    },
+    "10": {
+      "archetype": "armored",
+      "filter": "hue-rotate(330deg) saturate(1.4)",
+      "sharedAnimation": true,
+      "fps": 8
+    },
+    "11": {
+      "archetype": "armored",
+      "filter": "sepia(.7) saturate(1.8)",
+      "sharedAnimation": true,
+      "fps": 8
+    }
+  }
+}

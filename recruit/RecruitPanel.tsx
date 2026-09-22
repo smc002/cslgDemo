@@ -41,13 +41,14 @@ export default function RecruitPanel({ active }: { active: boolean }) {
         <span>幸存者档案</span>
         <small>
           全队 Lv.{d.hunt.level} · 已集结{' '}
-          {RECRUIT_HEROES.filter((h) => d.recruit.owned[h.id]).length}/9
+          {RECRUIT_HEROES.filter((h) => d.recruit.owned[h.id]).length}/
+          {RECRUIT_HEROES.length}
         </small>
       </header>
-      <Tabs value={tab} onValueChange={setTab}>
-        <TabsList className="loop-tabs">
+      <Tabs className="hero-tabs" value={tab} onValueChange={setTab}>
+        <TabsList className="loop-tabs" aria-label="英雄招募与查看培养">
           <TabsTrigger value="recruit">英雄招募</TabsTrigger>
-          <TabsTrigger value="collection">英雄培养</TabsTrigger>
+          <TabsTrigger value="collection">查看培养</TabsTrigger>
         </TabsList>
         <TabsContent value="recruit">
           <div className="recruit-banner">
@@ -93,7 +94,7 @@ export default function RecruitPanel({ active }: { active: boolean }) {
         </TabsContent>
         <TabsContent value="collection">
           <p className="loop-help">
-            等级全队共享；重复英雄用于升星，满星后进阶。红色为最高品质。
+            点击英雄查看详情与培养。等级全队共享；重复英雄用于升星，满星后进阶。
           </p>
           <div className="hero-grid">
             {RECRUIT_HEROES.map((h) => {
@@ -105,6 +106,7 @@ export default function RecruitPanel({ active }: { active: boolean }) {
                   className={owned ? '' : 'unowned'}
                   style={{ borderColor: QUALITY_COLORS[g.quality] }}
                   onClick={() => setDetail(h.id)}
+                  aria-label={`查看${h.name}${owned ? '并培养' : '，尚未招募'}`}
                 >
                   <HeroPortrait hero={h.index} height={76} />
                   <b>{h.name}</b>
@@ -155,7 +157,7 @@ export default function RecruitPanel({ active }: { active: boolean }) {
               setTab('collection');
             }}
           >
-            查看英雄
+            查看培养
           </button>
         </DialogContent>
       </Dialog>

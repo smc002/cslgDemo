@@ -9,6 +9,8 @@ import {
   type HuntSave,
 } from '../lib/hunt-save';
 import { rollOrangeHero, type RecruitId } from '../lib/recruit';
+import { vehicleMuzzle, PLATFORM_RIG } from './vehicle-rig';
+import { zombieFacing, type ZombieFacing } from './zombie-animation';
 import {
   ECONOMY,
   FUNCTIONAL,
@@ -33,7 +35,13 @@ export const WEAPON_NAMES = { laser: '激光枪', shotgun: '散弹枪' };
 export const TRANSITION_SECONDS = 6.8;
 export const courierScale = (bundle = 1) => (bundle > 1 ? 3 : 1);
 
-export const ARENA = { w: 600, h: 800, gunX: 300, gunY: 620, fenceRadius: 76 };
+export const ARENA = {
+  w: 600,
+  h: 800,
+  gunX: 300,
+  gunY: 650,
+  platform: PLATFORM_RIG.bounds,
+};
 export const SHOT_XP_PER_AMMO = 1;
 export const SCATTER_HITS = 6;
 // Functional targets are funded separately; this pool contains ordinary targets only.
@@ -184,6 +192,8 @@ export type Zombie = EconomyActor;
 export type Bullet = EconomyBullet;
 export type FX = {
   id: number;
+  actorId?: number;
+  facing?: ZombieFacing;
   kind:
     | 'hit'
     | 'kill'
@@ -258,6 +268,7 @@ export class HuntGame {
   active = false;
   paused = false;
   aim = { x: 300, y: 250 };
+  visibleTop = 0;
   intro = 0;
   finale = 0;
   finalePoints = 0;
@@ -273,6 +284,8 @@ export class HuntGame {
   dry = false;
   armorBreaks = 0;
   courierVictory: {
+    actorId?: number;
+    facing?: ZombieFacing;
     x: number;
     y: number;
     age: number;
@@ -538,7 +551,6 @@ export class HuntGame {
       !slot ||
       !this.save.economy.events[slot.eventId] ||
       this.save.courier.reveal ||
-      this.sceneReady ||
       this.save.expedition.transition
     )
       return false;
@@ -627,6 +639,8 @@ export class HuntGame {
       ];
       c.reveal = { serial: c.completed, hero: heroes[0], heroes, newHeroes };
       this.courierVictory = {
+        actorId: z.id,
+        facing: zombieFacing(z.vx, z.vy),
         x: z.x,
         y: z.y,
         age: 0,
@@ -667,7 +681,6 @@ export class HuntGame {
       !this.active ||
       this.paused ||
       this.intro > 0 ||
-      this.sceneReady ||
       this.save.expedition.transition ||
       this.save.courier.reveal
     )
@@ -684,7 +697,6 @@ export class HuntGame {
       !r ||
       this.save.bonus ||
       this.save.weapons.active ||
-      this.sceneReady ||
       this.save.expedition.transition ||
       this.save.courier.reveal ||
       this.io.ammo() < r.need
@@ -723,30 +735,33 @@ export class HuntGame {
     }
     const side = Math.floor(this.random() * 4),
       r = SPECIES[kind];
+    const top = Math.max(120, this.visibleTop + r.size * 0.6 + 10);
     let x = 0,
       y = 0,
       tx = 0,
       ty = 0;
     if (side < 2) {
       x = side === 0 ? -45 : 645;
-      y = 120 + this.random() * 480;
+      y = top + this.random() * Math.max(30, 560 - top);
       tx = side === 0 ? 660 : -60;
-      ty = 120 + this.random() * 450;
+      ty = top + this.random() * Math.max(30, 540 - top);
     } else {
       x = 60 + this.random() * 480;
-      y = side === 2 ? -45 : 735;
+      y = side === 2 ? this.visibleTop - 45 : 735;
       tx = 60 + this.random() * 480;
-      ty = side === 2 ? 760 : -65;
+      ty = side === 2 ? 760 : this.visibleTop - 65;
     }
     if (atEdge) {
       // Enter at the visible playfield boundary, rather than walking behind HUDs.
       const inset = r.size / 2 + 8;
       if (side < 2) {
         x = side === 0 ? inset : ARENA.w - inset;
-        y = 170 + this.random() * 330;
+        y =
+          Math.max(170, top) +
+          this.random() * Math.max(30, 500 - Math.max(170, top));
       } else {
         x = 75 + this.random() * 450;
-        y = side === 2 ? 160 : 550;
+        y = side === 2 ? Math.max(160, top) : 550;
         if (side === 3) x = x < ARENA.gunX ? 90 : 510;
       }
     }
@@ -772,13 +787,10 @@ export class HuntGame {
       frozen: 0,
       eventId,
     };
-    this.keepOutsideFence(zombie);
+    this.keepOutsidePlatform(zombie);
     this.zombies.push(zombie);
   }
-  private keepOutsideFence(z: Zombie) {
-    let dx = z.x - ARENA.gunX,
-      dy = z.y - ARENA.gunY;
-    let distance = Math.hypot(dx, dy);
+  private keepOutsidePlatform(z: Zombie) {
     const footprint = Math.max(
       SPECIES[z.kind].radius,
       SPECIES[z.kind].size *
@@ -787,23 +799,27 @@ export class HuntGame {
           ? 1.4
           : 1),
     );
-    const radius = ARENA.fenceRadius + footprint + 3;
-    if (distance >= radius) return;
-    if (distance < 0.001) {
-      dx = 0;
-      dy = -1;
-      distance = 1;
-    }
-    const nx = dx / distance,
-      ny = dy / distance;
-    z.x = ARENA.gunX + nx * radius;
-    z.y = ARENA.gunY + ny * radius;
-    const inward = z.vx * nx + z.vy * ny;
-    if (inward < 0) {
-      const speed = SPECIES[z.kind].speed,
-        direction = z.vx * -ny + z.vy * nx >= 0 ? 1 : -1;
-      z.vx = -ny * direction * speed;
-      z.vy = nx * direction * speed;
+    const left = ARENA.platform.left - footprint,
+      right = ARENA.platform.right + footprint,
+      top = ARENA.platform.top - footprint;
+    if (z.x <= left || z.x >= right || z.y <= top) return;
+    // The elevated platform continues to the screen's bottom edge. Enemies
+    // approach its three exposed sides, never step onto the deck or car rear.
+    const nearest = Math.min(z.x - left, right - z.x, z.y - top);
+    const speed = SPECIES[z.kind].speed;
+    if (nearest === z.y - top) {
+      z.y = top;
+      if (z.vy > 0) {
+        z.vy = 0;
+        z.vx = (z.vx >= 0 ? 1 : -1) * speed;
+      }
+    } else {
+      const onLeft = nearest === z.x - left;
+      z.x = onLeft ? left : right;
+      if (onLeft ? z.vx > 0 : z.vx < 0) {
+        z.vx = 0;
+        z.vy = -speed;
+      }
     }
   }
   private fx(
@@ -849,7 +865,6 @@ export class HuntGame {
       !this.active ||
       this.paused ||
       this.intro > 0 ||
-      this.sceneReady ||
       this.save.expedition.transition ||
       this.save.courier.reveal
     )
@@ -874,11 +889,12 @@ export class HuntGame {
       this.save.courier.queued += Math.floor(total / COURIER_RULES.threshold);
       this.save.courier.progress = total % COURIER_RULES.threshold;
     }
-    const angle = Math.atan2(this.aim.y - ARENA.gunY, this.aim.x - ARENA.gunX);
+    const muzzle = vehicleMuzzle(ARENA.gunX, ARENA.gunY, this.aim);
+    const angle = muzzle.angle;
     const base: Bullet = {
       id: ++this.id,
-      x: ARENA.gunX + Math.cos(angle) * 40,
-      y: ARENA.gunY + Math.sin(angle) * 40,
+      x: muzzle.x,
+      y: muzzle.y,
       vx: Math.cos(angle) * 830,
       vy: Math.sin(angle) * 830,
       age: 0,
@@ -927,14 +943,7 @@ export class HuntGame {
       this.fx('scatter', base.x, base.y, 11);
       this.shake = Math.max(this.shake, 2.5);
     } else this.bullets.push(base);
-    this.fx(
-      'shot',
-      ARENA.gunX + Math.cos(angle) * 42,
-      ARENA.gunY + Math.sin(angle) * 42,
-      0,
-      0,
-      angle,
-    );
+    this.fx('shot', muzzle.x, muzzle.y, 0, 0, angle);
     this.fired++;
     if (!bonus && !weapon) {
       const xp = room * SHOT_XP_PER_AMMO;
@@ -988,6 +997,8 @@ export class HuntGame {
       else if (this.finale > 0) this.finalePoints += points;
     }
     this.fx('kill', z.x, z.y, z.kind, points, Math.atan2(bullet.vy, bullet.vx));
+    this.effects[this.effects.length - 1].actorId = z.id;
+    this.effects[this.effects.length - 1].facing = zombieFacing(z.vx, z.vy);
     this.combo++;
     this.comboLife = 2;
     this.shake = Math.min(8, this.shake + (z.kind >= 2 ? 5 : 1.2));
@@ -1140,6 +1151,11 @@ export class HuntGame {
   }
   private moveBullet(b: Bullet, dt: number) {
     if (this.save.courier.reveal) return false;
+    const top = this.visibleTop + 10;
+    if (b.y < top) {
+      b.y = top;
+      if (b.vy < 0) b.vy *= -1;
+    }
     let remaining = dt;
     for (let pass = 0; pass < 4 && remaining > 0.000001; pass++) {
       let edge = remaining,
@@ -1147,7 +1163,11 @@ export class HuntGame {
       const tx =
         b.vx > 0 ? (590 - b.x) / b.vx : b.vx < 0 ? (10 - b.x) / b.vx : Infinity;
       const ty =
-        b.vy > 0 ? (790 - b.y) / b.vy : b.vy < 0 ? (10 - b.y) / b.vy : Infinity;
+        b.vy > 0
+          ? (790 - b.y) / b.vy
+          : b.vy < 0
+            ? (top - b.y) / b.vy
+            : Infinity;
       if (tx >= 0 && tx <= edge) {
         edge = tx;
         axis = 'x';
@@ -1181,7 +1201,7 @@ export class HuntGame {
         b[axis === 'x' ? 'vx' : 'vy'] *= -1;
         this.fx('bounce', b.x, b.y);
         b.x = Math.max(10.001, Math.min(589.999, b.x));
-        b.y = Math.max(10.001, Math.min(789.999, b.y));
+        b.y = Math.max(top + 0.001, Math.min(789.999, b.y));
       } else break;
     }
     b.age += dt;
@@ -1242,10 +1262,8 @@ export class HuntGame {
       }
       return;
     }
-    if (this.sceneReady) {
-      this.release();
-      return;
-    }
+    // Unlocking the next sector is an option, not a pause. Only the explicit
+    // transition above suspends combat; this also keeps restored saves playable.
     this.save.courier.cooldown = Math.max(0, this.save.courier.cooldown - dt);
     if (this.weaponNotice) {
       this.weaponNotice.left -= dt;
@@ -1309,14 +1327,18 @@ export class HuntGame {
           this.save.courier.active.y = z.y;
         }
       }
-      this.keepOutsideFence(z);
+      this.keepOutsidePlatform(z);
       z.age += dt;
       z.hit = Math.max(0, z.hit - dt);
     }
     this.zombies = this.zombies.filter(
       (z) =>
         z.kind === COURIER_KIND ||
-        (z.x > -90 && z.x < 690 && z.y > -90 && z.y < 790 && z.age < 55),
+        (z.x > -90 &&
+          z.x < 690 &&
+          z.y > this.visibleTop - 90 &&
+          z.y < 790 &&
+          z.age < 55),
     );
     this.shotClock = Math.max(0, this.shotClock) - dt;
     if (this.firing || this.tapQueued) {
