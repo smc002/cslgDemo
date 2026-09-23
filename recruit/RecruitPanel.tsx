@@ -1,4 +1,5 @@
 'use client';
+import { storyRecruit } from '@/lib/prologue';
 import { useState, useSyncExternalStore } from 'react';
 import { campaign, growthOf, promoteHero, slotsUnlocked } from '@/lib/campaign';
 import {
@@ -28,7 +29,10 @@ export default function RecruitPanel({ active }: { active: boolean }) {
   const draw = (count: number) => {
     let ids: string[] | null = null;
     campaign.update((x) => {
-      ids = drawHeroes(x, count);
+      ids =
+        x.prologue.enabled && !x.prologue.rewards.includes('recruit')
+          ? storyRecruit(x)
+          : drawHeroes(x, count);
       if (ids) x.tutorial = Math.max(x.tutorial, 3);
     });
     if (ids) setResults(ids);
@@ -68,17 +72,28 @@ export default function RecruitPanel({ active }: { active: boolean }) {
             </div>
           </div>
           <div className="recruit-draw">
+            {d.prologue.enabled && !d.prologue.rewards.includes('recruit') && (
+              <p>首次联络必得大刀战士，消耗 1 券；之后恢复普通招募概率。</p>
+            )}
             <strong>招募券 {ticketBalance(d)}</strong>
             <div className="loop-row">
               <button
                 className="gold"
+                data-guide="first-recruit"
                 disabled={!active || ticketBalance(d) < 1}
                 onClick={() => draw(1)}
               >
-                招募一次 · 1券
+                {d.prologue.enabled && !d.prologue.rewards.includes('recruit')
+                  ? '联络大刀战士 · 1券'
+                  : '招募一次 · 1券'}
               </button>
               <button
-                disabled={!active || ticketBalance(d) < 10}
+                disabled={
+                  !active ||
+                  ticketBalance(d) < 10 ||
+                  (d.prologue.enabled &&
+                    !d.prologue.rewards.includes('recruit'))
+                }
                 onClick={() => draw(10)}
               >
                 招募十次 · 10券

@@ -1,0 +1,87 @@
+{
+  "ashuan-worried": {
+    "bbox": [
+      60,
+      88,
+      464,
+      736
+    ],
+    "zero": 217145,
+    "partial": 173920,
+    "opaque": 2151,
+    "nonTransparentEdgePixels": 0
+  },
+  "ashuan-confident": {
+    "bbox": [
+      60,
+      88,
+      465,
+      736
+    ],
+    "zero": 216738,
+    "partial": 174275,
+    "opaque": 2203,
+    "nonTransparentEdgePixels": 0
+  },
+  "ashuan-happy": {
+    "bbox": [
+      60,
+      88,
+      465,
+      736
+    ],
+    "zero": 216630,
+    "partial": 174367,
+    "opaque": 2219,
+    "nonTransparentEdgePixels": 0
+  },
+  "prop0": {
+    "bbox": [
+      39,
+      293,
+      217,
+      448
+    ],
+    "zero": 109541,
+    "partial": 21073,
+    "opaque": 458,
+    "nonTransparentEdgePixels": 0
+  },
+  "prop1": {
+    "bbox": [
+      39,
+      215,
+      217,
+      448
+    ],
+    "zero": 98377,
+    "partial": 32091,
+    "opaque": 604,
+    "nonTransparentEdgePixels": 0
+  },
+  "prop2": {
+    "bbox": [
+      38,
+      293,
+      219,
+      448
+    ],
+    "zero": 108623,
+    "partial": 21986,
+    "opaque": 463,
+    "nonTransparentEdgePixels": 0
+  },
+  "prop3": {
+    "bbox": [
+      33,
+      230,
+      224,
+      448
+    ],
+    "zero": 98502,
+    "partial": 31953,
+    "opaque": 617,
+    "nonTransparentEdgePixels": 0
+  },
+  "finalBorderCrop": "Each prop cell retains only [16,16,224,480], guaranteeing 16px transparent border; alpha bbox unchanged. Counts recorded before final border crop."
+}

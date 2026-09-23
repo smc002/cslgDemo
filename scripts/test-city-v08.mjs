@@ -17,6 +17,8 @@ const fresh = () => {
   const d = C.freshCampaign();
   C.completeStage(d, 1, start);
   C.completeStage(d, 2, start);
+  assert.ok(C.buildCity(d, 'hq', start));
+  assert.ok(C.buildCity(d, 'workshop', start));
   return d;
 };
 let d = fresh();
@@ -42,6 +44,9 @@ d = fresh();
 d.city.materials = 1e7;
 for (let lv = 2; lv <= 10; lv++)
   assert.equal(C.buildCity(d, 'hq', start), true);
+for (const kind of B.CITY_BUILD_ORDER) {
+  if (!B.cityBuilding(d, kind).level) assert.ok(C.buildCity(d, kind, start));
+}
 for (const meta of B.CITY_BUILDINGS.filter((x) => x.live && x.id !== 'hq')) {
   while (B.cityBuilding(d, meta.id).level < 10)
     assert.equal(C.buildCity(d, meta.id, start), true);
@@ -74,6 +79,7 @@ d = fresh();
 d.city.materials = 10000;
 C.buildCity(d, 'factory', start);
 C.buildCity(d, 'hq', start);
+C.buildCity(d, 'warehouse', start);
 const oldMaterials = d.city.materials,
   oldAmmo = d.ammo;
 assert.equal(C.buildCity(d, 'power', start + 45000), true);

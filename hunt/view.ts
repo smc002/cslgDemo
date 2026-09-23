@@ -11,14 +11,17 @@ import {
   type Zombie,
 } from './simulation';
 import { COURIER_RULES } from '../lib/hunt-save';
+import { AMMO_CARRIER } from '../lib/ammo-carrier';
 import {
   zombieFrame,
   zombieDirection,
   advanceZombieClock,
+  zombieFilter,
   type ZombieAnimationManifest,
   type ZombieClock,
   type ZombieFacing,
 } from './zombie-animation';
+import { ZombieGaitRenderer } from './zombie-gait';
 import {
   vehicleMuzzle,
   VEHICLE_RIG,
@@ -40,6 +43,7 @@ export type HuntArt = {
   turret?: HTMLImageElement;
   platform?: HTMLImageElement;
   weapons?: HTMLImageElement;
+  ammoIcon?: HTMLImageElement;
   scenes?: HTMLImageElement[];
   zombieAnimation?: {
     manifest: ZombieAnimationManifest;
@@ -57,6 +61,9 @@ export class HuntView {
   private displayScale = 1;
   private deviceRatio = 0;
   private zombieClocks = new Map<number, ZombieClock>();
+  private zombieGait?: ZombieGaitRenderer;
+  private ammoFlightLayer?: HTMLDivElement;
+  private ammoFlights = new Map<number, HTMLImageElement[]>();
   constructor(
     private canvas: HTMLCanvasElement,
     public game: HuntGame,
@@ -111,10 +118,11 @@ export class HuntView {
         load(manifest.weapons),
         ...manifest.scenes.map(load),
       ]);
-    const [chassis, turret, platform] = await Promise.all([
+    const [chassis, turret, platform, ammoIcon] = await Promise.all([
       manifest.chassis ? load(manifest.chassis) : undefined,
       manifest.turret ? load(manifest.turret) : undefined,
       manifest.platform ? load(manifest.platform) : undefined,
+      load('/assets/loop/black-gold-ammo.png'),
     ]);
     let zombieAnimation: HuntArt['zombieAnimation'];
     if (manifest.zombieAnimation) {
@@ -146,6 +154,7 @@ export class HuntView {
       chassis,
       turret,
       platform,
+      ammoIcon,
       weapons,
       scenes,
       zombieAnimation,
@@ -265,7 +274,10 @@ export class HuntView {
       const { cell, anchor } = animation.manifest;
       const scale = (size * 1.12) / archetype.visibleHeight;
       this.ctx.save();
-      this.ctx.filter = definition.filter || 'none';
+      this.ctx.filter =
+        [definition.filter, this.ctx.filter === 'none' ? '' : this.ctx.filter]
+          .filter(Boolean)
+          .join(' ') || 'none';
       if (direction.mirror) this.ctx.scale(-1, 1);
       // Defeated enemies retain their new identity during the existing fade.
       this.ctx.drawImage(
@@ -322,27 +334,45 @@ export class HuntView {
       playbackRate,
     );
     this.zombieClocks.set(z.id, clock);
-    const hit = z.hit > 0;
     const direction = zombieDirection(archetype, clock.facing);
-    const clip = hit
+    const moving = Math.hypot(z.vx, z.vy) >= 0.01;
+    const authoredHit = archetype.authoredHit && z.hit > 0;
+    const clip = authoredHit
       ? direction.clips.hit
-      : Math.hypot(z.vx, z.vy) < 0.01
+      : !moving
         ? direction.clips.idle
         : direction.clips.walk;
-    const index = zombieFrame(clip, hit ? 1 - z.hit / 0.13 : clock.walk, hit);
+    const index = zombieFrame(
+      clip,
+      authoredHit ? 1 - z.hit / 0.13 : clock.walk,
+      !!authoredHit,
+    );
     const { cell, anchor } = animation.manifest;
     const scale = (size * 1.12) / archetype.visibleHeight;
     const c = this.ctx;
     c.save();
     if (direction.mirror) c.scale(-1, 1);
-    c.filter =
-      [
-        kind.filter,
-        z.frozen ? 'brightness(1.12) saturate(.55)' : '',
-        z.hit > 0.09 ? 'brightness(1.3)' : '',
-      ]
-        .filter(Boolean)
-        .join(' ') || 'none';
+    c.filter = zombieFilter(kind.filter, !!z.frozen, z.hit);
+    if (cell === 320 && archetype.columns === 8 && archetype.rows === 5) {
+      this.zombieGait ??= new ZombieGaitRenderer();
+      const drawn = this.zombieGait.draw(
+        c,
+        source,
+        kind.archetype,
+        direction.source,
+        direction.clips.idle.frames[0],
+        archetype.columns,
+        clock.walk,
+        moving,
+        -anchor.foot[0] * scale,
+        size * 0.37 - anchor.foot[1] * scale,
+        cell * scale,
+      );
+      if (drawn) {
+        c.restore();
+        return true;
+      }
+    }
     c.drawImage(
       source,
       (index % (archetype.columns ?? 4)) * cell,
@@ -402,18 +432,23 @@ export class HuntView {
     if (!animated) {
       c.rotate(bob * 0.025);
       c.translate(0, bob * 1.5);
-      if ((z.frozen ?? 0) > 0) c.filter = 'brightness(1.2) saturate(.5)';
-      if (z.hit > 0) c.filter = 'brightness(1.7)';
+      c.filter = zombieFilter('', !!z.frozen, z.hit);
     }
     if (animated) {
-      // Authored limb motion replaces the legacy whole-sprite wobble.
+      // Continuous articulated steps replace the legacy whole-sprite wobble.
     } else if ((z.kind >= 10 && this.art.weapons) || this.art.atlas) {
       this.zombieSprite(z.kind, s.size);
     } else {
+      c.filter = 'none';
       if (z.kind === 1) c.filter = 'hue-rotate(45deg)';
       if (z.kind === 2) c.filter = 'saturate(.25)';
       if (z.kind === 3) c.filter = 'hue-rotate(280deg)';
       if (z.kind === 4) c.filter = 'sepia(1) saturate(3)';
+      c.filter = zombieFilter(
+        c.filter === 'none' ? '' : c.filter,
+        !!z.frozen,
+        z.hit,
+      );
       c.drawImage(
         this.art.zombies,
         -s.size / 2,
@@ -427,7 +462,7 @@ export class HuntView {
       this.text('奖励', 0, -s.size * 0.82 - 8, 17, '#ffe977', 4);
     if (z.kind === 3)
       this.text('巨型', 0, -s.size * 0.82 - 8, 14, '#ffb968', 4);
-    if (z.kind >= 5)
+    if (z.kind >= 5 && z.kind !== AMMO_CARRIER.kind)
       this.text(
         z.kind === 6
           ? `散射 ${z.hitsLeft ?? SCATTER_HITS}/${SCATTER_HITS}`
@@ -438,6 +473,23 @@ export class HuntView {
         s.color,
         4,
       );
+    if (z.kind === AMMO_CARRIER.kind) {
+      const a = this.game.save.ammoCarrier.active;
+      this.text(
+        `返弹 +${a?.refundAmount ?? 0}`,
+        0,
+        -s.size * 0.82 - 8,
+        14,
+        '#ffe18a',
+        4,
+      );
+      if (this.art.ammoIcon)
+        c.drawImage(this.art.ammoIcon, -70, -s.size * 0.82 - 25, 22, 22);
+      for (let i = 0; i < AMMO_CARRIER.hits; i++) {
+        c.fillStyle = i < (a?.hits.length ?? 0) ? '#554b36' : '#f6cc5b';
+        c.fillRect(-22 + i * 16, s.size * 0.38, 12, 5);
+      }
+    }
     if ((z.frozen ?? 0) > 0) {
       c.fillStyle = '#76dfff38';
       c.strokeStyle = '#d1fcff';
@@ -475,11 +527,8 @@ export class HuntView {
       h = art.height / 2;
     c.save();
     if (!this.animatedZombie(z, SPECIES[z.kind].size)) {
-      c.translate(
-        z.hit > 0 ? Math.sin(z.hit * 70) * 4 : 0,
-        Math.sin(z.age * 5) * 1.5,
-      );
-      if (z.hit > 0) c.filter = 'brightness(1.5)';
+      c.translate(0, z.frozen ? 0 : Math.sin(z.age * 5) * 1.5);
+      c.filter = zombieFilter('', !!z.frozen, z.hit);
       c.drawImage(
         art,
         (broken % 2) * w,
@@ -650,6 +699,45 @@ export class HuntView {
         29,
         '#fff5ca',
         5,
+      );
+    } else if (e.kind === 'ammoReturn') {
+      const animation = this.art?.zombieAnimation;
+      const definition = animation?.manifest.kinds[String(AMMO_CARRIER.kind)];
+      const archetype =
+        definition && animation?.manifest.archetypes[definition.archetype];
+      const sheet = definition && animation?.sheets[definition.archetype];
+      if (animation && archetype && sheet) {
+        const direction = zombieDirection(archetype, e.facing ?? 'S');
+        const clip = direction.clips.death ?? direction.clips.idle;
+        const index = zombieFrame(clip, e.age),
+          columns = archetype.columns ?? 10;
+        const { cell, anchor } = animation.manifest;
+        const size = SPECIES[AMMO_CARRIER.kind].size,
+          scale = (size * 1.12) / archetype.visibleHeight;
+        c.save();
+        c.translate(e.x, e.y);
+        if (direction.mirror) c.scale(-1, 1);
+        c.globalAlpha = Math.min(1, (1 - t) * 3);
+        c.drawImage(
+          sheet,
+          (index % columns) * cell,
+          Math.floor(index / columns) * cell,
+          cell,
+          cell,
+          -anchor.foot[0] * scale,
+          size * 0.37 - anchor.foot[1] * scale,
+          cell * scale,
+          cell * scale,
+        );
+        c.restore();
+      }
+      this.text(
+        `黑金弹 +${e.points}`,
+        e.x,
+        e.y - 85 - t * 30,
+        21,
+        '#ffe596',
+        4,
       );
     } else if (e.kind === 'courierArrival') {
       c.globalAlpha = Math.min(1, (1 - t) * 3);
@@ -1087,12 +1175,79 @@ export class HuntView {
     }
     c.restore();
   }
+  private drawAmmoFlights() {
+    const page = this.canvas.closest('.hunt-page');
+    const inventory = page?.querySelector('[data-hunt-ammo-inventory] img');
+    if (!page || !inventory || !this.art?.ammoIcon) return;
+    const effects = this.game.effects.filter((e) => e.kind === 'ammoReturn');
+    for (const [id, nodes] of this.ammoFlights) {
+      if (!effects.some((e) => e.id === id)) {
+        nodes.forEach((n) => n.remove());
+        this.ammoFlights.delete(id);
+      }
+    }
+    if (!effects.length) return;
+    if (!this.ammoFlightLayer) {
+      this.ammoFlightLayer = document.createElement('div');
+      this.ammoFlightLayer.setAttribute('aria-hidden', 'true');
+      Object.assign(this.ammoFlightLayer.style, {
+        position: 'absolute',
+        inset: '0',
+        pointerEvents: 'none',
+        zIndex: '40',
+        overflow: 'hidden',
+      });
+      page.appendChild(this.ammoFlightLayer);
+    }
+    const pageRect = page.getBoundingClientRect(),
+      canvasRect = this.canvas.getBoundingClientRect(),
+      target = inventory.getBoundingClientRect();
+    const scale = canvasRect.width / ARENA.w,
+      offset = arenaViewportOffset(canvasRect.height / scale);
+    for (const e of effects) {
+      let nodes = this.ammoFlights.get(e.id);
+      if (!nodes) {
+        nodes = Array.from({ length: 4 }, () => {
+          const image = document.createElement('img');
+          image.src = this.art!.ammoIcon!.src;
+          image.alt = '';
+          Object.assign(image.style, {
+            position: 'absolute',
+            left: '0',
+            top: '0',
+            width: '25px',
+            height: '25px',
+            objectFit: 'contain',
+            filter: 'drop-shadow(0 0 5px #e9b847)',
+          });
+          this.ammoFlightLayer!.appendChild(image);
+          return image;
+        });
+        this.ammoFlights.set(e.id, nodes);
+      }
+      nodes.forEach((node, i) => {
+        const elapsed = e.age - 0.25 - i * 0.045,
+          u = Math.max(0, Math.min(1, elapsed / 0.85)),
+          t = u * u;
+        const sx = canvasRect.left - pageRect.left + e.x * scale,
+          sy = canvasRect.top - pageRect.top + (e.y + offset - 32) * scale;
+        const tx = target.left - pageRect.left + target.width / 2,
+          ty = target.top - pageRect.top + target.height / 2;
+        const x = sx + (tx - sx) * t + Math.sin(u * Math.PI) * (i - 1.5) * 22,
+          y = sy + (ty - sy) * t - Math.sin(u * Math.PI) * 55;
+        node.style.transform = `translate(${x - 12}px, ${y - 12}px) scale(${1 - 0.2 * u})`;
+        node.style.opacity =
+          elapsed < 0 ? '0' : String(Math.max(0, Math.min(1, (1 - u) * 8)));
+      });
+    }
+  }
   draw() {
     // Browser zoom / moving between monitors may change DPR without a CSS resize.
     if (this.deviceRatio !== (window.devicePixelRatio || 1)) this.resize();
     const c = this.ctx,
       g = this.game,
       art = this.art;
+    this.drawAmmoFlights();
     const live = new Set(g.zombies.map((z) => z.id));
     for (const effect of g.effects)
       if (effect.actorId !== undefined) live.add(effect.actorId);
@@ -1413,6 +1568,8 @@ export class HuntView {
   }
   dispose() {
     this.disposed = true;
+    this.ammoFlightLayer?.remove();
+    this.ammoFlights.clear();
     cancelAnimationFrame(this.frame);
     this.observer.disconnect();
   }

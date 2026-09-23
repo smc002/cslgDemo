@@ -1,0 +1,432 @@
+{
+  "name": "破门王",
+  "generator": "built-in image_gen",
+  "view": "fixed front, slightly overhead, faces screen-down",
+  "version": 1,
+  "files": {
+    "portrait.png": {
+      "size": [
+        768,
+        768
+      ],
+      "mode": "RGBA",
+      "anchor": [
+        384,
+        704
+      ],
+      "purpose": "boss intelligence full-body portrait"
+    },
+    "boss-actions.png": {
+      "size": [
+        2048,
+        1024
+      ],
+      "mode": "RGBA",
+      "grid": [
+        4,
+        2
+      ],
+      "cell": [
+        512,
+        512
+      ],
+      "anchor": [
+        256,
+        456
+      ]
+    }
+  },
+  "frames": [
+    {
+      "index": 0,
+      "name": "idle",
+      "rect": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "anchor": [
+        256,
+        456
+      ]
+    },
+    {
+      "index": 1,
+      "name": "walk-left",
+      "rect": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "anchor": [
+        256,
+        456
+      ]
+    },
+    {
+      "index": 2,
+      "name": "walk-right",
+      "rect": [
+        1024,
+        0,
+        512,
+        512
+      ],
+      "anchor": [
+        256,
+        456
+      ]
+    },
+    {
+      "index": 3,
+      "name": "raise",
+      "rect": [
+        1536,
+        0,
+        512,
+        512
+      ],
+      "anchor": [
+        256,
+        456
+      ]
+    },
+    {
+      "index": 4,
+      "name": "hold",
+      "rect": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "anchor": [
+        256,
+        456
+      ]
+    },
+    {
+      "index": 5,
+      "name": "slam",
+      "rect": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "anchor": [
+        256,
+        456
+      ]
+    },
+    {
+      "index": 6,
+      "name": "recover",
+      "rect": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "anchor": [
+        256,
+        456
+      ]
+    },
+    {
+      "index": 7,
+      "name": "defeated",
+      "rect": [
+        1536,
+        512,
+        512,
+        512
+      ],
+      "anchor": [
+        256,
+        456
+      ]
+    }
+  ],
+  "states": {
+    "idle": {
+      "frames": [
+        0
+      ],
+      "loop": true,
+      "duration_ms": 800
+    },
+    "walk": {
+      "frames": [
+        1,
+        0,
+        2,
+        0
+      ],
+      "loop": true,
+      "duration_ms": [
+        180,
+        90,
+        180,
+        90
+      ]
+    },
+    "attack": {
+      "frames": [
+        3,
+        4,
+        5,
+        6,
+        0
+      ],
+      "loop": false,
+      "duration_ms": [
+        250,
+        500,
+        100,
+        350,
+        100
+      ],
+      "hit_frame_index": 5,
+      "hit_at_ms": 750
+    },
+    "defeated": {
+      "frames": [
+        7
+      ],
+      "loop": false,
+      "duration_ms": 1000,
+      "hold_last": true
+    }
+  },
+  "fixed_lower_body": {
+    "source": "idle frame 0",
+    "layer": "shared-lower-body.png",
+    "mask_polygon": [
+      [
+        171,
+        338
+      ],
+      [
+        349,
+        338
+      ],
+      [
+        354,
+        370
+      ],
+      [
+        384,
+        405
+      ],
+      [
+        399,
+        475
+      ],
+      [
+        118,
+        475
+      ],
+      [
+        133,
+        405
+      ],
+      [
+        163,
+        370
+      ]
+    ],
+    "applies_to": [
+      0,
+      3,
+      4,
+      5,
+      6
+    ],
+    "exact_pixels_verified": true,
+    "seam": "below waist belt / barrier, hand regions excluded"
+  },
+  "sources": {
+    "portrait-source.png": {
+      "size": [
+        1254,
+        1254
+      ],
+      "target_size": [
+        704,
+        704
+      ],
+      "offset": [
+        32,
+        34
+      ]
+    },
+    "boss-actions-source.png": {
+      "size": [
+        1774,
+        887
+      ],
+      "cell_size": [
+        443.5,
+        443.5
+      ],
+      "target_size": [
+        432,
+        432
+      ],
+      "offset": [
+        40,
+        32
+      ],
+      "upper_translation_for_raise_hold": [
+        0,
+        30
+      ]
+    },
+    "slam-standing-source.png": {
+      "size": [
+        1254,
+        1254
+      ],
+      "target_size": [
+        448,
+        448
+      ],
+      "offset": [
+        32,
+        29
+      ]
+    }
+  },
+  "quality_checks": [
+    {
+      "frame": "idle",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "visible_bbox_alpha8": [
+        85,
+        38,
+        454,
+        454
+      ],
+      "border16_empty": true,
+      "shared_lower_pixels_exact": true
+    },
+    {
+      "frame": "walk-left",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "visible_bbox_alpha8": [
+        90,
+        40,
+        444,
+        456
+      ],
+      "border16_empty": true,
+      "shared_lower_pixels_exact": null
+    },
+    {
+      "frame": "walk-right",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "visible_bbox_alpha8": [
+        86,
+        39,
+        429,
+        459
+      ],
+      "border16_empty": true,
+      "shared_lower_pixels_exact": null
+    },
+    {
+      "frame": "raise",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "visible_bbox_alpha8": [
+        58,
+        64,
+        453,
+        454
+      ],
+      "border16_empty": true,
+      "shared_lower_pixels_exact": true
+    },
+    {
+      "frame": "hold",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "visible_bbox_alpha8": [
+        98,
+        67,
+        439,
+        454
+      ],
+      "border16_empty": true,
+      "shared_lower_pixels_exact": true
+    },
+    {
+      "frame": "slam",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "visible_bbox_alpha8": [
+        94,
+        45,
+        433,
+        454
+      ],
+      "border16_empty": true,
+      "shared_lower_pixels_exact": true
+    },
+    {
+      "frame": "recover",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "visible_bbox_alpha8": [
+        84,
+        38,
+        451,
+        454
+      ],
+      "border16_empty": true,
+      "shared_lower_pixels_exact": true
+    },
+    {
+      "frame": "defeated",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "visible_bbox_alpha8": [
+        62,
+        93,
+        449,
+        446
+      ],
+      "border16_empty": true,
+      "shared_lower_pixels_exact": null
+    }
+  ],
+  "limits": [
+    "Key-pose animation only; no invented interpolation",
+    "No eight-direction set; never rotate entire sprite to target",
+    "Slam weapon remains at waist; separate engine ground-impact effect needed",
+    "Shared lower body pixels fixed; upper-body silhouettes still change between generated poses",
+    "Runtime pause/speed/death interruption and single-hit logic must be validated in actual project"
+  ]
+}

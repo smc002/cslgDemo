@@ -147,7 +147,7 @@ console.log(
 const manifest = JSON.parse(
   await readFile('public/assets/hunt/zombies-v1/manifest.json', 'utf8'),
 );
-assert.equal(Object.keys(manifest.kinds).length, SPECIES.length);
+assert.equal(Object.keys(manifest.kinds).length, 12, 'legacy atlas predates the ammo carrier');
 for (const [name, a] of Object.entries(manifest.archetypes)) {
   const image = sharp(`public/assets/hunt/zombies-v1/${a.atlas}`);
   const meta = await image.metadata();
@@ -233,19 +233,19 @@ assert.equal(drawFrame(), 1, 'frozen actor holds the same pose');
 actor.frozen = 0;
 actor.hit = 0.13;
 actor.age = 0.25;
-assert.equal(drawFrame(), 4);
+assert.equal(drawFrame(), 1);
 actor.hit = 0.08;
 actor.age = 0.3;
-assert.equal(drawFrame(), 5);
+assert.equal(drawFrame(), 1);
 actor.hit = 0.001;
 actor.age = 0.38;
-assert.equal(drawFrame(), 6);
+assert.equal(drawFrame(), 2);
 actor.hit = 0;
 actor.age = 0.39;
-assert.equal(drawFrame(), 1, 'walk resumes its prior clock after recovery');
+assert.equal(drawFrame(), 2, 'walk continues through damage');
 actor.hit = 0.13;
 actor.age = 0.4;
-assert.equal(drawFrame(), 4, 'a fresh hit restarts the reaction exactly once');
+assert.equal(drawFrame(), 2, 'a fresh hit never restarts the walk');
 renderer.zombieSprite(5, 75);
 assert.equal(
   calls.at(-1)[0].id,

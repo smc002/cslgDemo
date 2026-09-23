@@ -1,0 +1,60 @@
+{
+  "generator": "built-in image_gen",
+  "date": "2026-09-23",
+  "outputs": [
+    {
+      "id": "a-soft-scavenge",
+      "name": "A 柔光轻夸张｜搜刮",
+      "source": "C:\\Users\\hy\\.codex\\generated_images\\01a0cca0-bbe0-7740-b7ee-87369131ded9\\exec-7c678723-d434-4a67-9826-edb81c7be012.png",
+      "dest": "E:/cslgDemo/outputs/western-cartoon-study-20260923/a-soft-scavenge.png"
+    },
+    {
+      "id": "a-soft-hunt",
+      "name": "A 柔光轻夸张｜猎场",
+      "source": "C:\\Users\\hy\\.codex\\generated_images\\01a0cca0-bbe0-7740-b7ee-87369131ded9\\exec-9dccb673-17a0-4075-9db0-d228f6545030.png",
+      "dest": "E:/cslgDemo/outputs/western-cartoon-study-20260923/a-soft-hunt.png"
+    },
+    {
+      "id": "a-soft-hero",
+      "name": "A 柔光轻夸张｜英雄",
+      "source": "C:\\Users\\hy\\.codex\\generated_images\\01a0cca0-bbe0-7740-b7ee-87369131ded9\\exec-e7d81bfe-5f0d-48e2-893a-354c98486e1d.png",
+      "dest": "E:/cslgDemo/outputs/western-cartoon-study-20260923/a-soft-hero.png"
+    },
+    {
+      "id": "b-ink-scavenge",
+      "name": "B 描边硬块面｜搜刮",
+      "source": "C:\\Users\\hy\\.codex\\generated_images\\01a0cca0-bbe0-7740-b7ee-87369131ded9\\exec-4c9ffcdd-e0ed-49c8-8a44-2b139080d0e8.png",
+      "dest": "E:/cslgDemo/outputs/western-cartoon-study-20260923/b-ink-scavenge.png"
+    },
+    {
+      "id": "b-ink-hunt",
+      "name": "B 描边硬块面｜猎场",
+      "source": "C:\\Users\\hy\\.codex\\generated_images\\01a0cca0-bbe0-7740-b7ee-87369131ded9\\exec-4dac65f9-a03a-44d3-978d-10ba49ce6c6e.png",
+      "dest": "E:/cslgDemo/outputs/western-cartoon-study-20260923/b-ink-hunt.png"
+    },
+    {
+      "id": "b-ink-hero",
+      "name": "B 描边硬块面｜英雄",
+      "source": "C:\\Users\\hy\\.codex\\generated_images\\01a0cca0-bbe0-7740-b7ee-87369131ded9\\exec-2e0aada7-2230-4200-866e-61ff8b888f00.png",
+      "dest": "E:/cslgDemo/outputs/western-cartoon-study-20260923/b-ink-hero.png"
+    },
+    {
+      "id": "c-toy-scavenge",
+      "name": "C 圆润玩具感｜搜刮",
+      "source": "C:\\Users\\hy\\.codex\\generated_images\\01a0cca0-bbe0-7740-b7ee-87369131ded9\\exec-ff6f8e9c-1527-4670-bb9a-0f78330ff5ee.png",
+      "dest": "E:/cslgDemo/outputs/western-cartoon-study-20260923/c-toy-scavenge.png"
+    },
+    {
+      "id": "c-toy-hunt",
+      "name": "C 圆润玩具感｜猎场",
+      "source": "C:\\Users\\hy\\.codex\\generated_images\\01a0cca0-bbe0-7740-b7ee-87369131ded9\\exec-76f58acb-15c2-4a61-8519-c6b01d4817e7.png",
+      "dest": "E:/cslgDemo/outputs/western-cartoon-study-20260923/c-toy-hunt.png"
+    },
+    {
+      "id": "c-toy-hero",
+      "name": "C 圆润玩具感｜英雄",
+      "source": "C:\\Users\\hy\\.codex\\generated_images\\01a0cca0-bbe0-7740-b7ee-87369131ded9\\exec-d392e341-8c5f-463f-ade5-4574042100ab.png",
+      "dest": "E:/cslgDemo/outputs/western-cartoon-study-20260923/c-toy-hero.png"
+    }
+  ]
+}

@@ -7,10 +7,11 @@
 *{box-sizing:border-box}body{margin:0;background:#123b3f;color:#fff5d6;font:15px/1.5 system-ui,'Microsoft YaHei',sans-serif}main{max-width:1040px;margin:auto;padding:24px}h1{font-size:26px;margin:0 0 8px}p{color:#bcd5c9;margin:6px 0 18px}header{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:18px 0}button,select{background:#286263;color:#fff5d6;border:1px solid #719b86;border-radius:8px;padding:9px 14px;font:inherit;cursor:pointer}button.primary{background:#ffce54;color:#3b3017;border-color:#ffefac}label{display:flex;align-items:center;gap:6px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}article{background:#0b2d32;border-radius:14px;padding:12px;overflow:hidden}h2{font-size:18px;margin:0 0 8px}canvas{display:block;width:100%;background:#dcd0ac;border-radius:8px}.meta{color:#bcd5c9;font-size:13px;margin:9px 0 0}a{color:#ffdf8e}@media(max-width:640px){main{padding:16px}.grid{grid-template-columns:1fr}}
 </style>
 <main>
-<h1>猎场僵尸 · 八方向拖步与受击</h1>
-<p>四套基础动作。上方放大查看，下方为猎场尺寸；五个独立视角，左侧三向镜像。受击与冻结锁定朝向，结束后再转向。</p>
+<h1>猎场僵尸 · 连续迈步与受击闪白</h1>
+<p>上方放大查看，下方为猎场尺寸。左右腿交替抬脚、落地；受击时继续行走，冻结时保持当前姿势。</p>
 <header>
   <button class="primary" id="hit">触发受击</button>
+  <button id="carrier-death">击破返弹僵尸</button>
   <button id="pause">暂停预览</button>
   <label>速度 <select id="speed"><option value="1">1×</option><option value=".25">0.25× 慢放</option><option value="2">2×</option></select></label>
   <label>朝向 <select id="facing"><option value="auto">自动绕行</option><option value="S">↓ 正面</option><option value="SE">↘ 右前</option><option value="E">→ 右侧</option><option value="NE">↗ 右后</option><option value="N">↑ 背面</option><option value="NW">↖ 左后</option><option value="W">← 左侧</option><option value="SW">↙ 左前</option></select></label>
@@ -23,13 +24,14 @@
 <p id="status" role="status">正在加载帧动画…</p>
 </main>
 <script type="module">
-import {zombieFrame,zombieDirection,advanceZombieClock} from './hunt-animation-runtime.js';
+import {zombieDirection,zombieFrame,advanceZombieClock,zombieFilter,ZombieGaitRenderer} from './hunt-animation-runtime.js';
+const gaitRenderer=new ZombieGaitRenderer();
 const artManifest=await fetch('/assets/hunt/art.json').then(r=>r.json());
 const base=artManifest.zombieAnimation.replace(/[^/]+$/,'');
 const manifest=await fetch(base+'manifest.json').then(r=>{if(!r.ok)throw Error('清单载入失败');return r.json()});
-const names={normal:'普通僵尸',armored:'装甲僵尸',explosive:'爆炸僵尸',giant:'巨型僵尸'};
-const sizes={normal:61,armored:78,explosive:75,giant:114};
-const kinds={normal:0,armored:2,explosive:5,giant:3};
+const names={normal:'普通僵尸',armored:'装甲僵尸',explosive:'爆炸僵尸',giant:'巨型僵尸',ammoCarrier:'黑金背弹僵尸'};
+const sizes={normal:61,armored:78,explosive:75,giant:114,ammoCarrier:86};
+const kinds={normal:0,armored:2,explosive:5,giant:3,ammoCarrier:12};
 const entries=await Promise.all(Object.entries(manifest.archetypes).map(async([id,art])=>{
   const sheet=new Image();sheet.src=base+art.atlas;await sheet.decode();
   const card=document.createElement('article');
@@ -37,12 +39,13 @@ const entries=await Promise.all(Object.entries(manifest.archetypes).map(async([i
   const canvas=document.createElement('canvas');canvas.width=480;canvas.height=370;
   const label=document.createElement('div');label.className='meta';
   card.append(title,canvas,label);document.querySelector('#grid').append(card);
-  return{id,art,sheet,canvas,label,age:0,hit:0,clock:undefined};
+  return{id,art,sheet,canvas,label,age:0,hit:0,death:null,clock:undefined};
 }));
 let paused=false,last=performance.now(),step=0,pathTime=0;
 const freeze=document.querySelector('#freeze'),guides=document.querySelector('#guides');
 const angles={E:0,SE:Math.PI/4,S:Math.PI/2,SW:3*Math.PI/4,W:Math.PI,NW:5*Math.PI/4,N:3*Math.PI/2,NE:7*Math.PI/4};
 document.querySelector('#hit').onclick=()=>entries.forEach(e=>e.hit=.13);
+document.querySelector('#carrier-death').onclick=event=>{const e=entries.find(e=>e.id==='ammoCarrier');e.death=e.death===null?0:null;e.deathFacing=e.clock?.facing??'S';event.target.textContent=e.death===null?'击破返弹僵尸':'返弹僵尸恢复移动'};
 document.querySelector('#pause').onclick=e=>{paused=!paused;e.target.textContent=paused?'继续预览':'暂停预览'};
 document.querySelector('#step').onclick=()=>{paused=true;document.querySelector('#pause').textContent='继续预览';step=1/30};
 function draw(now){
@@ -53,24 +56,32 @@ function draw(now){
   for(const e of entries){
     const c=e.canvas.getContext('2d');c.clearRect(0,0,480,370);
     e.age+=dt;
+    if(e.death!==null)e.death+=dt;
     e.clock=advanceZombieClock(e.clock,{age:e.age,seed:0,vx:Math.cos(angle)*25,vy:Math.sin(angle)*25,hit:e.hit,frozen:freeze.checked?1:0},manifest.kinds[kinds[e.id]].playbackRate??1);
-    const direction=zombieDirection(e.art,e.clock.facing);
-    const frame=zombieFrame(e.hit>0?direction.clips.hit:direction.clips.walk,e.hit>0?1-e.hit/.13:e.clock.walk,e.hit>0);
+    const direction=zombieDirection(e.art,e.death!==null?e.deathFacing:e.clock.facing);
     const drawSprite=(x,y,scale)=>{
       c.save();c.translate(x,y);if(direction.mirror)c.scale(-1,1);
-      c.drawImage(e.sheet,frame%e.art.columns*320,Math.floor(frame/e.art.columns)*320,320,320,-160*scale,-296*scale,320*scale,320*scale);c.restore();
+      c.filter=zombieFilter('',freeze.checked,e.hit);
+      if(e.id==='ammoCarrier') {
+        const hit=e.hit>0&&e.death===null;
+        const clip=e.death!==null?direction.clips.death:hit?direction.clips.hit:direction.clips.walk;
+        const frame=zombieFrame(clip,e.death!==null?e.death:hit?1-e.hit/.13:e.clock.walk,hit);
+        c.drawImage(e.sheet,frame%e.art.columns*320,Math.floor(frame/e.art.columns)*320,320,320,-160*scale,-296*scale,320*scale,320*scale);
+      } else gaitRenderer.draw(c,e.sheet,e.id,direction.source,direction.clips.idle.frames[0],e.art.columns,e.clock.walk,true,-160*scale,-296*scale,320*scale);
+      c.restore();
       if(guides.checked){c.save();c.setLineDash([4,4]);c.strokeStyle='#38797c';c.beginPath();c.moveTo(x-125*scale,y);c.lineTo(x+125*scale,y);c.stroke();c.restore()}
     };
     const phase=pathTime*.35;
-    const travelX=selection==='auto'?Math.cos(phase):0,travelY=selection==='auto'?Math.sin(phase):0;
+    const travelX=freeze.checked||e.death!==null?(e.travelX??0):selection==='auto'?Math.cos(phase):0,travelY=freeze.checked||e.death!==null?(e.travelY??0):selection==='auto'?Math.sin(phase):0;
+    e.travelX=travelX;e.travelY=travelY;
     drawSprite(240+travelX*24,244+travelY*24,.88);drawSprite(240+travelX*10,348+travelY*10,sizes[e.id]*1.12/e.art.visibleHeight*.65);
     c.fillStyle='#255756';c.font='14px sans-serif';c.fillText('猎场尺寸',18,339);
-    e.label.textContent=`${e.clock.facing}${direction.mirror?'（镜像）':''} · ${e.hit>0?'受击':freeze.checked?'冻结':'拖步'} · 第 ${frame+1} 帧 / 40`;
+    e.label.textContent=`${e.clock.facing}${direction.mirror?'（镜像）':''} · ${e.death!==null?'击破 · 非循环':e.hit>0?e.id==='ammoCarrier'?'受击 · 固定下肢':'闪白 · 步态继续':freeze.checked?'冻结':'交替迈步'}`;
     e.hit=Math.max(0,e.hit-dt);
   }
   requestAnimationFrame(draw);
 }
-document.querySelector('#status').textContent='已加载 4 套透明图集 · 每套 5 个源朝向 ×（4 帧移动 + 3 帧受击 + 1 帧站姿）';
+document.querySelector('#status').textContent='已加载 5 套形象 · 返弹僵尸 50 帧 / 八方向 · 可慢放、逐帧查看';
 requestAnimationFrame(draw);
 </script>
 </html>

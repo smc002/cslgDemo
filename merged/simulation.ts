@@ -94,6 +94,9 @@ export type Unit = {
   combatLane?: number;
   reinforcing?: boolean;
   kind: number;
+  boss?: boolean;
+  bossCharge?: number;
+  bossRecovery?: number;
   x: number;
   y: number;
   hp: number;
@@ -271,13 +274,20 @@ export class MergedBattle {
       h.reinforcing = false;
     }
     for (let lane = 0; lane < 3; lane++)
-      if (!this.lost[lane] && this.heroes.some((h) => h.lane === lane))
+      if (
+        (!this.lost[lane] && this.heroes.some((h) => h.lane === lane)) ||
+        (this.campaignMode &&
+          this.stage === 10 &&
+          this.wave % 3 === 0 &&
+          lane === 1)
+      )
         for (let n = 0; n < Math.min(7, 4 + Math.floor(this.wave / 2)); n++) {
           const boss =
             this.campaignMode &&
             this.stage % 5 === 0 &&
             this.wave % 3 === 0 &&
-            n === 0;
+            n === 0 &&
+            (this.stage !== 10 || lane === 1);
           const kind = n === 0 ? 2 : n % 2;
           const hp = Math.round(
             (kind === 2 ? 220 : kind === 1 ? 112 : 85) *
@@ -293,6 +303,7 @@ export class MergedBattle {
             hero: -1,
             lane,
             kind,
+            boss: boss && this.stage === 10,
             x,
             y,
             homeX: x,
@@ -675,6 +686,7 @@ export class MergedBattle {
     // Decisions persist until that front clears; they do not flip every frame by nearest target.
     const live = this.heroes.filter((h) => h.hp > 0);
     for (const z of this.enemies.filter((e) => e.hp > 0)) {
+      if (z.boss) continue;
       if (!live.some((h) => h.hero !== 5 && combatLane(h) === combatLane(z))) {
         const target = live
           .filter((h) => h.hero !== 5)
@@ -738,6 +750,36 @@ export class MergedBattle {
         .sort((a, b) => distance(z, a) - distance(z, b));
       const target = targets[0];
       z.target = target?.id ?? 0;
+      if (z.boss) {
+        if ((z.bossRecovery ?? 0) > 0) {
+          z.bossRecovery = Math.max(0, z.bossRecovery! - dt);
+          continue;
+        }
+        if (z.bossCharge !== undefined) {
+          z.bossCharge -= dt;
+          if (z.bossCharge <= 0) {
+            for (const h of this.heroes.filter(
+              (h) =>
+                h.hp > 0 &&
+                h.hero !== 5 &&
+                Math.abs(h.x - z.x) < 62 &&
+                h.y >= z.y - 8 &&
+                h.y <= z.y + 155,
+            )) {
+              this.hurt(
+                h,
+                42 * (h.hero === 0 ? 0.55 : h.hero === 6 ? 0.65 : 1),
+              );
+              this.fx('hit', z, h);
+            }
+            z.bossCharge = undefined;
+            z.bossRecovery = 0.55;
+            z.cd = 2.4;
+          }
+        } else if (z.cd <= 0 && target && distance(z, target) < 190)
+          z.bossCharge = 1.2;
+        continue;
+      }
       if (z.stun > 0) continue;
       if (!target) {
         // Only assassins remain: defeat is handled above; never silently delete survivors.
@@ -779,7 +821,9 @@ export class MergedBattle {
       }
     }
     this.shots = this.shots.filter((s) => s.age < 2);
-    this.enemies = this.enemies.filter((e) => e.hp > 0 || e.age < 0.4);
+    this.enemies = this.enemies.filter(
+      (e) => e.hp > 0 || e.age < (e.boss ? 1 : 0.4),
+    );
     if (!this.enemies.some((e) => e.hp > 0)) {
       this.phase =
         this.campaignMode && this.wave % 3 === 0 ? 'cleared' : 'march';

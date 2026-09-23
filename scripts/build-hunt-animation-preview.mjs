@@ -1,8 +1,13 @@
 import { build } from 'esbuild';
 
-// Preview and game share facing, interruption and variable-duration sampling.
+// Preview and game share the exact locomotion renderer and hit flash.
 await build({
-  entryPoints: ['hunt/zombie-animation.ts'],
+  stdin: {
+    contents:
+      "export * from './hunt/zombie-animation'; export * from './hunt/zombie-gait';",
+    resolveDir: process.cwd(),
+    loader: 'ts',
+  },
   bundle: true,
   format: 'esm',
   platform: 'browser',

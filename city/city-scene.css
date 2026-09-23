@@ -430,3 +430,65 @@
     transition: none;
   }
 }
+
+.city-empty-plot {
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  bottom: 4%;
+  height: 45%;
+  min-height: 46px;
+  border: 2px dashed #eccb84;
+  border-radius: 50%;
+  background: #6e5b3b50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff0c5;
+  text-shadow: 0 2px 3px #473b27;
+  box-shadow: inset 0 0 12px #44352b33;
+  pointer-events: none;
+}
+.city-empty-plot b {
+  font-size: 32px;
+  line-height: 1;
+  font-weight: 600;
+}
+.city-empty-plot small {
+  font-size: 11px;
+}
+.city-building.is-dormant .city-building-caption {
+  background: #6b5841ed;
+  border-color: #dbc38b;
+}
+.city-building.is-building .city-building-sprite {
+  animation: city-construct 0.8s ease-out both;
+}
+@keyframes city-construct {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.65);
+  }
+  65% {
+    opacity: 1;
+    transform: translateY(3px) scale(1.04);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .city-building.is-building .city-building-sprite {
+    animation: none;
+  }
+}
+
+.city-terrain-renewal {
+  transition: opacity 1.2s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .city-terrain-renewal {
+    transition: none;
+  }
+}

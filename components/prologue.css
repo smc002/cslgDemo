@@ -1,0 +1,189 @@
+.prologue-task {
+  position: absolute;
+  z-index: 36;
+  left: 12px;
+  right: 12px;
+  top: 76px;
+  display: grid;
+  grid-template-columns: 1fr 16px;
+  gap: 2px;
+  text-align: left;
+  padding: 8px 12px;
+  border: 1px solid #ddbd62;
+  border-radius: 13px;
+  background: #fff8deed;
+  color: #244845;
+  box-shadow: 0 3px 9px #17393720;
+  cursor: pointer;
+}
+.prologue-task small {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  font-weight: 800;
+}
+.prologue-task span {
+  font-size: 12px;
+  line-height: 1.35;
+  grid-column: 1;
+}
+.prologue-task b {
+  grid-column: 2;
+  grid-row: 1/3;
+  align-self: center;
+  font-size: 24px;
+}
+.prologue-story {
+  padding: 0 !important;
+  width: min(92vw, 420px) !important;
+  height: min(88dvh, 720px);
+  overflow: hidden;
+  border: 3px solid #e5c46c !important;
+  border-radius: 24px !important;
+  display: block !important;
+  background: #244d4a !important;
+  isolation: isolate;
+}
+.prologue-scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
+.prologue-story:before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(#143e4166, transparent 35%, #143e4199);
+  z-index: -1;
+}
+.prologue-story-title {
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  color: #fff4c9;
+  text-shadow: 0 2px 3px #172d2c;
+}
+.prologue-story-title small {
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+}
+.prologue-story-title h2 {
+  font-size: 30px !important;
+  margin-top: 7px;
+  line-height: 1.15;
+}
+.prologue-character {
+  position: absolute;
+  height: 69%;
+  width: 80%;
+  object-fit: contain;
+  object-position: bottom;
+  bottom: 153px;
+  left: 8%;
+  filter: drop-shadow(0 5px 3px #173c4455);
+}
+.prologue-character.is-boss {
+  width: 100%;
+  left: 0;
+}
+.prologue-dialogue {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  border: 2px solid #aebf9b;
+  border-radius: 17px;
+  padding: 15px;
+  background: #fff9e9;
+  color: #244845;
+  box-shadow: 0 3px 0 #17393766;
+}
+.prologue-dialogue strong {
+  display: block;
+  color: #377b70;
+  font-size: 15px;
+}
+.prologue-dialogue p {
+  font-size: 14px !important;
+  line-height: 1.65 !important;
+  color: #334c46 !important;
+  margin: 8px 0 12px;
+}
+.prologue-dialogue button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ba882b;
+  background: #f3c658;
+  color: #263c32;
+  font-weight: 800;
+  cursor: pointer;
+}
+.prologue-dialogue > small {
+  display: block;
+  font-size: 10px;
+  text-align: center;
+  margin-top: 8px;
+  color: #748179;
+}
+.prologue-story > button {
+  color: white !important;
+  z-index: 3;
+}
+.mori-gameplay-shell:has(.prologue-task) .loop-notice {
+  top: 135px;
+  bottom: auto;
+}
+@media (max-height: 650px) {
+  .prologue-story-title h2 {
+    font-size: 24px !important;
+  }
+  .prologue-dialogue p {
+    font-size: 12px !important;
+  }
+  .prologue-character {
+    height: 63%;
+    bottom: 155px;
+  }
+  .prologue-task {
+    top: 68px;
+    padding: 5px 9px;
+  }
+}
+
+/* Keep the guide in document flow so it cannot cover battlefield controls. */
+.prologue-prop {
+  position: absolute;
+  top: 100px;
+  right: 15px;
+  width: 75px;
+  height: 150px;
+  background-image: url('/assets/prologue-v1/props.png');
+  background-size: 400% 100%;
+  background-position: 33.333% 0;
+  filter: drop-shadow(0 4px 4px #193c4355);
+}
+.prologue-prop.toolbox {
+  background-position: 100% 0;
+}
+.mori-gameplay-shell > .global-resources {
+  order: 0;
+}
+.mori-gameplay-shell > .prologue-task {
+  position: relative;
+  order: 1;
+  top: auto;
+  left: auto;
+  right: auto;
+  margin: 4px 8px;
+  flex-shrink: 0;
+}
+.mori-gameplay-shell > .mori-gameplay-content {
+  order: 2;
+}
+.mori-gameplay-shell > .mori-gameplay-menu {
+  order: 3;
+}

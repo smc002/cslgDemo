@@ -1,0 +1,252 @@
+{
+  "version": "1.0",
+  "generator": "built-in image_gen",
+  "root": "C:/Users/hy/Documents/CodexArt/camp-prologue-20260923/characters",
+  "assets": [
+    {
+      "file": "ashuan-worried.png",
+      "size": [
+        512,
+        768
+      ],
+      "mode": "RGBA",
+      "realAlpha": true,
+      "use": "阿栓：担心",
+      "anchor": [
+        256,
+        736
+      ],
+      "faceCenterApprox": [
+        256,
+        225
+      ],
+      "alphaBBox": [
+        60,
+        88,
+        464,
+        736
+      ],
+      "source": "ashuan-worried-original.png",
+      "sourceSize": [
+        1024,
+        1536
+      ],
+      "mapping": {
+        "scale": 0.44921875,
+        "offset": [
+          26,
+          56
+        ]
+      }
+    },
+    {
+      "file": "ashuan-confident.png",
+      "size": [
+        512,
+        768
+      ],
+      "mode": "RGBA",
+      "realAlpha": true,
+      "use": "阿栓：嘴硬得意",
+      "anchor": [
+        256,
+        736
+      ],
+      "faceCenterApprox": [
+        256,
+        225
+      ],
+      "alphaBBox": [
+        60,
+        88,
+        465,
+        736
+      ],
+      "source": "ashuan-confident-original.png",
+      "sourceSize": [
+        1024,
+        1536
+      ],
+      "mapping": {
+        "scale": 0.44921875,
+        "offset": [
+          26,
+          56
+        ]
+      }
+    },
+    {
+      "file": "ashuan-happy.png",
+      "size": [
+        512,
+        768
+      ],
+      "mode": "RGBA",
+      "realAlpha": true,
+      "use": "阿栓：安心开心",
+      "anchor": [
+        256,
+        736
+      ],
+      "faceCenterApprox": [
+        256,
+        225
+      ],
+      "alphaBBox": [
+        60,
+        88,
+        465,
+        736
+      ],
+      "source": "ashuan-happy-original.png",
+      "sourceSize": [
+        1024,
+        1536
+      ],
+      "mapping": {
+        "scale": 0.44921875,
+        "offset": [
+          26,
+          56
+        ]
+      }
+    },
+    {
+      "file": "props.png",
+      "size": [
+        1024,
+        512
+      ],
+      "mode": "RGBA",
+      "realAlpha": true,
+      "use": "四格道具状态",
+      "source": "props-original.png",
+      "sourceSize": [
+        1774,
+        887
+      ],
+      "mapping": {
+        "globalScale": 0.5772266065388952,
+        "globalOffset": [
+          0,
+          40
+        ],
+        "additionalCellTranslations": [
+          [
+            -12,
+            3
+          ],
+          [
+            -12,
+            1
+          ],
+          [
+            3,
+            6
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "note": "固定四格裁切，统一等比缩放，仅平移对齐底部；没有逐格拉伸。",
+        "finalSafeCropInCell": [
+          16,
+          16,
+          224,
+          480
+        ]
+      },
+      "frames": [
+        {
+          "id": "ammo-closed",
+          "rect": [
+            0,
+            0,
+            256,
+            512
+          ],
+          "anchor": [
+            128,
+            448
+          ],
+          "alphaBBoxInCell": [
+            39,
+            293,
+            217,
+            448
+          ]
+        },
+        {
+          "id": "ammo-open",
+          "rect": [
+            256,
+            0,
+            256,
+            512
+          ],
+          "anchor": [
+            128,
+            448
+          ],
+          "alphaBBoxInCell": [
+            39,
+            215,
+            217,
+            448
+          ]
+        },
+        {
+          "id": "toolbox-closed",
+          "rect": [
+            512,
+            0,
+            256,
+            512
+          ],
+          "anchor": [
+            128,
+            448
+          ],
+          "alphaBBoxInCell": [
+            38,
+            293,
+            219,
+            448
+          ]
+        },
+        {
+          "id": "toolbox-open",
+          "rect": [
+            768,
+            0,
+            256,
+            512
+          ],
+          "anchor": [
+            128,
+            448
+          ],
+          "alphaBBoxInCell": [
+            33,
+            230,
+            224,
+            448
+          ]
+        }
+      ]
+    }
+  ],
+  "qa": {
+    "preview": "qa-preview.png",
+    "alphaAudit": "alpha-audit.json",
+    "checked": "白底/浅灰底合成检查透明，角色256×384及道具单格128×256检查可读性。所有图集列边界为空透明，无文字UI。",
+    "limitations": [
+      "角色表情仅脸部变化，非骨骼动画；不用于逐帧战斗动作。",
+      "半身资源下沿为整齐切口，建议放在对话框后方。",
+      "道具开启版是静态状态切换，非开启动画。",
+      "原图透明像素可能含无效RGB，在忽略alpha的查看器中会显示黑色或色晕；标准alpha合成显示正常。",
+      "开心表情为更易读的开口笑，用于修复/获救完成节点。"
+    ]
+  }
+}

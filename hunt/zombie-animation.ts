@@ -9,12 +9,14 @@ export type ZombieClips = {
   idle: ZombieClip;
   walk: ZombieClip;
   hit: ZombieClip;
+  death?: ZombieClip;
 };
 export type ZombieArchetype = {
   atlas: string;
   visibleHeight: number;
   columns?: number;
   rows?: number;
+  authoredHit?: boolean;
   clips?: ZombieClips;
   directions?: Partial<Record<ZombieFacing, ZombieClips>>;
 };
@@ -89,8 +91,8 @@ export function advanceZombieClock(
         }
       : { ...previous };
   const elapsed = Math.max(0, Math.min(0.1, actor.age - current.age));
-  // Reaction and freeze retain the facing captured before the interruption.
-  if (!actor.frozen && actor.hit <= 0) {
+  // Damage is a colour flash, never an interruption of locomotion.
+  if (!actor.frozen) {
     current.facing = zombieFacing(actor.vx, actor.vy, current.facing);
     if (Math.hypot(actor.vx, actor.vy) > 0.01)
       current.walk += elapsed * playbackRate;
@@ -99,7 +101,7 @@ export function advanceZombieClock(
   return current;
 }
 
-/** A hit uses all its authored poses within the existing reaction interval. */
+/** Sample legacy clips (also used by static/death poses). */
 export function zombieFrame(
   clip: ZombieClip,
   seconds: number,
@@ -118,4 +120,23 @@ export function zombieFrame(
     elapsed -= durations[i];
   }
   return clip.frames[clip.frames.length - 1];
+}
+
+/** White silhouette at impact, then a short fade back to the original colours. */
+export function zombieHitFlash(remaining: number) {
+  return Math.max(0, Math.min(1, remaining / 0.13));
+}
+
+export function zombieFilter(tint = '', frozen = false, hit = 0) {
+  const flash = zombieHitFlash(hit);
+  return (
+    [
+      tint,
+      frozen ? 'brightness(1.12) saturate(.55)' : '',
+      // Lowering contrast before brightness turns even black outlines white.
+      flash > 0 ? `contrast(${1 - flash}) brightness(${1 + flash})` : '',
+    ]
+      .filter(Boolean)
+      .join(' ') || 'none'
+  );
 }

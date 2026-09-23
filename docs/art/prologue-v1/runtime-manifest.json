@@ -1,0 +1,108 @@
+[
+  {
+    "file": "public/assets/prologue-v1/ashuan-confident.png",
+    "size": [
+      512,
+      768
+    ],
+    "mode": "RGBA",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "bytes": 534003,
+    "sha256": "fe7613856cf4b812a7532c80e8dd8f674f4cf1fb7cfb87d42f9125b628eee99f"
+  },
+  {
+    "file": "public/assets/prologue-v1/ashuan-happy.png",
+    "size": [
+      512,
+      768
+    ],
+    "mode": "RGBA",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "bytes": 534002,
+    "sha256": "f9a6dde7c8ce3b1cb21282ae2b50cc91c4c3b93cebf5b3ab7d932867771bd461"
+  },
+  {
+    "file": "public/assets/prologue-v1/ashuan-worried.png",
+    "size": [
+      512,
+      768
+    ],
+    "mode": "RGBA",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "bytes": 521600,
+    "sha256": "42cf2e4ee3f89a97a67a6b53d54c29de56a16b544ce360d4b0dbe2148bdb7cae"
+  },
+  {
+    "file": "public/assets/prologue-v1/gate-damaged.png",
+    "size": [
+      768,
+      1280
+    ],
+    "mode": "RGB",
+    "alphaRange": null,
+    "bytes": 2007516,
+    "sha256": "0ffe92488e1b109259cde747b6a0fd12f9d057cc08cf319f4ebb73020a51aa1a"
+  },
+  {
+    "file": "public/assets/prologue-v1/gate-restored.png",
+    "size": [
+      768,
+      1280
+    ],
+    "mode": "RGB",
+    "alphaRange": null,
+    "bytes": 1973588,
+    "sha256": "4e86beeab6930110e420d180ad3aabdcc73ce4e77d883b708a8e9d7265705923"
+  },
+  {
+    "file": "public/assets/prologue-v1/props.png",
+    "size": [
+      1024,
+      512
+    ],
+    "mode": "RGBA",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "bytes": 339646,
+    "sha256": "51716267fa5c0e49eef9348c6bfe25b3f716a349cfe9013e23373e47fa5ff232"
+  },
+  {
+    "file": "public/assets/prologue-v1/boss/boss-actions.png",
+    "size": [
+      2048,
+      1024
+    ],
+    "mode": "RGBA",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "bytes": 1677478,
+    "sha256": "77e12f3ec69e2ac31c09b834fb8b8973ba8bc8351468c534d9f68fe100e9dd06"
+  },
+  {
+    "file": "public/assets/prologue-v1/boss/portrait.png",
+    "size": [
+      768,
+      768
+    ],
+    "mode": "RGBA",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "bytes": 480294,
+    "sha256": "818aff73f05272a43e3d9491e966332cfe355f5eca19ee7838397c3f73037535"
+  }
+]

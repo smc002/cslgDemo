@@ -3,11 +3,12 @@ import { useEffect, useRef, useState } from 'react';
 import {
   campaign,
   heroPower,
-  slotsUnlocked,
+  unlockedSlotIndices,
   validLineup,
   autoLineup,
 } from '@/lib/campaign';
-import { stageAmmo } from '@/lib/balance';
+import { battleGate } from '@/lib/prologue';
+import { stageAmmo, BALANCE } from '@/lib/balance';
 import { MergedBattle, HEROES, SLOTS, COLORS } from './simulation';
 import { RECRUIT_HEROES } from '@/lib/recruit';
 import { MergedView } from './view';
@@ -94,7 +95,12 @@ export default function MergedPanel({
           campaign.completeStage(g.stage);
           clearAt.current = performance.now();
         }
-        if (autoRef.current && performance.now() - clearAt.current > 2200) {
+        if (
+          autoRef.current &&
+          !battleGate(campaign.read()) &&
+          activeRef.current &&
+          performance.now() - clearAt.current > 2200
+        ) {
           const next = campaign.read().bestStage + 1;
           configure();
           if (next % 5 !== 0) g.start();
@@ -127,6 +133,14 @@ export default function MergedPanel({
     const api = {
       snapshot: () => g.snapshot(),
       start: () => {
+        const blocked = battleGate(campaign.read());
+        if (!activeRef.current || blocked) {
+          if (blocked)
+            campaign.update((d) => {
+              d.notice = blocked;
+            });
+          return;
+        }
         if (g.phase === 'cleared' || g.phase === 'defeat') configure();
         g.start();
         campaign.update((d) => {
@@ -166,7 +180,7 @@ export default function MergedPanel({
   }, []);
   void revision;
   const d = campaign.read(),
-    unlocked = slotsUnlocked(d),
+    unlocked = unlockedSlotIndices(d),
     prep = state.phase === 'prep',
     detail = picked ?? (selected !== null ? state.lineup[selected] : 0),
     info = HEROES[detail >= 0 ? detail : 0];
@@ -179,7 +193,7 @@ export default function MergedPanel({
     setPicked(null);
   };
   const place = (slot: number) => {
-    if (slot >= unlocked) return;
+    if (!unlocked.includes(slot)) return;
     if (picked !== null) {
       const n = [...d.lineup],
         old = n.indexOf(picked);
@@ -233,8 +247,8 @@ export default function MergedPanel({
             <div key={i} style={{ borderColor: COLORS[i] }}>
               <b>{['左路', '中路', '右路'][i]}</b>
               <span>
-                {i * 3 >= unlocked
-                  ? `第 ${i === 1 ? 2 : 4} 关后开放`
+                {!unlocked.includes(i * 3)
+                  ? `第 ${i === 0 ? BALANCE.secondLane : BALANCE.thirdLane} 关后开放`
                   : prep
                     ? l.balanced
                       ? '坦克 · 治疗 · 输出'
@@ -249,7 +263,14 @@ export default function MergedPanel({
         {prep && (
           <>
             <div className="merged-brief">
-              <b>{stage % 5 === 0 ? '首领挡住了去路' : '为幸存者找回补给'}</b>
+              <b>
+                {battleGate(d) ||
+                  (stage === 10
+                    ? '破门王：留意举盾，准备迎接重砸'
+                    : stage % 5 === 0
+                      ? '首领挡住了去路'
+                      : '为幸存者找回补给')}
+              </b>
               <p>
                 拖动英雄交换站位
                 <br />
@@ -260,7 +281,7 @@ export default function MergedPanel({
               {SLOTS.map((p, i) => (
                 <button
                   key={i}
-                  disabled={i >= unlocked}
+                  disabled={!unlocked.includes(i)}
                   aria-label={`部署位置${i + 1}：${state.lineup[i] >= 0 ? HEROES[state.lineup[i]].name : '空位'}`}
                   className={selected === i ? 'selected' : ''}
                   style={{
@@ -286,7 +307,7 @@ export default function MergedPanel({
                       y = ((e.clientY - r.top) / r.height) * 752;
                     const target = SLOTS.findIndex(
                       (s, n) =>
-                        n < unlocked &&
+                        unlocked.includes(n) &&
                         Math.abs(x - s.x) < 36 &&
                         Math.abs(y - (s.y - 22)) < 54,
                     );
@@ -307,7 +328,7 @@ export default function MergedPanel({
                   }}
                 >
                   <span>
-                    {i >= unlocked
+                    {!unlocked.includes(i)
                       ? '未开放'
                       : state.lineup[i] < 0
                         ? '空位'
@@ -348,7 +369,13 @@ export default function MergedPanel({
                 </button>
                 <button
                   className="primary"
-                  disabled={!ready || !state.heroes.some((h) => h.hero !== 5)}
+                  data-guide="start-scavenge"
+                  disabled={
+                    !active ||
+                    !ready ||
+                    !!battleGate(d) ||
+                    !state.heroes.some((h) => h.hero !== 5)
+                  }
                   onClick={() => window.moriMerged?.start()}
                 >
                   {stage % 5 === 0 ? '挑战首领' : '开始搜刮'}

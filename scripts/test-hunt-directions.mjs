@@ -30,7 +30,7 @@ const directions = {
   W: [-25, 0, 2, true],
   SW: [-25, 25, 1, true],
 };
-assert.equal(Object.keys(manifest.kinds).length, 12);
+assert.equal(Object.keys(manifest.kinds).length, 13);
 for (const [facing, [vx, vy]] of Object.entries(directions))
   assert.equal(zombieFacing(vx, vy), facing);
 for (const degrees of [21, 23, 29])
@@ -58,7 +58,7 @@ assert.equal(
 );
 assert.equal(zombieFacing(NaN, 0, 'N'), 'N');
 let state = { age: 1, walk: 0.32, facing: 'W' };
-for (const interruption of [{ hit: 0.13 }, { frozen: 1 }]) {
+for (const interruption of [{ frozen: 1 }]) {
   const next = advanceZombieClock(
     state,
     { age: 1.05, seed: 0, vx: 25, vy: 0, hit: 0, ...interruption },
@@ -83,10 +83,13 @@ assert.equal(
   'N',
 );
 console.log(
-  'PASS eight velocity directions, boundary hysteresis, hit/freeze locks and clock reset',
+  'PASS eight velocity directions, boundary hysteresis, flash continuity/freeze locks and clock reset',
 );
 
 for (const [name, a] of Object.entries(manifest.archetypes)) {
+  // The carrier has 10 columns with authored defeat frames and is covered by
+  // test-ammo-carrier.mjs; preserve all existing gait regressions below.
+  if (name === 'ammoCarrier') continue;
   assert.deepEqual(Object.keys(a.directions), native);
   const { data, info } = await sharp(
     path.join(path.dirname(manifestPath), a.atlas),
@@ -194,6 +197,18 @@ renderer.ctx = new Proxy(
   },
   { get: (o, k) => (k in o ? o[k] : () => {}) },
 );
+let gaitSample;
+renderer.zombieGait = {
+  draw(c, sheet, name, facing, frame, columns, seconds, moving) {
+    gaitSample = { name, facing, seconds, moving, filter: c.filter };
+    c.drawImage(
+      sheet,
+      (frame % columns) * 320,
+      Math.floor(frame / columns) * 320,
+    );
+    return true;
+  },
+};
 renderer.zombieClocks = new Map();
 renderer.art = {
   zombieAnimation: {
@@ -230,35 +245,44 @@ for (let kind = 0; kind < 12; kind++)
       vy,
     };
     assert.deepEqual(draw(actor), {
-      frame: row * 8,
+      frame: row * 8 + 7,
       sheet: manifest.kinds[kind].archetype,
       mirror,
     });
-    actor.vx = -vx;
-    actor.vy = -vy;
-    actor.hit = 0.13;
-    actor.age = 0.05;
-    assert.equal(
-      draw(actor).frame,
-      row * 8 + 4,
-      `${kind} ${facing} hit facing`,
-    );
-    actor.hit = 0.08;
-    actor.age = 0.1;
-    assert.equal(draw(actor).frame, row * 8 + 5);
-    actor.hit = 0.001;
-    actor.age = 0.15;
-    assert.equal(draw(actor).frame, row * 8 + 6);
-    actor.hit = 0;
-    actor.vx = vx;
-    actor.vy = vy;
-    actor.age = 0.16;
-    assert.equal(draw(actor).frame, row * 8);
+    for (const [age, hit] of [
+      [0.05, 0.13],
+      [0.1, 0.08],
+      [0.15, 0.001],
+      [0.16, 0],
+      [0.2, 0.13],
+    ]) {
+      const before = renderer.zombieClocks.get(kind).walk;
+      actor.age = age;
+      actor.hit = hit;
+      assert.equal(
+        draw(actor).frame,
+        row * 8 + 7,
+        'same rig source during damage',
+      );
+      assert.ok(gaitSample.seconds > before, 'repeated hits never pause feet');
+      assert.equal(gaitSample.filter.includes('contrast('), hit > 0);
+    }
     actor.frozen = 1;
     actor.vx = -vx;
     actor.vy = -vy;
-    actor.age = 0.2;
-    assert.equal(draw(actor).frame, row * 8);
+    actor.age = 0.25;
+    const frozenTime = gaitSample.seconds;
+    assert.equal(draw(actor).frame, row * 8 + 7);
+    assert.equal(gaitSample.seconds, frozenTime);
+    assert.equal(gaitSample.facing, native[row]);
+    actor.frozen = 0;
+    actor.age = 0.3;
+    draw(actor);
+    assert.equal(
+      renderer.zombieClocks.get(kind).facing,
+      zombieFacing(-vx, -vy),
+      'damage does not lock facing',
+    );
     calls.length = 0;
     scales.length = 0;
     renderer.zombieSprite(kind, 75, facing);

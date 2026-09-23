@@ -1,0 +1,95 @@
+.gm-tools {
+  position: fixed;
+  z-index: 300;
+  top: 24px;
+  left: calc(50% + var(--phone-width)/2 + 16px);
+  width: 170px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border: 1px solid #758b87;
+  border-radius: 12px;
+  background: #152a2af5;
+  box-shadow: 0 5px 24px #0005;
+  color: #e4ece7;
+  font-size: 13px;
+  pointer-events: auto;
+}
+.gm-tools strong {
+  display: block;
+  letter-spacing: 0.05em;
+  font-size: 14px;
+}
+.gm-tools small {
+  display: block;
+  margin-top: 4px;
+  color: #aebeb8;
+  font-size: 11px;
+}
+.gm-tools p {
+  margin: 0;
+  line-height: 1.5;
+}
+.gm-tools button {
+  padding: 9px 10px;
+  border: 1px solid #80938b;
+  border-radius: 7px;
+  background: #2c4840;
+  color: #fff;
+  cursor: pointer;
+  font-size: 13px;
+}
+.gm-tools button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.gm-tools .gm-danger {
+  background: #713d37;
+  border-color: #ba7768;
+}
+.gm-actions {
+  display: flex;
+  gap: 6px;
+}
+.gm-actions button {
+  flex: 1;
+  white-space: nowrap;
+}
+@media (max-width: 900px) {
+  body:has(.gm-tools) {
+    --gm-dock-height: 70px;
+  }
+  body:has(.gm-confirm) {
+    --gm-dock-height: 104px;
+  }
+  body:has(.gm-tools) .mori-gameplay-shell {
+    height: calc(100dvh - var(--gm-dock-height));
+  }
+  .gm-tools {
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    height: var(--gm-dock-height);
+    padding: 9px 16px;
+    border-radius: 0;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 6px 14px;
+    align-items: center;
+  }
+  .gm-tools > p {
+    grid-column: 1/-1;
+    grid-row: 2;
+  }
+  .gm-tools .gm-actions {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .gm-tools small {
+    margin-top: 2px;
+  }
+}
+

@@ -1,0 +1,84 @@
+{
+  "version": 1,
+  "title": "夺回营地",
+  "generator": "built-in image_gen",
+  "group": "scenes",
+  "canvas": [
+    768,
+    1280
+  ],
+  "colorMode": "RGB",
+  "alpha": false,
+  "anchor": {
+    "x": 384,
+    "y": 1280
+  },
+  "combatSafeRect": {
+    "x": 100,
+    "y": 450,
+    "width": 568,
+    "height": 670
+  },
+  "files": [
+    {
+      "file": "gate-damaged.png",
+      "size": [
+        768,
+        1280
+      ],
+      "purpose": "序章受损关闭营地门，未通电",
+      "original": "gate-damaged-original.png",
+      "originalSize": [
+        1122,
+        1402
+      ],
+      "sourceRect": [
+        140.4,
+        0,
+        841.2,
+        1402
+      ],
+      "uniformScale": 0.912981455064194,
+      "translation": [
+        -128.18259629101283,
+        0
+      ]
+    },
+    {
+      "file": "gate-restored.png",
+      "size": [
+        768,
+        1280
+      ],
+      "purpose": "同机位修好门板、暖灯与旗帜，营地恢复",
+      "original": "gate-restored-original.png",
+      "originalSize": [
+        971,
+        1619
+      ],
+      "sourceRect": [
+        0,
+        0.33333333333337123,
+        971,
+        1618.3333333333333
+      ],
+      "uniformScale": 0.7909371781668383,
+      "translation": [
+        0,
+        -0.26364572605564274
+      ]
+    }
+  ],
+  "qa": {
+    "visual": "Inspected originals, damaged final and paired 384x640 preview. Matched gate placement, clean central 3-lane space, no actors/enemies/UI/text baked in.",
+    "pixel": "Final PNGs use Format24bppRgb; opaque RGB, no alpha.",
+    "comparison": "Gate anchors closely match; minor generated surface texture differences remain. Prefer short whole-scene crossfade at progression transition, not rapidly alternating states.",
+    "optionalLights": "Not produced. Use supplied whole-state backgrounds."
+  },
+  "usageConstraints": [
+    "Keep native 3:5 framing; contain or intentional centered crop only.",
+    "Gate and towers occupy roughly y=0..300. Do not place key combat entities against detailed gate area.",
+    "Visual repair only; collision, heroes, enemies, projectiles and text must remain runtime layers.",
+    "Road is unobstructed at x=100..668,y=450..1120."
+  ]
+}

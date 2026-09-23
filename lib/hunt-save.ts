@@ -11,6 +11,13 @@ import {
   reserve,
   type EconomySave,
 } from './hunt-economy';
+import {
+  AMMO_CARRIER,
+  freshAmmoCarrier,
+  parseAmmoCarrier,
+  carrierCommitDelta,
+  type AmmoCarrierSave,
+} from './ammo-carrier';
 export const COURIER_RULES = {
   threshold: ECONOMY.courierAmmo,
   plates: 3,
@@ -96,6 +103,7 @@ export type HuntSave = {
   expedition: ExpeditionSave;
   weapons: WeaponSave;
   economy: EconomySave;
+  ammoCarrier: AmmoCarrierSave;
 };
 export type Campaign = {
   version: 1;
@@ -115,9 +123,14 @@ export const freshHunt = (): HuntSave => ({
   expedition: freshExpedition(),
   weapons: freshWeapons(),
   economy: freshEconomy(),
+  ammoCarrier: freshAmmoCarrier(),
 });
 /** Only old pre-ledger saves receive one-off funding for already earned skills. */
 export function prepareHuntEconomy(h: HuntSave) {
+  h.ammoCarrier ??= freshAmmoCarrier();
+  if (h.ammoCarrier.active)
+    h.ammoCarrier.active.refundAmount ??=
+      AMMO_CARRIER.refund * h.ammoCarrier.active.room;
   const legacy = !h.economy;
   h.economy ??= freshEconomy();
   h.weapons.stored ??= {};
@@ -268,6 +281,12 @@ export function saveHunt(d: Campaign, h: HuntSave) {
     h.expedition.points < d.hunt.expedition.points
   )
     return false;
+  const ammoRefund = carrierCommitDelta(
+    d.hunt.ammoCarrier ?? freshAmmoCarrier(),
+    h.ammoCarrier ?? freshAmmoCarrier(),
+    h.economy.spentAmmo - d.hunt.economy.spentAmmo,
+  );
+  if (ammoRefund === null) return false;
   const previous = d.hunt.courier.completed;
   if (h.courier.completed < previous) return false;
   if (h.courier.completed > previous) {
@@ -296,7 +315,9 @@ export function saveHunt(d: Campaign, h: HuntSave) {
     ];
     for (const id of heroes) d.recruit.owned[id]++;
   }
-  d.hunt = h;
+  d.ammo += ammoRefund;
+  // Do not retain the simulation's mutable object as the committed snapshot.
+  d.hunt = structuredClone(h);
   return true;
 }
 export function parseCampaign(raw: string | null): Campaign {
@@ -337,6 +358,7 @@ export function parseCampaign(raw: string | null): Campaign {
           : [],
       },
       hunt: {
+        ammoCarrier: parseAmmoCarrier(h.ammoCarrier),
         economy: (parseEconomy(h.economy) ??
           (h.economy ? freshEconomy() : null)) as EconomySave,
         level,

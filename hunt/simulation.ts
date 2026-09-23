@@ -11,6 +11,7 @@ import {
 import { rollOrangeHero, type RecruitId } from '../lib/recruit';
 import { vehicleMuzzle, PLATFORM_RIG } from './vehicle-rig';
 import { zombieFacing, type ZombieFacing } from './zombie-animation';
+import { AMMO_CARRIER, carrierQueued } from '../lib/ammo-carrier';
 import {
   ECONOMY,
   FUNCTIONAL,
@@ -161,6 +162,15 @@ export const SPECIES = [
     speed: 21,
     color: '#ffae70',
   },
+  {
+    name: '黑金背弹僵尸',
+    p: 0,
+    points: 0,
+    radius: 27,
+    size: 86,
+    speed: 18,
+    color: '#f3cc64',
+  },
 ] as const;
 export const SPECIAL_LABELS = [
   '',
@@ -175,6 +185,7 @@ export const SPECIAL_LABELS = [
   '',
   '激光技能',
   '散弹技能',
+  '返弹',
 ];
 export const HEROES = [
   '持盾大汉',
@@ -207,7 +218,8 @@ export type FX = {
     | 'armorBreak'
     | 'courierArrival'
     | 'laser'
-    | 'weapon';
+    | 'weapon'
+    | 'ammoReturn';
   x: number;
   y: number;
   age: number;
@@ -301,6 +313,7 @@ export class HuntGame {
   private persistClock = 0;
   private pendingBullets: Bullet[] = [];
   private pendingReplacements = 0;
+  private carrierSettledThisTick = false;
   constructor(
     public io: HuntIO,
     saved = freshHunt(),
@@ -316,9 +329,12 @@ export class HuntGame {
     prepareHuntEconomy(this.save);
     this.hydrateArena();
     this.ensureCourier();
+    this.ensureAmmoCarrier();
   }
   restoreSave(saved: HuntSave) {
     this.courierVictory = null;
+    this.effects = [];
+    this.carrierSettledThisTick = false;
     this.save = structuredClone(saved);
     this.save.courier ??= freshCourier();
     this.save.courier.cooldown ??= 0;
@@ -330,6 +346,7 @@ export class HuntGame {
     this.pendingBullets = [];
     this.release();
     this.ensureCourier();
+    this.ensureAmmoCarrier();
   }
   private hydrateArena() {
     const runtime = this.save.economy.runtime;
@@ -350,9 +367,23 @@ export class HuntGame {
       this.spawnClock = runtime.spawnClock;
       this.intro = runtime.intro;
     } else for (let i = 0; i < 17; i++) this.spawn(undefined, true);
-    this.zombies = this.zombies.filter(
-      (z) => z.kind !== COURIER_KIND || !!this.save.courier.active,
-    );
+    let carrierRestored = false;
+    this.zombies = this.zombies.filter((z) => {
+      if (z.kind !== AMMO_CARRIER.kind)
+        return z.kind !== COURIER_KIND || !!this.save.courier.active;
+      const a = this.save.ammoCarrier.active;
+      if (!a || carrierRestored) return false;
+      carrierRestored = true;
+      Object.assign(z, {
+        x: a.x,
+        y: a.y,
+        vx: a.vx,
+        vy: a.vy,
+        hitsLeft: AMMO_CARRIER.hits - a.hits.length,
+      });
+      return true;
+    });
+    this.id = Math.max(this.id, ...(this.save.ammoCarrier.active?.hits ?? []));
     this.settleEvents();
   }
   get effectiveRoom() {
@@ -463,6 +494,7 @@ export class HuntGame {
     if (!c.active) {
       if (
         c.queued <= 0 ||
+        this.save.ammoCarrier.active ||
         c.cooldown > 0 ||
         this.sceneReady ||
         this.save.expedition.transition
@@ -485,6 +517,82 @@ export class HuntGame {
       frozen: 0,
     });
     if (fresh) this.fx('courierArrival', c.active.x, c.active.y, COURIER_KIND);
+    this.persist();
+  }
+  private ensureAmmoCarrier() {
+    const s = this.save.ammoCarrier;
+    if (
+      this.carrierSettledThisTick ||
+      this.zombies.some((z) => z.kind === AMMO_CARRIER.kind)
+    )
+      return;
+    if (!s.active) {
+      if (
+        this.save.bonus ||
+        this.save.weapons.active ||
+        this.save.courier.active ||
+        this.save.courier.reveal ||
+        this.save.expedition.transition ||
+        this.intro > 0 ||
+        carrierQueued(s, this.save.room) <= 0
+      )
+        return;
+      s.active = {
+        serial: ++s.serial,
+        room: this.save.room,
+        refundAmount: AMMO_CARRIER.refund * this.save.room,
+        hits: [],
+        x: 100,
+        y: Math.min(440, Math.max(310, this.visibleTop + 75)),
+        vx: 16,
+        vy: 8,
+      };
+      this.weaponNotice = {
+        text: `黑金背弹僵尸出现 · 击破返还 ${s.active.refundAmount} 黑金弹`,
+        left: 3,
+      };
+    }
+    this.zombies.push({
+      id: ++this.id,
+      kind: AMMO_CARRIER.kind,
+      x: s.active.x,
+      y: s.active.y,
+      vx: s.active.vx,
+      vy: s.active.vy,
+      age: 0,
+      hit: 0,
+      seed: this.random(),
+      frozen: 0,
+      hitsLeft: AMMO_CARRIER.hits - s.active.hits.length,
+    });
+    this.persist();
+  }
+  private hitAmmoCarrier(z: Zombie, b: Bullet) {
+    const s = this.save.ammoCarrier,
+      a = s.active,
+      shot = b.shotId ?? b.id;
+    if (!a || a.hits.includes(shot)) return;
+    a.hits.push(shot);
+    z.hitsLeft = AMMO_CARRIER.hits - a.hits.length;
+    if (z.hitsLeft > 0) {
+      this.fx('hit', z.x, z.y, AMMO_CARRIER.kind);
+      this.persist();
+      return;
+    }
+    const amount = a.refundAmount;
+    s.rooms[a.room].claimed++;
+    s.active = null;
+    this.carrierSettledThisTick = true;
+    this.zombies.splice(this.zombies.indexOf(z), 1);
+    this.save.kills++;
+    this.fx('ammoReturn', z.x, z.y, AMMO_CARRIER.kind, amount);
+    const fx = this.effects[this.effects.length - 1];
+    fx.life = 1.5;
+    fx.actorId = z.id;
+    fx.facing = zombieFacing(z.vx, z.vy);
+    this.weaponNotice = { text: `黑金弹 +${amount} · 已存入弹药库`, left: 3 };
+    this.dry = false;
+    // saveHunt applies the claim delta and the inventory change in one commit.
     this.persist();
   }
   dismissCourierReward() {
@@ -521,6 +629,7 @@ export class HuntGame {
       e.stage < 2 &&
       e.points >= STAGES[e.stage + 1].need &&
       !this.save.courier.active &&
+      !this.save.ammoCarrier.active &&
       !this.save.courier.reveal
     );
   }
@@ -709,6 +818,10 @@ export class HuntGame {
     return true;
   }
   spawn(kind?: number, inside = false, atEdge = false) {
+    if (kind === AMMO_CARRIER.kind) {
+      this.ensureAmmoCarrier();
+      return;
+    }
     if (kind === COURIER_KIND) {
       this.ensureCourier();
       return;
@@ -885,6 +998,7 @@ export class HuntGame {
     let receiptId: number | undefined;
     if (!bonus && !weapon) {
       receiptId = receipt(this.save.economy, room);
+      this.save.ammoCarrier.rooms[room].spent += room;
       const total = this.save.courier.progress + room;
       this.save.courier.queued += Math.floor(total / COURIER_RULES.threshold);
       this.save.courier.progress = total % COURIER_RULES.threshold;
@@ -904,6 +1018,7 @@ export class HuntGame {
       receiptId,
       eventId: weapon?.eventId ?? bonus?.eventId,
     };
+    base.shotId = base.id;
     if (weapon?.kind === 'laser') {
       const dx = Math.cos(angle) * 1100,
         dy = Math.sin(angle) * 1100;
@@ -969,6 +1084,7 @@ export class HuntGame {
     };
   }
   private kill(z: Zombie, bullet: Bullet) {
+    if (z.kind === AMMO_CARRIER.kind) return;
     const index = this.zombies.indexOf(z);
     if (index < 0) return;
     const points = SPECIES[z.kind].points * bullet.room;
@@ -1082,7 +1198,9 @@ export class HuntGame {
       consumeReceipt(
         this.save.economy,
         b.receiptId,
-        functional(z.kind) || z.kind === COURIER_KIND,
+        functional(z.kind) ||
+          z.kind === COURIER_KIND ||
+          z.kind === AMMO_CARRIER.kind,
       );
     if (functional(z.kind) && !this.save.economy.events[z.eventId ?? -1])
       return;
@@ -1090,6 +1208,10 @@ export class HuntGame {
     z.hit = 0.13;
     if (z.kind === COURIER_KIND) {
       this.hitCourier(z, b);
+      return;
+    }
+    if (z.kind === AMMO_CARRIER.kind) {
+      this.hitAmmoCarrier(z, b);
       return;
     }
     if (z.kind === 6) {
@@ -1110,6 +1232,7 @@ export class HuntGame {
             room: b.room,
             age: 0,
             generation: 1,
+            shotId: b.shotId ?? b.id,
             ignoreId: z.id,
             chainDepth: b.chainDepth,
             eventId: z.eventId,
@@ -1221,6 +1344,7 @@ export class HuntGame {
   }
   private tick(dt: number) {
     if (!this.active || this.paused || dt <= 0) return;
+    this.carrierSettledThisTick = false;
     dt = Math.min(dt, 0.06);
     if (this.save.courier.reveal) {
       if (this.courierVictory) {
@@ -1327,6 +1451,21 @@ export class HuntGame {
           this.save.courier.active.y = z.y;
         }
       }
+      if (z.kind === AMMO_CARRIER.kind && this.save.ammoCarrier.active) {
+        const top = Math.min(440, Math.max(180, this.visibleTop + 70));
+        z.x = Math.max(70, Math.min(530, z.x));
+        z.y = Math.max(top, Math.min(510, z.y));
+        if (z.x <= 70) z.vx = Math.abs(z.vx);
+        if (z.x >= 530) z.vx = -Math.abs(z.vx);
+        if (z.y <= top) z.vy = Math.abs(z.vy);
+        if (z.y >= 510) z.vy = -Math.abs(z.vy);
+        Object.assign(this.save.ammoCarrier.active, {
+          x: z.x,
+          y: z.y,
+          vx: z.vx,
+          vy: z.vy,
+        });
+      }
       this.keepOutsidePlatform(z);
       z.age += dt;
       z.hit = Math.max(0, z.hit - dt);
@@ -1334,6 +1473,7 @@ export class HuntGame {
     this.zombies = this.zombies.filter(
       (z) =>
         z.kind === COURIER_KIND ||
+        z.kind === AMMO_CARRIER.kind ||
         (z.x > -90 &&
           z.x < 690 &&
           z.y > this.visibleTop - 90 &&
@@ -1366,6 +1506,7 @@ export class HuntGame {
     this.pendingReplacements = 0;
     this.settleEvents();
     this.ensureCourier();
+    this.ensureAmmoCarrier();
     if (
       !this.save.bonus &&
       this.finale > 0 &&

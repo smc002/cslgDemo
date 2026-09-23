@@ -30,7 +30,7 @@ g.configure(
 );
 assert.equal(g.heroes.length, 3);
 g.start();
-assert.ok(g.enemies.every((e) => e.lane === 0));
+assert.ok(g.enemies.every((e) => e.lane === 1));
 for (
   let i = 0;
   i < 600 * 60 && g.phase !== 'cleared' && g.phase !== 'defeat';
@@ -90,7 +90,7 @@ const result = R.drawHeroes(d, 1, () => 0.72);
 assert.equal(result[0], 'samurai');
 assert.equal(d.recruit.owned.samurai, before + 1);
 assert.equal(R.ticketBalance(d), tickets - 1);
-d.lineup[0] = 3;
+d.lineup[3] = 3;
 assert.ok(C.validLineup(d, d.lineup));
 g.configure(
   2,
@@ -103,6 +103,9 @@ console.log('PASS recruited hero is deployable with shared level');
 const now = 1000000;
 C.completeStage(d, 2, now);
 assert.equal(C.slotsUnlocked(d), 6);
+assert.equal(d.city.materials, 200);
+assert.ok(C.buildCity(d, 'hq', now));
+assert.ok(C.buildCity(d, 'workshop', now));
 assert.equal(d.city.materials, 100);
 assert.ok(C.buildCity(d, 'factory', now));
 assert.equal(d.city.materials, 0);
@@ -153,15 +156,42 @@ assert.ok(C.saveHunt(d, structuredClone(reward)));
 assert.equal(d.recruit.owned.priest, count + 1);
 console.log('PASS courier reward commit once');
 
-const courierSave=C.freshCampaign();courierSave.ammo=1100;
-let spentPending=0;
-const courierGame=new HuntGame({ammo:()=>courierSave.ammo-spentPending,spend:n=>{if(courierSave.ammo-spentPending<n)return false;spentPending+=n;return true;},save:h=>{assert.ok(C.saveHunt(courierSave,h));courierSave.ammo-=spentPending;spentPending=0;},ownsHero:id=>courierSave.recruit.owned[id]>0},courierSave.hunt,()=>.99);
-courierGame.active=true;
-for(let i=0;i<1000;i++)assert.ok(courierGame.fire());
+const courierSave = C.freshCampaign();
+courierSave.ammo = 1100;
+let spentPending = 0;
+const courierGame = new HuntGame(
+  {
+    ammo: () => courierSave.ammo - spentPending,
+    spend: (n) => {
+      if (courierSave.ammo - spentPending < n) return false;
+      spentPending += n;
+      return true;
+    },
+    save: (h) => {
+      assert.ok(C.saveHunt(courierSave, h));
+      courierSave.ammo -= spentPending;
+      spentPending = 0;
+    },
+    ownsHero: (id) => courierSave.recruit.owned[id] > 0,
+  },
+  courierSave.hunt,
+  () => 0.99,
+);
+courierGame.active = true;
+for (let i = 0; i < 1000; i++) assert.ok(courierGame.fire());
 courierGame.persist();
-assert.equal(courierSave.hunt.economy.spentAmmo,1000);
-assert.equal(courierSave.ammo,100);
-assert.ok(courierSave.hunt.courier.active||courierSave.hunt.courier.queued>0);
-assert.equal(courierSave.hunt.courier.completed,0);
-assert.equal(courierSave.recruit.owned.priest+courierSave.recruit.owned.minigun+courierSave.recruit.owned.assassin,0);
-console.log('PASS actual 1000 inventory shots grant challenge eligibility, not an automatic orange hero');
+assert.equal(courierSave.hunt.economy.spentAmmo, 1000);
+assert.equal(courierSave.ammo, 100);
+assert.ok(
+  courierSave.hunt.courier.active || courierSave.hunt.courier.queued > 0,
+);
+assert.equal(courierSave.hunt.courier.completed, 0);
+assert.equal(
+  courierSave.recruit.owned.priest +
+    courierSave.recruit.owned.minigun +
+    courierSave.recruit.owned.assassin,
+  0,
+);
+console.log(
+  'PASS actual 1000 inventory shots grant challenge eligibility, not an automatic orange hero',
+);

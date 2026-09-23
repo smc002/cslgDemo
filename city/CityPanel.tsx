@@ -18,7 +18,8 @@ import {
 } from 'lucide-react';
 import { campaign, production, collectCity, buildCity } from '@/lib/campaign';
 import {
-  CITY_BUILDINGS,
+  visibleCityBuildings,
+  nextCitySite,
   CITY_STAGES,
   CITY_MAX_LEVEL,
   cityMeta,
@@ -128,6 +129,10 @@ export default function CityPanel({ active }: { active: boolean }) {
       window.removeEventListener('resize', update);
     };
   }, [selected]);
+  const nextSite = nextCitySite(d);
+  const constructed = visibleCityBuildings(d).filter(
+    (item) => cityBuilding(d, item.id).level > 0,
+  ).length;
   const meta = selected ? cityMeta(selected) : null;
   const b = selected ? cityBuilding(d, selected) : null;
   const output =
@@ -150,6 +155,7 @@ export default function CityPanel({ active }: { active: boolean }) {
   };
   const upgrade = () => {
     if (!active || !selected) return;
+    const wasEmpty = !cityBuilding(campaign.read(), selected).level;
     let success = false;
     campaign.update((x) => {
       success = buildCity(x, selected);
@@ -157,6 +163,7 @@ export default function CityPanel({ active }: { active: boolean }) {
     if (success) {
       setNow(Date.now());
       setFlash(selected);
+      if (wasEmpty) setSelected(null);
       setFeedback(
         `${cityMeta(selected).name} · Lv.${cityBuilding(campaign.read(), selected).level}`,
       );
@@ -176,11 +183,22 @@ export default function CityPanel({ active }: { active: boolean }) {
         <div className="city-map">
           <img
             className="city-terrain"
-            src="/assets/city-v08/terrain.png"
-            alt="废墟中重建的武装基地，旧城墙、废车与路障围绕军工设施"
+            src="/assets/city-v08/terrain-barren.png"
+            alt={
+              constructed < 4
+                ? '荒废营地，裸土地块与残破围墙，等待逐步建设'
+                : '逐渐恢复生机的曙光营地'
+            }
             draggable={false}
           />
-          {CITY_BUILDINGS.map((item) => {
+          <img
+            className="city-terrain city-terrain-renewal"
+            src="/assets/city-v08/terrain.png"
+            alt=""
+            draggable={false}
+            style={{ opacity: Math.max(0, Math.min(1, (constructed - 3) / 3)) }}
+          />
+          {visibleCityBuildings(d).map((item) => {
             const building = cityBuilding(d, item.id);
             const p =
               item.id === 'workshop' || item.id === 'factory'
@@ -189,6 +207,7 @@ export default function CityPanel({ active }: { active: boolean }) {
             return (
               <button
                 key={item.id}
+                data-guide={`city-site-${item.id}`}
                 ref={(el) => {
                   buttons.current[item.id] = el;
                 }}
@@ -200,7 +219,7 @@ export default function CityPanel({ active }: { active: boolean }) {
                   height: `${item.height}%`,
                   zIndex: Math.round(item.y),
                 }}
-                aria-label={`${item.name}，${!item.live ? '规划设施' : building.level ? `等级 ${building.level}` : '待修复'}`}
+                aria-label={`${item.name}，${!item.live ? '规划设施' : building.level ? `等级 ${building.level}` : '待建造'}`}
                 aria-expanded={selected === item.id}
                 aria-controls={
                   selected === item.id ? 'city-building-details' : undefined
@@ -211,17 +230,24 @@ export default function CityPanel({ active }: { active: boolean }) {
                   setPosition(null);
                 }}
               >
-                <img
-                  className="city-building-sprite"
-                  src={cityArt(item.id, building.level)}
-                  alt=""
-                  draggable={false}
-                />
+                {building.level > 0 ? (
+                  <img
+                    className="city-building-sprite"
+                    src={cityArt(item.id, building.level)}
+                    alt=""
+                    draggable={false}
+                  />
+                ) : (
+                  <span className="city-empty-plot">
+                    <b>＋</b>
+                    <small>建造空地</small>
+                  </span>
+                )}
                 <span className="city-building-caption">
                   <b>{item.name}</b>
                   {item.live && (
                     <small>
-                      {building.level ? `Lv.${building.level}` : '修复'}
+                      {building.level ? `Lv.${building.level}` : '建造'}
                     </small>
                   )}
                 </span>
@@ -247,7 +273,13 @@ export default function CityPanel({ active }: { active: boolean }) {
           <small>建材</small>
         </span>
       </header>
-      {!selected && <p className="city-scene-tip">点击建筑 · 查看与扩建</p>}
+      {!selected && (
+        <p className="city-scene-tip">
+          {nextSite
+            ? `下一步：建造${cityMeta(nextSite).name}`
+            : '点击建筑 · 查看与扩建'}
+        </p>
+      )}
       <div className="city-feedback" role="status" aria-live="polite">
         {feedback && (
           <span>
@@ -295,7 +327,7 @@ export default function CityPanel({ active }: { active: boolean }) {
                     {meta.live
                       ? b.level
                         ? `Lv.${b.level}`
-                        : '待修复'
+                        : '待建造'
                       : '规划设施'}
                   </small>
                 </h2>
@@ -307,7 +339,7 @@ export default function CityPanel({ active }: { active: boolean }) {
                 <p className="city-effect">
                   {b.level
                     ? cityEffect(d, selected)
-                    : `修复后：${cityEffect(d, selected, true)}`}
+                    : `建造后：${cityEffect(d, selected, true)}`}
                 </p>
                 {output && (
                   <div className="city-stock">
@@ -317,7 +349,7 @@ export default function CityPanel({ active }: { active: boolean }) {
                     </span>
                     <small>
                       {!b.level ? (
-                        '修复后开始生产'
+                        '建造后开始生产'
                       ) : output.cycles >= cityCapacity(d) ? (
                         '库存已满'
                       ) : (
@@ -347,13 +379,14 @@ export default function CityPanel({ active }: { active: boolean }) {
                   )}
                   <button
                     className="city-upgrade"
+                    data-guide={`city-build-${selected}`}
                     disabled={!active || !!block}
                     onClick={upgrade}
                   >
                     <ArrowUp size={16} />
                     {b.level >= CITY_MAX_LEVEL
                       ? '已满级'
-                      : `${b.level ? '升级' : '修复'} · ${cityCost(d, selected)} 建材`}
+                      : `${b.level ? '升级' : '建造'} · ${cityCost(d, selected) === 0 ? '免费' : `${cityCost(d, selected)} 建材`}`}
                   </button>
                 </div>
                 <p className="city-requirement">

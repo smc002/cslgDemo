@@ -1,0 +1,883 @@
+{
+  "sourceSizes": {
+    "walk": [
+      1122,
+      1402
+    ],
+    "actions": [
+      1374,
+      1145
+    ]
+  },
+  "scales": {
+    "walk": 0.8740740740740741,
+    "actions": 1.0825688073394495
+  },
+  "cell": 320,
+  "anchor": {
+    "foot": [
+      160,
+      296
+    ]
+  },
+  "fixedLower": {
+    "sourceColumn": 4,
+    "targetColumns": [
+      5,
+      6
+    ],
+    "startY": 194
+  },
+  "mapping": [
+    {
+      "frame": 0,
+      "source": "walk",
+      "sourceBounds": [
+        71,
+        4,
+        222,
+        274
+      ],
+      "pixelScale": 0.8740740740740741,
+      "placement": [
+        98,
+        60,
+        132,
+        236
+      ]
+    },
+    {
+      "frame": 1,
+      "source": "walk",
+      "sourceBounds": [
+        324,
+        10,
+        484,
+        274
+      ],
+      "pixelScale": 0.8740740740740741,
+      "placement": [
+        88,
+        65,
+        140,
+        231
+      ]
+    },
+    {
+      "frame": 2,
+      "source": "walk",
+      "sourceBounds": [
+        591,
+        10,
+        737,
+        274
+      ],
+      "pixelScale": 0.8740740740740741,
+      "placement": [
+        97,
+        65,
+        128,
+        231
+      ]
+    },
+    {
+      "frame": 3,
+      "source": "walk",
+      "sourceBounds": [
+        869,
+        8,
+        1020,
+        274
+      ],
+      "pixelScale": 0.8740740740740741,
+      "placement": [
+        98,
+        63,
+        132,
+        233
+      ]
+    },
+    {
+      "frame": 4,
+      "source": "actions",
+      "sourceBounds": [
+        72,
+        6,
+        202,
+        224
+      ],
+      "pixelScale": 1.0825688073394495,
+      "placement": [
+        92,
+        60,
+        141,
+        236
+      ]
+    },
+    {
+      "frame": 5,
+      "source": "actions",
+      "sourceBounds": [
+        292,
+        6,
+        425,
+        224
+      ],
+      "pixelScale": 1.0825688073394495,
+      "placement": [
+        89,
+        60,
+        144,
+        236
+      ]
+    },
+    {
+      "frame": 6,
+      "source": "actions",
+      "sourceBounds": [
+        508,
+        6,
+        638,
+        224
+      ],
+      "pixelScale": 1.0825688073394495,
+      "placement": [
+        91,
+        60,
+        141,
+        236
+      ]
+    },
+    {
+      "frame": 7,
+      "source": "actions",
+      "sourceBounds": [
+        699,
+        48,
+        866,
+        222
+      ],
+      "pixelScale": 1.0825688073394495,
+      "placement": [
+        70,
+        108,
+        181,
+        188
+      ]
+    },
+    {
+      "frame": 8,
+      "source": "actions",
+      "sourceBounds": [
+        897,
+        74,
+        1099,
+        231
+      ],
+      "pixelScale": 1.0825688073394495,
+      "placement": [
+        51,
+        126,
+        219,
+        170
+      ]
+    },
+    {
+      "frame": 9,
+      "source": "actions",
+      "sourceBounds": [
+        1132,
+        105,
+        1354,
+        224
+      ],
+      "pixelScale": 1.0825688073394495,
+      "placement": [
+        40,
+        167,
+        240,
+        129
+      ]
+    },
+    {
+      "frame": 10,
+      "source": "walk",
+      "sourceBounds": [
+        54,
+        280,
+        245,
+        544
+      ],
+      "pixelScale": 0.8740740740740741,
+      "placement": [
+        68,
+        65,
+        167,
+        231
+      ]
+    },
+    {
+      "frame": 11,
+      "source": "walk",
+      "sourceBounds": [
+        318,
+        284,
+        514,
+        542
+      ],
+      "pixelScale": 0.8740740740740741,
+      "placement": [
+        49,
+        70,
+        171,
+        226
+      ]
+    },
+    {
+      "frame": 12,
+      "source": "walk",
+      "sourceBounds": [
+        598,
+        282,
+        789,
+        546
+      ],
+      "pixelScale": 0.8740740740740741,
+      "placement": [
+        62,
+        65,
+        167,
+        231
+      ]
+    },
+    {
+      "frame": 13,
+      "source": "walk",
+      "sourceBounds": [
+        877,
+        284,
+        1067,
+        546
+      ],
+      "pixelScale": 0.8740740740740741,
+      "placement": [
+        62,
+        67,
+        166,
+        229
+      ]
+    },
+    {
+      "frame": 14,
+      "source": "actions",
+      "sourceBounds": [
+        65,
+        233,
+        223,
+        443
+      ],
+      "pixelScale": 1.0825688073394495,
+      "placement": [
+        71,
+        69,
+        171,
+        227
+      ]
+    },
+    {
+      "frame": 15,
+      "source": "actions",
+      "sourceBounds": [
+        284,
+        233,
+        440,
+        443
+      ],
+      "pixelScale": 1.0825688073394495,
+      "placement": [
+        69,
+        69,
+        169,
+        227
+      ]
+    },
+    {
+      "frame": 16,
+      "source": "actions",
+      "sourceBounds": [
+        499,
+        233,
+        654,
+        443
+      ],
+      "pixelScale": 1.0825688073394495,
+      "placement": [
+        69,
+        69,
+        168,
+        227
+      ]
+    },
+    {
+      "frame": 17,
+      "source": "actions",
+      "sourceBounds": [
+        702,
+        255,
+        866,
+        446
+      ],
+      "pixelScale": 1.0825688073394495,
+      "placement": [
+        71,
+        89,
+        178,
+        207
+      ]
+    },
+    {
+      "frame": 18,
+      "source": "actions",
+      "sourceBounds": [
+        896,
+        307,
+        1115,
+        448
+      ],
+      "pixelScale": 1.0825688073394495,
+      "placement": [
+        41,
+        143,
+        237,
+        153
+      ]
+    },
+    {
+      "frame": 19,
+      "source": "actions",
+      "sourceBounds": [
+        1136,
+        320,
+        1354,
+        446
+      ],
+      "pixelScale": 1.0825688073394495,
+      "placement": [
+        42,
+        160,
+        236,
+        136
+      ]
+    },
+    {
+      "frame": 20,
+      "source": "walk",
+      "sourceBounds": [
+        48,
+        547,
+        264,
+        804
+      ],
+      "pixelScale": 0.8740740740740741,
+      "placement": [
+        67,
+        71,
+        189,
+        225
+      ]
+    },
+    {
+      "frame": 21,
+      "source": "walk",
+      "sourceBounds": [
+        331,
+        552,
+        545,
+        803
+      ],
+      "pixelScale": 0.8740740740740741,
+      "placement": [
+        72,
+        77,
+        187,
+        219
+      ]
+    },
+    {
+      "frame": 22,
+      "source": "walk",
+      "sourceBounds": [
+        602,
+        548,
+        817,
+        803
+      ],
+      "pixelScale": 0.8740740740740741,
+      "placement": [
+        68,
+        73,
+        188,
+        223
+      ]
+    },
+    {
+      "frame": 23,
+      "source": "walk",
+      "sourceBounds": [
+        879,
+        550,
+        1087,
+        803
+      ],
+      "pixelScale": 0.8740740740740741,
+      "placement": [
+        73,
+        75,
+        182,
+        221
+      ]
+    },
+    {
+      "frame": 24,
+      "source": "actions",
+      "sourceBounds": [
+        59,
+        452,
+        240,
+        664
+      ],
+      "pixelScale": 1.0825688073394495,
+      "placement": [
+        71,
+        66,
+        196,
+        230
+      ]
+    },
+    {
+      "frame": 25,
+      "source": "actions",
+      "sourceBounds": [
+        278,
+        451,
+        454,
+        663
+      ],
+      "pixelScale": 1.0825688073394495,
+      "placement": [
+        69,
+        66,
+        191,
+        230
+      ]
+    },
+    {
+      "frame": 26,
+      "source": "actions",
+      "sourceBounds": [
+        494,
+        452,
+        673,
+        664
+      ],
+      "pixelScale": 1.0825688073394495,
+      "placement": [
+        69,
+        66,
+        194,
+        230
+      ]
+    },
+    {
+      "frame": 27,
+      "source": "actions",
+      "sourceBounds": [
+        709,
+        470,
+        891,
+        666
+      ],
+      "pixelScale": 1.0825688073394495,
+      "placement": [
+        61,
+        84,
+        197,
+        212
+      ]
+    },
+    {
+      "frame": 28,
+      "source": "actions",
+      "sourceBounds": [
+        906,
+        519,
+        1099,
+        671
+      ],
+      "pixelScale": 1.0825688073394495,
+      "placement": [
+        56,
+        131,
+        209,
+        165
+      ]
+    },
+    {
+      "frame": 29,
+      "source": "actions",
+      "sourceBounds": [
+        1139,
+        548,
+        1351,
+        670
+      ],
+      "pixelScale": 1.0825688073394495,
+      "placement": [
+        45,
+        164,
+        230,
+        132
+      ]
+    },
+    {
+      "frame": 30,
+      "source": "walk",
+      "sourceBounds": [
+        50,
+        812,
+        250,
+        1064
+      ],
+      "pixelScale": 0.8740740740740741,
+      "placement": [
+        68,
+        76,
+        175,
+        220
+      ]
+    },
+    {
+      "frame": 31,
+      "source": "walk",
+      "sourceBounds": [
+        326,
+        814,
+        529,
+        1065
+      ],
+      "pixelScale": 0.8740740740740741,
+      "placement": [
+        64,
+        77,
+        177,
+        219
+      ]
+    },
+    {
+      "frame": 32,
+      "source": "walk",
+      "sourceBounds": [
+        604,
+        809,
+        806,
+        1065
+      ],
+      "pixelScale": 0.8740740740740741,
+      "placement": [
+        75,
+        72,
+        177,
+        224
+      ]
+    },
+    {
+      "frame": 33,
+      "source": "walk",
+      "sourceBounds": [
+        885,
+        811,
+        1084,
+        1062
+      ],
+      "pixelScale": 0.8740740740740741,
+      "placement": [
+        71,
+        77,
+        174,
+        219
+      ]
+    },
+    {
+      "frame": 34,
+      "source": "actions",
+      "sourceBounds": [
+        62,
+        671,
+        224,
+        883
+      ],
+      "pixelScale": 1.0825688073394495,
+      "placement": [
+        71,
+        66,
+        175,
+        230
+      ]
+    },
+    {
+      "frame": 35,
+      "source": "actions",
+      "sourceBounds": [
+        286,
+        671,
+        449,
+        884
+      ],
+      "pixelScale": 1.0825688073394495,
+      "placement": [
+        71,
+        65,
+        176,
+        231
+      ]
+    },
+    {
+      "frame": 36,
+      "source": "actions",
+      "sourceBounds": [
+        501,
+        671,
+        664,
+        882
+      ],
+      "pixelScale": 1.0825688073394495,
+      "placement": [
+        70,
+        68,
+        176,
+        228
+      ]
+    },
+    {
+      "frame": 37,
+      "source": "actions",
+      "sourceBounds": [
+        716,
+        697,
+        886,
+        886
+      ],
+      "pixelScale": 1.0825688073394495,
+      "placement": [
+        68,
+        91,
+        184,
+        205
+      ]
+    },
+    {
+      "frame": 38,
+      "source": "actions",
+      "sourceBounds": [
+        922,
+        737,
+        1104,
+        895
+      ],
+      "pixelScale": 1.0825688073394495,
+      "placement": [
+        61,
+        125,
+        197,
+        171
+      ]
+    },
+    {
+      "frame": 39,
+      "source": "actions",
+      "sourceBounds": [
+        1142,
+        768,
+        1352,
+        899
+      ],
+      "pixelScale": 1.0825688073394495,
+      "placement": [
+        46,
+        154,
+        227,
+        142
+      ]
+    },
+    {
+      "frame": 40,
+      "source": "walk",
+      "sourceBounds": [
+        63,
+        1073,
+        224,
+        1360
+      ],
+      "pixelScale": 0.8740740740740741,
+      "placement": [
+        89,
+        45,
+        141,
+        251
+      ]
+    },
+    {
+      "frame": 41,
+      "source": "walk",
+      "sourceBounds": [
+        340,
+        1074,
+        504,
+        1369
+      ],
+      "pixelScale": 0.8740740740740741,
+      "placement": [
+        87,
+        38,
+        143,
+        258
+      ]
+    },
+    {
+      "frame": 42,
+      "source": "walk",
+      "sourceBounds": [
+        615,
+        1074,
+        783,
+        1364
+      ],
+      "pixelScale": 0.8740740740740741,
+      "placement": [
+        82,
+        43,
+        147,
+        253
+      ]
+    },
+    {
+      "frame": 43,
+      "source": "walk",
+      "sourceBounds": [
+        899,
+        1073,
+        1060,
+        1363
+      ],
+      "pixelScale": 0.8740740740740741,
+      "placement": [
+        89,
+        43,
+        141,
+        253
+      ]
+    },
+    {
+      "frame": 44,
+      "source": "actions",
+      "sourceBounds": [
+        71,
+        891,
+        205,
+        1119
+      ],
+      "pixelScale": 1.0825688073394495,
+      "placement": [
+        86,
+        49,
+        145,
+        247
+      ]
+    },
+    {
+      "frame": 45,
+      "source": "actions",
+      "sourceBounds": [
+        301,
+        892,
+        435,
+        1119
+      ],
+      "pixelScale": 1.0825688073394495,
+      "placement": [
+        87,
+        50,
+        145,
+        246
+      ]
+    },
+    {
+      "frame": 46,
+      "source": "actions",
+      "sourceBounds": [
+        509,
+        892,
+        644,
+        1119
+      ],
+      "pixelScale": 1.0825688073394495,
+      "placement": [
+        87,
+        50,
+        146,
+        246
+      ]
+    },
+    {
+      "frame": 47,
+      "source": "actions",
+      "sourceBounds": [
+        721,
+        916,
+        877,
+        1116
+      ],
+      "pixelScale": 1.0825688073394495,
+      "placement": [
+        76,
+        79,
+        169,
+        217
+      ]
+    },
+    {
+      "frame": 48,
+      "source": "actions",
+      "sourceBounds": [
+        919,
+        959,
+        1104,
+        1117
+      ],
+      "pixelScale": 1.0825688073394495,
+      "placement": [
+        60,
+        125,
+        200,
+        171
+      ]
+    },
+    {
+      "frame": 49,
+      "source": "actions",
+      "sourceBounds": [
+        1135,
+        993,
+        1351,
+        1120
+      ],
+      "pixelScale": 1.0825688073394495,
+      "placement": [
+        43,
+        159,
+        234,
+        137
+      ]
+    }
+  ]
+}

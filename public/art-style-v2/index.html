@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MORI · 画风方案 V2</title><meta name="description" content="MORI 搜刮与猎场的三种欧美卡通画风演示，新旧版并排对照。">
+<style>
+:root{color-scheme:dark;--bg:#101619;--panel:#1b252b;--line:#35444c;--text:#ecf2f4;--muted:#b0c2cc;--gold:#f4c465;--cyan:#79d8d4}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,"Microsoft YaHei",sans-serif}button,a{touch-action:manipulation}button{font:inherit;cursor:pointer}a{color:var(--cyan);text-underline-offset:4px}button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:4px}
+.wrap{max-width:1512px;margin:auto;padding:25px 28px}header{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}h1{font-size:27px;line-height:1.35;margin:0}.version{font-size:14px;display:inline-block;vertical-align:middle;margin-left:10px;padding:2px 9px;border:1px solid #6a613d;border-radius:5px;color:var(--gold)}.sub{margin:7px 0 0;color:var(--muted)}.archive{font-size:14px;white-space:nowrap;margin-top:7px}
+.toolbar{position:sticky;top:0;z-index:2;display:flex;align-items:center;flex-wrap:wrap;gap:12px;padding:15px 0;background:#101619f5;border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}.group{display:flex;border:1px solid var(--line);padding:3px;border-radius:9px;gap:3px}.group button{padding:7px 18px;min-height:43px;border:0;border-radius:6px;color:var(--muted);background:transparent}.group button[aria-pressed=true]{color:#132126;background:var(--gold);font-weight:700}.group.versions button[aria-pressed=true]{background:#335863;color:#fff}.hint{font-size:14px;color:var(--muted);margin-left:auto}
+.description{font-size:15px;color:var(--muted);margin:14px 0 18px;min-height:24px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}article{min-width:0;border:1px solid var(--line);border-radius:10px;background:var(--panel);overflow:hidden}.card-head{padding:13px 17px 12px}.card-head h2{margin:0;font-size:19px}.card-head p{margin:2px 0 0;font-size:14px;color:var(--muted)}.art-link{display:block;background:#24333b}.art-link img{display:block;width:100%;height:auto;aspect-ratio:941/1672;object-fit:contain}.card-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 15px;font-size:14px}.card-foot span{color:var(--muted)}
+details{margin-top:24px;border-top:1px solid var(--line);padding-top:15px}summary{cursor:pointer;font-weight:600}.design{padding-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:25px}.design p{margin:0 0 12px;color:var(--muted)}table{width:100%;border-collapse:collapse;font-size:15px}th,td{padding:8px 12px;border:1px solid var(--line);text-align:left}th{background:#233139}.legend{display:flex;flex-direction:column;gap:10px}.legend strong{color:var(--text)}footer{display:flex;gap:16px;flex-wrap:wrap;font-size:14px;color:var(--muted);padding-top:25px}
+@media(max-width:850px){.wrap{padding:20px 14px}.grid{gap:10px}.card-head{padding:10px}.card-head h2{font-size:16px}.card-head p{font-size:14px}.card-foot{padding:8px;font-size:14px}.card-foot span{display:none}.hint{display:none}header{flex-direction:column;gap:5px}.archive{margin-top:0}.design{grid-template-columns:1fr}}
+@media(max-width:520px){.grid{grid-template-columns:1fr}.art-link img{max-height:85vh}.card-head p{display:block}h1{font-size:23px}.group button{padding:7px 12px}.toolbar{gap:8px}.description{font-size:14px}}
+@media(prefers-reduced-motion:no-preference){button,a{transition:background .15s,color .15s}}
+</style></head>
+<body><div class="wrap">
+<header><div><h1>MORI · 画风方案<span class="version">V2</span></h1><p class="sub">更高俯视角 · 九名演示英雄 · 萌化僵尸 · 更开阔的猎场</p></div><a class="archive" href="archive-v1/index.html" target="_blank" rel="noopener">打开旧版完整展示 ↗</a></header>
+<div class="toolbar">
+<div class="group" aria-label="选择玩法"><button data-mode="scavenge" aria-pressed="true">物资搜刮</button><button data-mode="hunt" aria-pressed="false">禁区猎场</button></div>
+<div class="group versions" aria-label="选择版本"><button data-version="v2" aria-pressed="true">新版 V2</button><button data-version="v1" aria-pressed="false">旧版 V1</button></div><span class="hint">三种画风并排对比 · 点击图片放大</span></div>
+<p class="description" id="description" aria-live="polite"></p>
+<main class="grid" aria-label="画风对比"><article data-style="a-soft"><div class="card-head"><h2>A · 柔光轻夸张</h2><p>柔和明暗 · 弱描边 · 哑光材质</p></div><a class="art-link" href="a-soft-scavenge.png" target="_blank" rel="noopener"><img src="a-soft-scavenge.png" width="941" height="1672" alt="A · 柔光轻夸张：新版物资搜刮" decoding="async"></a><div class="card-foot"><span class="card-version">V2 · 物资搜刮</span><a class="original" href="a-soft-scavenge.png" target="_blank" rel="noopener">查看原图 ↗</a></div></article><article data-style="b-ink"><div class="card-head"><h2>B · 描边硬块面</h2><p>深色轮廓 · 分块明暗 · 漫画感</p></div><a class="art-link" href="b-ink-scavenge.png" target="_blank" rel="noopener"><img src="b-ink-scavenge.png" width="941" height="1672" alt="B · 描边硬块面：新版物资搜刮" decoding="async"></a><div class="card-foot"><span class="card-version">V2 · 物资搜刮</span><a class="original" href="b-ink-scavenge.png" target="_blank" rel="noopener">查看原图 ↗</a></div></article><article data-style="c-toy"><div class="card-head"><h2>C · 圆润玩具感</h2><p>厚实体积 · 圆润比例 · 玩具质感</p></div><a class="art-link" href="c-toy-scavenge.png" target="_blank" rel="noopener"><img src="c-toy-scavenge.png" width="941" height="1672" alt="C · 圆润玩具感：新版物资搜刮" decoding="async"></a><div class="card-foot"><span class="card-version">V2 · 物资搜刮</span><a class="original" href="c-toy-scavenge.png" target="_blank" rel="noopener">查看原图 ↗</a></div></article></main>
+<details><summary>查看本轮设计：九人阵型、两种新僵尸与构图调整</summary><div class="design"><div><p>三名前排、六名后排。同一阵型用于三种画风。</p><table><thead><tr><th>排位</th><th>左路</th><th>中路</th><th>右路</th></tr></thead><tbody><tr><th>前排</th><td>索尔</td><td>T-800</td><td>大白</td></tr><tr><th>中排</th><td>千手</td><td>托尼</td><td>霜华</td></tr><tr><th>末排</th><td>梨</td><td>琴</td><td>艾尼路</td></tr></tbody></table></div><div class="legend"><p><strong>路锥仔：</strong>歪戴路锥帽、黄色反光背心、圆肚皮与指挥棒。</p><p><strong>快递仔：</strong>蓝头盔、巨大蓝色包裹背包、橙色滑轮鞋。</p><p><strong>搜刮：</strong>镜头向俯视调整，用猎场的完整、圆润、无血迹僵尸替换旧敌人。</p><p><strong>猎场：</strong>车台压低至 UI 上沿，入口和台阶隐藏在面板后，释放中央战斗空间。</p></div></div></details>
+<footer><span>生图画风演示，尚未接入游戏；旧图与旧文件完整保留。</span><a href="design.md">详细设计稿</a><a href="prompts.md">生成提示词</a></footer>
+</div>
+<script>
+let mode='scavenge',version='v2';
+const descriptions={
+v2:{scavenge:'新版搜刮：九名指定英雄 + 猎场系萌化僵尸；新增路锥仔、快递仔，提高俯视角。',hunt:'新版猎场：装甲车下移，入口与台阶藏到 UI 后方；中央场地扩大，并加入两种新僵尸。'},
+v1:{scavenge:'旧版搜刮：保留原始画面，便于比较镜头、英雄和僵尸变化。',hunt:'旧版猎场：保留原始画面，便于比较车台位置、入口遮挡和场地大小。'}
+};
+function render(){
+ document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===mode)));
+ document.querySelectorAll('[data-version]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.version===version)));
+ document.querySelectorAll('article[data-style]').forEach(card=>{
+  const src=(version==='v1'?'archive-v1/':'')+card.dataset.style+'-'+mode+'.png';
+  card.querySelector('img').src=src;
+  card.querySelector('img').alt=card.querySelector('h2').textContent+'：'+(version==='v2'?'新版':'旧版')+(mode==='scavenge'?'物资搜刮':'禁区猎场');
+  card.querySelectorAll('a').forEach(a=>a.href=src);
+  card.querySelector('.card-version').textContent=version.toUpperCase()+' · '+(mode==='scavenge'?'物资搜刮':'禁区猎场');
+ });
+ document.querySelector('#description').textContent=descriptions[version][mode];
+}
+document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>{mode=b.dataset.mode;render()}));
+document.querySelectorAll('[data-version]').forEach(b=>b.addEventListener('click',()=>{version=b.dataset.version;render()}));render();
+</script></body></html>

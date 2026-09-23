@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "asset": "terrain-barren.png",
+  "generator": "built-in image_gen edit",
+  "editTarget": "E:/cslgDemo/public/assets/city-v08/terrain.png",
+  "inputCopy": "terrain-input-original.png",
+  "generatedOriginal": "terrain-barren-generated-original.png",
+  "inputSize": [
+    938,
+    1677
+  ],
+  "generatedSize": [
+    938,
+    1677
+  ],
+  "finalSize": [
+    938,
+    1677
+  ],
+  "format": "PNG RGB 24-bit",
+  "alpha": false,
+  "mapping": {
+    "sourceRect": [
+      0,
+      0,
+      938,
+      1677
+    ],
+    "uniformScale": 1,
+    "translation": [
+      0,
+      0
+    ],
+    "crop": false
+  },
+  "preview": {
+    "file": "terrain-barren-preview.png",
+    "size": [
+      469,
+      839
+    ]
+  },
+  "visualQA": {
+    "inspected": [
+      "input original",
+      "generated full image",
+      "small final preview"
+    ],
+    "result": "Bright cartoon barren initial city terrain, lush green vegetation replaced with sparse dry grasses, plots unobstructed, same camera/roads/plot positions, existing lower-right gate maintained, lamp lenses unlit, no added buildings/actors/UI/text.",
+    "limit": "Generative surface-edit matching; major layout visually preserved, not a pixel-identical texture replacement."
+  },
+  "source": "C:/Users/hy/.codex/generated_images/01a0cc9d-8064-7ad0-98b2-da2178c0084a/exec-20622fb6-f8cd-46e4-bfa6-3b37bb0ac4fb.png",
+  "runtimeFile": "E:/cslgDemo/public/assets/city-v08/terrain-barren.png",
+  "originalArchive": "C:/Users/hy/Documents/CodexArt/camp-prologue-20260923/city-barren/"
+}

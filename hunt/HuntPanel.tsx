@@ -6,6 +6,7 @@ import { HuntView } from './view';
 import { RECRUIT_HEROES } from '@/lib/recruit';
 import HeroPortrait from '@/shared/HeroPortrait';
 import { Crosshair, ChevronsRight } from 'lucide-react';
+import { AMMO_CARRIER, carrierQueued } from '@/lib/ammo-carrier';
 import {
   Dialog,
   DialogContent,
@@ -132,11 +133,27 @@ export default function HuntPanel({ active }: { active: boolean }) {
     }
   };
   const reward = state?.courier.reveal;
+  const carrier = state?.ammoCarrier;
+  const carrierRoom = state?.room ?? 1;
+  const carrierProgress = carrier
+    ? carrier.rooms[carrierRoom].spent % (AMMO_CARRIER.shots * carrierRoom)
+    : 0;
   return (
     <section className="loop-page hunt-page">
       <div className="hunt-arena">
         <canvas
           ref={canvas}
+          data-guide="hunt-fire"
+          data-ready={ready && active}
+          tabIndex={0}
+          role="button"
+          onKeyDown={(e) => {
+            if ((e.key === 'Enter' || e.key === ' ') && ready && active) {
+              e.preventDefault();
+              g?.press(ARENA.gunX, 220);
+              g?.release(true);
+            }
+          }}
           aria-label="点击射击，按住连射，拖动瞄准"
           onPointerDown={(e) => {
             if (!ready || !active || e.button !== 0) return;
@@ -153,9 +170,13 @@ export default function HuntPanel({ active }: { active: boolean }) {
         />
         {!ready && <div className="loop-cover">{error || '猎场准备中…'}</div>}
         <span className="hunt-hint">
-          {state?.bonus
-            ? '奖励时间 · 免费弹强化射击'
-            : '点击射击 · 按住连射 · 拖动瞄准'}
+          {carrier?.active
+            ? `返弹 ${carrier.active.refundAmount} · 还需 ${AMMO_CARRIER.hits - carrier.active.hits.length} 次命中 · 数额已固定`
+            : state?.bonus
+              ? '奖励时间 · 免费弹强化射击'
+              : carrier && carrierQueued(carrier, carrierRoom) > 0
+                ? `返弹补给待入场 · ${carrierQueued(carrier, carrierRoom)} 次`
+                : `返弹补给 ${carrierProgress}/${AMMO_CARRIER.shots * carrierRoom} · 按住连射`}
         </span>
       </div>
       <div className="hunt-scene-label">
@@ -170,7 +191,7 @@ export default function HuntPanel({ active }: { active: boolean }) {
       )}
       <div className="hunt-console">
         <div className="hunt-actions">
-          <div className="ammo-count">
+          <div className="ammo-count" data-hunt-ammo-inventory>
             <img src="/assets/loop/black-gold-ammo.png" alt="黑金弹" />
             <strong>{state?.ammo ?? campaign.read().ammo}</strong>
             <span>黑金弹</span>

@@ -1,4 +1,10 @@
 import {
+  freshPrologue,
+  parsePrologue,
+  rewardOnce,
+  type PrologueState,
+} from './prologue';
+import {
   freshRecruit,
   RECRUIT_HEROES,
   QUALITIES,
@@ -28,6 +34,7 @@ export type Growth = { quality: Quality; stars: number; used: number };
 export type Building = { level: number; collectedAt: number };
 export type Campaign = {
   version: 2;
+  prologue: PrologueState;
   bestWave: number;
   bestStage: number;
   ammo: number;
@@ -48,13 +55,19 @@ export type Campaign = {
   notice: string;
   revision: number;
 };
-export const KEY = 'mori.demo.campaign.v2';
-const LEASE = 'mori.demo.lease.v2';
+export const KEY =
+  typeof window !== 'undefined' &&
+  new URLSearchParams(window.location.search).get('prologue') === 'preview'
+    ? 'mori.demo.prologue.preview.v1'
+    : 'mori.demo.campaign.v2';
+const LEASE =
+  KEY === 'mori.demo.campaign.v2' ? 'mori.demo.lease.v2' : `${KEY}.lease`;
 export const freshCampaign = (): Campaign => {
   const recruit = freshRecruit();
   ['shield', 'medic', 'drone'].forEach((id) => (recruit.owned[id] = 1));
   return {
     version: 2,
+    prologue: freshPrologue(),
     bestWave: 0,
     bestStage: 0,
     ammo: 0,
@@ -62,7 +75,7 @@ export const freshCampaign = (): Campaign => {
     recruit,
     hunt: freshHunt(),
     growth: {},
-    lineup: [0, 1, 2, -1, -1, -1, -1, -1, -1],
+    lineup: [-1, -1, -1, 0, 1, 2, -1, -1, -1],
     city: {
       unlocked: false,
       materials: 0,
@@ -80,12 +93,13 @@ const integer = (n: unknown, fallback = 0) =>
   typeof n === 'number' && Number.isSafeInteger(n) && n >= 0
     ? Math.min(n, 1e9)
     : fallback;
-export const slotsUnlocked = (d: Campaign) =>
+export const unlockedSlotIndices = (d: Campaign): number[] =>
   d.bestStage >= BALANCE.thirdLane
-    ? 9
+    ? [3, 4, 5, 0, 1, 2, 6, 7, 8]
     : d.bestStage >= BALANCE.secondLane
-      ? 6
-      : 3;
+      ? [3, 4, 5, 0, 1, 2]
+      : [3, 4, 5];
+export const slotsUnlocked = (d: Campaign) => unlockedSlotIndices(d).length;
 export const growthOf = (d: Campaign, id: string): Growth =>
   d.growth[id] ?? {
     quality: RECRUIT_HEROES.find((h) => h.id === id)?.rarity ?? 'blue',
@@ -109,7 +123,7 @@ export function validLineup(d: Campaign, value: unknown): value is number[] {
         Number.isInteger(n) &&
         n >= -1 &&
         n < 9 &&
-        (i < slotsUnlocked(d)
+        (unlockedSlotIndices(d).includes(i)
           ? n < 0 || d.recruit.owned[RECRUIT_HEROES[n].id] > 0
           : n === -1),
     ) &&
@@ -120,7 +134,7 @@ export function validLineup(d: Campaign, value: unknown): value is number[] {
 export function autoLineup(d: Campaign) {
   const list = RECRUIT_HEROES.filter((h) => d.recruit.owned[h.id] > 0);
   const next = Array(9).fill(-1);
-  for (let i = 0; i < slotsUnlocked(d); i++) {
+  for (const i of unlockedSlotIndices(d)) {
     const role = ['坦克', '治疗', '输出'][i % 3];
     const h = list.find((h) => h.role === role && !next.includes(h.index));
     if (h) next[i] = h.index;
@@ -132,6 +146,7 @@ export function parseCampaign(raw: string | null): Campaign {
     const v = JSON.parse(raw ?? 'null');
     if (v?.version !== 2) return freshCampaign();
     const d = freshCampaign();
+    d.prologue = parsePrologue(v.prologue);
     d.bestStage = integer(v.bestStage);
     d.bestWave = d.bestStage * 3;
     d.ammo = integer(v.ammo);
@@ -191,7 +206,7 @@ export function parseCampaign(raw: string | null): Campaign {
     }
     // Preserve existing production levels on migration; never downgrade an old base.
     d.city.facilities.hq.level = Math.max(
-      1,
+      d.prologue.rewards.includes('city-foundation') ? 0 : 1,
       d.city.facilities.hq.level,
       d.city.workshop.level,
       d.city.factory.level,
@@ -203,7 +218,16 @@ export function parseCampaign(raw: string | null): Campaign {
     d.tutorial = integer(v.tutorial);
     d.notice = typeof v.notice === 'string' ? v.notice.slice(0, 220) : '';
     d.revision = integer(v.revision);
-    if (validLineup(d, v.lineup)) d.lineup = v.lineup;
+    // Move an old single-lane formation to the center without replacing heroes
+    // or changing their order. Already unlocked multi-lane saves stay intact.
+    const lineup =
+      d.bestStage < BALANCE.secondLane &&
+      Array.isArray(v.lineup) &&
+      v.lineup.length === 9 &&
+      v.lineup.slice(3).every((n: unknown) => n === -1)
+        ? [-1, -1, -1, ...v.lineup.slice(0, 3), -1, -1, -1]
+        : v.lineup;
+    if (validLineup(d, lineup)) d.lineup = lineup;
     else autoLineup(d);
     return d;
   } catch {
@@ -218,7 +242,10 @@ export function completeStage(d: Campaign, stage: number, now = Date.now()) {
   d.notice = `第 ${stage} 关首通 · 黑金弹 +${stageAmmo(stage)}`;
   if (stage === 1) d.notice += '。禁区猎场已开放，前往猎场开火提升全队等级。';
   if (stage === 2) {
-    ['samurai', 'guitar', 'assassin'].forEach((id) => d.recruit.owned[id]++);
+    ['samurai', 'guitar', 'assassin'].forEach((id) => {
+      if (id !== 'samurai' || !d.prologue.rewards.includes('recruit'))
+        d.recruit.owned[id]++;
+    });
     d.city = {
       unlocked: true,
       materials: 100,
@@ -226,7 +253,14 @@ export function completeStage(d: Campaign, stage: number, now = Date.now()) {
       factory: { level: 0, collectedAt: now },
       facilities: freshFacilities(now),
     };
-    d.notice += '。第二路与内城开放，三名援军抵达；工坊修复，建材 +100。';
+    rewardOnce(d, 'city-foundation', () => {
+      d.city.materials = 200;
+      d.city.workshop.level = 0;
+      d.city.facilities.hq.level = 0;
+    });
+    d.notice += d.prologue.rewards.includes('city-foundation')
+      ? '。第二路与内城开放。建营物资 +200：先搭指挥部，再建回收站和弹药工厂。'
+      : '。第二路与内城开放；工坊修复，建材 +100。';
     autoLineup(d);
   }
   if (stage === 4) {
@@ -234,6 +268,17 @@ export function completeStage(d: Campaign, stage: number, now = Date.now()) {
     autoLineup(d);
     d.notice += '。第三路开放，三名援军抵达。';
   }
+  if (stage === 5)
+    rewardOnce(d, 'elite', () => {
+      d.ammo += 150;
+      d.city.materials += 200;
+    });
+  if (stage === 6)
+    rewardOnce(d, 'training', () => {
+      const g = growthOf(d, 'shield');
+      if (g.stars === 1 && g.quality === 'blue')
+        d.recruit.owned.shield = Math.max(d.recruit.owned.shield, g.used + 2);
+    });
   return true;
 }
 export function saveHunt(d: Campaign, h: HuntSave) {
@@ -246,6 +291,7 @@ export function saveHunt(d: Campaign, h: HuntSave) {
     hunt: d.hunt,
   };
   if (!commitHunt(adapter, h)) return false;
+  d.ammo = adapter.ammo;
   d.hunt = adapter.hunt;
   d.recruit = adapter.recruit;
   const tickets =
@@ -331,6 +377,11 @@ export function buildCity(d: Campaign, kind: CityKind, now = Date.now()) {
     collectCity(d, kind, now);
   d.city.materials -= cost;
   b.level++;
+  if (kind === 'factory')
+    rewardOnce(d, 'factory', () => {
+      d.ammo += 150;
+      d.notice = '工厂建成！备用黑金弹 +150，后续生产可定期领取。';
+    });
   b.collectedAt = now;
   for (const producer of ['workshop', 'factory'] as const) {
     if (fractions[producer] !== undefined)
@@ -431,6 +482,6 @@ export const campaign = {
     };
   },
   reset() {
-    this.update((d) => Object.assign(d, freshCampaign()));
+    return this.update((d) => Object.assign(d, freshCampaign()));
   },
 };

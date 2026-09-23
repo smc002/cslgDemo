@@ -6,6 +6,9 @@ export const ECONOMY = {
   rewardCoefficient: 1,
   checkSeconds: 3,
   courierAmmo: 1000,
+  // 20% of the 2 x 5.08 baseline core value funds ammunition returns.
+  // Ordinary kill value stays intact; this share comes out of event funding.
+  ammoReturnPerSpent: 2032,
 } as const;
 export const FUNCTIONAL = [4, 5, 6, 7, 8, 10, 11] as const;
 // Trial budgets include the monster's own points. Free-fire budgets use the
@@ -50,6 +53,7 @@ export type EconomyBullet = {
   chainDepth?: number;
   eventId?: number;
   receiptId?: number;
+  shotId?: number;
 };
 export type RewardEvent = {
   id: number;
@@ -69,6 +73,7 @@ export type EconomySave = {
   migration: number;
   paid: number;
   spentAmmo: number;
+  ammoReturnFunding: number;
   serial: number;
   shotSerial: number;
   nextKind: number | null;
@@ -102,6 +107,7 @@ export const freshEconomy = (): EconomySave => ({
   migration: 0,
   paid: 0,
   spentAmmo: 0,
+  ammoReturnFunding: 0,
   serial: 0,
   shotSerial: 0,
   nextKind: null,
@@ -182,7 +188,9 @@ export function receipt(e: EconomySave, cost: number) {
   if (!Number.isSafeInteger(cost) || cost <= 0)
     throw Error('Invalid paid ammunition');
   const deposit = cost * ECONOMY.ordinaryYield * ECONOMY.rewardCoefficient;
-  e.available += deposit;
+  const ammoFunding = cost * ECONOMY.ammoReturnPerSpent;
+  e.available += deposit - ammoFunding;
+  e.ammoReturnFunding = (e.ammoReturnFunding ?? 0) + ammoFunding;
   e.injected += deposit;
   e.spentAmmo += cost;
   const id = ++e.shotSerial;
@@ -211,10 +219,12 @@ export function auditEconomy(e: EconomySave) {
     injected: e.injected,
     compensation: e.compensation,
     migration: e.migration,
+    ammoReturnFunding: e.ammoReturnFunding ?? 0,
     difference:
       e.available +
       reserved +
-      e.paid -
+      e.paid +
+      (e.ammoReturnFunding ?? 0) -
       e.injected -
       e.compensation -
       e.migration,
@@ -233,6 +243,7 @@ export function parseEconomy(raw: unknown): EconomySave | null {
     'migration',
     'paid',
     'spentAmmo',
+    'ammoReturnFunding',
     'serial',
     'shotSerial',
   ] as const)
@@ -299,7 +310,7 @@ export function parseEconomy(raw: unknown): EconomySave | null {
           position(z) &&
           Number.isInteger(z.kind) &&
           z.kind >= 0 &&
-          z.kind <= 11 &&
+          z.kind <= 12 &&
           (!functional(z.kind) || !!e.events[z.eventId ?? -1]),
       ),
       bullets: runtime.bullets.filter(

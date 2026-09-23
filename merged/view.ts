@@ -14,6 +14,7 @@ export class MergedView {
   private c: CanvasRenderingContext2D;
   private poseSheets = new Map<string, HTMLImageElement>();
   private ground?: HTMLImageElement;
+  private bossAtlas?: HTMLImageElement;
   private atlas?: HTMLImageElement;
   private zombies?: HTMLImageElement;
   private silhouettes = new Map<string, HTMLCanvasElement>();
@@ -92,6 +93,7 @@ export class MergedView {
         }),
       ),
     );
+    this.bossAtlas = await load('/assets/prologue-v1/boss/boss-actions.png');
     if (this.disposed) return;
     this.ground = ground;
     this.atlas = atlas;
@@ -132,10 +134,26 @@ export class MergedView {
     );
     const offset = g.phase === 'prep' ? 0 : BATTLE_OFFSET_Y;
     const scroll = (g.camera + offset) % 752;
+    // Every combat stage shares the advancing street and camera. Camp gates
+    // belong to the story cards, so they never hide movement between waves.
     c.drawImage(this.ground!, 0, scroll, 390, 752);
     c.drawImage(this.ground!, 0, scroll - 752, 390, 752);
     c.save();
     c.translate(0, g.camera + offset);
+    for (const boss of g.enemies.filter((e) => e.boss && e.hp > 0)) {
+      if (boss.bossCharge !== undefined || (boss.bossRecovery ?? 0) > 0.35) {
+        const impact = boss.bossCharge === undefined;
+        c.fillStyle = impact ? '#fff1a8b0' : '#ff65334d';
+        c.strokeStyle = impact ? '#ffcf64' : '#ff522a';
+        c.lineWidth = impact ? 5 : 2;
+        c.fillRect(boss.x - 62, boss.y - 8, 124, 163);
+        c.strokeRect(boss.x - 62, boss.y - 8, 124, 163);
+        c.fillStyle = '#8a2d20';
+        c.font = 'bold 12px sans-serif';
+        c.textAlign = 'center';
+        c.fillText(impact ? '重砸！' : '举盾蓄力', boss.x, boss.y + 140);
+      }
+    }
     for (const u of [...g.heroes, ...g.enemies].sort((a, b) => a.y - b.y))
       this.unit(u);
     for (const s of g.shots) {
@@ -229,6 +247,42 @@ export class MergedView {
     c.stroke();
   }
   private unit(u: Unit) {
+    if (u.boss && this.bossAtlas) {
+      const c = this.c;
+      const frame =
+        u.hp <= 0
+          ? 7
+          : u.bossCharge !== undefined
+            ? u.bossCharge > 0.9
+              ? 3
+              : 4
+            : (u.bossRecovery ?? 0) > 0.35
+              ? 5
+              : (u.bossRecovery ?? 0) > 0
+                ? 6
+                : 0;
+      c.save();
+      c.globalAlpha = u.hp <= 0 ? Math.max(0, 1 - u.age) : 1;
+      c.drawImage(
+        this.bossAtlas,
+        (frame % 4) * 512,
+        Math.floor(frame / 4) * 512,
+        512,
+        512,
+        u.x - 64,
+        u.y - 114,
+        128,
+        128,
+      );
+      if (u.hp > 0) {
+        c.fillStyle = '#58302a';
+        c.font = 'bold 12px sans-serif';
+        c.textAlign = 'center';
+        c.fillText('破门王', u.x, u.y - 120);
+      }
+      c.restore();
+      return;
+    }
     if (u.hp <= 0 && u.age > 0.4 && !animations[u.hero]) return;
     const c = this.c,
       z = u.hero < 0,
@@ -364,9 +418,17 @@ export class MergedView {
     const c = this.c,
       z = u.hero < 0,
       cfg = z ? null : HEROES[u.hero];
-    const h = z ? (u.kind === 2 ? 57 : 40) : cfg!.role === 'tank' ? 61 : 52;
+    const h = u.boss
+      ? 104
+      : z
+        ? u.kind === 2
+          ? 57
+          : 40
+        : cfg!.role === 'tank'
+          ? 61
+          : 52;
     c.save();
-    const bw = z ? 25 : 34,
+    const bw = u.boss ? 70 : z ? 25 : 34,
       y = u.y - h - 6;
     c.fillStyle = '#173a30';
     c.fillRect(u.x - bw / 2 - 1, y - 1, bw + 2, 6);

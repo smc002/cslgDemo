@@ -225,8 +225,24 @@ export const citySpeed = (d: Campaign) =>
   1 - 0.02 * cityBuilding(d, 'power').level;
 export const cityYield = (d: Campaign) =>
   1 + 0.05 * cityBuilding(d, 'research').level;
+export const CITY_BUILD_ORDER: CityKind[] = [
+  'hq',
+  'workshop',
+  'factory',
+  'warehouse',
+  'power',
+  'research',
+];
+export const nextCitySite = (d: Campaign) =>
+  CITY_BUILD_ORDER.find((kind) => !cityBuilding(d, kind).level);
+export const visibleCityBuildings = (d: Campaign) =>
+  CITY_BUILDINGS.filter(
+    (item) => cityBuilding(d, item.id).level > 0 || item.id === nextCitySite(d),
+  );
 export const cityCost = (d: Campaign, kind: CityKind) =>
-  cityMeta(kind).cost * (cityBuilding(d, kind).level + 1);
+  kind === 'hq' && !cityBuilding(d, kind).level
+    ? 0
+    : cityMeta(kind).cost * (cityBuilding(d, kind).level + 1);
 export function cityUpgradeBlock(d: Campaign, kind: CityKind) {
   const meta = cityMeta(kind),
     b = cityBuilding(d, kind),
@@ -234,7 +250,9 @@ export function cityUpgradeBlock(d: Campaign, kind: CityKind) {
   if (!d.city.unlocked) return '完成搜刮第 2 关后开放';
   if (!meta.live) return '专属玩法筹备中';
   if (b.level >= CITY_MAX_LEVEL) return '已满级';
-  if (hq < meta.unlock) return `指挥部 Lv.${meta.unlock} 解锁`;
+  const next = nextCitySite(d);
+  if (!b.level && next && next !== kind) return `先建造${cityMeta(next).name}`;
+  if (kind !== 'hq' && hq < meta.unlock) return `指挥部 Lv.${meta.unlock} 解锁`;
   if (kind !== 'hq' && b.level >= hq) return `先升级指挥部至 Lv.${b.level + 1}`;
   if (d.city.materials < cityCost(d, kind))
     return `还需 ${cityCost(d, kind) - d.city.materials} 建材`;
