@@ -1,0 +1,85 @@
+{
+  "version": 2,
+  "assets": {
+    "metal-hit-0": {
+      "file": "metal-hit-0.png",
+      "width": 256,
+      "height": 256
+    },
+    "metal-hit-1": {
+      "file": "metal-hit-1.png",
+      "width": 256,
+      "height": 256
+    },
+    "metal-hit-2": {
+      "file": "metal-hit-2.png",
+      "width": 256,
+      "height": 256
+    },
+    "metal-hit-3": {
+      "file": "metal-hit-3.png",
+      "width": 256,
+      "height": 256
+    },
+    "body-hit-0": {
+      "file": "body-hit-0.png",
+      "width": 256,
+      "height": 256
+    },
+    "body-hit-1": {
+      "file": "body-hit-1.png",
+      "width": 256,
+      "height": 256
+    },
+    "body-hit-2": {
+      "file": "body-hit-2.png",
+      "width": 256,
+      "height": 256
+    },
+    "body-hit-3": {
+      "file": "body-hit-3.png",
+      "width": 256,
+      "height": 256
+    },
+    "core": {
+      "file": "core.png",
+      "width": 228,
+      "height": 256
+    },
+    "ticket": {
+      "file": "ticket.png",
+      "width": 256,
+      "height": 123
+    },
+    "special-plaque": {
+      "file": "special-plaque.png",
+      "width": 768,
+      "height": 170
+    },
+    "jackpot-plaque": {
+      "file": "jackpot-plaque.png",
+      "width": 768,
+      "height": 211
+    },
+    "left-plate": {
+      "file": "left-plate.png",
+      "width": 183,
+      "height": 192
+    },
+    "right-plate": {
+      "file": "right-plate.png",
+      "width": 184,
+      "height": 192
+    },
+    "amber-coil": {
+      "file": "amber-coil.png",
+      "width": 192,
+      "height": 167
+    },
+    "cyan-coil": {
+      "file": "cyan-coil.png",
+      "width": 192,
+      "height": 165
+    }
+  }
+}

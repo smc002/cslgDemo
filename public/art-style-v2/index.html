@@ -11,11 +11,12 @@ details{margin-top:24px;border-top:1px solid var(--line);padding-top:15px}summar
 @media(max-width:850px){.wrap{padding:20px 14px}.grid{gap:10px}.card-head{padding:10px}.card-head h2{font-size:16px}.card-head p{font-size:14px}.card-foot{padding:8px;font-size:14px}.card-foot span{display:none}.hint{display:none}header{flex-direction:column;gap:5px}.archive{margin-top:0}.design{grid-template-columns:1fr}}
 @media(max-width:520px){.grid{grid-template-columns:1fr}.art-link img{max-height:85vh}.card-head p{display:block}h1{font-size:23px}.group button{padding:7px 12px}.toolbar{gap:8px}.description{font-size:14px}}
 @media(prefers-reduced-motion:no-preference){button,a{transition:background .15s,color .15s}}
+[hidden]{display:none!important}.grid[data-mode="hero"] .art-link img{aspect-ratio:2/3}
 </style></head>
 <body><div class="wrap">
 <header><div><h1>MORI · 画风方案<span class="version">V2</span></h1><p class="sub">更高俯视角 · 九名演示英雄 · 萌化僵尸 · 更开阔的猎场</p></div><a class="archive" href="archive-v1/index.html" target="_blank" rel="noopener">打开旧版完整展示 ↗</a></header>
 <div class="toolbar">
-<div class="group" aria-label="选择玩法"><button data-mode="scavenge" aria-pressed="true">物资搜刮</button><button data-mode="hunt" aria-pressed="false">禁区猎场</button></div>
+<div class="group" aria-label="选择展示内容"><button data-mode="scavenge" aria-pressed="true">物资搜刮</button><button data-mode="hunt" aria-pressed="false">禁区猎场</button><button data-mode="hero" aria-pressed="false">英雄立绘</button></div>
 <div class="group versions" aria-label="选择版本"><button data-version="v2" aria-pressed="true">新版 V2</button><button data-version="v1" aria-pressed="false">旧版 V1</button></div><span class="hint">三种画风并排对比 · 点击图片放大</span></div>
 <p class="description" id="description" aria-live="polite"></p>
 <main class="grid" aria-label="画风对比"><article data-style="a-soft"><div class="card-head"><h2>A · 柔光轻夸张</h2><p>柔和明暗 · 弱描边 · 哑光材质</p></div><a class="art-link" href="a-soft-scavenge.png" target="_blank" rel="noopener"><img src="a-soft-scavenge.png" width="941" height="1672" alt="A · 柔光轻夸张：新版物资搜刮" decoding="async"></a><div class="card-foot"><span class="card-version">V2 · 物资搜刮</span><a class="original" href="a-soft-scavenge.png" target="_blank" rel="noopener">查看原图 ↗</a></div></article><article data-style="b-ink"><div class="card-head"><h2>B · 描边硬块面</h2><p>深色轮廓 · 分块明暗 · 漫画感</p></div><a class="art-link" href="b-ink-scavenge.png" target="_blank" rel="noopener"><img src="b-ink-scavenge.png" width="941" height="1672" alt="B · 描边硬块面：新版物资搜刮" decoding="async"></a><div class="card-foot"><span class="card-version">V2 · 物资搜刮</span><a class="original" href="b-ink-scavenge.png" target="_blank" rel="noopener">查看原图 ↗</a></div></article><article data-style="c-toy"><div class="card-head"><h2>C · 圆润玩具感</h2><p>厚实体积 · 圆润比例 · 玩具质感</p></div><a class="art-link" href="c-toy-scavenge.png" target="_blank" rel="noopener"><img src="c-toy-scavenge.png" width="941" height="1672" alt="C · 圆润玩具感：新版物资搜刮" decoding="async"></a><div class="card-foot"><span class="card-version">V2 · 物资搜刮</span><a class="original" href="c-toy-scavenge.png" target="_blank" rel="noopener">查看原图 ↗</a></div></article></main>
@@ -23,23 +24,31 @@ details{margin-top:24px;border-top:1px solid var(--line);padding-top:15px}summar
 <footer><span>生图画风演示，尚未接入游戏；旧图与旧文件完整保留。</span><a href="design.md">详细设计稿</a><a href="prompts.md">生成提示词</a></footer>
 </div>
 <script>
-let mode='scavenge',version='v2';
+const validModes=['scavenge','hunt','hero'];
+let mode=validModes.includes(location.hash.slice(1))?location.hash.slice(1):'scavenge',version='v2';
 const descriptions={
 v2:{scavenge:'新版搜刮：九名指定英雄 + 猎场系萌化僵尸；新增路锥仔、快递仔，提高俯视角。',hunt:'新版猎场：装甲车下移，入口与台阶藏到 UI 后方；中央场地扩大，并加入两种新僵尸。'},
 v1:{scavenge:'旧版搜刮：保留原始画面，便于比较镜头、英雄和僵尸变化。',hunt:'旧版猎场：保留原始画面，便于比较车台位置、入口遮挡和场地大小。'}
 };
 function render(){
- document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===mode)));
+ const isHero=mode==='hero';
+ const label=isHero?'英雄立绘':mode==='scavenge'?'物资搜刮':'禁区猎场';
+ document.querySelector('.versions').hidden=isHero;
+ document.querySelector('.grid').dataset.mode=mode;
+ document.querySelectorAll('button[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===mode)));
  document.querySelectorAll('[data-version]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.version===version)));
  document.querySelectorAll('article[data-style]').forEach(card=>{
-  const src=(version==='v1'?'archive-v1/':'')+card.dataset.style+'-'+mode+'.png';
+  const src=(isHero||version==='v1'?'archive-v1/':'')+card.dataset.style+'-'+mode+'.png';
   card.querySelector('img').src=src;
-  card.querySelector('img').alt=card.querySelector('h2').textContent+'：'+(version==='v2'?'新版':'旧版')+(mode==='scavenge'?'物资搜刮':'禁区猎场');
+  card.querySelector('img').alt=card.querySelector('h2').textContent+'：'+(isHero?'纲手人设英雄立绘':(version==='v2'?'新版':'旧版')+label);
+  card.querySelector('img').width=isHero?1024:941;
+  card.querySelector('img').height=isHero?1536:1672;
   card.querySelectorAll('a').forEach(a=>a.href=src);
-  card.querySelector('.card-version').textContent=version.toUpperCase()+' · '+(mode==='scavenge'?'物资搜刮':'禁区猎场');
+  card.querySelector('.card-version').textContent=isHero?'纲手人设 · 原版立绘':version.toUpperCase()+' · '+label;
  });
- document.querySelector('#description').textContent=descriptions[version][mode];
+ document.querySelector('#description').textContent=isHero?'此前生成的三种画风英雄立绘，以纲手人设演示；原图完整保留，点击可放大查看。':descriptions[version][mode];
 }
-document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>{mode=b.dataset.mode;render()}));
+document.querySelectorAll('button[data-mode]').forEach(b=>b.addEventListener('click',()=>{mode=b.dataset.mode;history.replaceState(null,'','#'+mode);render()}));
+window.addEventListener('hashchange',()=>{const next=location.hash.slice(1);if(validModes.includes(next)){mode=next;render()}});
 document.querySelectorAll('[data-version]').forEach(b=>b.addEventListener('click',()=>{version=b.dataset.version;render()}));render();
 </script></body></html>

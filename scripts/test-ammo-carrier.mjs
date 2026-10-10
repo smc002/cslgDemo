@@ -9,6 +9,7 @@ await build({
     'lib/campaign.ts',
     'lib/ammo-carrier.ts',
     'lib/hunt-economy.ts',
+    'shared/toy-art.ts',
   ],
   bundle: true,
   platform: 'node',
@@ -22,6 +23,7 @@ const E = await import('../.test-cache/ammo-carrier/lib/hunt-economy.js');
 const { HuntGame } =
   await import('../.test-cache/ammo-carrier/hunt/simulation.js');
 const { HuntView } = await import('../.test-cache/ammo-carrier/hunt/view.js');
+const { TOY_SCALE } = await import('../.test-cache/ammo-carrier/shared/toy-art.js');
 function setup(room = 1) {
   let d = C.freshCampaign(),
     pending = 0;
@@ -318,7 +320,11 @@ console.log(
   assert.equal(e.ammoReturnFunding, 20 * E.ECONOMY.ordinaryYield * 2);
   assert.equal(E.auditEconomy(e).difference, 0);
   const budget = e.available + e.ammoReturnFunding;
-  assert.equal(budget, 100 * E.ECONOMY.ordinaryYield);
+  assert.equal(
+    budget,
+    100 * E.ECONOMY.ordinaryYield * E.ECONOMY.rewardCoefficient +
+      100 * E.ECONOMY.shotCorePerAmmo * E.ECONOMY.unit,
+  );
   assert.equal(
     E.auditEconomy(E.parseEconomy(JSON.parse(JSON.stringify(e)))).difference,
     0,
@@ -407,33 +413,24 @@ for (let row = 0; row < 5; row++) {
     'alternating walk poses',
   );
 }
-const calls = [],
-  scales = [];
+// Toy identities use one source with mirrored facing and runtime poses.
+const calls = [];
 const renderer = Object.create(HuntView.prototype);
-renderer.ctx = new Proxy(
-  {
-    drawImage: (...args) => calls.push(args),
-    scale: (...args) => scales.push(args),
-    createRadialGradient: () => ({ addColorStop() {} }),
+renderer.ctx = new Proxy({}, { get: () => () => {} });
+renderer.toy = {
+  draw: (...args) => {
+    calls.push(args);
+    return true;
   },
-  { get: (o, k) => (k in o ? o[k] : () => {}) },
-);
-renderer.zombieClocks = new Map();
-renderer.art = {
-  zombieAnimation: { manifest, sheets: { ammoCarrier: { id: 'carrier' } } },
 };
+renderer.zombieClocks = new Map();
 renderer.game = setup().g;
-const dirs = [
-  ['S', 0, 18, 0, false],
-  ['SE', 12, 12, 1, false],
-  ['E', 18, 0, 2, false],
-  ['NE', 12, -12, 3, false],
-  ['N', 0, -18, 4, false],
-  ['NW', -12, -12, 3, true],
-  ['W', -18, 0, 2, true],
-  ['SW', -12, 12, 1, true],
-];
-for (const [facing, vx, vy, row, mirror] of dirs) {
+for (const [facing, vx, vy, mirror] of [
+  ['S', 0, 18, false],
+  ['E', 18, 0, false],
+  ['W', -18, 0, true],
+  ['NW', -12, -12, true],
+]) {
   const z = {
     id: 99,
     kind: 12,
@@ -447,20 +444,15 @@ for (const [facing, vx, vy, row, mirror] of dirs) {
     vy,
   };
   renderer.zombieClocks.clear();
-  calls.length = 0;
-  scales.length = 0;
   assert.ok(renderer.animatedZombie(z, 86));
   let c = calls.at(-1);
-  assert.equal(c[1] / 320 + (c[2] / 320) * 10, row * 10);
-  assert.equal(
-    scales.some((s) => s[0] === -1),
-    mirror,
-  );
+  assert.equal(c[1], 'zombie-gold');
+  assert.equal(c[4], 86 * 1.12 * TOY_SCALE);
+  assert.equal(c[5].left, mirror);
   z.hit = 0.06;
   z.age = 0.1;
   renderer.animatedZombie(z, 86);
-  c = calls.at(-1);
-  assert.equal(c[1] / 320 + (c[2] / 320) * 10, row * 10 + 5);
+  assert.equal(calls.at(-1)[5].hit, 0.06);
   z.hit = 0;
   z.age = 0.2;
   renderer.animatedZombie(z, 86);
@@ -469,8 +461,8 @@ for (const [facing, vx, vy, row, mirror] of dirs) {
   z.age = 0.3;
   renderer.animatedZombie(z, 86);
   assert.equal(renderer.zombieClocks.get(99).walk, before);
+  assert.equal(calls.at(-1)[5].frozen, true);
   for (const age of [0.05, 0.25, 0.6, 1.4]) {
-    calls.length = 0;
     renderer.effect({
       id: 1,
       kind: 'ammoReturn',
@@ -485,12 +477,11 @@ for (const [facing, vx, vy, row, mirror] of dirs) {
       facing,
     });
     c = calls.at(-1);
-    assert.equal(
-      c[1] / 320 + (c[2] / 320) * 10,
-      row * 10 + (age < 0.16 ? 7 : age < 0.36 ? 8 : 9),
-    );
+    assert.equal(c[1], 'zombie-gold');
+    assert.equal(c[5].death, age);
+    assert.equal(c[5].left, mirror);
   }
 }
 console.log(
-  'PASS 50 alpha-safe frames, fixed legs/hands, 8-direction production renderer, hit, freeze and non-looping death',
+  'PASS preserved legacy source frames; toy carrier identity, mirrored facing, hit, frozen clock and continuous death age',
 );

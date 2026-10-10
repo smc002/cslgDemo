@@ -1,4 +1,5 @@
 'use client';
+/* eslint-disable jsx-a11y/prefer-tag-over-role -- A live canvas battlefield uses the accessible image role. */
 import { useEffect, useRef, useState } from 'react';
 import {
   campaign,
@@ -9,15 +10,18 @@ import {
 } from '@/lib/campaign';
 import { battleGate } from '@/lib/prologue';
 import { stageAmmo, BALANCE } from '@/lib/balance';
-import { MergedBattle, HEROES, SLOTS, COLORS } from './simulation';
+import { MergedBattle, HEROES, COLORS } from './simulation';
 import { RECRUIT_HEROES } from '@/lib/recruit';
 import { MergedView } from './view';
 import HeroPortrait from '@/shared/HeroPortrait';
 import '@/shared/portrait.css';
 import './merged.css';
+import { ElementBadge, ElementIntel, ElementPlacementHint, ElementTutorial } from './ElementBriefing';
+import { ELEMENT_INTRO_SEEN, ELEMENT_START_STAGE, emptyCombatLanes, heroElement } from '@/lib/elements';
 export type BattleStatus = {
   stage: number;
   wave: number;
+  totalWaves: number;
   phase: string;
   alive: number;
   enemies: number;
@@ -37,9 +41,11 @@ declare global {
 }
 export default function MergedPanel({
   active,
+  foreground = true,
   onStatus,
 }: {
   active: boolean;
+  foreground?: boolean;
   onStatus?: (s: BattleStatus) => void;
 }) {
   const canvas = useRef<HTMLCanvasElement>(null),
@@ -48,7 +54,9 @@ export default function MergedPanel({
     view = useRef<MergedView | null>(null),
     activeRef = useRef(active),
     notify = useRef(onStatus);
-  notify.current = onStatus;
+  useEffect(() => {
+    notify.current = onStatus;
+  }, [onStatus]);
   const [state, setState] = useState(() => new MergedBattle().snapshot()),
     [ready, setReady] = useState(false),
     [error, setError] = useState(''),
@@ -56,9 +64,12 @@ export default function MergedPanel({
     [picked, setPicked] = useState<number | null>(null),
     [revision, setRevision] = useState(0),
     [stage, setStage] = useState(1),
-    [auto, setAuto] = useState(true);
+    [auto, setAuto] = useState(true),
+    [elementHelp, setElementHelp] = useState(false);
   const autoRef = useRef(auto);
-  autoRef.current = auto;
+  useEffect(() => {
+    autoRef.current = auto;
+  }, [auto]);
   const drag = useRef<{ slot: number; x: number; y: number } | null>(null),
     clearAt = useRef(0),
     settled = useRef(0);
@@ -103,14 +114,16 @@ export default function MergedPanel({
         ) {
           const next = campaign.read().bestStage + 1;
           configure();
-          if (next % 5 !== 0) g.start();
+          // Elemental stages always offer enemy reconnaissance and deployment first.
+          if (next < ELEMENT_START_STAGE && next % 5 !== 0) g.start();
         }
       }
       const s = g.snapshot();
       setState(s);
       notify.current?.({
         stage: g.stage,
-        wave: ((g.wave - 1) % 3) + 1,
+        wave: s.waveInStage,
+        totalWaves: s.totalWaves,
         phase: g.phase,
         alive: s.survivors,
         enemies: s.enemies.filter((e) => e.hp > 0).length,
@@ -142,6 +155,11 @@ export default function MergedPanel({
           return;
         }
         if (g.phase === 'cleared' || g.phase === 'defeat') configure();
+        if (g.stage >= ELEMENT_START_STAGE && !campaign.read().prologue.seen.includes(ELEMENT_INTRO_SEEN)) {
+          setElementHelp(true);
+          return;
+        }
+        if (emptyCombatLanes(g.stage, g.lineup).length) return;
         g.start();
         campaign.update((d) => {
           d.tutorial = Math.max(1, d.tutorial);
@@ -184,6 +202,16 @@ export default function MergedPanel({
     prep = state.phase === 'prep',
     detail = picked ?? (selected !== null ? state.lineup[selected] : 0),
     info = HEROES[detail >= 0 ? detail : 0];
+  const elemental = stage >= ELEMENT_START_STAGE;
+  const missingLanes = emptyCombatLanes(stage, state.lineup);
+  const showElementHelp = elemental && prep && foreground && active && ready && !battleGate(d) &&
+    (elementHelp || !d.prologue.seen.includes(ELEMENT_INTRO_SEEN));
+  const closeElementHelp = () => {
+    setElementHelp(false);
+    campaign.update(x => {
+      if (!x.prologue.seen.includes(ELEMENT_INTRO_SEEN)) x.prologue.seen.push(ELEMENT_INTRO_SEEN);
+    });
+  };
   const update = (next: number[]) => {
     if (!validLineup(d, next)) return;
     campaign.update((x) => {
@@ -212,7 +240,7 @@ export default function MergedPanel({
       className="portrait-prototype merged-prototype"
       aria-label="物资搜刮"
     >
-      <div className="portrait-frame" ref={frame}>
+      <div className={`portrait-frame${prep && elemental ? ' element-preparing' : ''}`} ref={frame}>
         <canvas
           ref={canvas}
           className="portrait-canvas"
@@ -229,7 +257,7 @@ export default function MergedPanel({
               第 {stage} 关{stage % 5 === 0 ? ' · 首领' : ''}
             </strong>
             <small className="portrait-wave-caption">
-              {prep ? '战前布阵' : `第 ${((state.wave - 1) % 3) + 1}/3 波`} ·
+              {prep ? '战前布阵' : `第 ${state.waveInStage}/${state.totalWaves} 波`} ·
               首通 {stageAmmo(stage)} 弹
             </small>
           </div>
@@ -242,7 +270,7 @@ export default function MergedPanel({
             {state.paused ? '▶' : 'Ⅱ'}
           </button>
         </header>
-        <div className="merged-lanes">
+        {prep && elemental ? <ElementIntel stage={stage} lineup={state.lineup} onHelp={() => setElementHelp(true)} /> : <div className="merged-lanes">
           {state.lanes.map((l, i) => (
             <div key={i} style={{ borderColor: COLORS[i] }}>
               <b>{['左路', '中路', '右路'][i]}</b>
@@ -259,14 +287,14 @@ export default function MergedPanel({
               </span>
             </div>
           ))}
-        </div>
+        </div>}
         {prep && (
           <>
-            <div className="merged-brief">
+            {!elemental && <div className="merged-brief">
               <b>
                 {battleGate(d) ||
                   (stage === 10
-                    ? '破门王：留意举盾，准备迎接重砸'
+                    ? '破门王：留意举拳蓄力，准备迎接重砸'
                     : stage % 5 === 0
                       ? '首领挡住了去路'
                       : '为幸存者找回补给')}
@@ -276,9 +304,9 @@ export default function MergedPanel({
                 <br />
                 或选择下方英雄，再点击上阵位置
               </p>
-            </div>
+            </div>}
             <div className="merged-deploy-slots">
-              {SLOTS.map((p, i) => (
+              {state.deploymentSlots.map((p, i) => (
                 <button
                   key={i}
                   disabled={!unlocked.includes(i)}
@@ -305,7 +333,7 @@ export default function MergedPanel({
                     const r = frame.current!.getBoundingClientRect(),
                       x = ((e.clientX - r.left) / r.width) * 390,
                       y = ((e.clientY - r.top) / r.height) * 752;
-                    const target = SLOTS.findIndex(
+                    const target = state.deploymentSlots.findIndex(
                       (s, n) =>
                         unlocked.includes(n) &&
                         Math.abs(x - s.x) < 36 &&
@@ -327,6 +355,7 @@ export default function MergedPanel({
                     }
                   }}
                 >
+                  {elemental && <i className="slot-element"><ElementBadge element={heroElement(state.lineup[i], stage)} /></i>}
                   <span>
                     {!unlocked.includes(i)
                       ? '未开放'
@@ -337,14 +366,16 @@ export default function MergedPanel({
                 </button>
               ))}
             </div>
-            <footer className="merged-prep-controls">
+            <footer className={`merged-prep-controls${elemental ? ' has-elements' : ''}`}>
+              {elemental && <ElementPlacementHint stage={stage} lineup={state.lineup} selectedHero={picked ?? (selected !== null ? state.lineup[selected] : null)} />}
               <div className="merged-hero-detail">
-                <HeroPortrait hero={detail >= 0 ? detail : 0} height={35} />
+                <HeroPortrait hero={detail >= 0 ? detail : 0} height={elemental ? 24 : 35} />
                 <div>
                   <b>
                     {info.name} · Lv.{d.hunt.level}
+                    <ElementBadge element={heroElement(detail >= 0 ? detail : 0, stage)} />
                   </b>
-                  <p>{info.tip}</p>
+                  {!elemental && <p>{info.tip}</p>}
                 </div>
               </div>
               <div className="merged-roster">
@@ -360,6 +391,7 @@ export default function MergedPanel({
                     }}
                   >
                     <HeroPortrait hero={h.index} height={29} />
+                    <ElementBadge element={heroElement(h.index, stage)} />
                   </button>
                 ))}
               </div>
@@ -374,6 +406,7 @@ export default function MergedPanel({
                     !active ||
                     !ready ||
                     !!battleGate(d) ||
+                    missingLanes.length > 0 ||
                     !state.heroes.some((h) => h.hero !== 5)
                   }
                   onClick={() => window.moriMerged?.start()}
@@ -381,6 +414,7 @@ export default function MergedPanel({
                   {stage % 5 === 0 ? '挑战首领' : '开始搜刮'}
                 </button>
               </div>
+              {elemental && missingLanes.length > 0 && <small className="element-start-hint">请为{missingLanes.map(lane => ['左路', '中路', '右路'][lane]).join('、')}至少部署一名非治疗英雄</small>}
             </footer>
           </>
         )}
@@ -414,7 +448,7 @@ export default function MergedPanel({
                   checked={auto}
                   onChange={(e) => setAuto(e.target.checked)}
                 />{' '}
-                连续挑战
+                胜利后进入布阵
               </label>
             </div>
           </footer>
@@ -442,6 +476,7 @@ export default function MergedPanel({
           </div>
         )}
       </div>
+      <ElementTutorial open={showElementHelp} onClose={closeElementHelp} />
     </section>
   );
 }

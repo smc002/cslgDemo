@@ -1,21 +1,12 @@
 {
-  "ground": "/assets/hunt/arena.png?v=cartoon2",
-  "zombies": "/assets/hunt/zombies-isolated.png?v=cropfix1",
-  "gunner": "/assets/hunt/support.png?v=cartoon2",
-  "atlas": true,
-  "rows": 3,
-  "zombiePadding": 47,
-  "supportSheet": true,
-  "courier": "/assets/hunt/courier.png?v=armored1",
-  "vehicle": "/assets/hunt/vehicle.png?v=expedition1",
-  "chassis": "/assets/hunt/vehicle-v1/chassis.png",
-  "turret": "/assets/hunt/vehicle-v1/turret.png",
-  "platform": "/assets/hunt/platform-v1/platform.png",
-  "zombieAnimation": "/assets/hunt/zombies-v3/manifest.json",
-  "weapons": "/assets/hunt/weapon-zombies.png?v=expedition1",
+  "ground": "/assets/toy-v1/hunt-ground.png",
+  "overview": "/assets/hunt/arrival-v2/overview.png",
+  "chassis": "/assets/toy-v1/vehicle-chassis.png",
+  "turret": "/assets/toy-v1/vehicle-turret.png",
+  "platform": "/assets/toy-v1/vehicle-platform.png",
   "scenes": [
-    "/assets/hunt/arena-frozen.png?v=expedition1",
-    "/assets/hunt/arena-substation.png?v=expedition1"
+    "/assets/toy-v1/hunt-frozen.png",
+    "/assets/toy-v1/hunt-substation.png"
   ],
-  "source": "Legacy backgrounds: image_gen 2026-09-15. Production vehicle, elevated platform and four shared zombie animation archetypes: built-in image_gen 2026-09-22; source prompts and validation in docs/art."
+  "source": "Toy v1: 13 independent zombie identities, three battle grounds, separate chassis/turret/platform."
 }

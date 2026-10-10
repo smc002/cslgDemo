@@ -1,0 +1,20 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>猎场表现升级 · 开发计划</title><style>body{max-width:1000px;margin:36px auto;padding:0 22px;background:#10241f;color:#eaf1df;font:16px/1.8 system-ui}h1,h2{color:#ffdc86}table{width:100%;border-collapse:collapse}td,th{border-bottom:1px solid #3b5949;padding:12px;text-align:left;vertical-align:top}a{color:#a6e8d0}code{color:#ffda8d}</style>
+<h1>猎场表现升级 · 独立开发计划</h1><p>2026-10-09 · 依据已确认的六组效果图。新增图像由内置 imagegen 制作，Canvas 动画与现有角色资源组合；不引入新的 3D 引擎或改变奖励数值。</p>
+<h2>目标与约束</h2><p>将出膛、命中、特殊击杀、奖励回收、库存到账连成完整反馈。普通、特殊、大奖分层；特殊效果保持局部，运钞演出后再显示去抽奖/稍后再去。保留黑金僵尸 0.5 秒发光定格，期间弹药继续回收。保持补怪正常速度、真实结算时点、存档安全、免费弹不产生额外预算。</p>
+<h2>依次执行</h2><table><tr><th>步骤</th><th>内容及资源</th><th>验收</th></tr>
+<tr><td>1 · 资源准备</td><td>生成透明命中图集（金属/肉身）、紫色击破/金色大奖底板、能源核心、招募券、炮台状态配件；优先复用黑金死亡关键帧和弹药道具。整理裁切、透明边缘和资源清单。</td><td>PNG alpha 正确，无棋盘或背景烘焙；中文与动态金额由代码绘制；所有引用资源在项目中。</td></tr>
+<tr><td>2 · 弹道与命中</td><td>调整地面亮度和弹头对比；命中材质分流、定向碎屑与短局部反馈；降低普通击杀的爆闪。</td><td>360/430px 可见出膛与接触点；效果寿命受模拟时钟控制，暂停不继续播放。</td></tr>
+<tr><td>3 · 特殊与大奖</td><td>特殊击杀紫色局部爆发、单组收益牌、核心粒子；运钞破甲碎片、金色大奖牌、招募券扇形飞散和回收；奖励弹窗接入新票券资源。</td><td>特殊与大奖强度可辨；真实金额绘制、不重复发奖；弹窗两选项有效；同时击杀不堆满收益文字。</td></tr>
+<tr><td>4 · 黑金回收</td><td>先批回收发生于 0.5 秒定格内，后批连接倒地；库存边框/图标弹动与一次总量提示。</td><td>动画终点对齐 DOM 库存；冻结仅影响角色，不冻结弹药；累计奖励与旧版本一致。</td></tr>
+<tr><td>5 · 入场与辨识</td><td>特殊怪类型图标、局部轮廓/脚底标记、首次入场短提示；普通怪无常驻名称；轻量视觉间距。</td><td>标记在怪群上层可见，类型颜色不同；补怪速度不增加，倍率缩放正常。</td></tr>
+<tr><td>6 · 武器状态</td><td>散弹炮台展开与橙色蓄能、持续发光和时间条、结束收束；激光保留青白色一致性。</td><td>启动/维持/结束可辨；炮口位置与弹道一致；技能结束恢复普通状态。</td></tr>
+<tr><td>7 · 联调交付</td><td>扩展独立验收页，能重播六类效果；检查窄屏、缩放、多事件、资源失败降级；录制完成样本并保存截图。</td><td>类型检查、相关模拟/奖励/动画回归通过；主存档不受验收页影响。</td></tr></table>
+<h2>职责</h2><p>主 agent：资源生成、步骤 2/3/6、模拟与渲染整合、验收。子 agent：独立黑金粒子时序模块、特殊怪标记绘制模块、运钞奖励弹窗样式。子任务限定文件边界，按上述步骤集成。</p>
+<h2>状态记录</h2><p id="status">2026-10-09：步骤 1–7 已完成。按顺序接入正式 HuntView/HuntGame；三个独立子任务已合并。内置生图工具生成 7 张源图，裁切输出 16 张透明 PNG；原图、提示词、来源与可重复裁切脚本均已保存。</p>
+<p>实际效果：金属/肉身各四帧命中；普通击杀轻量反馈、紫色特殊击破牌与核心回收、金色运钞十连大奖；黑金 0.5 秒定格中回收首批弹药，后批连接倒地和库存到账；特殊怪轮廓、脚底环、头顶类型与入场提示；散弹橙金配件/激光青白配件及启动、维持、结束动画。收益飘字聚合至最多四组，仅处理展示，不重复结算。每枪核心仍已移除，其预算继续由特殊僵尸承接。</p>
+<h2>交互验收</h2><p><a href="http://127.0.0.1:3010/art-review/fire">六组效果验收页</a>：重播、暂停、逐帧、静帧时间、360/430px、技能结束静帧与画布录制。<a href="http://127.0.0.1:3010/art-review/rewards?rewards=preview">奖励弹窗验收页</a>：隔离体验存档。已实际验证“稍后再去”保留 10 张券、“去抽奖”进入招募页面且不再次发券。</p>
+<h2>验证结果</h2><p>通过 TypeScript 检查、目标文件 oxlint、生产构建；通过 hunt-production、hunt-entry、hunt-cadence、ammo-carrier、courier-tickets、shot-core-redistribution、ammo-return-vfx、reward-vfx、reward-groups 回归。新增聚合测试确认金额守恒、不修改结算输入；动画测试覆盖两批弹药、到账脉冲、资源缺失降级、固定时钟和 Canvas 状态恢复。浏览器验收未发现控制台错误。修复了 public JSON 直接导入导致的构建资源问题。</p>
+<p>在浏览器 360/430px 战场宽度验收了六组效果，并修正窄屏标记文字过小和入场提示重叠。未做 MuMu/实体安卓设备的帧率与发热测试。录屏仅包含战斗画布及其叠加层，不含网页按钮、完整 DOM HUD 或音频。</p>
+<h2>交付文件</h2><p><a href="../../public/assets/hunt/combat-v2/manifest.json">16 张资源清单</a> · <a href="asset-prompts.json">生图提示词</a> · <a href="../../scripts/build-combat-v2-assets.mjs">资源裁切脚本</a> · <a href="../../outputs/combat-vfx-upgrade-20261009/implementation.webm">运行录屏</a></p>
+<p><a href="../../outputs/combat-vfx-upgrade-20261009/special.png">特殊击破</a> · <a href="../../outputs/combat-vfx-upgrade-20261009/jackpot.png">运钞大奖</a> · <a href="../../outputs/combat-vfx-upgrade-20261009/courier-dialog.png">奖励弹窗</a> · <a href="../../outputs/combat-vfx-upgrade-20261009/refund-360.png">黑金定格</a> · <a href="../../outputs/combat-vfx-upgrade-20261009/ammo-arrival.png">库存到账</a> · <a href="../../outputs/combat-vfx-upgrade-20261009/entry-360.png">特殊入场</a> · <a href="../../outputs/combat-vfx-upgrade-20261009/weapon-end.png">技能结束</a></p>
+</html>

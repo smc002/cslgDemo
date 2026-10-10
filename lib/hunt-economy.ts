@@ -3,14 +3,31 @@ export const ECONOMY = {
   version: 1,
   unit: 1000,
   ordinaryYield: 5080,
-  rewardCoefficient: 1,
-  checkSeconds: 3,
+  rewardCoefficient: 3,
+  // Former immediate shot XP now funds the shared special-encounter pool.
+  // Applied once per spent round, outside the event-frequency coefficient.
+  shotCorePerAmmo: 1,
+  checkSeconds: 0.5,
+  // An expensive pending target may admit two cheap encounters while saving.
+  // The hard bound prevents cheap targets from starving weapon pickups.
+  maxInterludes: 2,
+  interludeMaxBudget: 260,
   courierAmmo: 1000,
   // 20% of the 2 x 5.08 baseline core value funds ammunition returns.
-  // Ordinary kill value stays intact; this share comes out of event funding.
+  // Ordinary kill value and the fixed refund stay intact when event funding increases.
   ammoReturnPerSpent: 2032,
 } as const;
 export const FUNCTIONAL = [4, 5, 6, 7, 8, 10, 11] as const;
+// Emphasize scatter encounters and the shotgun pickup while retaining variety.
+export const EVENT_WEIGHTS: Record<number, number> = {
+  4: 1,
+  5: 2,
+  6: 8,
+  7: 2,
+  8: 2,
+  10: 2,
+  11: 12,
+};
 // Trial budgets include the monster's own points. Free-fire budgets use the
 // first conditional-on-activation benchmark; real player hit data must calibrate them.
 export const EVENT_BUDGET: Record<number, number> = {
@@ -37,6 +54,8 @@ export type EconomyActor = {
   hitsLeft?: number;
   frozen?: number;
   eventId?: number;
+  entry?: { x: number; y: number; vx: number; vy: number; side: number };
+  patrol?: { speed: number; heading: number; turnAt: number; turns: number };
 };
 export type EconomyBullet = {
   id: number;
@@ -77,6 +96,7 @@ export type EconomySave = {
   serial: number;
   shotSerial: number;
   nextKind: number | null;
+  nextInterludes: number;
   checkLeft: number;
   events: Record<number, RewardEvent>;
   receipts: Record<number, { cost: number }>;
@@ -111,7 +131,8 @@ export const freshEconomy = (): EconomySave => ({
   serial: 0,
   shotSerial: 0,
   nextKind: null,
-  checkLeft: 3,
+  nextInterludes: 0,
+  checkLeft: ECONOMY.checkSeconds,
   events: {},
   receipts: {},
   runtime: null,
@@ -121,6 +142,71 @@ const int = (n: unknown, fallback = 0) =>
   typeof n === 'number' && Number.isSafeInteger(n) && n >= 0 ? n : fallback;
 const multiplier = (n: unknown) =>
   [1, 5, 20, 100].includes(Number(n)) ? Number(n) : 1;
+
+function weightedKind(choices: number[], random: () => number) {
+  if (!choices.length) return null;
+  const total = choices.reduce((sum, kind) => sum + EVENT_WEIGHTS[kind], 0);
+  const value = random();
+  let roll =
+    (Number.isFinite(value) ? Math.max(0, Math.min(1, value)) : 0) * total;
+  for (const kind of choices) {
+    roll -= EVENT_WEIGHTS[kind];
+    if (roll < 0) return kind;
+  }
+  return choices.at(-1)!;
+}
+
+/**
+ * Pick only funded encounters. A pending expensive candidate stays in place;
+ * at most two cheap interludes can spend funds before it must finish saving.
+ * Call commitRewardEncounter only after a successful spawn/reservation.
+ */
+export function selectRewardEncounter(
+  e: EconomySave,
+  room: number,
+  eligibleKinds: readonly number[],
+  random: () => number,
+): number | null {
+  const choices = [...new Set(eligibleKinds)].filter(functional);
+  if (e.nextKind === null || !choices.includes(e.nextKind)) {
+    e.nextKind = weightedKind(choices, random);
+    e.nextInterludes = 0;
+  }
+  if (e.nextKind === null) return null;
+  const cost = (kind: number) =>
+    EVENT_BUDGET[kind] * multiplier(room) * ECONOMY.unit;
+  if (e.available >= cost(e.nextKind)) return e.nextKind;
+  if (int(e.nextInterludes) >= ECONOMY.maxInterludes) return null;
+  // Wait until all cheap types are affordable so low-cost ice does not win
+  // every interlude merely by reaching its funding threshold first.
+  if (
+    e.available <
+    ECONOMY.interludeMaxBudget * multiplier(room) * ECONOMY.unit
+  )
+    return null;
+  return weightedKind(
+    choices.filter(
+      (kind) =>
+        kind !== e.nextKind &&
+        EVENT_BUDGET[kind] <= ECONOMY.interludeMaxBudget &&
+        e.available >= cost(kind),
+    ),
+    random,
+  );
+}
+
+export function commitRewardEncounter(e: EconomySave, kind: number) {
+  if (kind === e.nextKind) {
+    e.nextKind = null;
+    e.nextInterludes = 0;
+  } else if (functional(kind) && e.nextKind !== null) {
+    e.nextInterludes = Math.min(
+      ECONOMY.maxInterludes,
+      int(e.nextInterludes) + 1,
+    );
+  }
+}
+
 export function reserve(
   e: EconomySave,
   kind: number,
@@ -187,7 +273,10 @@ export function refundEvent(e: EconomySave, id: number) {
 export function receipt(e: EconomySave, cost: number) {
   if (!Number.isSafeInteger(cost) || cost <= 0)
     throw Error('Invalid paid ammunition');
-  const deposit = cost * ECONOMY.ordinaryYield * ECONOMY.rewardCoefficient;
+  const deposit =
+    cost *
+    (ECONOMY.ordinaryYield * ECONOMY.rewardCoefficient +
+      ECONOMY.shotCorePerAmmo * ECONOMY.unit);
   const ammoFunding = cost * ECONOMY.ammoReturnPerSpent;
   e.available += deposit - ammoFunding;
   e.ammoReturnFunding = (e.ammoReturnFunding ?? 0) + ammoFunding;
@@ -250,9 +339,13 @@ export function parseEconomy(raw: unknown): EconomySave | null {
     e[key] = int(r[key]);
   e.checkLeft =
     typeof r.checkLeft === 'number' && Number.isFinite(r.checkLeft)
-      ? Math.max(0, Math.min(3, r.checkLeft))
-      : 3;
+      ? Math.max(0, Math.min(ECONOMY.checkSeconds, r.checkLeft))
+      : ECONOMY.checkSeconds;
   e.nextKind = functional(r.nextKind ?? -1) ? r.nextKind : null;
+  e.nextInterludes =
+    e.nextKind === null
+      ? 0
+      : Math.min(ECONOMY.maxInterludes, int(r.nextInterludes));
   for (const rawEvent of Object.values(r.events ?? {})) {
     if (
       !rawEvent ||

@@ -1,0 +1,888 @@
+{
+  "version": "toy-v1",
+  "date": "2026-10-08",
+  "count": 69,
+  "worldScale": 1.26,
+  "assetRoot": "/assets/toy-v1/",
+  "animation": "22 authored 4-frame walk + 4-frame attack sprite sheets; heroes rear-facing north; no runtime deformation; no new death animation",
+  "assets": [
+    {
+      "file": "city-armory.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 1200197,
+      "sha256": "d4be06f75c04e8c3bbdedbd750916f8b18cf2f3f1462919af4fbc5d4b9b0a9de",
+      "bounds": [
+        108,
+        61,
+        1193,
+        1178
+      ]
+    },
+    {
+      "file": "city-barracks.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 1148123,
+      "sha256": "b6a91beb70a73f1bf3651cc2044b8cd07ece0563c788dc8b6679f7dde7694604",
+      "bounds": [
+        43,
+        82,
+        1178,
+        1194
+      ]
+    },
+    {
+      "file": "city-comms.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 1193969,
+      "sha256": "7a15c6c00c195e0734c8ef5c85b018f95066b45b2b0e7f8cb06201e317c7d389",
+      "bounds": [
+        100,
+        58,
+        1191,
+        1203
+      ]
+    },
+    {
+      "file": "city-drone.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 1186413,
+      "sha256": "c55da2afedddca6a3d74ccae2f6e9e4e534ee310d226362c8aea1288a80caef9",
+      "bounds": [
+        104,
+        221,
+        1202,
+        1166
+      ]
+    },
+    {
+      "file": "city-factory.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 1328430,
+      "sha256": "c2c6e4a890be4a3981fc7695deca235ef72d1c9ad42953402c5140b5e40703a5",
+      "bounds": [
+        104,
+        101,
+        1186,
+        1112
+      ]
+    },
+    {
+      "file": "city-garage.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 1189264,
+      "sha256": "bca39a6d45aa150390ff5679ff18ebb45ec4e80328e25fe865cd59b3807a1d1f",
+      "bounds": [
+        111,
+        57,
+        1189,
+        1177
+      ]
+    },
+    {
+      "file": "city-hq.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 1177599,
+      "sha256": "b43f186a969ad5398e4ad64454eaf21d313c9068d6b4379fb98e1f641bed00f3",
+      "bounds": [
+        112,
+        59,
+        1189,
+        1177
+      ]
+    },
+    {
+      "file": "city-medical.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 1230665,
+      "sha256": "85b98932d6cb85a5bc78d66cfaff1120f01501993fa8ba110fefc253e9b63ca9",
+      "bounds": [
+        98,
+        76,
+        1214,
+        1192
+      ]
+    },
+    {
+      "file": "city-power.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 1155200,
+      "sha256": "31c6cdfd019a477ee9847c29271c66d0fef87a125aaee4458b3b9c577c49ade2",
+      "bounds": [
+        95,
+        166,
+        1172,
+        1088
+      ]
+    },
+    {
+      "file": "city-research.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 1133665,
+      "sha256": "de4c25d374839ac8fce53910c22758e46b6d4e0ac52fed22e9e732fa0074f4f2",
+      "bounds": [
+        190,
+        141,
+        1173,
+        1122
+      ]
+    },
+    {
+      "file": "city-terrain.png",
+      "width": 948,
+      "height": 1659,
+      "transparent": false,
+      "bytes": 1995432,
+      "sha256": "ed700db223fb322d59c6e49a057cbabb28001d3aae5b8ac2d2a4e320cf474069",
+      "bounds": [
+        0,
+        0,
+        948,
+        1659
+      ]
+    },
+    {
+      "file": "city-warehouse.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 1199218,
+      "sha256": "308bc0fcd8904ecf48ef292fa8a9c013300b5601530979b784ad732d4d818a9e",
+      "bounds": [
+        81,
+        134,
+        1178,
+        1119
+      ]
+    },
+    {
+      "file": "city-workshop.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 1276214,
+      "sha256": "da7fb179068b4a259c17a87c2b496c48453a0ec94c205548c45477dbb8441e06",
+      "bounds": [
+        75,
+        156,
+        1228,
+        1106
+      ]
+    },
+    {
+      "file": "hero-assassin.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 886694,
+      "sha256": "ae98cc9a403021f5c04d7ca67a9c6e17a1763287c07ec99649a151b5684e67a9",
+      "bounds": [
+        238,
+        86,
+        1074,
+        1144
+      ]
+    },
+    {
+      "file": "hero-cyborg.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 888374,
+      "sha256": "ca3d4a68e4b5e495ad8332583dee90f85167e6a5243d1fd99cecea07845018b5",
+      "bounds": [
+        306,
+        83,
+        1053,
+        1213
+      ]
+    },
+    {
+      "file": "hero-energy.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 877434,
+      "sha256": "a604747d93d15486261e0fa6ce2265b4811517556f97699b963ce1cbe73bca8e",
+      "bounds": [
+        279,
+        92,
+        998,
+        1195
+      ]
+    },
+    {
+      "file": "hero-fire.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 1017407,
+      "sha256": "deca517da10c9bcf0a46fcb6bb58090daeaae8397329b58a3221f965c9f37aac",
+      "bounds": [
+        175,
+        42,
+        1115,
+        1208
+      ]
+    },
+    {
+      "file": "hero-frost.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 1039386,
+      "sha256": "e97b1d02fdfbd4f084a94b72e91675938c422ff6ecf0e1486c195fd87968bdcd",
+      "bounds": [
+        162,
+        59,
+        1109,
+        1212
+      ]
+    },
+    {
+      "file": "hero-medic.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 838218,
+      "sha256": "c3c306855a2749f633b83dd4c3cd82ada1a7429847dfb122e9afc1b23614ba42",
+      "bounds": [
+        305,
+        61,
+        1001,
+        1196
+      ]
+    },
+    {
+      "file": "hero-priest.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 966967,
+      "sha256": "e354cef97f0532b733a20f06508be3904de7d176079d238415cca5eba854f2a4",
+      "bounds": [
+        220,
+        81,
+        1093,
+        1189
+      ]
+    },
+    {
+      "file": "hero-robot.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 1021383,
+      "sha256": "d7a38dabf3257e0930d9b13a3b391a7a21d88bd76767de0d602862f3a7597363",
+      "bounds": [
+        174,
+        101,
+        1153,
+        1175
+      ]
+    },
+    {
+      "file": "hero-tank.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 1196863,
+      "sha256": "5e32537cbdf3a5e624b97e85b913273576da5b714964a7cbb96ffa674bef4f2e",
+      "bounds": [
+        124,
+        93,
+        1224,
+        1193
+      ]
+    },
+    {
+      "file": "hunt-frozen.png",
+      "width": 1024,
+      "height": 1536,
+      "transparent": false,
+      "bytes": 1862357,
+      "sha256": "902b0244bc69fcfc6a74ca80b763091dbb90b1e7da6e00099e75b39e6c117a5b",
+      "bounds": [
+        0,
+        0,
+        1024,
+        1536
+      ]
+    },
+    {
+      "file": "hunt-ground.png",
+      "width": 1024,
+      "height": 1536,
+      "transparent": false,
+      "bytes": 1756297,
+      "sha256": "7192d1b2db8eaa39854e7d0bc725bb5ad769906b316a71047d8f1344cd5d93e7",
+      "bounds": [
+        0,
+        0,
+        1024,
+        1536
+      ]
+    },
+    {
+      "file": "hunt-substation.png",
+      "width": 1024,
+      "height": 1536,
+      "transparent": false,
+      "bytes": 1997432,
+      "sha256": "c8b37dc885a7a8650895a8591b04c0c70c9d399429c92cae53b724f6b74f3f7e",
+      "bounds": [
+        0,
+        0,
+        1024,
+        1536
+      ]
+    },
+    {
+      "file": "street.png",
+      "width": 948,
+      "height": 1659,
+      "transparent": false,
+      "bytes": 2159315,
+      "sha256": "66edaadaea29f161c5195b8f8dfc98e5d0652843107a8bdd6aca9d84c67bca84",
+      "bounds": [
+        0,
+        0,
+        948,
+        1659
+      ]
+    },
+    {
+      "file": "vehicle-chassis.png",
+      "width": 1164,
+      "height": 1351,
+      "transparent": true,
+      "bytes": 1670538,
+      "sha256": "0c4846a44a946ff7163282ea97239154db54132fa102d7627ab57a7655df0a3b",
+      "bounds": [
+        43,
+        47,
+        1107,
+        1294
+      ]
+    },
+    {
+      "file": "vehicle-platform.png",
+      "width": 1308,
+      "height": 1202,
+      "transparent": true,
+      "bytes": 1551883,
+      "sha256": "6eba71abaae190e7671b7a2d1c922039818d9467eb93d8a82cda52d68a2ceed2",
+      "bounds": [
+        34,
+        39,
+        1272,
+        1139
+      ]
+    },
+    {
+      "file": "vehicle-turret.png",
+      "width": 980,
+      "height": 1605,
+      "transparent": true,
+      "bytes": 1027947,
+      "sha256": "55a899194e92f1d35109d4b5b64ec73d7fea7a4634b00baa7a961208ac0e0490",
+      "bounds": [
+        49,
+        60,
+        929,
+        1552
+      ]
+    },
+    {
+      "file": "zombie-armored.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 1214779,
+      "sha256": "e3583f007862af40c7d3eb92128fe82cda1e230a540d16a26270344f49833201",
+      "bounds": [
+        212,
+        80,
+        1040,
+        1177
+      ]
+    },
+    {
+      "file": "zombie-courier.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 1401432,
+      "sha256": "7dbd2d542f27075568059aeece637daeebafb64a797e91078c56a8b22d7f9bfb",
+      "bounds": [
+        112,
+        58,
+        1141,
+        1188
+      ]
+    },
+    {
+      "file": "zombie-electric.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 1200420,
+      "sha256": "6f9c8d63993a1a145803c2331d0a7ba405b7bcb5989119c2f627a2502807fa10",
+      "bounds": [
+        212,
+        25,
+        1053,
+        1224
+      ]
+    },
+    {
+      "file": "zombie-explosive.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 1101655,
+      "sha256": "9e440e1426e74072e2070ef99c1f477b5d441ca23f962711e543cf9791600f76",
+      "bounds": [
+        188,
+        62,
+        1072,
+        1186
+      ]
+    },
+    {
+      "file": "zombie-giant.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 1401731,
+      "sha256": "9527858e95b59a822d95f6b60d98184fde3dd1e2369f0f700c091ac04d313114",
+      "bounds": [
+        93,
+        62,
+        1190,
+        1197
+      ]
+    },
+    {
+      "file": "zombie-gold.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 1168945,
+      "sha256": "ea10ea65730598eda7f5267380662602248c7710c64c581d7fc7ed6ce10c8dc3",
+      "bounds": [
+        178,
+        107,
+        1139,
+        1154
+      ]
+    },
+    {
+      "file": "zombie-ice.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 1030998,
+      "sha256": "167bff96b68395db8b292d57a2a57983eb5bb26f44a60e85e3f39c564c0083c4",
+      "bounds": [
+        229,
+        79,
+        1033,
+        1211
+      ]
+    },
+    {
+      "file": "zombie-normal.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 929719,
+      "sha256": "b3514a0bda2852baa7272e4c08ac4b4b3c016712d5ddd2922574944ec10b98fd",
+      "bounds": [
+        245,
+        51,
+        1019,
+        1180
+      ]
+    },
+    {
+      "file": "zombie-prism.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 1139539,
+      "sha256": "7ddc7d69b7fe685e0a66a8f7e27ec0eec42d7d3b97587e97cf5b3205eaba6de0",
+      "bounds": [
+        211,
+        38,
+        1096,
+        1212
+      ]
+    },
+    {
+      "file": "zombie-reward.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 1057591,
+      "sha256": "428d1763522baad842e81e8c4c2ab066daf0c2c9112aeb174859c643296f8229",
+      "bounds": [
+        197,
+        107,
+        1064,
+        1164
+      ]
+    },
+    {
+      "file": "zombie-runner.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 1035211,
+      "sha256": "ddca10862c2ba57b69f6d588231ccb3fa8ebfda00e8a7e0cc5f548d41184a184",
+      "bounds": [
+        205,
+        56,
+        1101,
+        1206
+      ]
+    },
+    {
+      "file": "zombie-scatter.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 1259697,
+      "sha256": "5b94f6e6d2ebdb2e27c651dc466f3213bf39d38771132febdbd28b1e8302b59a",
+      "bounds": [
+        90,
+        134,
+        1169,
+        1149
+      ]
+    },
+    {
+      "file": "zombie-shotgun.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 1059949,
+      "sha256": "0736f87acd27dfc9c58e528fcc9f8fa03cd2db4932f6c0aa2cac1313e3f0dc1d",
+      "bounds": [
+        139,
+        101,
+        1121,
+        1162
+      ]
+    },
+    {
+      "file": "story-ammo-crate.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 1389054,
+      "sha256": "731117e54ea844f2a8f487d68458504ecb362aa068eec22a6af9b0ee7afc53d0",
+      "bounds": [
+        121,
+        96,
+        1179,
+        1191
+      ]
+    },
+    {
+      "file": "story-gate-damaged.png",
+      "width": 971,
+      "height": 1619,
+      "transparent": false,
+      "bytes": 1784352,
+      "sha256": "732aa0f323bee97522c9f3a1516d1ef5d88b74e035642e839c325d6a18c07b90",
+      "bounds": [
+        0,
+        0,
+        971,
+        1619
+      ]
+    },
+    {
+      "file": "story-gate-restored.png",
+      "width": 971,
+      "height": 1619,
+      "transparent": false,
+      "bytes": 1843547,
+      "sha256": "5987d540ff22ccd2750a39b0db5e1976a2d2ea748391a205b416f2d92b60da2c",
+      "bounds": [
+        0,
+        0,
+        971,
+        1619
+      ]
+    },
+    {
+      "file": "story-toolbox.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "bytes": 1190264,
+      "sha256": "00dddcea81ae92874aecc8c6b3e5092059a9c6b75ab5869aae6a571c68d8c6f5",
+      "bounds": [
+        90,
+        165,
+        1174,
+        1133
+      ]
+    },
+    {
+      "file": "animations/hero-assassin.png",
+      "width": 1024,
+      "height": 512,
+      "transparent": true,
+      "bytes": 274790,
+      "sha256": "7a2fac703650c284448628e038a1831463a7c59a7ef030bb7f2aeeb7d51a9e3c",
+      "frames": 8,
+      "facing": "back"
+    },
+    {
+      "file": "animations/hero-cyborg.png",
+      "width": 1024,
+      "height": 512,
+      "transparent": true,
+      "bytes": 372263,
+      "sha256": "98378b3639522de91dbefbcb592c35a95c89bff74c6865415df254e51a77a121",
+      "frames": 8,
+      "facing": "back"
+    },
+    {
+      "file": "animations/hero-energy.png",
+      "width": 1024,
+      "height": 512,
+      "transparent": true,
+      "bytes": 451449,
+      "sha256": "95c7404ea018188e033e5571ec959d55ef3c219d86ea06e8ffb37787535e5ab9",
+      "frames": 8,
+      "facing": "back"
+    },
+    {
+      "file": "animations/hero-fire.png",
+      "width": 1024,
+      "height": 512,
+      "transparent": true,
+      "bytes": 478370,
+      "sha256": "cb66f115d34e3bf6429abec2c376a2c6a04d8a3ee89ecd5dfc94ed48d4efa9b9",
+      "frames": 8,
+      "facing": "back"
+    },
+    {
+      "file": "animations/hero-frost.png",
+      "width": 1024,
+      "height": 512,
+      "transparent": true,
+      "bytes": 366078,
+      "sha256": "5a34397d110033a29ccdbec5b8e37575763b9065960121408a82f993313dc527",
+      "frames": 8,
+      "facing": "back"
+    },
+    {
+      "file": "animations/hero-medic.png",
+      "width": 1024,
+      "height": 512,
+      "transparent": true,
+      "bytes": 443066,
+      "sha256": "a9ab75036ddc4da79f44a59aa1bc1e48486d0592f66dc3c7a2827559f79e403a",
+      "frames": 8,
+      "facing": "back"
+    },
+    {
+      "file": "animations/hero-priest.png",
+      "width": 1024,
+      "height": 512,
+      "transparent": true,
+      "bytes": 510440,
+      "sha256": "4571e095ab9e78e63e3569cdd3715df35d8ce97163522ebdb1565a88a4299e9b",
+      "frames": 8,
+      "facing": "back"
+    },
+    {
+      "file": "animations/hero-robot.png",
+      "width": 1024,
+      "height": 512,
+      "transparent": true,
+      "bytes": 517964,
+      "sha256": "8004a2ee82cc7c88bd2039abe73a1298d815257628abe3bfb691691570f04d98",
+      "frames": 8,
+      "facing": "back"
+    },
+    {
+      "file": "animations/hero-tank.png",
+      "width": 1024,
+      "height": 512,
+      "transparent": true,
+      "bytes": 417879,
+      "sha256": "105717f1bfd33ae45918b4d26475a6867563b5af6308ca102e9ff29a945a3d3a",
+      "frames": 8,
+      "facing": "back"
+    },
+    {
+      "file": "animations/zombie-armored.png",
+      "width": 1024,
+      "height": 512,
+      "transparent": true,
+      "bytes": 584282,
+      "sha256": "f0007170e98d8920b90ae4e2a7b9a3e6870721e77139ca88e1512331b60ea898",
+      "frames": 8,
+      "facing": "front"
+    },
+    {
+      "file": "animations/zombie-courier.png",
+      "width": 1024,
+      "height": 512,
+      "transparent": true,
+      "bytes": 348734,
+      "sha256": "c6993354ddf45309497711d1f53d4edb0b1b1a47730af17758f7484aab558896",
+      "frames": 8,
+      "facing": "front"
+    },
+    {
+      "file": "animations/zombie-electric.png",
+      "width": 1024,
+      "height": 512,
+      "transparent": true,
+      "bytes": 581494,
+      "sha256": "08d04c35dbf7432c346a2fe2d9a86f705823b7f3eb4c72afecdeb1cc6fceaa04",
+      "frames": 8,
+      "facing": "front"
+    },
+    {
+      "file": "animations/zombie-explosive.png",
+      "width": 1024,
+      "height": 512,
+      "transparent": true,
+      "bytes": 291665,
+      "sha256": "b6f2975e1cdf97a17792214a7ee419cf5c10ff45612d8b3c32b8d35b22d37a25",
+      "frames": 8,
+      "facing": "front"
+    },
+    {
+      "file": "animations/zombie-giant.png",
+      "width": 1024,
+      "height": 512,
+      "transparent": true,
+      "bytes": 350626,
+      "sha256": "9abfc26eba4ee4897409a9fdf97cf2b5cdf934ff8a1fe6afe505f8aa7dd1a84f",
+      "frames": 8,
+      "facing": "front"
+    },
+    {
+      "file": "animations/zombie-gold.png",
+      "width": 1024,
+      "height": 512,
+      "transparent": true,
+      "bytes": 412506,
+      "sha256": "2cdec856d6f8cbaa866a1278c1d608ab26b2e0f72cb0a04dc4d3fb057fa1c184",
+      "frames": 8,
+      "facing": "front"
+    },
+    {
+      "file": "animations/zombie-ice.png",
+      "width": 1024,
+      "height": 512,
+      "transparent": true,
+      "bytes": 437931,
+      "sha256": "0c750574c2f91528c66d00fd2bb52f2ed82bc22697e4a1d603ccb51286fefdbd",
+      "frames": 8,
+      "facing": "front"
+    },
+    {
+      "file": "animations/zombie-normal.png",
+      "width": 1024,
+      "height": 512,
+      "transparent": true,
+      "bytes": 430974,
+      "sha256": "8d9d0e720faf8f655737e81a8195482494810782e971bbfeb8001f06e94a9280",
+      "frames": 8,
+      "facing": "front"
+    },
+    {
+      "file": "animations/zombie-prism.png",
+      "width": 1024,
+      "height": 512,
+      "transparent": true,
+      "bytes": 556426,
+      "sha256": "9c90c20c04d41101ecbb5f31a111e2579a6e38cb42d286b9d33f7bfb357fc88f",
+      "frames": 8,
+      "facing": "front"
+    },
+    {
+      "file": "animations/zombie-reward.png",
+      "width": 1024,
+      "height": 512,
+      "transparent": true,
+      "bytes": 649975,
+      "sha256": "ddebb40418ad58c21c2d3fb19d48655c8acd6176ed59de14ee09a1a51846eb59",
+      "frames": 8,
+      "facing": "front"
+    },
+    {
+      "file": "animations/zombie-runner.png",
+      "width": 1024,
+      "height": 512,
+      "transparent": true,
+      "bytes": 485501,
+      "sha256": "7771051f83238a16497c8d0861752f29c143775235478986f2f4aa0fd25f7cec",
+      "frames": 8,
+      "facing": "front"
+    },
+    {
+      "file": "animations/zombie-scatter.png",
+      "width": 1024,
+      "height": 512,
+      "transparent": true,
+      "bytes": 412396,
+      "sha256": "2ebbf8c0ae7238d586b55ba661263a77526eac776ccaf6bd61348aa574314c7d",
+      "frames": 8,
+      "facing": "front"
+    },
+    {
+      "file": "animations/zombie-shotgun.png",
+      "width": 1024,
+      "height": 512,
+      "transparent": true,
+      "bytes": 604831,
+      "sha256": "45084303d3b4c0f5e8ad1a3948e6f2a71ed70bce90c167b370c9f9934c5ac686",
+      "frames": 8,
+      "facing": "front"
+    },
+    {
+      "file": "city-terrain-organic.png",
+      "width": 948,
+      "height": 1659,
+      "transparent": false,
+      "bytes": 2572548,
+      "sha256": "97a811f751e49a211fbe6249fb3f8fd1f1f04eac60e602c5b49636cba26defc4",
+      "bounds": [
+        0,
+        0,
+        947,
+        1658
+      ]
+    }
+  ]
+}

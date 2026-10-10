@@ -1,23 +1,28 @@
-import { animations, poseAt } from '../shared/hero-animation';
+import {
+  ToyRenderer,
+  HERO_ART,
+  ZOMBIE_ART,
+  TOY_ROOT,
+  TOY_SCALE,
+  heroHeight,
+} from '../shared/toy-art';
+import { actionDuration, actionImpact } from '../shared/hero-animation';
+import { ELEMENT_COLORS, ELEMENT_NAMES } from '../lib/elements';
 import {
   MergedBattle,
   HEROES,
   COLORS,
   effectLifetime,
   BATTLE_OFFSET_Y,
+  ROAD_BOUNDS,
+  bossSlamArea,
   type Unit,
   type Effect,
 } from './simulation';
-import { HERO_FRAMES } from './frames';
-import { REAR_FRAMES } from '@/shared/sprite-frames';
 export class MergedView {
   private c: CanvasRenderingContext2D;
-  private poseSheets = new Map<string, HTMLImageElement>();
+  private toy = new ToyRenderer();
   private ground?: HTMLImageElement;
-  private bossAtlas?: HTMLImageElement;
-  private atlas?: HTMLImageElement;
-  private zombies?: HTMLImageElement;
-  private silhouettes = new Map<string, HTMLCanvasElement>();
   private observer: ResizeObserver;
   private raf = 0;
   private last = 0;
@@ -48,6 +53,13 @@ export class MergedView {
     const frame = this.canvas.getBoundingClientRect();
     if (!frame.height) return;
     const parent = this.canvas.parentElement;
+    const prepControls = parent
+      ?.querySelector('.merged-prep-controls')
+      ?.getBoundingClientRect();
+    if (prepControls)
+      this.game.fitDeployment(
+        ((prepControls.top - frame.top - 32) / frame.height) * 752,
+      );
     const lanes = parent
       ?.querySelector('.merged-lanes')
       ?.getBoundingClientRect();
@@ -58,8 +70,7 @@ export class MergedView {
       ? ((controls.top - frame.top) / frame.height) * 752 - 14
       : 650;
     this.game.visibleBounds = {
-      left: 30,
-      right: 360,
+      ...ROAD_BOUNDS,
       top: Math.min(
         bottom - 100,
         Math.max(
@@ -78,26 +89,12 @@ export class MergedView {
         i.onerror = () => reject(Error(src));
         i.src = src;
       });
-    const [ground, atlas, zombies] = await Promise.all([
-      load('/assets/merged/background-readable.png'),
-      load('/assets/merged/heroes.png'),
-      load('/assets/portrait/characters.png'),
+    const [ground] = await Promise.all([
+      load(TOY_ROOT + 'street.png'),
+      this.toy.load([...HERO_ART.map((h) => h[0]), ...ZOMBIE_ART]),
     ]);
-    await Promise.all(
-      Object.values(animations).flatMap((hero) =>
-        hero.clips.map(async (clip) => {
-          const image = await load(
-            `/assets/animations/${hero.folder}/${clip.name}.png`,
-          );
-          this.poseSheets.set(`${hero.folder}/${clip.name}`, image);
-        }),
-      ),
-    );
-    this.bossAtlas = await load('/assets/prologue-v1/boss/boss-actions.png');
     if (this.disposed) return;
     this.ground = ground;
-    this.atlas = atlas;
-    this.zombies = zombies;
     this.ready = true;
     this.last = performance.now();
     this.raf = requestAnimationFrame(this.loop);
@@ -133,25 +130,52 @@ export class MergedView {
         : 0,
     );
     const offset = g.phase === 'prep' ? 0 : BATTLE_OFFSET_Y;
-    const scroll = (g.camera + offset) % 752;
-    // Every combat stage shares the advancing street and camera. Camp gates
-    // belong to the story cards, so they never hide movement between waves.
-    c.drawImage(this.ground!, 0, scroll, 390, 752);
-    c.drawImage(this.ground!, 0, scroll - 752, 390, 752);
+    // Alternate mirrored vertical tiles meet at identical edge pixels.
+    const travel = g.camera + offset,
+      tile = Math.floor(travel / 752),
+      scroll = travel % 752;
+    for (const [index, top] of [
+      [tile, scroll],
+      [tile + 1, scroll - 752],
+    ]) {
+      c.save();
+      c.translate(0, top);
+      if (index % 2) {
+        c.translate(0, 752);
+        c.scale(1, -1);
+      }
+      c.drawImage(this.ground!, 0, 0, 390, 752);
+      c.restore();
+    }
     c.save();
     c.translate(0, g.camera + offset);
     for (const boss of g.enemies.filter((e) => e.boss && e.hp > 0)) {
       if (boss.bossCharge !== undefined || (boss.bossRecovery ?? 0) > 0.35) {
         const impact = boss.bossCharge === undefined;
+        const area = bossSlamArea(boss);
         c.fillStyle = impact ? '#fff1a8b0' : '#ff65334d';
         c.strokeStyle = impact ? '#ffcf64' : '#ff522a';
         c.lineWidth = impact ? 5 : 2;
-        c.fillRect(boss.x - 62, boss.y - 8, 124, 163);
-        c.strokeRect(boss.x - 62, boss.y - 8, 124, 163);
+        c.beginPath();
+        c.arc(area.x, area.y, area.radius, 0, Math.PI * 2);
+        c.fill();
+        c.stroke();
+        if (!impact) {
+          c.beginPath();
+          c.arc(
+            area.x,
+            area.y,
+            area.radius - 5,
+            -Math.PI / 2,
+            -Math.PI / 2 + Math.PI * 2 * (1 - boss.bossCharge! / 1.2),
+          );
+          c.lineWidth = 4;
+          c.stroke();
+        }
         c.fillStyle = '#8a2d20';
         c.font = 'bold 12px sans-serif';
         c.textAlign = 'center';
-        c.fillText(impact ? '重砸！' : '举盾蓄力', boss.x, boss.y + 140);
+        c.fillText(impact ? '重砸！' : '举拳蓄力', area.x, area.y + 14);
       }
     }
     for (const u of [...g.heroes, ...g.enemies].sort((a, b) => a.y - b.y))
@@ -192,51 +216,6 @@ export class MergedView {
       if (u.hp > 0) this.unitLabel(u);
     c.restore();
   }
-  private sprite(z: boolean, index: number) {
-    const key = `${z}:${index}`;
-    if (this.silhouettes.has(key)) return this.silhouettes.get(key)!;
-    const f = z ? REAR_FRAMES[9 + index] : HERO_FRAMES[index];
-    const mask = document.createElement('canvas');
-    mask.width = f.w + 16;
-    mask.height = f.h + 16;
-    const m = mask.getContext('2d')!;
-    m.drawImage(
-      z ? this.zombies! : this.atlas!,
-      f.x,
-      f.y,
-      f.w,
-      f.h,
-      8,
-      8,
-      f.w,
-      f.h,
-    );
-    m.globalCompositeOperation = 'source-in';
-    m.fillStyle = z ? '#fff1d4' : '#fff9e7';
-    m.fillRect(0, 0, mask.width, mask.height);
-    const result = document.createElement('canvas');
-    result.width = mask.width;
-    result.height = mask.height;
-    const r = result.getContext('2d')!;
-    const radius = f.h / (z ? 65 : 52);
-    for (let n = 0; n < 8; n++) {
-      const a = (n * Math.PI) / 4;
-      r.drawImage(mask, Math.cos(a) * radius, Math.sin(a) * radius);
-    }
-    r.drawImage(
-      z ? this.zombies! : this.atlas!,
-      f.x,
-      f.y,
-      f.w,
-      f.h,
-      8,
-      8,
-      f.w,
-      f.h,
-    );
-    this.silhouettes.set(key, result);
-    return result;
-  }
   private cross(x: number, y: number, r: number) {
     const c = this.c;
     c.beginPath();
@@ -246,171 +225,88 @@ export class MergedView {
     c.lineTo(x, y + r);
     c.stroke();
   }
-  private unit(u: Unit) {
-    if (u.boss && this.bossAtlas) {
-      const c = this.c;
-      const frame =
-        u.hp <= 0
-          ? 7
-          : u.bossCharge !== undefined
-            ? u.bossCharge > 0.9
-              ? 3
-              : 4
-            : (u.bossRecovery ?? 0) > 0.35
-              ? 5
-              : (u.bossRecovery ?? 0) > 0
-                ? 6
-                : 0;
-      c.save();
-      c.globalAlpha = u.hp <= 0 ? Math.max(0, 1 - u.age) : 1;
-      c.drawImage(
-        this.bossAtlas,
-        (frame % 4) * 512,
-        Math.floor(frame / 4) * 512,
-        512,
-        512,
-        u.x - 64,
-        u.y - 114,
-        128,
-        128,
-      );
-      if (u.hp > 0) {
-        c.fillStyle = '#58302a';
-        c.font = 'bold 12px sans-serif';
-        c.textAlign = 'center';
-        c.fillText('破门王', u.x, u.y - 120);
-      }
-      c.restore();
-      return;
-    }
-    if (u.hp <= 0 && u.age > 0.4 && !animations[u.hero]) return;
+  /** Keep world foot positions responsive, but fit each actor with one scale. */
+  private beginActor(x: number, y: number) {
     const c = this.c,
-      z = u.hero < 0,
-      f = z ? REAR_FRAMES[9 + u.kind] : HERO_FRAMES[u.hero],
-      cfg = z ? null : HEROES[u.hero];
-    const h = z ? (u.kind === 2 ? 57 : 40) : cfg!.role === 'tank' ? 61 : 52,
-      w = (h * f.w) / f.h;
+      matrix = c.getTransform();
+    const sx = Math.hypot(matrix.a, matrix.b),
+      sy = Math.hypot(matrix.c, matrix.d);
+    const fit = Math.min(sx, sy);
     c.save();
-    c.globalAlpha =
-      u.hp <= 0 && !animations[u.hero] ? Math.max(0, 1 - u.age / 0.4) : 1;
-    c.fillStyle = '#26312e55';
+    c.translate(x, y);
+    c.scale(fit / sx, fit / sy);
+  }
+  private unit(u: Unit) {
+    if (u.hp <= 0 && u.age > 0.8) return;
+    const c = this.c,
+      z = u.hero < 0;
+    const id = z
+      ? ZOMBIE_ART[u.boss ? 3 : ([0, 2, 3][u.kind] ?? 0)]
+      : HERO_ART[u.hero][0];
+    const h = u.boss
+      ? 104 * TOY_SCALE
+      : z
+        ? (u.kind === 2 ? 57 : 40) * TOY_SCALE
+        : heroHeight(u.hero);
+    this.beginActor(u.x, u.y);
+    c.fillStyle = '#26312e45';
     c.beginPath();
-    c.ellipse(u.x + 2, u.y + 1, w * 0.35, 5, 0, 0, Math.PI * 2);
+    c.ellipse(0, 1, h * 0.23, 5, 0, 0, Math.PI * 2);
     c.fill();
     if (!z && u.hp > 0) {
       c.strokeStyle = COLORS[u.lane];
-      c.fillStyle = COLORS[u.lane] + '50';
-      c.lineWidth = 2;
+      c.lineWidth = 1.5;
       c.beginPath();
-      c.ellipse(u.x, u.y, w * 0.4, 6, 0, 0, Math.PI * 2);
-      c.fill();
+      c.ellipse(0, 1, h * 0.25, 6, 0, 0, Math.PI * 2);
       c.stroke();
     }
-    c.save();
-    c.translate(u.x, u.y);
-    const library = animations[u.hero];
-    if (library) {
-      const clip =
-        u.hp <= 0
-          ? 'death'
-          : (u.animation?.clip ??
-            (u.moving
-              ? 'walk'
-              : u.hero <= 2
-                ? 'idle'
-                : u.hero === 3
-                  ? 'slash'
-                  : (u.aimClip ?? 'crouch')));
-      const time =
-        u.hp <= 0
-          ? u.age
-          : u.animation
-            ? u.animation.elapsed * 1.8
-            : u.moving
-              ? this.game.time + u.id * 0.13
-              : 0;
-      const pose = poseAt(u.hero, clip, time, clip === 'walk')!;
-      const sheet = this.poseSheets.get(`${library.folder}/${clip}`);
-      const scale = h / (3.2 * pose.clip.pixelsPerUnit),
-        p = pose.frame;
-      if (u.facingLeft) c.scale(-1, 1);
-      if (u.hit > 0) c.filter = 'brightness(1.25)';
-      c.shadowColor = '#fff5d9';
-      c.shadowBlur = 2;
-      if (sheet)
-        c.drawImage(
-          sheet,
-          p.x,
-          p.y,
-          p.w,
-          p.h,
-          -p.anchorX * scale,
-          -p.anchorY * scale,
-          p.w * scale,
-          p.h * scale,
-        );
-    } else {
-      c.rotate(
-        u.moving
-          ? Math.sin(this.game.time * 13 + u.id) * 0.035
-          : u.attack > 0
-            ? 0.025
-            : 0,
-      );
-      if (u.hit > 0) c.filter = 'brightness(1.25)';
-      c.drawImage(
-        this.sprite(z, z ? u.kind : u.hero),
-        ((-f.footX - 8) * h) / f.h,
-        ((-f.footY - 8) * h) / f.h,
-        w + (16 * h) / f.h,
-        h + (16 * h) / f.h,
-      );
+    let attackProgress: number | undefined;
+    if (u.animation) {
+      const impact = actionImpact(u.hero, u.animation.clip);
+      const duration = actionDuration(u.hero, u.animation.clip);
+      attackProgress =
+        u.animation.elapsed < impact
+          ? (0.5 * u.animation.elapsed) / Math.max(0.001, impact)
+          : 0.5 +
+            (0.5 * (u.animation.elapsed - impact)) /
+              Math.max(0.001, duration - impact);
+    } else if (u.bossCharge !== undefined) {
+      attackProgress = 0.5 * (1 - u.bossCharge / 1.2);
+    } else if ((u.bossRecovery ?? 0) > 0) {
+      attackProgress = 0.5 + 0.5 * (1 - u.bossRecovery! / 0.55);
+    } else if (
+      !z &&
+      ![0, 1, 2, 3, 8].includes(u.hero) &&
+      u.cd > 0 &&
+      u.cd < 0.08 &&
+      this.game.phase === 'battle' &&
+      this.game.enemies.some(
+        (e) =>
+          e.hp > 0 && (e.combatLane ?? e.lane) === (u.combatLane ?? u.lane),
+      )
+    ) {
+      // Preview the already-scheduled instant skill's windup without changing its damage time.
+      attackProgress = 0.5 * (1 - u.cd / 0.08);
+    } else if (u.attack > 0) {
+      // Instant-impact skills start on the contact frame, then recover.
+      attackProgress = 0.5 + 0.5 * (1 - Math.min(1, u.attack / 0.22));
     }
-    c.restore();
-    if (u.hero === 2 && u.hp > 0)
-      for (let n = 0; n < 2; n++) {
-        const angle = this.game.time * 4 + n * Math.PI,
-          x = u.x + Math.cos(angle) * 24,
-          y = u.y - 38 + Math.sin(angle) * 6;
-        c.save();
-        c.translate(x, y);
-        c.fillStyle = '#173946';
-        c.strokeStyle = '#72ecff';
-        c.lineWidth = 1.3;
-        c.beginPath();
-        c.roundRect(-5, -3, 10, 7, 2);
-        c.fill();
-        c.stroke();
-        c.fillStyle = '#b1f8ff';
-        c.fillRect(-2, -1, 4, 2);
-        for (const dx of [-7, 7]) {
-          c.beginPath();
-          c.ellipse(
-            dx,
-            0,
-            5,
-            2 + Math.sin(this.game.time * 50) * 0.6,
-            0,
-            0,
-            Math.PI * 2,
-          );
-          c.stroke();
-        }
-        c.restore();
-      }
-    if (u.hero === 6 && u.attack > 0) {
-      c.strokeStyle = '#fff3a0';
-      c.lineWidth = 2.5;
-      c.shadowColor = '#ffbb55';
-      c.shadowBlur = 16;
-      for (let n = 0; n < 6; n++) {
-        const a = (n * Math.PI) / 3 + this.game.time * 5;
-        c.beginPath();
-        c.moveTo(u.x + 16 + Math.cos(a) * 3, u.y - 38 + Math.sin(a) * 3);
-        c.lineTo(u.x + 16 + Math.cos(a) * 10, u.y - 38 + Math.sin(a) * 10);
-        c.stroke();
-      }
-      this.cross(u.x + 16, u.y - 38, 6);
+    this.toy.draw(c, id, 0, 0, h, {
+      time: u.animation
+        ? u.animation.elapsed * 1.8
+        : this.game.time + u.id * 0.13,
+      moving: !!u.moving && !u.animation,
+      attack: u.animation ? 1 : u.attack,
+      attackProgress,
+      left: !!u.facingLeft,
+      death: u.hp <= 0 ? u.age : undefined,
+      hit: u.hit,
+    });
+    if (u.boss && u.hp > 0) {
+      c.fillStyle = '#58302a';
+      c.font = 'bold 12px sans-serif';
+      c.textAlign = 'center';
+      c.fillText('破门王', 0, -h - 15);
     }
     c.restore();
   }
@@ -418,22 +314,31 @@ export class MergedView {
     const c = this.c,
       z = u.hero < 0,
       cfg = z ? null : HEROES[u.hero];
-    const h = u.boss
-      ? 104
-      : z
-        ? u.kind === 2
-          ? 57
-          : 40
-        : cfg!.role === 'tank'
-          ? 61
-          : 52;
-    c.save();
+    const h =
+      (u.boss
+        ? 104
+        : z
+          ? u.kind === 2
+            ? 57
+            : 40
+          : cfg!.role === 'tank'
+            ? 61
+            : 52) * TOY_SCALE;
+    this.beginActor(u.x, u.y);
     const bw = u.boss ? 70 : z ? 25 : 34,
-      y = u.y - h - 6;
+      y = -h - 6;
     c.fillStyle = '#173a30';
-    c.fillRect(u.x - bw / 2 - 1, y - 1, bw + 2, 6);
+    c.fillRect(-bw / 2 - 1, y - 1, bw + 2, 6);
     c.fillStyle = z ? '#e87962' : '#a2ed78';
-    c.fillRect(u.x - bw / 2, y, (bw * u.hp) / u.maxHp, 4);
+    c.fillRect(-bw / 2, y, (bw * u.hp) / u.maxHp, 4);
+    if (u.element) {
+      c.fillStyle = ELEMENT_COLORS[u.element];
+      c.strokeStyle = '#16373e';
+      c.lineWidth = 1.5;
+      c.beginPath(); c.roundRect(bw / 2 + 3, y - 8, 18, 18, 5); c.fill(); c.stroke();
+      c.fillStyle = '#102e38'; c.font = 'bold 12px sans-serif'; c.textAlign = 'center';
+      c.fillText(ELEMENT_NAMES[u.element], bw / 2 + 12, y + 6);
+    }
     if (!z) {
       c.fillStyle = cfg!.color;
       c.font = 'bold 9px sans-serif';
@@ -442,8 +347,8 @@ export class MergedView {
       c.lineWidth = 3;
       const icon =
         cfg!.role === 'healer' ? '+' : cfg!.role === 'tank' ? '◆' : '✦';
-      c.strokeText(icon, u.x - bw / 2 - 6, y + 4);
-      c.fillText(icon, u.x - bw / 2 - 6, y + 4);
+      c.strokeText(icon, -bw / 2 - 6, y + 4);
+      c.fillText(icon, -bw / 2 - 6, y + 4);
     }
     c.restore();
   }
@@ -457,7 +362,7 @@ export class MergedView {
     const palette = {
       shield: '#70d7ff',
       blade: '#ffaf67',
-      music: '#f396ff',
+      music: '#71f1c2',
       blink: '#b394ff',
       stab: '#bfa0ff',
       holy: '#fff0ac',
@@ -552,8 +457,8 @@ export class MergedView {
         c.stroke();
       }
       c.font = 'bold 24px sans-serif';
-      c.fillText('♪', e.x - 30 - t * 15, e.y - 22 - t * 24);
-      c.fillText('♫', e.x + 20 + t * 15, e.y - t * 35);
+      c.fillText('＋', e.x - 30 - t * 15, e.y - 22 - t * 24);
+      c.fillText('＋', e.x + 20 + t * 15, e.y - t * 35);
       if (e.x !== e.tx || e.y !== e.ty) {
         c.setLineDash([5, 8]);
         c.beginPath();
@@ -575,7 +480,9 @@ export class MergedView {
         glow.addColorStop(0.45, '#934eff35');
         glow.addColorStop(1, '#6438b900');
         c.fillStyle = glow;
-        c.fillRect(x - 55, y - 55, 110, 110);
+        c.beginPath();
+        c.arc(x, y, 55, 0, Math.PI * 2);
+        c.fill();
         c.strokeStyle = '#a95fff';
         c.lineWidth = 5;
         c.beginPath();
@@ -625,22 +532,11 @@ export class MergedView {
       c.quadraticCurveTo((e.x + e.tx) / 2 + 24, (e.y + e.ty) / 2, e.tx, e.ty);
       c.stroke();
       c.setLineDash([]);
-      const f = HERO_FRAMES[5],
-        h = 52,
-        w = (h * f.w) / f.h;
       c.globalAlpha = (1 - t) * 0.5;
       c.filter = 'brightness(1.7) sepia(.4)';
-      c.drawImage(
-        this.atlas!,
-        f.x,
-        f.y,
-        f.w,
-        f.h,
-        e.x - (f.footX * h) / f.h,
-        e.y + 20 - (f.footY * h) / f.h,
-        w,
-        h,
-      );
+      this.beginActor(e.x, e.y);
+      this.toy.draw(c, HERO_ART[5][0], 0, 0, heroHeight(5));
+      c.restore();
     } else if (e.kind === 'holy') {
       const gradient = c.createLinearGradient(
         e.tx,
@@ -684,7 +580,8 @@ export class MergedView {
       c.shadowBlur = 0;
       c.strokeStyle = '#234032';
       c.lineWidth = 2;
-      const text = (e.kind === 'heal' ? '+' : '−') + Math.round(e.amount),
+      if (e.counter) c.fillStyle = '#ffe178';
+      const text = (e.counter ? '克制 ' : '') + (e.kind === 'heal' ? '+' : '−') + Math.round(e.amount),
         y = e.ty - t * 26;
       c.strokeText(text, e.tx, y);
       c.fillText(text, e.tx, y);
@@ -703,7 +600,5 @@ export class MergedView {
     this.disposed = true;
     cancelAnimationFrame(this.raf);
     this.observer.disconnect();
-    this.poseSheets.clear();
-    this.silhouettes.clear();
   }
 }

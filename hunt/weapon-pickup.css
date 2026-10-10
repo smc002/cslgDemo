@@ -1,0 +1,117 @@
+.hunt-page .hunt-tools {
+  z-index: 22;
+}
+.hunt-page .hunt-tools .weapon-ready-card {
+  --weapon-color: #75edff;
+  width: 152px;
+  min-height: 105px;
+  padding: 6px 8px;
+  gap: 2px;
+  color: #fff6cc;
+  border: 2px solid var(--weapon-color);
+  background: linear-gradient(135deg, #173c51f5, #102c32f7);
+  box-shadow:
+    0 0 12px #48dcff70,
+    inset 0 0 15px #48dcff30,
+    0 3px 0 #14292e;
+  animation: weapon-ready-pulse 1.8s ease-in-out infinite;
+  cursor: pointer;
+}
+.hunt-page .hunt-tools .weapon-ready-card.shotgun {
+  --weapon-color: #ffd47e;
+  background: linear-gradient(135deg, #644021f5, #29281bf7);
+  box-shadow:
+    0 0 12px #ffa93870,
+    inset 0 0 15px #ffa93830,
+    0 3px 0 #14292e;
+}
+.hunt-page .hunt-tools .weapon-ready-card.just-acquired {
+  animation:
+    weapon-pickup-pop 0.55s cubic-bezier(0.15, 0.8, 0.25, 1.2),
+    weapon-ready-pulse 1.3s 0.55s ease-in-out infinite;
+}
+.weapon-ready-kicker {
+  font-size: 12px;
+  font-weight: 900;
+  color: var(--weapon-color);
+  white-space: nowrap;
+}
+.weapon-ready-body {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 4px;
+}
+.weapon-ready-body img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 5px var(--weapon-color));
+}
+.weapon-ready-body > span {
+  display: grid;
+  gap: 2px;
+  text-align: left;
+}
+.weapon-ready-body strong {
+  font-size: 20px;
+  line-height: 23px;
+  color: #fff8d1;
+  text-shadow: 0 2px #152022;
+}
+.weapon-ready-body small {
+  font-size: 10px;
+  color: #e8e7ce;
+  white-space: nowrap;
+}
+.weapon-ready-action {
+  width: 100%;
+  border-radius: 5px;
+  padding: 3px 0;
+  background: var(--weapon-color);
+  color: #172d2e;
+  font-size: 12px;
+}
+.hunt-page .hunt-tools .weapon-ready-card:disabled {
+  animation: none;
+  opacity: 0.7;
+  cursor: default;
+}
+@keyframes weapon-pickup-pop {
+  0% {
+    transform: translateY(-22px) scale(0.7);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(0) scale(1.08);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes weapon-ready-pulse {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.23);
+  }
+}
+@media (max-height: 650px) {
+  .hunt-page .hunt-tools .weapon-ready-card {
+    min-height: 90px;
+    width: 140px;
+  }
+  .weapon-ready-body img {
+    width: 34px;
+    height: 34px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hunt-page .hunt-tools .weapon-ready-card,
+  .hunt-page .hunt-tools .weapon-ready-card.just-acquired {
+    animation: none;
+  }
+}

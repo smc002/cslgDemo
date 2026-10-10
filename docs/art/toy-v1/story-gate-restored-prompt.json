@@ -1,0 +1,10 @@
+{
+  "id": "story-gate-restored",
+  "mode": "edit",
+  "prompt": "Edit target first image: restyle the repaired camp gate into the supporting style image's soft rounded toy 3D chibi mobile game world. Same vertical framing with distant gate upper quarter, wide empty beige courtyard. Cream chunky stone gateposts, navy roofs, repaired olive metal doors with clean gold reinforcement, warm amber lamps lit, a few round green shrubs. Welcoming early-evening golden light. No people, text, UI, black outlines or fine grunge. Portrait 3:5 canvas, opaque background. Clearly the restored version of same camp.",
+  "references": [
+    "E:/cslgDemo/public/assets/prologue-v1/gate-restored.png",
+    "E:/cslgDemo/public/assets/toy-v1/city-terrain.png"
+  ],
+  "source": "C:\\Users\\hy\\.codex\\generated_images\\01a1199e-8b3b-7362-bc82-b9b9b985dfbb\\exec-7b83c465-3c39-4c29-a3eb-39a0f073959b.png"
+}

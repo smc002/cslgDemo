@@ -1,0 +1,115 @@
+{
+  "researchDate": "2026-10-10",
+  "references": [
+    {
+      "game": "cok",
+      "kind": "home",
+      "file": "cok-city.jpg",
+      "title": "玩家主城｜小城堡重复铺在地图上",
+      "type": "玩家攻略实机截图 · 2015",
+      "source": "https://forum.gamer.com.tw/C.php?bsn=27606&snA=1009",
+      "credit": "巴哈姆特：自己的城堡自己蓋",
+      "see": "石砌城堡采用相近的占地和朝向，名字、联盟前缀、旗帜和等级贴在模型附近。地图上保留了大量空地；自己的城堡用文字颜色强调。",
+      "take": "借鉴固定的身份锚点与可重复摆放的体量。末日主城也应先看懂归属，再看装饰。"
+    },
+    {
+      "game": "cok",
+      "kind": "march",
+      "file": "cok-rally.jpg",
+      "title": "集结／行军｜小队模型沿线路移动",
+      "type": "玩家战斗视频封面帧 · 约 2017",
+      "source": "https://www.dailymotion.com/video/x610939",
+      "credit": "Dailymotion：P5 vs p5 rally",
+      "see": "城堡保持原位，城外能看到小型士兵队列、绿色行军线和城堡皮肤。视频标题明确为集结战；单帧只能验证地图表现，不能复原整个集结过程。",
+      "take": "静态主城与移动队伍分开。行军线交代起终点，兵模只承担队伍存在感。"
+    },
+    {
+      "game": "cok",
+      "kind": "npc",
+      "file": "cok-objectives.jpg",
+      "title": "中立目标｜不同建筑形成战场层级",
+      "type": "S8 巨龙战役战术总览图 · 2020",
+      "source": "https://game.xiaomi.com/viewpoint/1273179761_1608198658002_16",
+      "credit": "小米游戏中心／游民星空：CoK S8 大地图介绍",
+      "see": "中央水晶矿的高度与色彩非常突出，周边分布军械库、训练场和塔等不同轮廓。原文说明三类主要建筑开局有 NPC 守军。",
+      "take": "借鉴“中心目标＋功能据点”的辨识，不照搬建筑造型。此图是活动战场总览，不是常驻世界地图实机；它也不是一张 NPC 城镇截图。"
+    },
+    {
+      "game": "wos",
+      "kind": "home",
+      "file": "wos-city.jpg",
+      "title": "玩家主城｜暖色核心与联盟聚居",
+      "type": "玩家论坛实机截图 · 2024",
+      "source": "https://m.gamechosun.co.kr/board/view.php?bid=balance&num=768728&site=common",
+      "credit": "GameChosun：화이트아웃 서바이벌 해볼래?",
+      "see": "多个玩家城镇紧邻联盟建筑，中央高耸的暖色炉塔重复出现；蓝色护罩、名字等级牌与领地边界都在同一层级可见。",
+      "take": "末日营地可以使用暖光能源塔作为统一识别点；联盟成员的“聚居感”比逐栋建筑细节更重要。"
+    },
+    {
+      "game": "wos",
+      "kind": "march",
+      "file": "wos-rally.jpg",
+      "title": "集结｜玩家城群中的共同目标",
+      "type": "猎熊活动攻略实机截图，原作者有圈注 · 2024",
+      "source": "https://forum.gamer.com.tw/C.php?bsn=76999&snA=248",
+      "credit": "巴哈姆特：聯盟活動介紹－獵熊行動",
+      "see": "高密度城群围绕活动区域，左侧可见“行军”和“集结中”倒计时。皮肤、旗号与特效密集时，辨认单支队伍会变难。",
+      "take": "借鉴集结状态入口；避免把所有盟友的列车、轨迹、头像都同时展开。橙色大圆是攻略圈注，不是游戏控件。"
+    },
+    {
+      "game": "wos",
+      "kind": "npc",
+      "file": "wos-castle.jpg",
+      "title": "争夺目标｜日耀城的独立地标",
+      "type": "攻略中的地图局部图 · 2024",
+      "source": "https://onechilledgamer.com/whiteout-survival-brothers-in-arms-guide/",
+      "credit": "One Chilled Gamer：Brothers in Arms Guide",
+      "see": "金色高塔、太阳标志与环形基座形成强轮廓；附近炮塔和荒地把它与普通玩家聚居区区分开。",
+      "take": "大型 NPC／中立城市要有独立地标和周边空间。日耀城是可争夺的权力目标，不能简单等同于普通 PvE NPC 城。"
+    },
+    {
+      "game": "sg",
+      "kind": "home",
+      "file": "sg-defense.jpg",
+      "title": "玩家主城＋行军｜围绕洛阳的城群",
+      "type": "主城防守攻略实机截图 · 2025",
+      "source": "https://www.gameggg.com/article/1930.html",
+      "credit": "3G 游戏网：防守主城方法攻略教学",
+      "see": "画面外围是带玩家名与等级的较小城镇，中央是明显更大的七级洛阳。青色箭头线路穿过地图，底部还能看到沿线的小型行军单位。",
+      "take": "同一画面里，个人据点、移动队伍、公共大城必须凭体量和标签就能分辨。此图外围使用的是皮肤城镇，不能据此断言默认主城外观。"
+    },
+    {
+      "game": "sg",
+      "kind": "march",
+      "file": "sg-siege.png",
+      "title": "出征表现｜城池周围的箭头与小队",
+      "type": "S4 冲车／溃兵机制说明配图 · 2025",
+      "source": "https://m.youxibao.com/gonglue/39212.html",
+      "credit": "游戏宝：S4 赛季冲车溃兵玩法攻略",
+      "see": "中央城池外有多条红、蓝箭头和小型骑兵标识。原文讨论冲车与集结；这张配图本身展示的是溃兵周围的行动，不能把图中每支小队都称作集结军。",
+      "take": "可借鉴队伍图标与路线的区分方法。集结队伍的实际地图体量以洛阳实机图作交叉参考，不用说明图推断精确尺寸。"
+    },
+    {
+      "game": "sg",
+      "kind": "npc",
+      "file": "sg-city.webp",
+      "title": "NPC／州府城市｜有名字、等级与攻城设施",
+      "type": "S5 活动攻略实机截图 · 2025",
+      "source": "https://www.jiyx.com/gonglve/77863.html",
+      "credit": "吉游戏：S5 逢战先登活动",
+      "see": "四级聊城是一组有城墙、角楼和主殿的完整建筑，固定的城名与等级在下方；上下各有一个攻城设施，与玩家个人城镇的身份信息不同。",
+      "take": "我们的中立城应采用“功能地标＋城名＋目标等级”，占领后再追加联盟归属；不要直接套玩家昵称牌。"
+    }
+  ],
+  "limitations": [
+    "COK 中立目标使用 S8 活动战术总览，不冒充常驻世界地图实机图。",
+    "三国 S4 溃兵图用于行动标识参考，不把其中每个单位认定为集结军。",
+    "来源中的皮肤、版本、活动场景有差异。"
+  ],
+  "supportingSources": [
+    "https://www.whiteoutsurvival.wiki/events/sunfire-castle/",
+    "https://www.taptap.cn/moment/662358333486792792",
+    "https://www.duoteyx.com/news/677.html"
+  ],
+  "excluded": "城内建设图、其他游戏图、宣传海报、带 AI 生成标记的集结截图不作实机依据。"
+}

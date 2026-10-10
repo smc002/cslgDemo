@@ -147,7 +147,11 @@ console.log(
 const manifest = JSON.parse(
   await readFile('public/assets/hunt/zombies-v1/manifest.json', 'utf8'),
 );
-assert.equal(Object.keys(manifest.kinds).length, 12, 'legacy atlas predates the ammo carrier');
+assert.equal(
+  Object.keys(manifest.kinds).length,
+  12,
+  'legacy atlas predates the ammo carrier',
+);
 for (const [name, a] of Object.entries(manifest.archetypes)) {
   const image = sharp(`public/assets/hunt/zombies-v1/${a.atlas}`);
   const meta = await image.metadata();
@@ -184,26 +188,17 @@ console.log(
   'PASS all 12 kinds resolve to transparent atlases; movement loops and hit poses complete without looping',
 );
 
-// Exercise the actual renderer's clock and frame selection without a browser.
-const renderer = Object.create(HuntView.prototype);
+// Production identities share a renderer; simulation clocks still pause and freeze.
 const calls = [];
-renderer.ctx = {
-  save() {},
-  restore() {},
-  drawImage(...args) {
+const renderer = Object.create(HuntView.prototype);
+renderer.ctx = new Proxy({}, { get: () => () => {} });
+renderer.toy = {
+  draw: (...args) => {
     calls.push(args);
+    return true;
   },
-  filter: 'none',
 };
 renderer.zombieClocks = new Map();
-renderer.art = {
-  zombieAnimation: {
-    manifest,
-    sheets: Object.fromEntries(
-      Object.keys(manifest.archetypes).map((key) => [key, { id: key }]),
-    ),
-  },
-};
 const actor = {
   id: 1,
   kind: 0,
@@ -216,60 +211,63 @@ const actor = {
   vx: 0,
   vy: 25,
 };
-const drawFrame = () => {
+const draw = () => {
   assert.ok(renderer.animatedZombie(actor, 61));
-  const call = calls.at(-1);
-  return call[1] / 320 + (call[2] / 320) * 4;
+  return calls.at(-1)[5];
 };
-assert.equal(drawFrame(), 0);
-actor.age = 0.07;
-drawFrame();
+const first = draw();
 actor.age = 0.14;
-assert.equal(drawFrame(), 1);
-assert.equal(drawFrame(), 1, 'paused simulation cannot advance the walk');
+const moving = draw();
+assert.ok(moving.time > first.time);
+assert.equal(
+  draw().time,
+  moving.time,
+  'paused simulation keeps the same pose time',
+);
 actor.frozen = 3;
 actor.age = 0.24;
-assert.equal(drawFrame(), 1, 'frozen actor holds the same pose');
+assert.equal(draw().time, moving.time);
 actor.frozen = 0;
 actor.hit = 0.13;
-actor.age = 0.25;
-assert.equal(drawFrame(), 1);
-actor.hit = 0.08;
 actor.age = 0.3;
-assert.equal(drawFrame(), 1);
-actor.hit = 0.001;
-actor.age = 0.38;
-assert.equal(drawFrame(), 2);
-actor.hit = 0;
-actor.age = 0.39;
-assert.equal(drawFrame(), 2, 'walk continues through damage');
-actor.hit = 0.13;
+const hit = draw();
+assert.ok(hit.time > moving.time);
+assert.equal(hit.hit, 0.13);
 actor.age = 0.4;
-assert.equal(drawFrame(), 2, 'a fresh hit never restarts the walk');
+const continued = draw();
+assert.ok(continued.time > hit.time, 'hits do not reset walk');
 renderer.zombieSprite(5, 75);
-assert.equal(
-  calls.at(-1)[0].id,
-  'explosive',
-  'death fade must not swap back to an old zombie identity',
-);
+assert.equal(calls.at(-1)[1], 'zombie-explosive', 'death retains new identity');
 renderer.game = {
   courierVictory: { age: 0.2, x: 300, y: 350 },
   save: { courier: { reveal: null } },
 };
-renderer.ctx = new Proxy(renderer.ctx, {
-  get(target, key) {
-    return key in target ? target[key] : () => {};
-  },
-});
-calls.length = 0;
 renderer.courierVictory();
-assert.equal(calls.length, 16);
-assert.ok(
-  calls.every((call) => call[0].id === 'armored'),
-  'courier defeat chunks retain the same animated armor identity',
-);
+assert.equal(calls.at(-1)[1], 'zombie-courier');
+assert.equal(calls.at(-1)[5].death, undefined, 'missing death-frame art uses a fade, never tilts the standing sprite');
+for (const id of [
+  'normal',
+  'runner',
+  'armored',
+  'giant',
+  'reward',
+  'explosive',
+  'scatter',
+  'electric',
+  'ice',
+  'courier',
+  'prism',
+  'shotgun',
+  'gold',
+]) {
+  const info = await sharp(
+    'public/assets/toy-v1/zombie-' + id + '.png',
+  ).stats();
+  assert.ok(info.channels[3].min === 0);
+  assert.ok(info.channels[3].max > 240);
+}
 console.log(
-  'PASS actual renderer move-hit-move, pause, freeze, repeated-hit and new-art death fade',
+  'PASS 13 transparent identities; actual renderer pause, freeze, continuous hit clock and matching death art',
 );
 
 const short = new HuntGame(
@@ -280,7 +278,8 @@ const short = new HuntGame(
 short.visibleTop = 183;
 short.zombies = [];
 short.spawn(0, false, true);
-assert.ok(short.zombies[0].y - SPECIES[0].size * 0.6 >= short.visibleTop);
+assert.ok(short.zombies[0].entry);
+assert.ok(short.zombies[0].x < 0 || short.zombies[0].x > 600 || short.zombies[0].y + SPECIES[0].size * 0.37 < short.visibleTop);
 console.log(
-  'PASS short-screen edge spawns enter within the visible battlefield',
+  'PASS short-screen replacements start outside the visible battlefield',
 );

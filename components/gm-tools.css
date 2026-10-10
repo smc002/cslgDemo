@@ -64,7 +64,7 @@
     --gm-dock-height: 104px;
   }
   body:has(.gm-tools) .mori-gameplay-shell {
-    height: calc(100dvh - var(--gm-dock-height));
+    height: calc(100dvh - var(--gm-dock-height) - var(--gm-ammo-height, 0px) - var(--gm-monitor-height, 0px));
   }
   .gm-tools {
     top: auto;
@@ -72,7 +72,7 @@
     right: 0;
     bottom: 0;
     width: auto;
-    height: var(--gm-dock-height);
+    height: calc(var(--gm-dock-height) + var(--gm-ammo-height, 0px) + var(--gm-monitor-height, 0px));
     padding: 9px 16px;
     border-radius: 0;
     display: grid;
@@ -93,3 +93,48 @@
   }
 }
 
+/* Dialogue stays above the mobile debug dock. */
+body:has(.prologue-story[data-slot='dialog-content']) .gm-tools {
+  z-index: 40;
+  pointer-events: none;
+}
+
+.zombie-scale-control { grid-column: 1 / -1; }
+.gm-ammo-control { grid-column: 1 / -1; }
+.gm-ammo-control > button { width: 100%; padding: 6px 8px; }
+#gm-ammo-panel { display: grid; gap: 7px; padding-top: 10px; }
+#gm-ammo-panel input { width: 100%; min-width: 0; padding: 6px 8px; border: 1px solid #80938b; border-radius: 6px; background: #10241f; color: #fff; }
+#gm-ammo-panel output { min-height: 32px; color: #ffdb86; font-size: 11px; line-height: 16px; overflow-wrap: anywhere; }
+.zombie-scale-control > button { width: 100%; padding: 6px 8px; }
+#zombie-scale-panel { padding-top: 10px; }
+#zombie-scale-panel label { display: flex; align-items: center; justify-content: space-between; }
+#zombie-scale-panel label strong { font-size: 13px; letter-spacing: 0; }
+#zombie-scale-range { display: block; width: 100%; margin: 10px 0; accent-color: #ffd36a; }
+.zombie-scale-actions { display: flex; gap: 5px; }
+.zombie-scale-actions button { flex: 1; padding: 4px; }
+@media (max-width: 900px) {
+  body:has(.gm-hunt-monitor) { --gm-monitor-height: 42px; }
+  body:has(.gm-ammo-control) { --gm-ammo-height: 42px; }
+  body:has(.gm-ammo-control.expanded) { --gm-ammo-height: 202px; }
+  body:has(.zombie-scale-control) { --gm-dock-height: 110px; }
+  body:has(.zombie-scale-control.expanded) { --gm-dock-height: 230px; }
+}
+
+.gm-hunt-monitor { grid-column: 1 / -1; }
+.gm-hunt-monitor > button { width: 100%; padding: 6px 8px; }
+body:has(.gm-rewards-dialog) .gm-tools { z-index: 40; }
+.gm-rewards-dialog[data-slot='dialog-content'] { width: min(92vw, 780px); max-width: 780px; max-height: 86dvh; overflow-y: auto; z-index: 400; background: #142d29; color: #eaf2e9; border: 1px solid #748e79; padding: 22px; }
+.gm-rewards-dialog [data-slot='dialog-description'] { color: #aebeb8; line-height: 1.6; }
+.gm-ledger { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.gm-ledger span { padding: 10px; border-radius: 7px; background: #25473a; font-size: 12px; }
+.gm-ledger b { display: block; margin-top: 5px; color: #ffdf91; font-size: 19px; }
+.gm-schedule { display: grid; gap: 5px; padding: 10px; background: #0e211d; border-radius: 7px; font-size: 12px; line-height: 1.6; }
+.gm-table-scroll { overflow-x: auto; }
+.gm-rewards-dialog table { width: 100%; border-collapse: collapse; font-size: 12px; white-space: nowrap; }
+.gm-rewards-dialog caption { text-align: left; padding-bottom: 8px; font-weight: bold; }
+.gm-rewards-dialog th, .gm-rewards-dialog td { padding: 7px 6px; text-align: left; border-bottom: 1px solid #365549; }
+.gm-rewards-dialog thead { color: #ffdf91; }
+@media (max-width: 520px) {
+  .gm-ledger { grid-template-columns: repeat(2, 1fr); }
+  .gm-rewards-dialog[data-slot='dialog-content'] { padding: 16px; }
+}

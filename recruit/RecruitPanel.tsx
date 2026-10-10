@@ -1,6 +1,9 @@
 'use client';
+/* eslint-disable next/no-img-element -- Display the exact shared game character asset. */
+import { HERO_ART, heroImage } from '@/shared/toy-art';
 import { storyRecruit } from '@/lib/prologue';
-import { useState, useSyncExternalStore } from 'react';
+import { useRef, useState, useSyncExternalStore } from 'react';
+import RecruitReveal from './RecruitReveal';
 import { campaign, growthOf, promoteHero, slotsUnlocked } from '@/lib/campaign';
 import {
   RECRUIT_HEROES,
@@ -17,16 +20,22 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+const subscribeCampaign = (listener: () => void) =>
+  campaign.subscribe(listener);
+const readCampaign = () => campaign.read();
 export default function RecruitPanel({ active }: { active: boolean }) {
-  const d = useSyncExternalStore(
-      campaign.subscribe,
-      campaign.read,
-      campaign.read,
-    ),
+  const d = useSyncExternalStore(subscribeCampaign, readCampaign, readCampaign),
     [results, setResults] = useState<string[]>([]),
     [detail, setDetail] = useState<string | null>(null),
     [tab, setTab] = useState('recruit');
+  const drawing = useRef(false);
+  const closeResults = () => {
+    setResults([]);
+    drawing.current = false;
+  };
   const draw = (count: number) => {
+    if (!active || drawing.current) return;
+    drawing.current = true;
     let ids: string[] | null = null;
     campaign.update((x) => {
       ids =
@@ -36,7 +45,11 @@ export default function RecruitPanel({ active }: { active: boolean }) {
       if (ids) x.tutorial = Math.max(x.tutorial, 3);
     });
     if (ids) setResults(ids);
+    else drawing.current = false;
   };
+  const firstSignal =
+    d.prologue.enabled && !d.prologue.rewards.includes('recruit');
+  const featured = firstSignal ? 3 : 8;
   const selected = RECRUIT_HEROES.find((h) => h.id === detail),
     g = selected ? growthOf(d, selected.id) : null;
   return (
@@ -56,16 +69,21 @@ export default function RecruitPanel({ active }: { active: boolean }) {
         </TabsList>
         <TabsContent value="recruit">
           <div className="recruit-banner">
-            <img src="/assets/recruit/sniper.png" alt="狙击手招募立绘" />
+            <img
+              src={heroImage(featured)}
+              alt={`${HERO_ART[featured][1]}招募立绘`}
+            />
             <div>
-              <small>废墟电台 · 援军信号</small>
+              <small>
+                {firstSignal ? '定向联络 · T-100' : '废墟电台 · 援军信号'}
+              </small>
               <h2>
                 每个信号
                 <br />
                 都是新的希望
               </h2>
               <p>
-                招募券来自能源核心进度
+                招募券来自能源核心与运钞奖励
                 <br />
                 新英雄立即继承全队等级
               </p>
@@ -73,7 +91,7 @@ export default function RecruitPanel({ active }: { active: boolean }) {
           </div>
           <div className="recruit-draw">
             {d.prologue.enabled && !d.prologue.rewards.includes('recruit') && (
-              <p>首次联络必得大刀战士，消耗 1 券；之后恢复普通招募概率。</p>
+              <p>首次联络必得T-100，消耗 1 券；之后恢复普通招募概率。</p>
             )}
             <strong>招募券 {ticketBalance(d)}</strong>
             <div className="loop-row">
@@ -84,7 +102,7 @@ export default function RecruitPanel({ active }: { active: boolean }) {
                 onClick={() => draw(1)}
               >
                 {d.prologue.enabled && !d.prologue.rewards.includes('recruit')
-                  ? '联络大刀战士 · 1券'
+                  ? '联络T-100 · 1券'
                   : '招募一次 · 1券'}
               </button>
               <button
@@ -140,42 +158,17 @@ export default function RecruitPanel({ active }: { active: boolean }) {
           </div>
         </TabsContent>
       </Tabs>
-      <Dialog
-        open={results.length > 0}
-        onOpenChange={(open) => {
-          if (!open) setResults([]);
-        }}
-      >
-        <DialogContent className="loop-dialog">
-          <DialogTitle>援军已集结！</DialogTitle>
-          <DialogDescription>
-            已保存到英雄档案。重复英雄积累升星进度，可前往物资搜刮调整上阵。
-          </DialogDescription>
-          <div className="loop-rewards">
-            {results.map((id, i) => {
-              const h = RECRUIT_HEROES.find((h) => h.id === id)!;
-              return (
-                <div key={i} style={{ color: h.color }}>
-                  <HeroPortrait hero={h.index} height={85} />
-                  <b>{h.name}</b>
-                  <small>
-                    {h.role} · Lv.{d.hunt.level}
-                  </small>
-                </div>
-              );
-            })}
-          </div>
-          <button
-            className="gold"
-            onClick={() => {
-              setResults([]);
-              setTab('collection');
-            }}
-          >
-            查看培养
-          </button>
-        </DialogContent>
-      </Dialog>
+      {results.length > 0 && (
+        <RecruitReveal
+          ids={results}
+          level={d.hunt.level}
+          onClose={closeResults}
+          onTrain={() => {
+            closeResults();
+            setTab('collection');
+          }}
+        />
+      )}
       <Dialog
         open={!!selected}
         onOpenChange={(open) => {

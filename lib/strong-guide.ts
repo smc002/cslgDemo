@@ -36,7 +36,7 @@ export function strongGuideStep(d: Campaign): StrongGuideStep | undefined {
       id: 'recruit',
       mode: 'recruit',
       target: 'first-recruit',
-      text: '点击招募，消耗 1 张券联络大刀战士',
+      text: '点击招募，消耗 1 张券联络 T-100',
     };
   if (d.city.unlocked && !d.city.factory.level) {
     const site = nextCitySite(d);
@@ -48,4 +48,9 @@ export function strongGuideStep(d: Campaign): StrongGuideStep | undefined {
         text: `点击空地，建造${cityMeta(site).name}`,
       };
   }
+}
+
+/** Other modes retain automatic guides, including navigation to the next task. */
+export function shouldShowStrongGuide(d: Campaign, mode: string) {
+  return mode !== 'hunt' && !!strongGuideStep(d);
 }

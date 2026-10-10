@@ -1,0 +1,131 @@
+[
+  {
+    "kind": 0,
+    "name": "普通僵尸",
+    "prompt": "Use case: stylized-concept. Create ONE polished square character concept sheet for the specified zombie only. Use the provided nine-hero board strictly as a STYLE reference: charming chunky 3D mobile-game vinyl collectible, about 2.5 to 3 heads tall, oversized expressive eyes, bold simplified forms, matte clay-like surfaces, soft studio key light and contact shadows. It must read as an infected enemy, not a human hero; non-gory, asymmetrical vacant expression, muted undead skin. Original design. Composition: large full-body front three-quarter hero pose occupying left two thirds; on the right two smaller consistent full-body turnaround views, a strict side view above and a back view below. Same exact character, proportions and costume in all three views. Entire feet, head and back props inside canvas with generous margins. Pale warm-gray seamless studio background. No text, labels, logos, watermark, extra characters, scene or frame. Small/medium/large refers to anatomical proportions and weight, not cropping. The character specification below takes precedence over costumes and weapons in the style reference. Character: A small ordinary shambling zombie, 2.7 heads tall, narrow shoulders, short legs, slumped posture, muted pea-green skin, three sparse tufts of dark hair, asymmetric oversized eyes and one crooked tooth. Worn teal-gray sleeveless hoodie, brown shorts, chunky scuffed shoes. Empty dangling hands. No armor, weapons, backpack, magic, glowing energy or elemental motif.",
+    "references": [
+      "style-reference.jpg"
+    ],
+    "tool": "built-in image_gen"
+  },
+  {
+    "kind": 1,
+    "name": "奔跑者",
+    "prompt": "Use case: stylized-concept. Create ONE polished square character concept sheet for the specified zombie only. Use the provided nine-hero board strictly as a STYLE reference: charming chunky 3D mobile-game vinyl collectible, about 2.5 to 3 heads tall, oversized expressive eyes, bold simplified forms, matte clay-like surfaces, soft studio key light and contact shadows. It must read as an infected enemy, not a human hero; non-gory, asymmetrical vacant expression, muted undead skin. Original design. Composition: large full-body front three-quarter hero pose occupying left two thirds; on the right two smaller consistent full-body turnaround views, a strict side view above and a back view below. Same exact character, proportions and costume in all three views. Entire feet, head and back props inside canvas with generous margins. Pale warm-gray seamless studio background. No text, labels, logos, watermark, extra characters, scene or frame. Small/medium/large refers to anatomical proportions and weight, not cropping. The character specification below takes precedence over costumes and weapons in the style reference. Character: A small fast organic runner zombie, lean tapered torso, long springy calves and enlarged stylized Achilles tendons covered by intact gray-green skin, 2.8 heads tall. Short spiky dark hair, vermilion athletic headband with trailing ends, torn red-white track singlet and shorts, knee wraps, lightweight running shoes. Forward pitched agile sprint-ready pose, elbows swept back. No machinery or glowing magic. Athletic biological mutation, no exposed gore. Additional reference: the ordinary zombie sheet provides consistent enemy facial language and sheet layout; do not reuse its outfit or body shape.",
+    "references": [
+      "style-reference.jpg",
+      "00-普通僵尸.png"
+    ],
+    "tool": "built-in image_gen"
+  },
+  {
+    "kind": 2,
+    "name": "装甲僵尸",
+    "prompt": "Use case: stylized-concept. Create ONE polished square character concept sheet for the specified zombie only. Use the provided nine-hero board strictly as a STYLE reference: charming chunky 3D mobile-game vinyl collectible, about 2.5 to 3 heads tall, oversized expressive eyes, bold simplified forms, matte clay-like surfaces, soft studio key light and contact shadows. It must read as an infected enemy, not a human hero; non-gory, asymmetrical vacant expression, muted undead skin. Original design. Composition: large full-body front three-quarter hero pose occupying left two thirds; on the right two smaller consistent full-body turnaround views, a strict side view above and a back view below. Same exact character, proportions and costume in all three views. Entire feet, head and back props inside canvas with generous margins. Pale warm-gray seamless studio background. No text, labels, logos, watermark, extra characters, scene or frame. Small/medium/large refers to anatomical proportions and weight, not cropping. The character specification below takes precedence over costumes and weapons in the style reference. Character: A small compact armored cyborg zombie, squat square silhouette, oversized bucket-shaped riot helmet, half gray-green zombie face visible and one red mechanical optic. Graphite and slate-blue segmented riot armor, big simple rivets, exposed elbow hinges, broad shin guards, stubby boots. Empty armored fists, no gun, no shield, no backpack vault. 2.5 heads tall, readable small enemy rather than a giant. Additional reference: the ordinary zombie sheet provides consistent enemy facial language and sheet layout; do not reuse its outfit or body shape.",
+    "references": [
+      "style-reference.jpg",
+      "00-普通僵尸.png"
+    ],
+    "tool": "built-in image_gen"
+  },
+  {
+    "kind": 3,
+    "name": "巨型僵尸",
+    "prompt": "Use case: stylized-concept. Create ONE polished square character concept sheet for the specified zombie only. Use the provided nine-hero board strictly as a STYLE reference: charming chunky 3D mobile-game vinyl collectible, about 2.5 to 3 heads tall, oversized expressive eyes, bold simplified forms, matte clay-like surfaces, soft studio key light and contact shadows. It must read as an infected enemy, not a human hero; non-gory, asymmetrical vacant expression, muted undead skin. Original design. Composition: large full-body front three-quarter hero pose occupying left two thirds; on the right two smaller consistent full-body turnaround views, a strict side view above and a back view below. Same exact character, proportions and costume in all three views. Entire feet, head and back props inside canvas with generous margins. Pale warm-gray seamless studio background. No text, labels, logos, watermark, extra characters, scene or frame. Small/medium/large refers to anatomical proportions and weight, not cropping. The character specification below takes precedence over costumes and weapons in the style reference. Character: A huge organic mutant zombie brute, broad trapezoid body, 1.6 times ordinary height and 2.2 times shoulder width, relatively tiny head sunk between massive shoulders, enormous gorilla-like forearms reaching knees. Warm gray-green intact skin with rounded exaggerated muscles and subtle brick-red mutation markings, black torn suspenders, dark brown ripped trousers, old restraint straps on wrists, huge bare rounded feet. No metal armor, machinery, gun or backpack. Heavy slow weight and comedic stubborn face, non-gory. Additional reference: the ordinary zombie sheet provides consistent enemy facial language and sheet layout; do not reuse its outfit or body shape.",
+    "references": [
+      "style-reference.jpg",
+      "00-普通僵尸.png"
+    ],
+    "tool": "built-in image_gen"
+  },
+  {
+    "kind": 4,
+    "name": "奖励僵尸",
+    "prompt": "Use case: stylized-concept. Create ONE polished square character concept sheet for the specified zombie only. Use the provided nine-hero board strictly as a STYLE reference: charming chunky 3D mobile-game vinyl collectible, about 2.5 to 3 heads tall, oversized expressive eyes, bold simplified forms, matte clay-like surfaces, soft studio key light and contact shadows. It must read as an infected enemy, not a human hero; non-gory, asymmetrical vacant expression, muted undead skin. Original design. Composition: large full-body front three-quarter hero pose occupying left two thirds; on the right two smaller consistent full-body turnaround views, a strict side view above and a back view below. Same exact character, proportions and costume in all three views. Entire feet, head and back props inside canvas with generous margins. Pale warm-gray seamless studio background. No text, labels, logos, watermark, extra characters, scene or frame. Small/medium/large refers to anatomical proportions and weight, not cropping. The character specification below takes precedence over costumes and weapons in the style reference. Character: A small plump organic bonus zombie with gray-green skin, round tummy, short shuffling legs, red nose tip and mischievous vacant grin. Worn burgundy short showman cape, fabric award sash, soft cloth party-supply satchel on back. Distinct fan of oversized golden paper reward tickets and a big simple hourglass badge visible above its shoulders. Warm golden star-shaped confetti accents, sparse and controlled. No coins, no bullets, no hard metal safe, no robotics. Clear timed-bonus mascot silhouette. Additional reference: the ordinary zombie sheet provides the enemy facial language and sheet layout; do not copy its outfit or override the specified anatomy. Render the warm-gray background fully opaque.",
+    "references": [
+      "style-reference.jpg",
+      "00-普通僵尸.png"
+    ],
+    "tool": "built-in image_gen"
+  },
+  {
+    "kind": 5,
+    "name": "爆炸僵尸",
+    "prompt": "Use case: stylized-concept. Create ONE polished square character concept sheet for the specified zombie only. Use the provided nine-hero board strictly as a STYLE reference: charming chunky 3D mobile-game vinyl collectible, about 2.5 to 3 heads tall, oversized expressive eyes, bold simplified forms, matte clay-like surfaces, soft studio key light and contact shadows. It must read as an infected enemy, not a human hero; non-gory, asymmetrical vacant expression, muted undead skin. Original design. Composition: large full-body front three-quarter hero pose occupying left two thirds; on the right two smaller consistent full-body turnaround views, a strict side view above and a back view below. Same exact character, proportions and costume in all three views. Entire feet, head and back props inside canvas with generous margins. Pale warm-gray seamless studio background. No text, labels, logos, watermark, extra characters, scene or frame. Small/medium/large refers to anatomical proportions and weight, not cropping. The character specification below takes precedence over costumes and weapons in the style reference. Character: A small elemental fire-explosion zombie, pear-shaped swollen belly, intact charcoal-gray rock-like skin with simple orange-red molten cracks. One rounded flame tuft on head, a large spherical organic volcanic blister on upper back ending in a short blunt crater. Burnt work belt and dark shorts, stubby feet, confused glowing ember eyes. Compact self-contained volatile fire body, not a soldier. No fuel tanks, bombs, dynamite, fuses or machinery. Restrained flame only at head and back opening, full silhouette readable. Additional reference: the ordinary zombie sheet provides the enemy facial language and sheet layout; do not copy its outfit or override the specified anatomy. Render the warm-gray background fully opaque.",
+    "references": [
+      "style-reference.jpg",
+      "00-普通僵尸.png"
+    ],
+    "tool": "built-in image_gen"
+  },
+  {
+    "kind": 6,
+    "name": "散射僵尸",
+    "prompt": "Use case: stylized-concept. Create ONE polished square character concept sheet for the specified zombie only. Use the provided nine-hero board strictly as a STYLE reference: charming chunky 3D mobile-game vinyl collectible, about 2.5 to 3 heads tall, oversized expressive eyes, bold simplified forms, matte clay-like surfaces, soft studio key light and contact shadows. It must read as an infected enemy, not a human hero; non-gory, asymmetrical vacant expression, muted undead skin. Original design. Composition: large full-body front three-quarter hero pose occupying left two thirds; on the right two smaller consistent full-body turnaround views, a strict side view above and a back view below. Same exact character, proportions and costume in all three views. Entire feet, head and back props inside canvas with generous margins. Pale warm-gray seamless studio background. No text, labels, logos, watermark, extra characters, scene or frame. Small/medium/large refers to anatomical proportions and weight, not cropping. The character specification below takes precedence over costumes and weapons in the style reference. Character: A small squat mechanical ricochet zombie, pale gray-green infected face peeking out of a deep-purple machine shell. Exactly FIVE short thick rounded deflection tubes fan radially from its back like a mechanical hedgehog. Exactly SIX clear amber armor contacts on chest arranged two rows of three, orange rebound shock absorbers at shoulders. Empty small claw-like hands, stubby mechanical boots. The back manifold is the dominant silhouette. No handheld shotgun, long gun or fire tank. Additional reference: the ordinary zombie sheet provides the enemy facial language and sheet layout; do not copy its outfit or override the specified anatomy. Render the warm-gray background fully opaque.",
+    "references": [
+      "style-reference.jpg",
+      "00-普通僵尸.png"
+    ],
+    "tool": "built-in image_gen"
+  },
+  {
+    "kind": 7,
+    "name": "电弧僵尸",
+    "prompt": "Use case: stylized-concept. Create ONE polished square character concept sheet for the specified zombie only. Use the provided nine-hero board strictly as a STYLE reference: charming chunky 3D mobile-game vinyl collectible, about 2.5 to 3 heads tall, oversized expressive eyes, bold simplified forms, matte clay-like surfaces, soft studio key light and contact shadows. It must read as an infected enemy, not a human hero; non-gory, asymmetrical vacant expression, muted undead skin. Original design. Composition: large full-body front three-quarter hero pose occupying left two thirds; on the right two smaller consistent full-body turnaround views, a strict side view above and a back view below. Same exact character, proportions and costume in all three views. Entire feet, head and back props inside canvas with generous margins. Pale warm-gray seamless studio background. No text, labels, logos, watermark, extra characters, scene or frame. Small/medium/large refers to anatomical proportions and weight, not cropping. The character specification below takes precedence over costumes and weapons in the style reference. Character: A small slender elemental lightning zombie with blue-gray intact skin and pale golden branching lightning markings. Hair forms four chunky blunt zigzag tufts, four floating amber-cyan thunder crystals behind shoulders forming an incomplete halo, sparse forked arcs between crystals. Torn indigo short robe, bare feet, slightly buoyant weight, vacant asymmetrical glowing eyes. Organic awakened lightning creature. No coils, batteries, wires, antennas, metal armor or mechanical devices. Additional reference: the ordinary zombie sheet provides consistent enemy facial language and sheet layout only; the requested character has its own body shape and costume. Render the pale warm-gray background fully opaque.",
+    "references": [
+      "style-reference.jpg",
+      "00-普通僵尸.png"
+    ],
+    "tool": "built-in image_gen"
+  },
+  {
+    "kind": 8,
+    "name": "冰冻僵尸",
+    "prompt": "Use case: stylized-concept. Create ONE polished square character concept sheet for the specified zombie only. Use the provided nine-hero board strictly as a STYLE reference: charming chunky 3D mobile-game vinyl collectible, about 2.5 to 3 heads tall, oversized expressive eyes, bold simplified forms, matte clay-like surfaces, soft studio key light and contact shadows. It must read as an infected enemy, not a human hero; non-gory, asymmetrical vacant expression, muted undead skin. Original design. Composition: large full-body front three-quarter hero pose occupying left two thirds; on the right two smaller consistent full-body turnaround views, a strict side view above and a back view below. Same exact character, proportions and costume in all three views. Entire feet, head and back props inside canvas with generous margins. Pale warm-gray seamless studio background. No text, labels, logos, watermark, extra characters, scene or frame. Small/medium/large refers to anatomical proportions and weight, not cropping. The character specification below takes precedence over costumes and weapons in the style reference. Character: A small elemental frost zombie with pale icy-blue intact skin, round head, short white frosted hair, sleepy asymmetrical ice-blue eyes. Broad simple hexagonal ice crystals grow from both shoulders, a fan of translucent ice plates on back suggests a snowflake silhouette. Torn deep navy short cape, fur-rimmed chunky boots, tiny breath mist. Body organic and magically crystallized, no cooling tank, tubing, mechanical armor or gun. Clean large ice planes rather than spiky visual noise. Additional reference: the ordinary zombie sheet provides consistent enemy facial language and sheet layout only; the requested character has its own body shape and costume. Render the pale warm-gray background fully opaque.",
+    "references": [
+      "style-reference.jpg",
+      "00-普通僵尸.png"
+    ],
+    "tool": "built-in image_gen"
+  },
+  {
+    "kind": 9,
+    "name": "装甲运钞僵尸",
+    "prompt": "Use case: stylized-concept. Create ONE polished square character concept sheet for the specified zombie only. Use the provided nine-hero board strictly as a STYLE reference: charming chunky 3D mobile-game vinyl collectible, about 2.5 to 3 heads tall, oversized expressive eyes, bold simplified forms, matte clay-like surfaces, soft studio key light and contact shadows. It must read as an infected enemy, not a human hero; non-gory, asymmetrical vacant expression, muted undead skin. Original design. Composition: large full-body front three-quarter hero pose occupying left two thirds; on the right two smaller consistent full-body turnaround views, a strict side view above and a back view below. Same exact character, proportions and costume in all three views. Entire feet, head and back props inside canvas with generous margins. Pale warm-gray seamless studio background. No text, labels, logos, watermark, extra characters, scene or frame. Small/medium/large refers to anatomical proportions and weight, not cropping. The character specification below takes precedence over costumes and weapons in the style reference. Character: A huge armored vault-transport cyborg zombie, 1.8 times ordinary height and twice the width. Tiny gray-green zombie head tucked inside a thick protective collar, black iron armored chassis with copper-orange corners, exactly THREE large clearly separate breakaway chest armor plates stacked vertically. Huge sealed upright safe built into back, orange hero-silhouette medal emblem on safe door, thick hydraulic legs and piston fists. Imposing mobile bank-vault silhouette. No loose coins or visible bullet stacks, no handheld weapon. Additional reference: the ordinary zombie sheet provides consistent enemy facial language and sheet layout only; the requested character has its own body shape and costume. Render the pale warm-gray background fully opaque.",
+    "references": [
+      "style-reference.jpg",
+      "00-普通僵尸.png"
+    ],
+    "tool": "built-in image_gen"
+  },
+  {
+    "kind": 10,
+    "name": "棱镜工程僵尸",
+    "prompt": "Use case: stylized-concept. Create ONE polished square character concept sheet for the specified zombie only. Use the provided nine-hero board strictly as a STYLE reference: charming chunky 3D mobile-game vinyl collectible, about 2.5 to 3 heads tall, oversized expressive eyes, bold simplified forms, matte clay-like surfaces, soft studio key light and contact shadows. It must read as an infected enemy, not a human hero; non-gory, asymmetrical vacant expression, muted undead skin. Original design. Composition: large full-body front three-quarter hero pose occupying left two thirds; on the right two smaller consistent full-body turnaround views, a strict side view above and a back view below. Same exact character, proportions and costume in all three views. Entire feet, head and back props inside canvas with generous margins. Pale warm-gray seamless studio background. No text, labels, logos, watermark, extra characters, scene or frame. Small/medium/large refers to anatomical proportions and weight, not cropping. The character specification below takes precedence over costumes and weapons in the style reference. Character: A medium-height lean cyborg zombie optical engineer, 1.25 times ordinary height, gray-green face with crooked tooth, cyan optical goggles, short off-white engineering coat over graphite articulated arms and dark work trousers. Tall diamond-shaped glass prism module on back, a compact square-muzzled single-aperture laser projector held low with both hands. Restrained cyan-white refracted light within the prism. Precise angular diamond silhouette. No lightning arcs, floating elemental crystals or multiple shotgun barrels. Additional reference: the ordinary zombie sheet provides consistent enemy facial language and sheet layout only; the requested character has its own body shape and costume. Render the pale warm-gray background fully opaque.",
+    "references": [
+      "style-reference.jpg",
+      "00-普通僵尸.png"
+    ],
+    "tool": "built-in image_gen"
+  },
+  {
+    "kind": 11,
+    "name": "散弹工程僵尸",
+    "prompt": "Use case: stylized-concept. Create ONE polished square character concept sheet for the specified zombie only. Use the provided nine-hero board strictly as a STYLE reference: charming chunky 3D mobile-game vinyl collectible, about 2.5 to 3 heads tall, oversized expressive eyes, bold simplified forms, matte clay-like surfaces, soft studio key light and contact shadows. It must read as an infected enemy, not a human hero; non-gory, asymmetrical vacant expression, muted undead skin. Original design. Composition: large full-body front three-quarter hero pose occupying left two thirds; on the right two smaller consistent full-body turnaround views, a strict side view above and a back view below. Same exact character, proportions and costume in all three views. Entire feet, head and back props inside canvas with generous margins. Pale warm-gray seamless studio background. No text, labels, logos, watermark, extra characters, scene or frame. Small/medium/large refers to anatomical proportions and weight, not cropping. The character specification below takes precedence over costumes and weapons in the style reference. Character: A medium-height broad-shouldered cyborg zombie shotgun engineer, 1.25 times ordinary height, gray-green infected face, raised orange welding goggles, charcoal short mechanic jacket, copper-orange shoulder plates and thick mechanical forearms. Bold chunky cartridge bandolier, rectangular magazine satchel on back, holding a stylized short DOUBLE-BARREL shotgun projector across the belly with two large circular muzzles. Stable wide stance. No radial back tubes, prism, laser glow or oversized vault. Additional reference: the ordinary zombie sheet provides consistent enemy facial language and sheet layout only; the requested character has its own body shape and costume. Render the pale warm-gray background fully opaque.",
+    "references": [
+      "style-reference.jpg",
+      "00-普通僵尸.png"
+    ],
+    "tool": "built-in image_gen"
+  },
+  {
+    "kind": 12,
+    "name": "黑金僵尸",
+    "prompt": "Use case: stylized-concept. Create ONE polished square character concept sheet for the specified zombie only. Use the provided nine-hero board strictly as a STYLE reference: charming chunky 3D mobile-game vinyl collectible, about 2.5 to 3 heads tall, oversized expressive eyes, bold simplified forms, matte clay-like surfaces, soft studio key light and contact shadows. It must read as an infected enemy, not a human hero; non-gory, asymmetrical vacant expression, muted undead skin. Original design. Composition: large full-body front three-quarter hero pose occupying left two thirds; on the right two smaller consistent full-body turnaround views, a strict side view above and a back view below. Same exact character, proportions and costume in all three views. Entire feet, head and back props inside canvas with generous margins. Pale warm-gray seamless studio background. No text, labels, logos, watermark, extra characters, scene or frame. Small/medium/large refers to anatomical proportions and weight, not cropping. The character specification below takes precedence over costumes and weapons in the style reference. Character: A small hunched cyborg coin-carrying zombie porter, gray-green zombie face with one gold mechanical monocle, charcoal work overalls, little articulated joints and stubby boots. Oversized open black-iron rectangular coin strongbox strapped to back with gold corner guards, THREE visible stacks of oversized BLACK GOLD COINS rising above shoulders. Coins are unmistakable flat round disks with black faces, thick gold rims and simple embossed geometric coin marks. Exactly three big gold latch tabs across chest harness. Compact burdened posture. Absolutely NO bullets, cartridges, ammunition, pointed projectile shapes or guns. Not a giant vault robot. Additional reference: the ordinary zombie sheet provides consistent enemy facial language and sheet layout only; the requested character has its own body shape and costume. Render the pale warm-gray background fully opaque.",
+    "references": [
+      "style-reference.jpg",
+      "00-普通僵尸.png"
+    ],
+    "tool": "built-in image_gen"
+  }
+]

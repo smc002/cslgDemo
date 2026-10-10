@@ -1,0 +1,322 @@
+{
+  "cell": 512,
+  "anchor": [
+    256,
+    448
+  ],
+  "standingHeight": 376,
+  "frames": [
+    {
+      "kind": 0,
+      "frame": 0,
+      "source": "ordinary",
+      "width": 263,
+      "height": 370,
+      "ratio": 1.1274509803921569
+    },
+    {
+      "kind": 0,
+      "frame": 1,
+      "source": "ordinary",
+      "width": 355,
+      "height": 289,
+      "ratio": 1.1274509803921569
+    },
+    {
+      "kind": 0,
+      "frame": 2,
+      "source": "ordinary",
+      "width": 460,
+      "height": 196,
+      "ratio": 1.1274509803921569
+    },
+    {
+      "kind": 1,
+      "frame": 0,
+      "source": "ordinary",
+      "width": 374,
+      "height": 359,
+      "ratio": 1.1825192802056554
+    },
+    {
+      "kind": 1,
+      "frame": 1,
+      "source": "ordinary",
+      "width": 406,
+      "height": 304,
+      "ratio": 1.1825192802056554
+    },
+    {
+      "kind": 1,
+      "frame": 2,
+      "source": "ordinary",
+      "width": 460,
+      "height": 210,
+      "ratio": 1.1825192802056554
+    },
+    {
+      "kind": 2,
+      "frame": 0,
+      "source": "ordinary",
+      "width": 314,
+      "height": 342,
+      "ratio": 1.1302211302211302
+    },
+    {
+      "kind": 2,
+      "frame": 1,
+      "source": "ordinary",
+      "width": 381,
+      "height": 316,
+      "ratio": 1.1302211302211302
+    },
+    {
+      "kind": 2,
+      "frame": 2,
+      "source": "ordinary",
+      "width": 460,
+      "height": 200,
+      "ratio": 1.1302211302211302
+    },
+    {
+      "kind": 4,
+      "frame": 0,
+      "source": "ordinary",
+      "width": 374,
+      "height": 361,
+      "ratio": 1.1886304909560723
+    },
+    {
+      "kind": 4,
+      "frame": 1,
+      "source": "ordinary",
+      "width": 434,
+      "height": 320,
+      "ratio": 1.1886304909560723
+    },
+    {
+      "kind": 4,
+      "frame": 2,
+      "source": "ordinary",
+      "width": 460,
+      "height": 239,
+      "ratio": 1.1886304909560723
+    },
+    {
+      "kind": 5,
+      "frame": 0,
+      "source": "elemental",
+      "width": 357,
+      "height": 376,
+      "ratio": 1.1604938271604939
+    },
+    {
+      "kind": 5,
+      "frame": 1,
+      "source": "elemental",
+      "width": 405,
+      "height": 296,
+      "ratio": 1.1604938271604939
+    },
+    {
+      "kind": 5,
+      "frame": 2,
+      "source": "elemental",
+      "width": 448,
+      "height": 214,
+      "ratio": 1.1604938271604939
+    },
+    {
+      "kind": 6,
+      "frame": 0,
+      "source": "elemental",
+      "width": 423,
+      "height": 376,
+      "ratio": 1.236842105263158
+    },
+    {
+      "kind": 6,
+      "frame": 1,
+      "source": "elemental",
+      "width": 435,
+      "height": 327,
+      "ratio": 1.236842105263158
+    },
+    {
+      "kind": 6,
+      "frame": 2,
+      "source": "elemental",
+      "width": 455,
+      "height": 224,
+      "ratio": 1.236842105263158
+    },
+    {
+      "kind": 7,
+      "frame": 0,
+      "source": "elemental",
+      "width": 306,
+      "height": 376,
+      "ratio": 1.1640866873065014
+    },
+    {
+      "kind": 7,
+      "frame": 1,
+      "source": "elemental",
+      "width": 396,
+      "height": 329,
+      "ratio": 1.1640866873065014
+    },
+    {
+      "kind": 7,
+      "frame": 2,
+      "source": "elemental",
+      "width": 448,
+      "height": 217,
+      "ratio": 1.1640866873065014
+    },
+    {
+      "kind": 8,
+      "frame": 0,
+      "source": "elemental",
+      "width": 344,
+      "height": 376,
+      "ratio": 1.1898734177215189
+    },
+    {
+      "kind": 8,
+      "frame": 1,
+      "source": "elemental",
+      "width": 406,
+      "height": 341,
+      "ratio": 1.1898734177215189
+    },
+    {
+      "kind": 8,
+      "frame": 2,
+      "source": "elemental",
+      "width": 457,
+      "height": 224,
+      "ratio": 1.1898734177215189
+    },
+    {
+      "kind": 3,
+      "frame": 0,
+      "source": "heavy",
+      "width": 341,
+      "height": 376,
+      "ratio": 0.7949260042283298
+    },
+    {
+      "kind": 3,
+      "frame": 1,
+      "source": "heavy",
+      "width": 397,
+      "height": 288,
+      "ratio": 0.7949260042283298
+    },
+    {
+      "kind": 3,
+      "frame": 2,
+      "source": "heavy",
+      "width": 397,
+      "height": 191,
+      "ratio": 0.7949260042283298
+    },
+    {
+      "kind": 9,
+      "frame": 0,
+      "source": "heavy",
+      "width": 358,
+      "height": 376,
+      "ratio": 0.7966101694915254
+    },
+    {
+      "kind": 9,
+      "frame": 1,
+      "source": "heavy",
+      "width": 349,
+      "height": 327,
+      "ratio": 0.7966101694915254
+    },
+    {
+      "kind": 9,
+      "frame": 2,
+      "source": "heavy",
+      "width": 394,
+      "height": 202,
+      "ratio": 0.7966101694915254
+    },
+    {
+      "kind": 10,
+      "frame": 0,
+      "source": "weapons",
+      "width": 280,
+      "height": 376,
+      "ratio": 0.912621359223301
+    },
+    {
+      "kind": 10,
+      "frame": 1,
+      "source": "weapons",
+      "width": 348,
+      "height": 298,
+      "ratio": 0.912621359223301
+    },
+    {
+      "kind": 10,
+      "frame": 2,
+      "source": "weapons",
+      "width": 364,
+      "height": 209,
+      "ratio": 0.912621359223301
+    },
+    {
+      "kind": 11,
+      "frame": 0,
+      "source": "weapons",
+      "width": 351,
+      "height": 376,
+      "ratio": 1.010752688172043
+    },
+    {
+      "kind": 11,
+      "frame": 1,
+      "source": "weapons",
+      "width": 368,
+      "height": 323,
+      "ratio": 1.010752688172043
+    },
+    {
+      "kind": 11,
+      "frame": 2,
+      "source": "weapons",
+      "width": 406,
+      "height": 207,
+      "ratio": 1.010752688172043
+    },
+    {
+      "kind": 12,
+      "frame": 0,
+      "source": "weapons",
+      "width": 321,
+      "height": 376,
+      "ratio": 1.013477088948787
+    },
+    {
+      "kind": 12,
+      "frame": 1,
+      "source": "weapons",
+      "width": 365,
+      "height": 311,
+      "ratio": 1.013477088948787
+    },
+    {
+      "kind": 12,
+      "frame": 2,
+      "source": "weapons",
+      "width": 408,
+      "height": 223,
+      "ratio": 1.013477088948787
+    }
+  ]
+}

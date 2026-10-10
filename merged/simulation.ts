@@ -1,7 +1,16 @@
+import { BALANCE, stageWaves } from '../lib/balance';
+import { heroElement, enemyWave, elementalDamage, type Element } from '../lib/elements';
+import {
+  heroEmitter,
+  heroHeight,
+  HERO_ART,
+  ZOMBIE_ART,
+  TOY_ANIMATIONS,
+  TOY_SCALE,
+} from '../shared/toy-art';
 import {
   actionDuration,
   actionImpact,
-  poseAt,
   sniperAim,
   type HeroAnimation,
 } from '../shared/hero-animation';
@@ -9,82 +18,87 @@ export const COLORS = ['#68cfff', '#b8e67e', '#ffbd76'];
 export const BATTLE_OFFSET_Y = 40;
 export const HEROES = [
   {
-    name: '持盾大汉',
+    name: HERO_ART[0][1],
     role: 'tank',
     hp: 410,
     color: '#61cbff',
-    skill: '盾击震退',
-    tip: '近身盾击与蓝色护盾，承受伤害降低。',
+    skill: '重锤震退',
+    tip: '近身锤击与防护力场，承受伤害降低。',
   },
   {
-    name: '医疗兵',
+    name: HERO_ART[1][1],
     role: 'healer',
     hp: 175,
     color: '#67ffb1',
-    skill: '治疗子弹',
-    tip: '优先射击当前战线低血量队友回血，全员满血才攻击。',
+    skill: '医疗脉冲',
+    tip: '优先向当前战线低血量队友发射医疗脉冲，全员满血才攻击。',
   },
   {
-    name: '无人机手',
+    name: HERO_ART[2][1],
     role: 'damage',
     hp: 185,
     color: '#4fe5ff',
-    skill: '双机扫射',
-    tip: '两架无人机环绕飞行，从不同位置射击当前战线敌人。',
+    skill: '双重能量炮',
+    tip: '臂炮连续发出两束能量，攻击当前战线敌人。',
   },
   {
-    name: '大刀战士',
+    name: HERO_ART[3][1],
     role: 'tank',
     hp: 440,
     color: '#ff9855',
-    skill: '旋风斩',
-    tip: '主动上前，以宽幅刀光斩击当前战线附近多个敌人。',
+    skill: '机械震荡',
+    tip: '主动上前，以机械震荡冲击当前战线附近多个敌人。',
   },
   {
-    name: '吉他手',
+    name: HERO_ART[4][1],
     role: 'healer',
     hp: 185,
     color: '#f386ff',
-    skill: '治愈和弦',
-    tip: '音波治疗附近当前战线队友，同时震伤当前战线敌人。',
+    skill: '医疗力场',
+    tip: '医疗力场治疗附近当前战线队友，同时震伤当前战线敌人。',
   },
   {
-    name: '暗影刺客',
+    name: HERO_ART[5][1],
     role: 'damage',
     hp: 160,
     color: '#c69aff',
-    skill: '闪现背刺',
-    tip: '闪到当前战线敌人背后近战；敌人不会选择刺客为目标。',
+    skill: '双刃突袭',
+    tip: '闪到当前战线敌人背后，与该目标相互锁定近战；其余敌人仍攻击正面队伍。',
   },
   {
-    name: '重机枪手',
+    name: HERO_ART[6][1],
     role: 'tank',
     hp: 470,
     color: '#ffd265',
-    skill: '火力压制',
-    tip: '重装承伤，连续射出密集橙色曳光弹。',
+    skill: '烈焰压制',
+    tip: '重装承伤，连续射出密集火焰弹。',
   },
   {
-    name: '牧师',
+    name: HERO_ART[7][1],
     role: 'healer',
     hp: 170,
     color: '#fff0a1',
-    skill: '圣光救治',
+    skill: '引导之光',
     tip: '以圣光治疗当前战线最危险队友，满血时降下惩戒光柱。',
   },
   {
-    name: '狙击手',
+    name: HERO_ART[8][1],
     role: 'damage',
     hp: 165,
     color: '#a9e8ff',
-    skill: '穿甲狙击',
-    tip: '瞄准后射出高伤光束，穿透当前战线射线上的敌人。',
+    skill: '穿透冰棱',
+    tip: '凝聚后射出高伤冰棱，穿透当前战线射线上的敌人。',
   },
 ] as const;
+export const LANE_SPACING = 94;
+export const ROAD_BOUNDS = { left: 80, right: 310 };
 export const SLOTS = Array.from({ length: 9 }, (_, i) => ({
   lane: Math.floor(i / 3),
-  x: 75 + Math.floor(i / 3) * 120 + (i % 3 === 1 ? -22 : i % 3 === 2 ? 22 : 0),
-  y: [433, 510, 555][i % 3],
+  x:
+    101 +
+    Math.floor(i / 3) * LANE_SPACING +
+    (i % 3 === 1 ? -12 : i % 3 === 2 ? 12 : 0),
+  y: [433, 510, 585][i % 3],
 }));
 export type Unit = {
   id: number;
@@ -94,9 +108,13 @@ export type Unit = {
   combatLane?: number;
   reinforcing?: boolean;
   kind: number;
+  element?: Element;
   boss?: boolean;
   bossCharge?: number;
   bossRecovery?: number;
+  /** Ground telegraph is fixed at windup start and shared with hit detection. */
+  bossSlamX?: number;
+  bossSlamY?: number;
   x: number;
   y: number;
   hp: number;
@@ -131,6 +149,7 @@ export const effectLifetime = (kind: FxKind) =>
       ? 1.05
       : 0.8;
 export type Effect = {
+  counter?: boolean;
   playbackRate: number;
   kind: FxKind;
   x: number;
@@ -157,12 +176,28 @@ export type Shot = {
 const distance = (a: { x: number; y: number }, b: { x: number; y: number }) =>
   Math.hypot(a.x - b.x, a.y - b.y);
 export const combatLane = (u: Unit) => u.combatLane ?? u.lane;
+export const BOSS_SLAM_RADIUS = 80;
+export const bossSlamArea = (boss: Unit) => ({
+  x: boss.bossSlamX ?? boss.x,
+  y: boss.bossSlamY ?? boss.y + 73.5,
+  radius: BOSS_SLAM_RADIUS,
+});
 export class MergedBattle {
   heroes: Unit[] = [];
   enemies: Unit[] = [];
   shots: Shot[] = [];
   effects: Effect[] = [];
   lineup = HEROES.map((_, i) => i);
+  deploymentSlots = SLOTS.map((p) => ({ ...p }));
+  fitDeployment(bottom: number) {
+    if (this.phase !== 'prep') return;
+    const offset = Math.min(0, bottom - SLOTS[2].y);
+    this.deploymentSlots = SLOTS.map((p) => ({ ...p, y: p.y + offset }));
+    for (const h of this.heroes) {
+      const p = this.deploymentSlots[this.lineup.indexOf(h.hero)];
+      h.y = h.homeY = p.y;
+    }
+  }
   phase: 'prep' | 'battle' | 'march' | 'defeat' | 'cleared' = 'prep';
   campaignMode = false;
   stage = 1;
@@ -184,6 +219,12 @@ export class MergedBattle {
   }
   time = 0;
   wave = 1;
+  get waveInStage() {
+    return ((this.wave - 1) % BALANCE.wavesPerStage) + 1;
+  }
+  get totalWaves() {
+    return stageWaves(this.stage);
+  }
   kills = 0;
   healed = 0;
   active = true;
@@ -191,7 +232,7 @@ export class MergedBattle {
   speed = 1;
   camera = 0;
   // Foot-point bounds in screen coordinates, including clearance for sprite and HUD.
-  visibleBounds = { left: 30, right: 360, top: 220, bottom: 650 };
+  visibleBounds = { ...ROAD_BOUNDS, top: 220, bottom: 650 };
   distance = 0;
   march = 0;
   uses = Array(9).fill(0) as number[];
@@ -205,7 +246,8 @@ export class MergedBattle {
   reset() {
     this.phase = 'prep';
     this.time = 0;
-    this.wave = this.campaignMode ? (this.stage - 1) * 3 + 1 : 1;
+    // Retain the original later-stage wave indices and enemy difficulty.
+    this.wave = this.campaignMode ? (this.stage - 1) * BALANCE.wavesPerStage + 1 : 1;
     this.kills = 0;
     this.healed = 0;
     this.paused = false;
@@ -223,7 +265,7 @@ export class MergedBattle {
     this.effects = [];
     this.heroes = this.lineup.flatMap((hero, slot) => {
       if (hero < 0) return [];
-      const p = SLOTS[slot],
+      const p = this.deploymentSlots[slot],
         hp = HEROES[hero].hp * this.power[hero];
       return [
         {
@@ -231,6 +273,7 @@ export class MergedBattle {
           hero,
           lane: p.lane,
           kind: 0,
+          element: this.campaignMode ? heroElement(hero, this.stage) : undefined,
           x: p.x,
           y: p.y,
           homeX: p.x,
@@ -281,7 +324,7 @@ export class MergedBattle {
           this.wave % 3 === 0 &&
           lane === 1)
       )
-        for (let n = 0; n < Math.min(7, 4 + Math.floor(this.wave / 2)); n++) {
+        for (let n = 0; n < (this.campaignMode ? enemyWave(this.stage, lane, this.waveInStage).length : Math.min(7, 4 + Math.floor(this.wave / 2))); n++) {
           const boss =
             this.campaignMode &&
             this.stage % 5 === 0 &&
@@ -289,6 +332,7 @@ export class MergedBattle {
             n === 0 &&
             (this.stage !== 10 || lane === 1);
           const kind = n === 0 ? 2 : n % 2;
+          const element = this.campaignMode ? enemyWave(this.stage, lane, this.waveInStage)[n].element : undefined;
           const hp = Math.round(
             (kind === 2 ? 220 : kind === 1 ? 112 : 85) *
               (1 + Math.min(this.wave, 30) * 0.07) *
@@ -296,13 +340,14 @@ export class MergedBattle {
               (boss ? 2.5 : 1) *
               (this.campaignMode ? 0.52 + this.stage * 0.12 : 1),
           );
-          const x = 75 + lane * 120 + (n % 2 ? 20 : -17),
+          const x = 101 + lane * LANE_SPACING + (n % 2 ? 12 : -12),
             y = 270 - n * 32 - this.distance;
           this.enemies.push({
             id: ++this.serial,
             hero: -1,
             lane,
             kind,
+            element,
             boss: boss && this.stage === 10,
             x,
             y,
@@ -335,12 +380,14 @@ export class MergedBattle {
     this.accumulator += Math.max(0, Math.min(dt, 0.1)) * this.speed;
     while (this.accumulator >= 1 / 60) {
       this.step(1 / 60);
+      this.keepUnitsOnRoad();
       this.keepAssassinVisible();
       this.accumulator -= 1 / 60;
       if (this.phase === 'defeat') break;
     }
   }
   private walk(h: Unit, x: number, y: number, speed: number, dt: number) {
+    x = Math.max(ROAD_BOUNDS.left, Math.min(ROAD_BOUNDS.right, x));
     const d = Math.hypot(x - h.x, y - h.y);
     if (d < 0.5) return;
     const step = Math.min(d, speed * dt);
@@ -348,6 +395,25 @@ export class MergedBattle {
     h.x += ((x - h.x) / d) * step;
     h.y += ((y - h.y) / d) * step;
     h.moving = true;
+  }
+  private keepUnitsOnRoad() {
+    for (const u of [...this.heroes, ...this.enemies]) {
+      // Large enemies need extra shoulder clearance; all displacement paths use this guard.
+      const id =
+        u.hero >= 0
+          ? HERO_ART[u.hero][0]
+          : ZOMBIE_ART[u.boss ? 3 : ([0, 2, 3][u.kind] ?? 0)];
+      const height =
+        u.hero >= 0
+          ? heroHeight(u.hero)
+          : (u.boss ? 104 : u.kind === 2 ? 57 : 40) * TOY_SCALE;
+      const art = TOY_ANIMATIONS[id];
+      const radius = (art.halfWidth / art.bodyHeight) * height;
+      u.x = Math.max(
+        Math.max(ROAD_BOUNDS.left, 58 + radius),
+        Math.min(Math.min(ROAD_BOUNDS.right, 332 - radius), u.x),
+      );
+    }
   }
   private keepAssassinVisible() {
     const h = this.heroes.find((u) => u.hero === 5 && u.hp > 0);
@@ -368,17 +434,19 @@ export class MergedBattle {
       age: 0,
       amount,
       lane: h.lane,
+      counter: kind === 'hit' && h.hero >= 0 && target.hero < 0 && elementalDamage(h, target) > 1,
     });
   }
   private hurt(target: Unit, amount: number, source?: Unit) {
     // Target selection determines eligibility. Already fired projectiles retain their target.
     if (target.hp <= 0) return;
-    if (source) amount *= this.power[source.hero];
+    if (source && source.hero >= 0) amount *= this.power[source.hero];
     else if (this.campaignMode) amount *= 0.65 + this.stage * 0.09;
+    if (source) amount *= elementalDamage(source, target);
     const n = Math.min(target.hp, amount);
     target.hp -= n;
     target.hit = 0.16;
-    if (source) {
+    if (source && source.hero >= 0) {
       this.damage[source.hero] += n;
       this.fx('hit', source, target, n);
     }
@@ -401,21 +469,9 @@ export class MergedBattle {
     heal = false,
     offset = 0,
   ) {
-    let x = h.x + offset,
-      y = h.y - (kind === 'drone' ? 45 : 24);
-    if (kind === 'medic' && h.animation) {
-      const pose = poseAt(h.hero, h.animation.clip, h.animation.elapsed * 1.8);
-      if (pose) {
-        const scale = 52 / (3.2 * pose.clip.pixelsPerUnit),
-          p = pose.frame;
-        x = h.x + (p.muzzleX - p.anchorX) * scale * (h.facingLeft ? -1 : 1);
-        y = h.y + (p.muzzleY - p.anchorY) * scale;
-      }
-    } else if (kind === 'drone') {
-      const angle = this.time * 4 + (offset < 0 ? 0 : Math.PI);
-      x = h.x + Math.cos(angle) * 24;
-      y = h.y - 38 + Math.sin(angle) * 6;
-    }
+    const emitter = heroEmitter(h.hero, !!h.facingLeft);
+    const x = h.x + emitter.x + (kind === 'drone' ? offset * 0.12 : 0),
+      y = h.y + emitter.y;
     this.shots.push({
       x,
       y,
@@ -468,7 +524,18 @@ export class MergedBattle {
             lane: h.lane,
           });
           h.cd = 0.12;
-        } else this.walk(h, foe.x + 13, foe.y - 30, 95, dt);
+        } else if (distance(h, foe) > 43) {
+          // Close only when displaced out of melee range. Do not chase a moving
+          // offset behind a foe that is now approaching us to fight back.
+          const d = distance(h, foe);
+          this.walk(
+            h,
+            foe.x + ((h.x - foe.x) / d) * 38,
+            foe.y + ((h.y - foe.y) / d) * 38,
+            95,
+            dt,
+          );
+        }
       }
     } else if ((h.hero === 0 || h.hero === 3) && foe) {
       if (distance(h, foe) > 45)
@@ -621,13 +688,11 @@ export class MergedBattle {
           if (distance(h, e) < 90) this.hurt(e, a.clip === 'slam' ? 55 : 37, h);
       } else if (foe) {
         this.fx('sniper', h, foe);
-        const pose = poseAt(h.hero, a.clip, a.elapsed * 1.8)!;
-        const scale = 52 / (3.2 * pose.clip.pixelsPerUnit),
-          p = pose.frame;
+        const emitter = heroEmitter(h.hero, !!h.facingLeft);
         const fx = this.effects[this.effects.length - 1];
         fx.ty = foe.y - (foe.kind === 2 ? 42 : 30);
-        fx.x = h.x + (p.muzzleX - p.anchorX) * scale * (h.facingLeft ? -1 : 1);
-        fx.y = h.y + (p.muzzleY - p.anchorY) * scale;
+        fx.x = h.x + emitter.x;
+        fx.y = h.y + emitter.y;
         const dx = fx.tx - fx.x,
           dy = fx.ty - fx.y,
           length = Math.hypot(dx, dy) || 1;
@@ -685,8 +750,13 @@ export class MergedBattle {
     // Resolve zombie destination first, then let cleared teams reinforce the remaining fronts.
     // Decisions persist until that front clears; they do not flip every frame by nearest target.
     const live = this.heroes.filter((h) => h.hp > 0);
+    const duelOpponent = (z: Unit) =>
+      live.find(
+        (h) =>
+          h.hero === 5 && h.target === z.id && combatLane(h) === combatLane(z),
+      );
     for (const z of this.enemies.filter((e) => e.hp > 0)) {
-      if (z.boss) continue;
+      if (z.boss || duelOpponent(z)) continue;
       if (!live.some((h) => h.hero !== 5 && combatLane(h) === combatLane(z))) {
         const target = live
           .filter((h) => h.hero !== 5)
@@ -719,11 +789,11 @@ export class MergedBattle {
       );
       // Reinforcements visibly cross the ground before firing. Melee then approaches normally.
       const supportX = Math.max(
-        35,
+        ROAD_BOUNDS.left,
         Math.min(
-          355,
+          ROAD_BOUNDS.right,
           h.homeX +
-            (combatLane(h) - h.lane) * 120 +
+            (combatLane(h) - h.lane) * LANE_SPACING +
             (h.lane - combatLane(h)) * 16,
         ),
       );
@@ -748,8 +818,10 @@ export class MergedBattle {
           (h) => h.hp > 0 && combatLane(h) === combatLane(z) && h.hero !== 5,
         )
         .sort((a, b) => distance(z, a) - distance(z, b));
-      const target = targets[0];
+      const duelist = duelOpponent(z);
+      const target = duelist ?? targets[0];
       z.target = target?.id ?? 0;
+      if (target && Math.abs(target.x - z.x) > 2) z.facingLeft = target.x < z.x;
       if (z.boss) {
         if ((z.bossRecovery ?? 0) > 0) {
           z.bossRecovery = Math.max(0, z.bossRecovery! - dt);
@@ -758,17 +830,17 @@ export class MergedBattle {
         if (z.bossCharge !== undefined) {
           z.bossCharge -= dt;
           if (z.bossCharge <= 0) {
+            const area = bossSlamArea(z);
             for (const h of this.heroes.filter(
               (h) =>
                 h.hp > 0 &&
-                h.hero !== 5 &&
-                Math.abs(h.x - z.x) < 62 &&
-                h.y >= z.y - 8 &&
-                h.y <= z.y + 155,
+                (h.hero !== 5 || h === duelist) &&
+                distance(h, area) <= area.radius,
             )) {
               this.hurt(
                 h,
                 42 * (h.hero === 0 ? 0.55 : h.hero === 6 ? 0.65 : 1),
+                z,
               );
               this.fx('hit', z, h);
             }
@@ -776,8 +848,11 @@ export class MergedBattle {
             z.bossRecovery = 0.55;
             z.cd = 2.4;
           }
-        } else if (z.cd <= 0 && target && distance(z, target) < 190)
+        } else if (z.cd <= 0 && target && distance(z, target) < 190) {
+          z.bossSlamX = duelist ? duelist.x : z.x;
+          z.bossSlamY = duelist ? duelist.y : z.y + 73.5;
           z.bossCharge = 1.2;
+        }
         continue;
       }
       if (z.stun > 0) continue;
@@ -790,7 +865,7 @@ export class MergedBattle {
       else if (z.cd <= 0) {
         const reduction =
           target.hero === 0 ? 0.55 : target.hero === 6 ? 0.65 : 1;
-        this.hurt(target, (z.kind === 2 ? 18 : 10) * reduction);
+        this.hurt(target, (z.kind === 2 ? 18 : 10) * reduction, z);
         z.cd = 1;
         z.attack = 0.2;
       }
@@ -826,7 +901,7 @@ export class MergedBattle {
     );
     if (!this.enemies.some((e) => e.hp > 0)) {
       this.phase =
-        this.campaignMode && this.wave % 3 === 0 ? 'cleared' : 'march';
+        this.campaignMode && this.waveInStage >= this.totalWaves ? 'cleared' : 'march';
       this.march = 0;
       this.shots = [];
       for (const h of this.heroes) h.target = 0;
@@ -837,6 +912,8 @@ export class MergedBattle {
       phase: this.phase,
       time: +this.time.toFixed(2),
       wave: this.wave,
+      waveInStage: this.waveInStage,
+      totalWaves: this.totalWaves,
       kills: this.kills,
       healed: Math.round(this.healed),
       paused: this.paused,
@@ -847,6 +924,7 @@ export class MergedBattle {
       battleOffsetY: BATTLE_OFFSET_Y,
       visibleBounds: { ...this.visibleBounds },
       lineup: [...this.lineup],
+      deploymentSlots: this.deploymentSlots.map((p) => ({ ...p })),
       survivors: this.heroes.filter((h) => h.hp > 0).length,
       uses: [...this.uses],
       damage: [...this.damage],
@@ -854,6 +932,8 @@ export class MergedBattle {
       heroes: this.heroes.map((h) => ({ ...h })),
       enemies: this.enemies.map((e) => ({
         id: e.id,
+        kind: e.kind,
+        element: e.element,
         lane: e.lane,
         combatLane: combatLane(e),
         target: e.target,

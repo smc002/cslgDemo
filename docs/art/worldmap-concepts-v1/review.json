@@ -1,0 +1,34 @@
+{
+  "selected": [
+    {
+      "id": "A",
+      "title": "铁路营地",
+      "file": "public/worldmap-concepts-v1/a-rail-camp.png",
+      "decision": "保留首版",
+      "inspection": "固定营地、轮胎车队、感染工业城均清晰；主城出征后仍在原位。"
+    },
+    {
+      "id": "B",
+      "title": "驻泊列车城",
+      "file": "public/worldmap-concepts-v1/b-train-home.png",
+      "decision": "保留首版",
+      "inspection": "留驻生活列车与出征编组已分开；空泊位可见，公路行驶轮组清楚。"
+    },
+    {
+      "id": "C",
+      "title": "陆行堡垒",
+      "file": "public/worldmap-concepts-v1/c-land-fortress.png",
+      "decision": "保留首版",
+      "inspection": "车堡与小型出征车队比例明确，画面采用公路体系，未混入铁路行军。"
+    },
+    {
+      "id": "D",
+      "title": "铁路枢纽网络",
+      "file": "public/worldmap-concepts-v1/d-rail-network.png",
+      "decision": "重画后采用第二版",
+      "inspection": "首版出现疑似离轨列车与桥轨衔接不清；第二版简化地形，铁轨连接与列车落轨更清楚。"
+    }
+  ],
+  "rejectedD": "C:/Users/hy/.codex/generated_images/01a123c3-6f76-7381-ba13-507cd758619a/exec-157bf60b-f8f9-4277-8b25-7e40f86c5b0d.png",
+  "scope": "Concept suitability review, not production geometry or game implementation validation."
+}

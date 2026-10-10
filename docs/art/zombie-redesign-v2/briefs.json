@@ -1,0 +1,145 @@
+[
+  {
+    "kind": 0,
+    "row": 13,
+    "name": "普通僵尸",
+    "size": "小",
+    "faction": "无",
+    "effect": "基础游荡目标；普通命中 40% 击杀，×1 基础收益 10 核心。",
+    "description": "【无｜小体型】\n玩法依据：基础游荡目标；普通命中 40% 击杀，×1 基础收益 10 核心。\n新版美术需求：约 2.7 头身，小体型、窄肩短腿、松垮驼背。灰豆绿皮肤，稀疏三撮深发，不对称大眼、单颗缺牙；破旧青灰连帽背心、棕短裤和厚底旧鞋。无武器、无能量装置，靠下垂双臂与拖步识别基础感染者。\n统一风格：参考图同款 Q 版 3D 手办质感，大眼、块面简洁、哑光材质、柔和棚灯，无血腥。概念图含主视角、侧面、背面；后续动画需独立制作。",
+    "prompt": "Use case: stylized-concept. Create ONE polished square character concept sheet for the specified zombie only. Use the provided nine-hero board strictly as a STYLE reference: charming chunky 3D mobile-game vinyl collectible, about 2.5 to 3 heads tall, oversized expressive eyes, bold simplified forms, matte clay-like surfaces, soft studio key light and contact shadows. It must read as an infected enemy, not a human hero; non-gory, asymmetrical vacant expression, muted undead skin. Original design. Composition: large full-body front three-quarter hero pose occupying left two thirds; on the right two smaller consistent full-body turnaround views, a strict side view above and a back view below. Same exact character, proportions and costume in all three views. Entire feet, head and back props inside canvas with generous margins. Pale warm-gray seamless studio background. No text, labels, logos, watermark, extra characters, scene or frame. Small/medium/large refers to anatomical proportions and weight, not cropping. The character specification below takes precedence over costumes and weapons in the style reference. Character: A small ordinary shambling zombie, 2.7 heads tall, narrow shoulders, short legs, slumped posture, muted pea-green skin, three sparse tufts of dark hair, asymmetric oversized eyes and one crooked tooth. Worn teal-gray sleeveless hoodie, brown shorts, chunky scuffed shoes. Empty dangling hands. No armor, weapons, backpack, magic, glowing energy or elemental motif.",
+    "file": "00-普通僵尸.png"
+  },
+  {
+    "kind": 1,
+    "row": 14,
+    "name": "奔跑者",
+    "size": "小",
+    "faction": "血肉系",
+    "effect": "高速穿场，速度 44；普通命中 20% 击杀，×1 基础收益 25 核心。",
+    "description": "【血肉系｜小体型】\n玩法依据：高速穿场，速度 44；普通命中 20% 击杀，×1 基础收益 25 核心。\n新版美术需求：小体型、收腰前倾、长小腿和夸张弹性跟腱，生物肌肉线条清晰但无裸露血肉。灰绿皮肤、短刺发，朱红运动头带与短围巾，破红白田径背心、护膝、轻便跑鞋。奔跑时手肘后摆，轮廓细长锐利，与普通僵尸的拖步区分。\n统一风格：参考图同款 Q 版 3D 手办质感，大眼、块面简洁、哑光材质、柔和棚灯，无血腥。概念图含主视角、侧面、背面；后续动画需独立制作。",
+    "prompt": "Use case: stylized-concept. Create ONE polished square character concept sheet for the specified zombie only. Use the provided nine-hero board strictly as a STYLE reference: charming chunky 3D mobile-game vinyl collectible, about 2.5 to 3 heads tall, oversized expressive eyes, bold simplified forms, matte clay-like surfaces, soft studio key light and contact shadows. It must read as an infected enemy, not a human hero; non-gory, asymmetrical vacant expression, muted undead skin. Original design. Composition: large full-body front three-quarter hero pose occupying left two thirds; on the right two smaller consistent full-body turnaround views, a strict side view above and a back view below. Same exact character, proportions and costume in all three views. Entire feet, head and back props inside canvas with generous margins. Pale warm-gray seamless studio background. No text, labels, logos, watermark, extra characters, scene or frame. Small/medium/large refers to anatomical proportions and weight, not cropping. The character specification below takes precedence over costumes and weapons in the style reference. Character: A small fast organic runner zombie, lean tapered torso, long springy calves and enlarged stylized Achilles tendons covered by intact gray-green skin, 2.8 heads tall. Short spiky dark hair, vermilion athletic headband with trailing ends, torn red-white track singlet and shorts, knee wraps, lightweight running shoes. Forward pitched agile sprint-ready pose, elbows swept back. No machinery or glowing magic. Athletic biological mutation, no exposed gore.",
+    "file": "01-奔跑者.png"
+  },
+  {
+    "kind": 2,
+    "row": 15,
+    "name": "装甲僵尸",
+    "size": "小",
+    "faction": "机器系",
+    "effect": "低速耐打；普通命中 8% 击杀，×1 基础收益 80 核心。",
+    "description": "【机器系｜小体型】\n玩法依据：低速耐打；普通命中 8% 击杀，×1 基础收益 80 核心。\n新版美术需求：小体型方块轮廓，头大腿短。感染者半张灰绿脸露在一体式防暴桶盔下，另一半为红色机械目镜；石墨灰与蓝灰分块护甲，粗铆钉、外露肘部铰链、宽小腿护板。双臂为空手机械护臂，不携枪，不做大型保险柜轮廓。\n统一风格：参考图同款 Q 版 3D 手办质感，大眼、块面简洁、哑光材质、柔和棚灯，无血腥。概念图含主视角、侧面、背面；后续动画需独立制作。",
+    "prompt": "Use case: stylized-concept. Create ONE polished square character concept sheet for the specified zombie only. Use the provided nine-hero board strictly as a STYLE reference: charming chunky 3D mobile-game vinyl collectible, about 2.5 to 3 heads tall, oversized expressive eyes, bold simplified forms, matte clay-like surfaces, soft studio key light and contact shadows. It must read as an infected enemy, not a human hero; non-gory, asymmetrical vacant expression, muted undead skin. Original design. Composition: large full-body front three-quarter hero pose occupying left two thirds; on the right two smaller consistent full-body turnaround views, a strict side view above and a back view below. Same exact character, proportions and costume in all three views. Entire feet, head and back props inside canvas with generous margins. Pale warm-gray seamless studio background. No text, labels, logos, watermark, extra characters, scene or frame. Small/medium/large refers to anatomical proportions and weight, not cropping. The character specification below takes precedence over costumes and weapons in the style reference. Character: A small compact armored cyborg zombie, squat square silhouette, oversized bucket-shaped riot helmet, half gray-green zombie face visible and one red mechanical optic. Graphite and slate-blue segmented riot armor, big simple rivets, exposed elbow hinges, broad shin guards, stubby boots. Empty armored fists, no gun, no shield, no backpack vault. 2.5 heads tall, readable small enemy rather than a giant.",
+    "file": "02-装甲僵尸.png"
+  },
+  {
+    "kind": 3,
+    "row": 16,
+    "name": "巨型僵尸",
+    "size": "大",
+    "faction": "血肉系",
+    "effect": "低速巨型目标，速度 13；普通命中 2% 击杀，×1 基础收益 400 核心。",
+    "description": "【血肉系｜大体型】\n玩法依据：低速巨型目标，速度 13；普通命中 2% 击杀，×1 基础收益 400 核心。\n新版美术需求：大体型，体高约普通的 1.6 倍、肩宽约 2.2 倍；小脑袋陷在梯形肩背中，左右巨臂下垂至膝盖。暖灰绿皮肤、完整皮肤上的圆鼓变异肌肉，砖红色皮下纹路，破黑背带与深棕裤，腕部旧束缚带。靠肉体重量呈现压迫，不穿机器重甲。\n统一风格：参考图同款 Q 版 3D 手办质感，大眼、块面简洁、哑光材质、柔和棚灯，无血腥。概念图含主视角、侧面、背面；后续动画需独立制作。",
+    "prompt": "Use case: stylized-concept. Create ONE polished square character concept sheet for the specified zombie only. Use the provided nine-hero board strictly as a STYLE reference: charming chunky 3D mobile-game vinyl collectible, about 2.5 to 3 heads tall, oversized expressive eyes, bold simplified forms, matte clay-like surfaces, soft studio key light and contact shadows. It must read as an infected enemy, not a human hero; non-gory, asymmetrical vacant expression, muted undead skin. Original design. Composition: large full-body front three-quarter hero pose occupying left two thirds; on the right two smaller consistent full-body turnaround views, a strict side view above and a back view below. Same exact character, proportions and costume in all three views. Entire feet, head and back props inside canvas with generous margins. Pale warm-gray seamless studio background. No text, labels, logos, watermark, extra characters, scene or frame. Small/medium/large refers to anatomical proportions and weight, not cropping. The character specification below takes precedence over costumes and weapons in the style reference. Character: A huge organic mutant zombie brute, broad trapezoid body, 1.6 times ordinary height and 2.2 times shoulder width, relatively tiny head sunk between massive shoulders, enormous gorilla-like forearms reaching knees. Warm gray-green intact skin with rounded exaggerated muscles and subtle brick-red mutation markings, black torn suspenders, dark brown ripped trousers, old restraint straps on wrists, huge bare rounded feet. No metal armor, machinery, gun or backpack. Heavy slow weight and comedic stubborn face, non-gory.",
+    "file": "03-巨型僵尸.png"
+  },
+  {
+    "kind": 4,
+    "row": 17,
+    "name": "奖励僵尸",
+    "size": "小",
+    "faction": "血肉系",
+    "effect": "击杀开启 15 秒奖励时间，最多 100 发免费奖励弹；×1 基础收益 50 核心。",
+    "description": "【血肉系｜小体型】\n玩法依据：击杀开启 15 秒奖励时间，最多 100 发免费奖励弹；×1 基础收益 50 核心。\n新版美术需求：小体型圆肚矮胖、短腿快倒步，灰绿皮肤与红色鼻尖。披旧酒红舞台短斗篷，布质奖章绶带，背一只软布庆典补给包；包顶是扇形金黄色赠券和夸张沙漏徽记。击破时赠券、暖金星屑与倒计时反馈，表达限时奖励；不用金币或黑金弹箱。\n统一风格：参考图同款 Q 版 3D 手办质感，大眼、块面简洁、哑光材质、柔和棚灯，无血腥。概念图含主视角、侧面、背面；后续动画需独立制作。",
+    "prompt": "Use case: stylized-concept. Create ONE polished square character concept sheet for the specified zombie only. Use the provided nine-hero board strictly as a STYLE reference: charming chunky 3D mobile-game vinyl collectible, about 2.5 to 3 heads tall, oversized expressive eyes, bold simplified forms, matte clay-like surfaces, soft studio key light and contact shadows. It must read as an infected enemy, not a human hero; non-gory, asymmetrical vacant expression, muted undead skin. Original design. Composition: large full-body front three-quarter hero pose occupying left two thirds; on the right two smaller consistent full-body turnaround views, a strict side view above and a back view below. Same exact character, proportions and costume in all three views. Entire feet, head and back props inside canvas with generous margins. Pale warm-gray seamless studio background. No text, labels, logos, watermark, extra characters, scene or frame. Small/medium/large refers to anatomical proportions and weight, not cropping. The character specification below takes precedence over costumes and weapons in the style reference. Character: A small plump organic bonus zombie with gray-green skin, round tummy, short shuffling legs, red nose tip and mischievous vacant grin. Worn burgundy short showman cape, fabric award sash, soft cloth party-supply satchel on back. Distinct fan of oversized golden paper reward tickets and a big simple hourglass badge visible above its shoulders. Warm golden star-shaped confetti accents, sparse and controlled. No coins, no bullets, no hard metal safe, no robotics. Clear timed-bonus mascot silhouette.",
+    "file": "04-奖励僵尸.png"
+  },
+  {
+    "kind": 5,
+    "row": 18,
+    "name": "爆炸僵尸",
+    "size": "小",
+    "faction": "元素系",
+    "effect": "击杀触发半径 155 的范围爆炸，每个范围目标最多尝试 3 次命中；×1 基础收益 100 核心。",
+    "description": "【元素系｜小体型】\n玩法依据：击杀触发半径 155 的范围爆炸，每个范围目标最多尝试 3 次命中；×1 基础收益 100 核心。\n新版美术需求：小体型梨形鼓腹，炭灰色完整岩壳皮肤、橙红熔火裂纹；头顶一簇圆钝火苗，背部长一团圆鼓火山囊，囊口呈粗短火山口。仅保留烧焦工装腰带和短裤。受击蓄热、击破向外爆出火环；不用燃油桶、引线炸药或机械罐。\n统一风格：参考图同款 Q 版 3D 手办质感，大眼、块面简洁、哑光材质、柔和棚灯，无血腥。概念图含主视角、侧面、背面；后续动画需独立制作。",
+    "prompt": "Use case: stylized-concept. Create ONE polished square character concept sheet for the specified zombie only. Use the provided nine-hero board strictly as a STYLE reference: charming chunky 3D mobile-game vinyl collectible, about 2.5 to 3 heads tall, oversized expressive eyes, bold simplified forms, matte clay-like surfaces, soft studio key light and contact shadows. It must read as an infected enemy, not a human hero; non-gory, asymmetrical vacant expression, muted undead skin. Original design. Composition: large full-body front three-quarter hero pose occupying left two thirds; on the right two smaller consistent full-body turnaround views, a strict side view above and a back view below. Same exact character, proportions and costume in all three views. Entire feet, head and back props inside canvas with generous margins. Pale warm-gray seamless studio background. No text, labels, logos, watermark, extra characters, scene or frame. Small/medium/large refers to anatomical proportions and weight, not cropping. The character specification below takes precedence over costumes and weapons in the style reference. Character: A small elemental fire-explosion zombie, pear-shaped swollen belly, intact charcoal-gray rock-like skin with simple orange-red molten cracks. One rounded flame tuft on head, a large spherical organic volcanic blister on upper back ending in a short blunt crater. Burnt work belt and dark shorts, stubby feet, confused glowing ember eyes. Compact self-contained volatile fire body, not a soldier. No fuel tanks, bombs, dynamite, fuses or machinery. Restrained flame only at head and back opening, full silhouette readable.",
+    "file": "05-爆炸僵尸.png"
+  },
+  {
+    "kind": 6,
+    "row": 19,
+    "name": "散射僵尸",
+    "size": "小",
+    "faction": "机器系",
+    "effect": "累计 6 次有效命中击杀；实体子弹命中时产生 5 枚散射弹，×1 基础收益 120 核心。",
+    "description": "【机器系｜小体型】\n玩法依据：累计 6 次有效命中击杀；实体子弹命中时产生 5 枚散射弹，×1 基础收益 120 核心。\n新版美术需求：小体型机械刺猬轮廓，低矮灰绿感染者套深紫机壳，背部五根短粗导流管呈放射扇形展开。胸口六枚清楚可数的装甲触点，橙色回弹缓冲器。双手空着；弹片向外分流，不使用手持霰弹枪，避免与散弹工程僵尸混淆。\n统一风格：参考图同款 Q 版 3D 手办质感，大眼、块面简洁、哑光材质、柔和棚灯，无血腥。概念图含主视角、侧面、背面；后续动画需独立制作。",
+    "prompt": "Use case: stylized-concept. Create ONE polished square character concept sheet for the specified zombie only. Use the provided nine-hero board strictly as a STYLE reference: charming chunky 3D mobile-game vinyl collectible, about 2.5 to 3 heads tall, oversized expressive eyes, bold simplified forms, matte clay-like surfaces, soft studio key light and contact shadows. It must read as an infected enemy, not a human hero; non-gory, asymmetrical vacant expression, muted undead skin. Original design. Composition: large full-body front three-quarter hero pose occupying left two thirds; on the right two smaller consistent full-body turnaround views, a strict side view above and a back view below. Same exact character, proportions and costume in all three views. Entire feet, head and back props inside canvas with generous margins. Pale warm-gray seamless studio background. No text, labels, logos, watermark, extra characters, scene or frame. Small/medium/large refers to anatomical proportions and weight, not cropping. The character specification below takes precedence over costumes and weapons in the style reference. Character: A small squat mechanical ricochet zombie, pale gray-green infected face peeking out of a deep-purple machine shell. Exactly FIVE short thick rounded deflection tubes fan radially from its back like a mechanical hedgehog. Exactly SIX clear amber armor contacts on chest arranged two rows of three, orange rebound shock absorbers at shoulders. Empty small claw-like hands, stubby mechanical boots. The back manifold is the dominant silhouette. No handheld shotgun, long gun or fire tank.",
+    "file": "06-散射僵尸.png"
+  },
+  {
+    "kind": 7,
+    "row": 20,
+    "name": "电弧僵尸",
+    "size": "小",
+    "faction": "元素系",
+    "effect": "击杀后在半径 230 内连锁最多 4 个目标，各最多尝试 2 次命中；×1 基础收益 120 核心。",
+    "description": "【元素系｜小体型】\n玩法依据：击杀后在半径 230 内连锁最多 4 个目标，各最多尝试 2 次命中；×1 基础收益 120 核心。\n新版美术需求：小体型清瘦、重心略悬，青灰皮肤有淡金雷纹；头发形成四束圆钝闪电尖，背后四枚浮空雷晶分布如不闭合光环。深靛破短袍、赤足，前臂有细小分叉电弧。表现觉醒雷元素，不放线圈、电池、天线或机械装甲。\n统一风格：参考图同款 Q 版 3D 手办质感，大眼、块面简洁、哑光材质、柔和棚灯，无血腥。概念图含主视角、侧面、背面；后续动画需独立制作。",
+    "prompt": "Use case: stylized-concept. Create ONE polished square character concept sheet for the specified zombie only. Use the provided nine-hero board strictly as a STYLE reference: charming chunky 3D mobile-game vinyl collectible, about 2.5 to 3 heads tall, oversized expressive eyes, bold simplified forms, matte clay-like surfaces, soft studio key light and contact shadows. It must read as an infected enemy, not a human hero; non-gory, asymmetrical vacant expression, muted undead skin. Original design. Composition: large full-body front three-quarter hero pose occupying left two thirds; on the right two smaller consistent full-body turnaround views, a strict side view above and a back view below. Same exact character, proportions and costume in all three views. Entire feet, head and back props inside canvas with generous margins. Pale warm-gray seamless studio background. No text, labels, logos, watermark, extra characters, scene or frame. Small/medium/large refers to anatomical proportions and weight, not cropping. The character specification below takes precedence over costumes and weapons in the style reference. Character: A small slender elemental lightning zombie with blue-gray intact skin and pale golden branching lightning markings. Hair forms four chunky blunt zigzag tufts, four floating amber-cyan thunder crystals behind shoulders forming an incomplete halo, sparse forked arcs between crystals. Torn indigo short robe, bare feet, slightly buoyant weight, vacant asymmetrical glowing eyes. Organic awakened lightning creature. No coils, batteries, wires, antennas, metal armor or mechanical devices.",
+    "file": "07-电弧僵尸.png"
+  },
+  {
+    "kind": 8,
+    "row": 21,
+    "name": "冰冻僵尸",
+    "size": "小",
+    "faction": "元素系",
+    "effect": "击杀后冻结半径 175 内目标 4 秒；×1 基础收益 90 核心。",
+    "description": "【元素系｜小体型】\n玩法依据：击杀后冻结半径 175 内目标 4 秒；×1 基础收益 90 核心。\n新版美术需求：小体型圆头收肩，霜蓝皮肤，白色冰霜短发；左右肩生出宽大的六角冰晶，背部扇形冰片呈雪花轮廓，深蓝破短披肩和毛边靴。动作僵硬、呼出冷雾，击破铺开环形霜纹。冰晶形大面简洁，不用冷却罐或管道。\n统一风格：参考图同款 Q 版 3D 手办质感，大眼、块面简洁、哑光材质、柔和棚灯，无血腥。概念图含主视角、侧面、背面；后续动画需独立制作。",
+    "prompt": "Use case: stylized-concept. Create ONE polished square character concept sheet for the specified zombie only. Use the provided nine-hero board strictly as a STYLE reference: charming chunky 3D mobile-game vinyl collectible, about 2.5 to 3 heads tall, oversized expressive eyes, bold simplified forms, matte clay-like surfaces, soft studio key light and contact shadows. It must read as an infected enemy, not a human hero; non-gory, asymmetrical vacant expression, muted undead skin. Original design. Composition: large full-body front three-quarter hero pose occupying left two thirds; on the right two smaller consistent full-body turnaround views, a strict side view above and a back view below. Same exact character, proportions and costume in all three views. Entire feet, head and back props inside canvas with generous margins. Pale warm-gray seamless studio background. No text, labels, logos, watermark, extra characters, scene or frame. Small/medium/large refers to anatomical proportions and weight, not cropping. The character specification below takes precedence over costumes and weapons in the style reference. Character: A small elemental frost zombie with pale icy-blue intact skin, round head, short white frosted hair, sleepy asymmetrical ice-blue eyes. Broad simple hexagonal ice crystals grow from both shoulders, a fan of translucent ice plates on back suggests a snowflake silhouette. Torn deep navy short cape, fur-rimmed chunky boots, tiny breath mist. Body organic and magically crystallized, no cooling tank, tubing, mechanical armor or gun. Clean large ice planes rather than spiky visual noise.",
+    "file": "08-冰冻僵尸.png"
+  },
+  {
+    "kind": 9,
+    "row": 22,
+    "name": "装甲运钞僵尸",
+    "size": "大",
+    "faction": "机器系",
+    "effect": "每实际消耗 1000 黑金弹获得挑战资格；三层护甲各承受 6 次命中，击破后完成击杀获得橙色英雄。",
+    "description": "【机器系｜大体型】\n玩法依据：每实际消耗 1000 黑金弹获得挑战资格；三层护甲各承受 6 次命中，击破后完成击杀获得橙色英雄。\n新版美术需求：大体型移动保险柜，体高约普通的 1.8 倍，肩宽约 2 倍；黑铁厚甲与铜橙包角，极小灰绿僵尸头缩在防护领中。胸前三块可独立破碎的大护甲，背嵌厚重封闭保险柜，中心橙色英雄剪影徽记，粗液压腿。不给外露金币堆，区别于小型黑金僵尸。\n统一风格：参考图同款 Q 版 3D 手办质感，大眼、块面简洁、哑光材质、柔和棚灯，无血腥。概念图含主视角、侧面、背面；后续动画需独立制作。",
+    "prompt": "Use case: stylized-concept. Create ONE polished square character concept sheet for the specified zombie only. Use the provided nine-hero board strictly as a STYLE reference: charming chunky 3D mobile-game vinyl collectible, about 2.5 to 3 heads tall, oversized expressive eyes, bold simplified forms, matte clay-like surfaces, soft studio key light and contact shadows. It must read as an infected enemy, not a human hero; non-gory, asymmetrical vacant expression, muted undead skin. Original design. Composition: large full-body front three-quarter hero pose occupying left two thirds; on the right two smaller consistent full-body turnaround views, a strict side view above and a back view below. Same exact character, proportions and costume in all three views. Entire feet, head and back props inside canvas with generous margins. Pale warm-gray seamless studio background. No text, labels, logos, watermark, extra characters, scene or frame. Small/medium/large refers to anatomical proportions and weight, not cropping. The character specification below takes precedence over costumes and weapons in the style reference. Character: A huge armored vault-transport cyborg zombie, 1.8 times ordinary height and twice the width. Tiny gray-green zombie head tucked inside a thick protective collar, black iron armored chassis with copper-orange corners, exactly THREE large clearly separate breakaway chest armor plates stacked vertically. Huge sealed upright safe built into back, orange hero-silhouette medal emblem on safe door, thick hydraulic legs and piston fists. Imposing mobile bank-vault silhouette. No loose coins or visible bullet stacks, no handheld weapon.",
+    "file": "09-装甲运钞僵尸.png"
+  },
+  {
+    "kind": 10,
+    "row": 23,
+    "name": "棱镜工程僵尸",
+    "size": "中",
+    "faction": "机器系",
+    "effect": "击杀获得一次激光技能，手动启用后持续 20 秒；×1 基础收益 100 核心。",
+    "description": "【机器系｜中体型】\n玩法依据：击杀获得一次激光技能，手动启用后持续 20 秒；×1 基础收益 100 核心。\n新版美术需求：中体型、身高约普通的 1.25 倍，瘦长上身。灰绿脸、青色光学护目镜、白灰短工程外套与石墨机械臂；背部竖直菱形棱镜模组，手持单孔方头激光器，青白光沿镜面折射。识别点为菱形镜与单束光，不画魔法闪电。\n统一风格：参考图同款 Q 版 3D 手办质感，大眼、块面简洁、哑光材质、柔和棚灯，无血腥。概念图含主视角、侧面、背面；后续动画需独立制作。",
+    "prompt": "Use case: stylized-concept. Create ONE polished square character concept sheet for the specified zombie only. Use the provided nine-hero board strictly as a STYLE reference: charming chunky 3D mobile-game vinyl collectible, about 2.5 to 3 heads tall, oversized expressive eyes, bold simplified forms, matte clay-like surfaces, soft studio key light and contact shadows. It must read as an infected enemy, not a human hero; non-gory, asymmetrical vacant expression, muted undead skin. Original design. Composition: large full-body front three-quarter hero pose occupying left two thirds; on the right two smaller consistent full-body turnaround views, a strict side view above and a back view below. Same exact character, proportions and costume in all three views. Entire feet, head and back props inside canvas with generous margins. Pale warm-gray seamless studio background. No text, labels, logos, watermark, extra characters, scene or frame. Small/medium/large refers to anatomical proportions and weight, not cropping. The character specification below takes precedence over costumes and weapons in the style reference. Character: A medium-height lean cyborg zombie optical engineer, 1.25 times ordinary height, gray-green face with crooked tooth, cyan optical goggles, short off-white engineering coat over graphite articulated arms and dark work trousers. Tall diamond-shaped glass prism module on back, a compact square-muzzled single-aperture laser projector held low with both hands. Restrained cyan-white refracted light within the prism. Precise angular diamond silhouette. No lightning arcs, floating elemental crystals or multiple shotgun barrels.",
+    "file": "10-棱镜工程僵尸.png"
+  },
+  {
+    "kind": 11,
+    "row": 24,
+    "name": "散弹工程僵尸",
+    "size": "中",
+    "faction": "机器系",
+    "effect": "击杀获得一次散弹技能，手动启用后持续 20 秒；一次射击产生 7 枚弹片，×1 基础收益 100 核心。",
+    "description": "【机器系｜中体型】\n玩法依据：击杀获得一次散弹技能，手动启用后持续 20 秒；一次射击产生 7 枚弹片，×1 基础收益 100 核心。\n新版美术需求：中体型、身高约普通的 1.25 倍，横向宽肩、结实机械前臂。灰绿脸、橙色焊工护目镜翻起，炭黑短工装、橙铜肩甲、粗弹带；抱双管短霰弹发射器，背挂矩形弹匣包。横向双圆枪口与前抱枪姿为核心，背上不放五向管阵。\n统一风格：参考图同款 Q 版 3D 手办质感，大眼、块面简洁、哑光材质、柔和棚灯，无血腥。概念图含主视角、侧面、背面；后续动画需独立制作。",
+    "prompt": "Use case: stylized-concept. Create ONE polished square character concept sheet for the specified zombie only. Use the provided nine-hero board strictly as a STYLE reference: charming chunky 3D mobile-game vinyl collectible, about 2.5 to 3 heads tall, oversized expressive eyes, bold simplified forms, matte clay-like surfaces, soft studio key light and contact shadows. It must read as an infected enemy, not a human hero; non-gory, asymmetrical vacant expression, muted undead skin. Original design. Composition: large full-body front three-quarter hero pose occupying left two thirds; on the right two smaller consistent full-body turnaround views, a strict side view above and a back view below. Same exact character, proportions and costume in all three views. Entire feet, head and back props inside canvas with generous margins. Pale warm-gray seamless studio background. No text, labels, logos, watermark, extra characters, scene or frame. Small/medium/large refers to anatomical proportions and weight, not cropping. The character specification below takes precedence over costumes and weapons in the style reference. Character: A medium-height broad-shouldered cyborg zombie shotgun engineer, 1.25 times ordinary height, gray-green infected face, raised orange welding goggles, charcoal short mechanic jacket, copper-orange shoulder plates and thick mechanical forearms. Bold chunky cartridge bandolier, rectangular magazine satchel on back, holding a stylized short DOUBLE-BARREL shotgun projector across the belly with two large circular muzzles. Stable wide stance. No radial back tubes, prism, laser glow or oversized vault.",
+    "file": "11-散弹工程僵尸.png"
+  },
+  {
+    "kind": 12,
+    "row": 25,
+    "name": "黑金僵尸",
+    "size": "小",
+    "faction": "机器系",
+    "effect": "现代码：每倍率累计实际消耗 100 枪获得资格，3 次不同射击命中后返还出场时固定的 20×资格倍率库存弹药；在场可切倍率。本次依表格要求以黑金币表现补给，尚不改变游戏货币结算。",
+    "description": "【机器系｜小体型】\n玩法依据：现代码：每倍率累计实际消耗 100 枪获得资格，3 次不同射击命中后返还出场时固定的 20×资格倍率库存弹药；在场可切倍率。本次依表格要求以黑金币表现补给，尚不改变游戏货币结算。\n新版美术需求：小体型弓背搬运机，灰绿僵尸脸配单边金色机械目镜，灰黑工装和细小关节；背部宽方形黑铁开口钱匣、金色包角，露出三摞大号黑金币。金币必须是扁圆盘、黑色币面、金色厚币边和简洁压印，绝不画弹头。胸前挂三枚金色箱扣，表示三次击破；币片从箱中飞向库存。\n统一风格：参考图同款 Q 版 3D 手办质感，大眼、块面简洁、哑光材质、柔和棚灯，无血腥。概念图含主视角、侧面、背面；后续动画需独立制作。",
+    "prompt": "Use case: stylized-concept. Create ONE polished square character concept sheet for the specified zombie only. Use the provided nine-hero board strictly as a STYLE reference: charming chunky 3D mobile-game vinyl collectible, about 2.5 to 3 heads tall, oversized expressive eyes, bold simplified forms, matte clay-like surfaces, soft studio key light and contact shadows. It must read as an infected enemy, not a human hero; non-gory, asymmetrical vacant expression, muted undead skin. Original design. Composition: large full-body front three-quarter hero pose occupying left two thirds; on the right two smaller consistent full-body turnaround views, a strict side view above and a back view below. Same exact character, proportions and costume in all three views. Entire feet, head and back props inside canvas with generous margins. Pale warm-gray seamless studio background. No text, labels, logos, watermark, extra characters, scene or frame. Small/medium/large refers to anatomical proportions and weight, not cropping. The character specification below takes precedence over costumes and weapons in the style reference. Character: A small hunched cyborg coin-carrying zombie porter, gray-green zombie face with one gold mechanical monocle, charcoal work overalls, little articulated joints and stubby boots. Oversized open black-iron rectangular coin strongbox strapped to back with gold corner guards, THREE visible stacks of oversized BLACK GOLD COINS rising above shoulders. Coins are unmistakable flat round disks with black faces, thick gold rims and simple embossed geometric coin marks. Exactly three big gold latch tabs across chest harness. Compact burdened posture. Absolutely NO bullets, cartridges, ammunition, pointed projectile shapes or guns. Not a giant vault robot.",
+    "file": "12-黑金僵尸.png"
+  }
+]

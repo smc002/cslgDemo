@@ -1,0 +1,1300 @@
+{
+  "hero-assassin": {
+    "sheet": "hero-assassin.png",
+    "cell": 256,
+    "anchorX": 128,
+    "anchorY": 248,
+    "bodyHeight": 165.98485299940015,
+    "halfWidth": 117,
+    "facing": "back",
+    "walk": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "attack": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "idle": 7,
+    "sourceWidth": 1774,
+    "sourceHeight": 887,
+    "frameAnchors": [
+      [
+        126,
+        237
+      ],
+      [
+        129,
+        237
+      ],
+      [
+        140,
+        237
+      ],
+      [
+        128,
+        239
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ]
+    ],
+    "alignment": "torso-registered walk, recovery pose reference"
+  },
+  "hero-cyborg": {
+    "sheet": "hero-cyborg.png",
+    "cell": 256,
+    "anchorX": 128,
+    "anchorY": 248,
+    "bodyHeight": 210,
+    "halfWidth": 103,
+    "facing": "back",
+    "walk": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "attack": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "idle": 7,
+    "sourceWidth": 1774,
+    "sourceHeight": 887,
+    "frameAnchors": [
+      [
+        125,
+        240
+      ],
+      [
+        128,
+        240
+      ],
+      [
+        153,
+        241
+      ],
+      [
+        126,
+        240
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ]
+    ],
+    "alignment": "torso-registered walk, recovery pose reference"
+  },
+  "hero-energy": {
+    "sheet": "hero-energy.png",
+    "cell": 256,
+    "anchorX": 128,
+    "anchorY": 248,
+    "bodyHeight": 210,
+    "halfWidth": 80,
+    "facing": "back",
+    "walk": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "attack": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "idle": 7,
+    "sourceWidth": 1774,
+    "sourceHeight": 887,
+    "frameAnchors": [
+      [
+        117,
+        239
+      ],
+      [
+        118,
+        240
+      ],
+      [
+        143,
+        240
+      ],
+      [
+        153,
+        240
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ]
+    ],
+    "alignment": "torso-registered walk, recovery pose reference"
+  },
+  "hero-fire": {
+    "sheet": "hero-fire.png",
+    "cell": 256,
+    "anchorX": 128,
+    "anchorY": 248,
+    "bodyHeight": 210,
+    "halfWidth": 87,
+    "facing": "back",
+    "walk": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "attack": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "idle": 7,
+    "sourceWidth": 1774,
+    "sourceHeight": 887,
+    "frameAnchors": [
+      [
+        122,
+        241
+      ],
+      [
+        133,
+        243
+      ],
+      [
+        91,
+        234
+      ],
+      [
+        132,
+        244
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ]
+    ],
+    "alignment": "torso-registered walk, recovery pose reference"
+  },
+  "hero-frost": {
+    "sheet": "hero-frost.png",
+    "cell": 256,
+    "anchorX": 128,
+    "anchorY": 248,
+    "bodyHeight": 183.51677373277465,
+    "halfWidth": 117,
+    "facing": "back",
+    "walk": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "attack": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "idle": 7,
+    "sourceWidth": 1774,
+    "sourceHeight": 887,
+    "frameAnchors": [
+      [
+        133,
+        237
+      ],
+      [
+        133,
+        238
+      ],
+      [
+        137,
+        237
+      ],
+      [
+        133,
+        236
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ]
+    ],
+    "alignment": "torso-registered walk, recovery pose reference"
+  },
+  "hero-medic": {
+    "sheet": "hero-medic.png",
+    "cell": 256,
+    "anchorX": 128,
+    "anchorY": 248,
+    "bodyHeight": 210,
+    "halfWidth": 99,
+    "facing": "back",
+    "walk": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "attack": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "idle": 7,
+    "sourceWidth": 1774,
+    "sourceHeight": 887,
+    "frameAnchors": [
+      [
+        105,
+        242
+      ],
+      [
+        103,
+        238
+      ],
+      [
+        107,
+        242
+      ],
+      [
+        102,
+        240
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ]
+    ],
+    "alignment": "torso-registered walk, recovery pose reference"
+  },
+  "hero-priest": {
+    "sheet": "hero-priest.png",
+    "cell": 256,
+    "anchorX": 128,
+    "anchorY": 248,
+    "bodyHeight": 209.99999999999997,
+    "halfWidth": 102,
+    "facing": "back",
+    "walk": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "attack": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "idle": 7,
+    "sourceWidth": 1774,
+    "sourceHeight": 887,
+    "frameAnchors": [
+      [
+        113,
+        235
+      ],
+      [
+        111,
+        233
+      ],
+      [
+        136,
+        234
+      ],
+      [
+        116,
+        234
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ]
+    ],
+    "alignment": "torso-registered walk, recovery pose reference"
+  },
+  "hero-robot": {
+    "sheet": "hero-robot.png",
+    "cell": 256,
+    "anchorX": 128,
+    "anchorY": 248,
+    "bodyHeight": 210,
+    "halfWidth": 103,
+    "facing": "back",
+    "walk": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "attack": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "idle": 7,
+    "sourceWidth": 1774,
+    "sourceHeight": 887,
+    "frameAnchors": [
+      [
+        147,
+        232
+      ],
+      [
+        146,
+        234
+      ],
+      [
+        104,
+        237
+      ],
+      [
+        107,
+        232
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ]
+    ],
+    "alignment": "torso-registered walk, recovery pose reference"
+  },
+  "hero-tank": {
+    "sheet": "hero-tank.png",
+    "cell": 256,
+    "anchorX": 128,
+    "anchorY": 248,
+    "bodyHeight": 184.32881499078144,
+    "halfWidth": 110,
+    "facing": "back",
+    "walk": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "attack": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "idle": 7,
+    "sourceWidth": 1774,
+    "sourceHeight": 887,
+    "frameAnchors": [
+      [
+        133,
+        238
+      ],
+      [
+        127,
+        240
+      ],
+      [
+        137,
+        239
+      ],
+      [
+        105,
+        238
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ]
+    ],
+    "alignment": "torso-registered walk, recovery pose reference"
+  },
+  "zombie-armored": {
+    "sheet": "zombie-armored.png",
+    "cell": 256,
+    "anchorX": 128,
+    "anchorY": 248,
+    "bodyHeight": 207.2549351259057,
+    "halfWidth": 118,
+    "facing": "front",
+    "walk": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "attack": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "idle": 7,
+    "sourceWidth": 1774,
+    "sourceHeight": 887,
+    "frameAnchors": [
+      [
+        128,
+        236
+      ],
+      [
+        144,
+        236
+      ],
+      [
+        126,
+        237
+      ],
+      [
+        130,
+        236
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ]
+    ],
+    "alignment": "torso-registered walk, recovery pose reference"
+  },
+  "zombie-courier": {
+    "sheet": "zombie-courier.png",
+    "cell": 256,
+    "anchorX": 128,
+    "anchorY": 248,
+    "bodyHeight": 145.54139119659402,
+    "halfWidth": 118,
+    "facing": "front",
+    "walk": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "attack": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "idle": 7,
+    "sourceWidth": 1774,
+    "sourceHeight": 887,
+    "frameAnchors": [
+      [
+        171,
+        235
+      ],
+      [
+        154,
+        238
+      ],
+      [
+        172,
+        235
+      ],
+      [
+        150,
+        238
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ]
+    ],
+    "alignment": "torso-registered walk, recovery pose reference"
+  },
+  "zombie-electric": {
+    "sheet": "zombie-electric.png",
+    "cell": 256,
+    "anchorX": 128,
+    "anchorY": 248,
+    "bodyHeight": 202.59059413426144,
+    "halfWidth": 116,
+    "facing": "front",
+    "walk": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "attack": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "idle": 7,
+    "sourceWidth": 1774,
+    "sourceHeight": 887,
+    "frameAnchors": [
+      [
+        128,
+        243
+      ],
+      [
+        123,
+        241
+      ],
+      [
+        127,
+        243
+      ],
+      [
+        115,
+        242
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ]
+    ],
+    "alignment": "torso-registered walk, recovery pose reference"
+  },
+  "zombie-explosive": {
+    "sheet": "zombie-explosive.png",
+    "cell": 256,
+    "anchorX": 128,
+    "anchorY": 248,
+    "bodyHeight": 147.6557755003804,
+    "halfWidth": 117,
+    "facing": "front",
+    "walk": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "attack": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "idle": 7,
+    "sourceWidth": 1774,
+    "sourceHeight": 887,
+    "frameAnchors": [
+      [
+        117,
+        244
+      ],
+      [
+        132,
+        245
+      ],
+      [
+        129,
+        245
+      ],
+      [
+        133,
+        246
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ]
+    ],
+    "alignment": "torso-registered walk, recovery pose reference"
+  },
+  "zombie-giant": {
+    "sheet": "zombie-giant.png",
+    "cell": 256,
+    "anchorX": 128,
+    "anchorY": 248,
+    "bodyHeight": 148.57242041135584,
+    "halfWidth": 116,
+    "facing": "front",
+    "walk": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "attack": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "idle": 7,
+    "sourceWidth": 1774,
+    "sourceHeight": 887,
+    "frameAnchors": [
+      [
+        81,
+        246
+      ],
+      [
+        116,
+        249
+      ],
+      [
+        103,
+        246
+      ],
+      [
+        87,
+        251
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ]
+    ],
+    "alignment": "torso-registered walk, recovery pose reference"
+  },
+  "zombie-gold": {
+    "sheet": "zombie-gold.png",
+    "cell": 256,
+    "anchorX": 128,
+    "anchorY": 248,
+    "bodyHeight": 163.84590439322787,
+    "halfWidth": 118,
+    "facing": "front",
+    "walk": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "attack": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "idle": 7,
+    "sourceWidth": 1774,
+    "sourceHeight": 887,
+    "frameAnchors": [
+      [
+        169,
+        247
+      ],
+      [
+        152,
+        249
+      ],
+      [
+        160,
+        248
+      ],
+      [
+        155,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ]
+    ],
+    "alignment": "torso-registered walk, recovery pose reference"
+  },
+  "zombie-ice": {
+    "sheet": "zombie-ice.png",
+    "cell": 256,
+    "anchorX": 128,
+    "anchorY": 248,
+    "bodyHeight": 177.60762936022115,
+    "halfWidth": 117,
+    "facing": "front",
+    "walk": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "attack": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "idle": 7,
+    "sourceWidth": 1774,
+    "sourceHeight": 887,
+    "frameAnchors": [
+      [
+        140,
+        243
+      ],
+      [
+        128,
+        243
+      ],
+      [
+        135,
+        243
+      ],
+      [
+        130,
+        244
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ]
+    ],
+    "alignment": "torso-registered walk, recovery pose reference"
+  },
+  "zombie-normal": {
+    "sheet": "zombie-normal.png",
+    "cell": 256,
+    "anchorX": 128,
+    "anchorY": 248,
+    "bodyHeight": 193.2253153599195,
+    "halfWidth": 116,
+    "facing": "front",
+    "walk": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "attack": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "idle": 7,
+    "sourceWidth": 1774,
+    "sourceHeight": 887,
+    "frameAnchors": [
+      [
+        137,
+        235
+      ],
+      [
+        144,
+        236
+      ],
+      [
+        143,
+        234
+      ],
+      [
+        143,
+        235
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ]
+    ],
+    "alignment": "torso-registered walk, recovery pose reference"
+  },
+  "zombie-prism": {
+    "sheet": "zombie-prism.png",
+    "cell": 256,
+    "anchorX": 128,
+    "anchorY": 248,
+    "bodyHeight": 207.52024377754324,
+    "halfWidth": 118,
+    "facing": "front",
+    "walk": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "attack": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "idle": 7,
+    "sourceWidth": 1774,
+    "sourceHeight": 887,
+    "frameAnchors": [
+      [
+        112,
+        234
+      ],
+      [
+        120,
+        237
+      ],
+      [
+        110,
+        238
+      ],
+      [
+        123,
+        235
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ]
+    ],
+    "alignment": "torso-registered walk, recovery pose reference"
+  },
+  "zombie-reward": {
+    "sheet": "zombie-reward.png",
+    "cell": 256,
+    "anchorX": 128,
+    "anchorY": 248,
+    "bodyHeight": 210,
+    "halfWidth": 112,
+    "facing": "front",
+    "walk": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "attack": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "idle": 7,
+    "sourceWidth": 1774,
+    "sourceHeight": 887,
+    "frameAnchors": [
+      [
+        119,
+        246
+      ],
+      [
+        129,
+        246
+      ],
+      [
+        128,
+        245
+      ],
+      [
+        129,
+        245
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ]
+    ],
+    "alignment": "torso-registered walk, recovery pose reference"
+  },
+  "zombie-runner": {
+    "sheet": "zombie-runner.png",
+    "cell": 256,
+    "anchorX": 128,
+    "anchorY": 248,
+    "bodyHeight": 210,
+    "halfWidth": 90,
+    "facing": "front",
+    "walk": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "attack": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "idle": 7,
+    "sourceWidth": 1774,
+    "sourceHeight": 887,
+    "frameAnchors": [
+      [
+        129,
+        243
+      ],
+      [
+        155,
+        244
+      ],
+      [
+        123,
+        244
+      ],
+      [
+        149,
+        245
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ]
+    ],
+    "alignment": "torso-registered walk, recovery pose reference"
+  },
+  "zombie-scatter": {
+    "sheet": "zombie-scatter.png",
+    "cell": 256,
+    "anchorX": 128,
+    "anchorY": 248,
+    "bodyHeight": 151.38755235219637,
+    "halfWidth": 118,
+    "facing": "front",
+    "walk": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "attack": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "idle": 7,
+    "sourceWidth": 1774,
+    "sourceHeight": 887,
+    "frameAnchors": [
+      [
+        128,
+        238
+      ],
+      [
+        87,
+        238
+      ],
+      [
+        79,
+        237
+      ],
+      [
+        100,
+        240
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ]
+    ],
+    "alignment": "torso-registered walk, recovery pose reference"
+  },
+  "zombie-shotgun": {
+    "sheet": "zombie-shotgun.png",
+    "cell": 256,
+    "anchorX": 128,
+    "anchorY": 248,
+    "bodyHeight": 202.57109018012227,
+    "halfWidth": 118,
+    "facing": "front",
+    "walk": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "attack": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "idle": 7,
+    "sourceWidth": 1774,
+    "sourceHeight": 887,
+    "frameAnchors": [
+      [
+        159,
+        242
+      ],
+      [
+        122,
+        240
+      ],
+      [
+        143,
+        242
+      ],
+      [
+        117,
+        242
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ],
+      [
+        128,
+        248
+      ]
+    ],
+    "alignment": "torso-registered walk, recovery pose reference"
+  }
+}

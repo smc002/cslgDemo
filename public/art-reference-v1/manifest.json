@@ -1,0 +1,126 @@
+{
+  "version": "reference-v1",
+  "renderer": "Canvas 2D",
+  "logicalViewport": [
+    390,
+    752
+  ],
+  "generation": "built-in image_gen",
+  "assetCount": 5,
+  "previewHeights": {
+    "hero": 52,
+    "normalZombie": 40,
+    "giantZombie": 57
+  },
+  "assets": [
+    {
+      "file": "hero-li.png",
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "stage": "static_style_sample",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "visibleBoundsAlpha16": [
+        238,
+        86,
+        1074,
+        1144
+      ],
+      "temporaryAnchor": [
+        656.0,
+        1144
+      ],
+      "anchorNote": "alpha bounds estimate only; verify both sole contact points before animation"
+    },
+    {
+      "file": "hero-medic.png",
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "stage": "static_style_sample",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "visibleBoundsAlpha16": [
+        305,
+        61,
+        1001,
+        1196
+      ],
+      "temporaryAnchor": [
+        653.0,
+        1196
+      ],
+      "anchorNote": "alpha bounds estimate only; verify both sole contact points before animation"
+    },
+    {
+      "file": "street.png",
+      "width": 948,
+      "height": 1659,
+      "mode": "RGB",
+      "stage": "static_style_sample"
+    },
+    {
+      "file": "zombie-giant.png",
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "stage": "static_style_sample",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "visibleBoundsAlpha16": [
+        93,
+        62,
+        1190,
+        1197
+      ],
+      "temporaryAnchor": [
+        641.5,
+        1197
+      ],
+      "anchorNote": "alpha bounds estimate only; verify both sole contact points before animation"
+    },
+    {
+      "file": "zombie-normal.png",
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "stage": "static_style_sample",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "visibleBoundsAlpha16": [
+        245,
+        51,
+        1019,
+        1180
+      ],
+      "temporaryAnchor": [
+        632.0,
+        1180
+      ],
+      "anchorNote": "alpha bounds estimate only; verify both sole contact points before animation"
+    }
+  ],
+  "validation": {
+    "pageErrors": [],
+    "loadedAssets": 5,
+    "alphaChecked": true,
+    "visualPreviewChecked": true,
+    "productionReady": false
+  },
+  "remaining": [
+    "hero battle facing calibration",
+    "animation production and fixed lower-body verification",
+    "clean isolated edge pixels",
+    "street vertical seam retouch",
+    "hero name weapon skill mapping"
+  ]
+}

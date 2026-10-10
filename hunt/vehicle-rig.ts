@@ -1,32 +1,30 @@
-import metadata from '../public/assets/hunt/vehicle-v1/metadata.json';
-import platform from '../public/assets/hunt/platform-v1/metadata.json';
-
-const platformScale =
-  250 / (platform.visible_bbox_px[2] - platform.visible_bbox_px[0]);
+import art from '../shared/toy-art-data.json';
+// New source coordinates measured from the generated component sprites.
+const platform = art['vehicle-platform'];
+const platformScale = 250 / (platform.bounds[2] - platform.bounds[0]);
+const platformAnchor = [
+  (platform.bounds[0] + platform.bounds[2]) / 2,
+  platform.bounds[3],
+];
 export const PLATFORM_RIG = {
   scale: platformScale,
   anchor: { x: 300, y: 800 },
-  pixelAnchor: platform.anchor_px,
+  pixelAnchor: platformAnchor,
   bounds: {
-    left:
-      300 +
-      (platform.visible_bbox_px[0] - platform.anchor_px[0]) * platformScale,
-    right:
-      300 +
-      (platform.visible_bbox_px[2] - platform.anchor_px[0]) * platformScale,
-    top:
-      800 +
-      (platform.visible_bbox_px[1] - platform.anchor_px[1]) * platformScale,
+    left: 175,
+    right: 425,
+    top: 800 - (platform.bounds[3] - platform.bounds[1]) * platformScale,
     bottom: 800,
   },
 };
-
 export const VEHICLE_RIG = {
-  chassisScale: 120 / 650,
-  turretScale: (120 / 650) * 0.95,
-  chassisPivot: metadata.components.chassis.pivot_px,
-  turretPivot: metadata.components.turret.pivot_px,
-  muzzle: metadata.components.turret.muzzle_px,
+  chassisScale:
+    120 / (art['vehicle-chassis'].bounds[2] - art['vehicle-chassis'].bounds[0]),
+  // Retain the previous projected barrel length (85.41 world units).
+  turretScale: 85.4123076923077 / (1265 - 64),
+  chassisPivot: [574, 500],
+  turretPivot: [490, 1265],
+  muzzle: [485, 64],
 };
 
 /** Renderer, ordinary bullets, special weapons and flashes use this same rig. */

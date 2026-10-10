@@ -1,0 +1,405 @@
+.ticket-reward-region {
+  position: absolute;
+  inset: 0;
+  z-index: 125;
+  pointer-events: none;
+  overflow: hidden;
+}
+.ticket-source-sequence {
+  position: absolute;
+  inset: 0;
+  color: #fff2b9;
+  font-weight: 900;
+  text-shadow: 0 2px 2px #503815;
+}
+.core-source-ring {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  margin: -24px;
+  border: 3px solid #fff4af;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    #fff6a755 12%,
+    #ffc72d22 42%,
+    transparent 72%
+  );
+  box-shadow:
+    0 0 10px #fff3ad,
+    0 0 25px #ffd543,
+    inset 0 0 12px #ffe47a;
+  animation: core-source-ring 1.6s both;
+}
+.core-ticket-release {
+  position: absolute;
+  transform: translateX(-50%);
+  display: grid;
+  justify-items: center;
+  animation: core-ticket-release 1.6s both;
+}
+.core-ticket-release img {
+  width: 86px;
+  height: 64px;
+  object-fit: contain;
+  transform: rotate(-10deg);
+  filter: drop-shadow(0 0 3px #fffad5) drop-shadow(0 0 13px #ffcd35);
+}
+.core-ticket-release b {
+  margin-top: 3px;
+  padding: 0 5px;
+  white-space: nowrap;
+  font-size: 18px;
+  line-height: 22px;
+  color: #ffe67e;
+  text-shadow:
+    0 2px 0 #5c3a09,
+    1px 0 2px #49310d,
+    -1px 0 2px #49310d,
+    0 0 8px #20150c;
+}
+.core-ticket-path,
+.core-ticket-stem {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+}
+.core-ticket-path path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  animation: core-ticket-trail 1.6s linear both;
+}
+.core-ticket-path .trail-halo {
+  stroke: #ffbd20;
+  stroke-width: 12;
+  filter: blur(5px);
+}
+.core-ticket-path .trail-gold {
+  stroke: #ffd747;
+  stroke-width: 5;
+  filter: drop-shadow(0 0 5px #ffdf62);
+}
+.core-ticket-path .trail-white {
+  stroke: #fffbd5;
+  stroke-width: 2;
+}
+.core-ticket-stem {
+  animation: core-ticket-stem 1.6s both;
+}
+.core-ticket-stem path {
+  fill: none;
+  stroke: #fff4b5;
+  stroke-width: 2;
+  filter: drop-shadow(0 0 4px #ffeaa8);
+}
+.core-ticket-stem .beam-halo {
+  stroke: #ffd339;
+  stroke-width: 9;
+  filter: blur(4px);
+}
+.core-ticket-fly {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 86px;
+  height: 64px;
+  object-fit: contain;
+  offset-rotate: 0deg;
+  filter: drop-shadow(0 0 3px #fff9c8) drop-shadow(0 0 12px #ffc933);
+  animation: core-ticket-flight 1.6s linear both;
+}
+.core-flight-spark {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 13px;
+  color: #fff7c1;
+  text-shadow: 0 0 5px #ffc51d;
+  offset-rotate: 0deg;
+  animation: core-ticket-spark 1.6s linear both;
+}
+.spark-1 {
+  font-size: 9px;
+  transform: translate(8px, -8px);
+}
+.spark-2 {
+  transform: translate(-7px, 11px);
+}
+.spark-3 {
+  font-size: 8px;
+  transform: translate(12px, 17px);
+}
+.ticket-arrived {
+  position: absolute;
+  display: grid;
+  grid-template-columns: 28px auto;
+  gap: 1px 3px;
+  align-items: center;
+  transform: translateX(-50%);
+  padding: 4px 10px;
+  border: 1px solid #ffd976;
+  border-radius: 9px;
+  background: #352a16ed;
+  animation: ticket-arrived 1.6s both;
+}
+.ticket-arrived img {
+  width: 28px;
+  height: 24px;
+  object-fit: contain;
+}
+.ticket-arrived b {
+  font-size: 22px;
+}
+.ticket-arrived small {
+  grid-column: 1/-1;
+  font-size: 11px;
+  white-space: nowrap;
+}
+.from-core .ticket-arrived {
+  display: block;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+.from-core .ticket-arrived img,
+.from-core .ticket-arrived small {
+  display: none;
+}
+.from-core .ticket-arrived b {
+  font-size: 32px;
+  color: #fff2a0;
+  text-shadow:
+    0 2px 0 #6e420c,
+    0 0 10px #e6a821;
+}
+.ticket-target-ring {
+  position: absolute;
+  border: 3px solid #ffe97b;
+  border-radius: 18px;
+  box-shadow:
+    0 0 8px #fff8bb,
+    0 0 22px #ffc52d,
+    inset 0 0 17px #ffd44a66;
+  transform: translate(-50%, -50%);
+  animation: ticket-target 1.6s both;
+}
+.from-other .ticket-arrived {
+  animation: ticket-other 1.6s both;
+}
+.from-other .ticket-target-ring {
+  animation: ticket-target-other 1.6s both;
+}
+.global-resources .core-ticket-node.is-awarding {
+  z-index: 3;
+  color: #fffbdc;
+  background: linear-gradient(#e7b936, #96701b);
+  border-color: #fff2a0;
+  animation: core-node-award 1.6s both;
+}
+[data-ticket-review] .ticket-source-sequence *,
+[data-ticket-review] .core-ticket-node.is-awarding {
+  animation-play-state: paused !important;
+  animation-delay: calc(-1 * var(--ticket-review-age)) !important;
+}
+@keyframes core-node-award {
+  0%,
+  28% {
+    box-shadow:
+      0 0 0 2px #fff7c4,
+      0 0 13px #ffe478,
+      0 0 26px #ffce37;
+  }
+  65%,
+  100% {
+    box-shadow: 0 0 7px #f4d164;
+  }
+}
+@keyframes core-source-ring {
+  0% {
+    opacity: 1;
+    transform: scale(0.8);
+  }
+  16% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  38% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes core-ticket-stem {
+  0% {
+    opacity: 0;
+  }
+  10%,
+  26% {
+    opacity: 1;
+  }
+  36%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes core-ticket-release {
+  0%,
+  7% {
+    opacity: 0;
+    transform: translate(-50%, -25px) scale(0.35);
+  }
+  16%,
+  28% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+  32%,
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+@keyframes core-ticket-flight {
+  0%,
+  27.9% {
+    opacity: 0;
+    offset-distance: 0%;
+    transform: rotate(-10deg) scale(1);
+  }
+  28% {
+    opacity: 1;
+    offset-distance: 0%;
+    transform: rotate(-10deg) scale(1);
+  }
+  44% {
+    opacity: 1;
+    transform: rotate(12deg) scale(0.95);
+  }
+  65.625% {
+    opacity: 1;
+    offset-distance: 100%;
+    transform: rotate(0deg) scale(0.5);
+  }
+  68%,
+  100% {
+    opacity: 0;
+    offset-distance: 100%;
+    transform: scale(0.4);
+  }
+}
+@keyframes core-ticket-trail {
+  0%,
+  28% {
+    opacity: 0;
+    stroke-dashoffset: 1;
+  }
+  29% {
+    opacity: 1;
+    stroke-dashoffset: 0.973;
+  }
+  65.625% {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+  77%,
+  100% {
+    opacity: 0;
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes core-ticket-spark {
+  0%,
+  31% {
+    opacity: 0;
+    offset-distance: 0%;
+  }
+  34% {
+    opacity: 1;
+    offset-distance: 4%;
+  }
+  65% {
+    opacity: 1;
+    offset-distance: 87%;
+  }
+  74%,
+  100% {
+    opacity: 0;
+    offset-distance: 100%;
+  }
+}
+@keyframes ticket-arrived {
+  0%,
+  65.625% {
+    opacity: 0;
+    transform: translate(-50%, 8px) scale(0.7);
+  }
+  70%,
+  86% {
+    opacity: 1;
+    transform: translate(-50%, -2px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -16px);
+  }
+}
+@keyframes ticket-target {
+  0%,
+  65% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.98);
+  }
+  69%,
+  85% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.02);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.07);
+  }
+}
+@keyframes ticket-target-other {
+  0%,
+  80% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes ticket-other {
+  0% {
+    opacity: 0;
+  }
+  10%,
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .core-ticket-fly,
+  .core-ticket-path,
+  .core-ticket-stem,
+  .core-flight-spark {
+    display: none;
+  }
+  .core-source-ring {
+    animation: none;
+    opacity: 0.6;
+  }
+  .core-ticket-release {
+    animation: ticket-other 1.6s both;
+  }
+}
+.global-resources .core-ticket-node.is-award-arrived {
+  background: #2e6955;
+  border-color: #c8edb1;
+  color: #deffd4;
+}

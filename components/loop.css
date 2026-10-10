@@ -723,7 +723,7 @@ progress::-webkit-progress-value {
 }
 .hunt-page .hunt-arena {
   background-image:
-    linear-gradient(#193f3460, #193f3460), url('/assets/hunt/arena.png');
+    linear-gradient(#193f3460, #193f3460), url('/assets/toy-v1/hunt-ground.png');
   background-size: cover;
   display: flex;
   justify-content: center;

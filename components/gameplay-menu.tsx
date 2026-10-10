@@ -2,10 +2,15 @@
 import { useEffect, useState } from 'react';
 import StrongGuide from './strong-guide';
 import { PrologueStory, PrologueTask } from './prologue';
-import { pendingStory } from '@/lib/prologue';
+import {
+  shouldShowPrologueStory,
+  prologueTaskNotice,
+  prologueTaskAttention,
+} from '@/lib/prologue';
+import { shouldShowStrongGuide } from '@/lib/strong-guide';
 import { Settings, Ticket } from 'lucide-react';
 import CoreEnergy from './core-energy';
-import { BALANCE } from '@/lib/balance';
+import { BALANCE, stageWaves } from '@/lib/balance';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -16,6 +21,12 @@ import {
 import MergedPanel, { type BattleStatus } from '@/merged/MergedPanel';
 import RecruitPanel from '@/recruit/RecruitPanel';
 import HuntPanel from '@/hunt/HuntPanel';
+import TicketRewardNotice from './ticket-reward-notice';
+import HeroLevelNotice from './hero-level-notice';
+import { useTicketPresentation } from './use-ticket-presentation';
+import ZombieScaleControl, { readZombieScale } from './zombie-scale-control';
+import GmAmmoControl from './gm-ammo-control';
+import GmHuntMonitor from './gm-hunt-monitor';
 import CityPanel from '@/city/CityPanel';
 import { campaign, emergencySupply, KEY } from '@/lib/campaign';
 import { ticketBalance } from '@/lib/recruit';
@@ -31,7 +42,9 @@ const MODES = [
   { id: 'recruit', label: '英雄' },
   { id: 'city', label: '内城' },
 ];
-export default function GameplayMenu() {
+export default function GameplayMenu({ ticketReviewAge, arrivalReviewAge }: { ticketReviewAge?: number; arrivalReviewAge?: number } = {}) {
+  const ticketPresentation = useTicketPresentation(ticketReviewAge);
+  const [zombieScale, setZombieScale] = useState(1);
   const [mode, setMode] = useState('merged'),
     [loaded, setLoaded] = useState(false),
     [visited, setVisited] = useState(false),
@@ -46,7 +59,9 @@ export default function GameplayMenu() {
     [epoch, setEpoch] = useState(0),
     [now, setNow] = useState(Date.now()),
     [dismissed, setDismissed] = useState(''),
-    [missionOpen, setMissionOpen] = useState(false);
+    [missionOpen, setMissionOpen] = useState(false),
+    [requestedStory, setRequestedStory] = useState<string>(),
+    [acknowledgedTask, setAcknowledgedTask] = useState('');
   useEffect(() => {
     if (!d.notice) return;
     const timer = setTimeout(() => setDismissed(d.notice), 4200);
@@ -54,12 +69,14 @@ export default function GameplayMenu() {
   }, [d.notice]);
   useEffect(() => {
     campaign.init();
+    setZombieScale(readZombieScale());
     setData(campaign.read());
     const unsub = campaign.subscribe(() => setData(campaign.read()));
     const hash = () => {
       let m = location.hash.slice(1);
       if (!MODES.some((x) => x.id === m)) m = 'merged';
       setMode(m);
+      setRequestedStory(undefined);
       if (m === 'hunt') setVisited(true);
       if (location.hash !== `#${m}`) history.replaceState(null, '', `#${m}`);
     };
@@ -85,11 +102,21 @@ export default function GameplayMenu() {
   const storyOpen =
     loaded &&
     owns &&
-    !!pendingStory(d) &&
+    shouldShowPrologueStory(d, mode, requestedStory) &&
     !settings &&
     !missionOpen &&
     !energyOpen &&
     !gmConfirm;
+  const activateTask = () => {
+    const task = prologueTaskNotice(d);
+    if (!task || !loaded || !owns) return;
+    setAcknowledgedTask(task.key);
+    if (task.storyId) {
+      setRequestedStory(task.storyId);
+      return;
+    }
+    location.hash = task.mode;
+  };
   const resetCurrentSave = () => {
     if (!campaign.reset()) {
       setGmError('存档正在其他标签页使用，请先在此继续游戏。');
@@ -101,6 +128,8 @@ export default function GameplayMenu() {
     setSettings(false);
     setEnergyOpen(false);
     setMissionOpen(false);
+    setRequestedStory(undefined);
+    setAcknowledgedTask('');
     setConfirmReset(false);
     setGmConfirm(false);
     setGmError('');
@@ -130,6 +159,7 @@ export default function GameplayMenu() {
       >
         <div>
           <strong>GM · 调试</strong>
+          <small title="13 种独立死亡姿势；实体倒地；巨型跪倒；黑金回收衔接">猎场 v2.5 · 实体倒地</small>
           <small>
             {loaded && KEY.includes('preview')
               ? '序章体验存档'
@@ -172,16 +202,44 @@ export default function GameplayMenu() {
           </button>
         )}
         {gmError && <p role="alert">{gmError}</p>}
+        {!gmConfirm && <GmAmmoControl disabled={!loaded || !owns} />}
+        {!gmConfirm && <GmHuntMonitor hunt={d.hunt} disabled={!loaded} />}
+        {mode === 'hunt' && !gmConfirm && (
+          <ZombieScaleControl value={zombieScale} onChange={setZombieScale} />
+        )}
       </aside>
-      <div className="mori-gameplay-shell" data-gameplay={mode}>
-        {loaded && <PrologueTask data={d} />}
-        <PrologueStory data={d} open={storyOpen} />
+      <div className="mori-gameplay-shell" data-gameplay={mode}
+        data-ticket-review={ticketReviewAge !== undefined ? '' : undefined}
+        style={ticketReviewAge !== undefined ? { '--ticket-review-age': `${ticketReviewAge}s` } as import('react').CSSProperties : undefined}>
+        <TicketRewardNotice reward={ticketPresentation} />
+        <HeroLevelNotice key={epoch} />
+        {loaded && (
+          <PrologueTask
+            data={d}
+            attention={prologueTaskAttention(d, mode, acknowledgedTask)}
+            disabled={
+              !owns ||
+              storyOpen ||
+              settings ||
+              missionOpen ||
+              energyOpen ||
+              gmConfirm
+            }
+            onActivate={activateTask}
+          />
+        )}
+        <PrologueStory
+          data={d}
+          open={storyOpen}
+          onComplete={() => setRequestedStory(undefined)}
+        />
         <StrongGuide
           data={d}
           mode={mode}
           active={
             loaded &&
             owns &&
+            shouldShowStrongGuide(d, mode) &&
             !storyOpen &&
             !settings &&
             !missionOpen &&
@@ -193,9 +251,12 @@ export default function GameplayMenu() {
           <div className="squad-growth">
             <div className="level-medallion">
               <small>小队</small>
-              <b>{d.hunt.level}</b>
+              <b>{ticketPresentation?.core?.level ?? d.hunt.level}</b>
             </div>
             <CoreEnergy
+              award={ticketPresentation?.core}
+              awardId={ticketPresentation?.id}
+              awardArrived={ticketPresentation?.arrived}
               level={d.hunt.level}
               xp={d.hunt.xp}
               points={d.hunt.expedition.points}
@@ -216,7 +277,8 @@ export default function GameplayMenu() {
               key={epoch}
               className={`mori-gameplay-layer battle-layer ${mode === 'merged' ? 'is-active' : 'is-mini'}`}
             >
-              <MergedPanel
+                <MergedPanel
+                  foreground={mode === 'merged' && !settings && !missionOpen && !energyOpen}
                 active={owns && !storyOpen && !gmConfirm}
                 onStatus={setBattle}
               />
@@ -238,7 +300,7 @@ export default function GameplayMenu() {
                           ? '胜利 · 补给入库'
                           : battle?.paused
                             ? '已暂停'
-                            : `第 ${battle?.wave ?? 1}/3 波`}
+                            : `第 ${battle?.wave ?? 1}/${battle?.totalWaves ?? stageWaves(d.bestStage + 1)} 波`}
                   </span>
                 </button>
               )}
@@ -248,6 +310,11 @@ export default function GameplayMenu() {
             <div className="mori-gameplay-layer is-active secondary-layer">
               {visited && (
                 <HuntPanel
+                  arrivalReviewAge={arrivalReviewAge}
+                  onRecruit={() => {
+                    location.hash = 'recruit';
+                  }}
+                  zombieScale={zombieScale}
                   key={`hunt-${epoch}`}
                   active={
                     owns &&
@@ -298,7 +365,8 @@ export default function GameplayMenu() {
             </div>
           )}
         </div>
-        {d.notice && dismissed !== d.notice && (
+        {d.notice && dismissed !== d.notice && !ticketPresentation &&
+          !(mode === 'hunt' && /能量核心阶段奖励|全队提升至|运钞僵尸奖励/.test(d.notice)) && (
           <button
             className="loop-notice"
             onClick={() => setDismissed(d.notice)}
@@ -329,7 +397,7 @@ export default function GameplayMenu() {
                   title={`当前抽卡券 ${ticketBalance(d)} 张`}
                 >
                   <Ticket size={15} />
-                  {ticketBalance(d)}
+                  {Math.max(0, ticketBalance(d) - (ticketPresentation?.pendingCore ?? 0))}
                 </span>
               )}
               <span className={`nav-emblem ${m.id}`}>

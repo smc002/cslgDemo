@@ -38,13 +38,14 @@ for (
 )
   g.advance(1 / 60);
 assert.equal(g.phase, 'cleared');
-assert.equal(g.wave, 3);
+assert.equal(g.wave, 2);
+assert.equal(g.snapshot().totalWaves, 2);
 assert.ok(C.completeStage(d, 1));
 assert.equal(d.ammo, 120);
 assert.equal(C.completeStage(d, 1), false);
 assert.equal(C.completeStage(d, 3), false);
 console.log(
-  'PASS actual three-wave first stage',
+  'PASS actual two-wave first stage',
   g.time.toFixed(1),
   'seconds, reward exactly once',
 );
@@ -74,7 +75,9 @@ hunt.release();
 hunt.persist();
 assert.equal(d.hunt.economy.spentAmmo, 20);
 assert.equal(d.ammo, 100);
-assert.ok(d.hunt.expedition.points > 0);
+assert.equal(d.hunt.kills, 0, 'this short sample has no confirmed kills');
+assert.equal(d.hunt.expedition.points, 0, 'shooting alone no longer grants cores');
+assert.ok(d.hunt.economy.available > 0, 'paid shots fund future special rewards');
 assert.equal(d.hunt.courier.completed, 0);
 hunt.addPoints(620);
 hunt.persist();

@@ -1,0 +1,224 @@
+.loop-dialog.courier-jackpot-dialog {
+  box-sizing: border-box;
+  width: min(
+    390px,
+    calc(100vw - 24px),
+    calc(var(--phone-width, 414px) - 24px)
+  ) !important;
+  max-width: calc(100vw - 24px) !important;
+  gap: 10px;
+  padding: 26px 18px 18px;
+  overflow-x: hidden;
+  border: 2px solid #f4ce6e;
+  border-radius: 24px;
+  background: radial-gradient(
+    ellipse at 50% 12%,
+    #664726 0,
+    #232a2a 48%,
+    #102a2d 100%
+  );
+  color: #fff5d6;
+  text-align: center;
+  box-shadow:
+    0 0 0 5px #624a25,
+    0 18px 65px #000b,
+    inset 0 0 34px #ffc75417;
+}
+.courier-jackpot-dialog .courier-jackpot-heading {
+  position: relative;
+  display: grid;
+  place-content: center;
+  min-height: 108px;
+  isolation: isolate;
+}
+.courier-jackpot-dialog .courier-jackpot-plaque {
+  position: absolute;
+  z-index: -1;
+  inset: -20px 0;
+  width: 100%;
+  height: calc(100% + 40px);
+  object-fit: contain;
+  filter: drop-shadow(0 3px 8px #0008);
+}
+.courier-jackpot-dialog .courier-jackpot-kicker {
+  color: #ffe6a7;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 3px #000;
+}
+.courier-jackpot-dialog [data-slot='dialog-title'] {
+  margin-top: 8px;
+  font-size: clamp(28px, 8vw, 36px);
+  font-weight: 950;
+  line-height: 1.1;
+  color: #ffdf72;
+  text-shadow:
+    0 3px #694015,
+    0 0 15px #ffbb3e55;
+}
+.courier-jackpot-dialog [data-slot='dialog-description'] {
+  margin: 0;
+  color: #f5e1ba;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.courier-jackpot-dialog .loop-rewards {
+  overflow: visible;
+  max-height: none;
+}
+.courier-jackpot-dialog .courier-ticket-reward {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-width: 0;
+  gap: 4px;
+  padding: 2px 8px 16px;
+  border: 1px solid #ffd16c40;
+  border-radius: 18px;
+  background: radial-gradient(ellipse at 50% 35%, #ffcf632e, #2a444318 64%);
+}
+.courier-jackpot-dialog .courier-ticket-fan {
+  position: relative;
+  width: min(100%, 270px);
+  height: 160px;
+}
+.courier-jackpot-dialog .courier-ticket-fan::before {
+  content: '';
+  position: absolute;
+  inset: 15px 12%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, #ffe19b6e, #ffd15b00 70%);
+  animation: courier-jackpot-halo 650ms ease-out both;
+}
+.courier-jackpot-dialog .courier-ticket-fan img {
+  position: absolute;
+  left: 50%;
+  top: 8px;
+  width: 145px;
+  height: 145px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 5px #0007);
+  transform: translateX(-50%) rotate(-22deg) translateX(-40px);
+  animation: courier-jackpot-ticket 420ms ease-out both;
+}
+.courier-jackpot-dialog .courier-ticket-fan img:nth-child(2) {
+  transform: translateX(-50%) rotate(22deg) translateX(40px);
+  animation-delay: 70ms;
+}
+.courier-jackpot-dialog .courier-ticket-fan img:nth-child(3) {
+  transform: translateX(-50%) translateY(-6px);
+  animation-delay: 140ms;
+}
+.courier-jackpot-dialog .courier-ticket-label {
+  color: #e9f8ff;
+  font-size: 16px;
+  font-weight: 800;
+}
+.courier-jackpot-dialog .courier-ticket-reward b {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  color: #ffda67;
+  font-size: 42px;
+  line-height: 1.15;
+  font-weight: 950;
+  text-shadow: 0 3px #77501d;
+}
+.courier-jackpot-dialog .courier-ticket-reward > span:last-child {
+  color: #f4d89a;
+  font-size: 12px;
+}
+.courier-jackpot-dialog .courier-jackpot-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 5px;
+}
+.courier-jackpot-dialog .courier-jackpot-actions button {
+  min-width: 0;
+  min-height: 50px;
+  padding: 10px 4px;
+  border: 1px solid #98b8b9;
+  border-radius: 13px;
+  background: linear-gradient(#335556, #1b3b3e);
+  color: #e5f4ed;
+  font-size: 15px;
+  font-weight: 800;
+}
+.courier-jackpot-dialog .courier-jackpot-actions button.gold {
+  border: 2px solid #ffeda8;
+  background: linear-gradient(#ffe57a, #ffb92b);
+  color: #493013;
+  box-shadow:
+    0 3px 0 #a56415,
+    0 0 14px #ffc54730;
+}
+.courier-jackpot-dialog button:focus-visible {
+  outline: 3px solid #fff1ac;
+  outline-offset: 3px;
+}
+.courier-jackpot-dialog [data-slot='dialog-close'] {
+  color: #f9e5be;
+  border: 0;
+  background: #14272a;
+  min-height: 30px;
+}
+@keyframes courier-jackpot-ticket {
+  from {
+    opacity: 0;
+    translate: 0 18px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+@keyframes courier-jackpot-halo {
+  from {
+    opacity: 0;
+    scale: 0.65;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+@media (max-height: 620px) {
+  .loop-dialog.courier-jackpot-dialog {
+    padding-top: 20px;
+    gap: 7px;
+  }
+  .courier-jackpot-dialog .courier-jackpot-heading {
+    min-height: 85px;
+  }
+  .courier-jackpot-dialog .courier-ticket-fan {
+    height: 128px;
+  }
+  .courier-jackpot-dialog .courier-ticket-fan img {
+    width: 120px;
+    height: 120px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .courier-jackpot-dialog .courier-ticket-fan img,
+  .courier-jackpot-dialog .courier-ticket-fan::before {
+    animation: none;
+  }
+}
+.hunt-reward-reminder {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  z-index: 5;
+  padding: 7px 10px;
+  border: 1px solid #efc45d;
+  border-radius: 9px;
+  background: #173c34ec;
+  color: #fff0b8;
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  box-shadow: 0 0 12px #e9bc4533;
+}

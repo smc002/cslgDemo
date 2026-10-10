@@ -1,8 +1,14 @@
 import fs from 'node:fs';
-import {build} from 'esbuild';
+import { build } from 'esbuild';
 import assert from 'node:assert/strict';
 fs.mkdirSync('.test-cache/merged', { recursive: true });
-await build({entryPoints:['merged/simulation.ts'],bundle:true,platform:'node',format:'esm',outfile:'.test-cache/merged/simulation.mjs'});
+await build({
+  entryPoints: ['merged/simulation.ts'],
+  bundle: true,
+  platform: 'node',
+  format: 'esm',
+  outfile: '.test-cache/merged/simulation.mjs',
+});
 const { MergedBattle, HEROES } =
   await import('../.test-cache/merged/simulation.mjs');
 const run = (g, t) => {
@@ -31,7 +37,7 @@ test('九个独立英雄、布阵冻结与真实交换分路', () => {
   g.start();
   assert.equal(g.setLineup(lineup), false);
 });
-test('刺客开场闪到敌后，本路选敌且永不吸引攻击', () => {
+test('刺客开场闪到敌后，仅被闪袭目标与其对战', () => {
   const g = new MergedBattle();
   g.start();
   const assassin = g.heroes.find((h) => h.hero === 5);
@@ -42,6 +48,7 @@ test('刺客开场闪到敌后，本路选敌且永不吸引攻击', () => {
   const foe = g.enemies.find((e) => e.id === assassin.target);
   assert.equal(foe.lane, assassin.lane);
   assert.ok(assassin.y < foe.y);
+  assert.equal(foe.target, assassin.id);
   const blink = g.effects.find((e) => e.kind === 'blink');
   assert.ok(blink, 'teleport records a dual-end effect');
   assert.equal(blink.x, originX);
@@ -58,18 +65,24 @@ test('刺客开场闪到敌后，本路选敌且永不吸引攻击', () => {
     !g.effects.includes(blink),
     'portals expire after their full lifetime',
   );
-  const hp = assassin.hp;
   for (let i = 0; i < 1200; i++) {
     g.advance(1 / 60);
-    assert.ok(g.enemies.every((e) => e.target !== assassin.id));
+    assert.ok(
+      g.enemies
+        .filter((e) => e.hp > 0)
+        .every((e) => e.target !== assassin.id || e.id === assassin.target),
+    );
   }
-  assert.equal(assassin.hp, hp);
   assert.ok(g.uses[5] > 0 && g.damage[5] > 0);
   g.heroes
     .filter((h) => h.lane === assassin.lane && h.hero !== 5)
     .forEach((h) => (h.hp = 0));
   run(g, 0.5);
-  assert.ok(g.enemies.every((e) => e.target !== assassin.id));
+  assert.ok(
+    g.enemies
+      .filter((e) => e.hp > 0)
+      .every((e) => e.target !== assassin.id || e.id === assassin.target),
+  );
 });
 
 test('特效两倍播放，吉他手不变；屏外目标不闪现，推进后仍在安全区', () => {
@@ -111,9 +124,13 @@ test('特效两倍播放，吉他手不变；屏外目标不闪现，推进后�
       b.advance(1 / 60);
       const h = b.heroes.find((h) => h.hero === 5);
       const screenY = h.y + b.camera + 40;
-      assert.ok(screenY >= 240 - 0.001 && screenY <= 630 + 0.001);
+      if (h.hp > 0) assert.ok(screenY >= 240 - 0.001 && screenY <= 630 + 0.001);
       assert.ok(h.x >= 30 && h.x <= 360);
-      assert.ok(b.enemies.every((e) => e.target !== h.id));
+      assert.ok(
+        b.enemies
+          .filter((e) => e.hp > 0)
+          .every((e) => e.target !== h.id || e.id === h.target),
+      );
     }
     assert.ok(b.wave > 3);
   }
@@ -212,5 +229,26 @@ test('暂停隐藏冻结、四倍速、失败与重开', () => {
   assert.equal(g.phase, 'prep');
   assert.equal(g.wave, 1);
   assert.equal(g.camera, 0);
+});
+test('序幕首战两节结束，第二关仍三节且保留原敌人难度索引', () => {
+  const g = new MergedBattle();
+  for (const stage of [1, 2]) {
+    g.configure(stage, [-1, -1, -1, 0, 1, 2, -1, -1, -1], Array(9).fill(1));
+    g.start();
+    const count = stage === 1 ? 2 : 3;
+    assert.equal(g.wave, (stage - 1) * 3 + 1);
+    assert.equal(g.snapshot().totalWaves, count);
+    for (let section = 1; section <= count; section++) {
+      assert.equal(g.phase, 'battle');
+      assert.equal(g.snapshot().waveInStage, section);
+      g.enemies.forEach((enemy) => { enemy.hp = 0; });
+      run(g, 0.1);
+      assert.equal(g.phase, section === count ? 'cleared' : 'march');
+      if (section < count) run(g, 2.5);
+    }
+    run(g, 3);
+    assert.equal(g.phase, 'cleared');
+    assert.equal(g.waveInStage, count, 'no extra wave after completion');
+  }
 });
 console.log(JSON.stringify({ passed }));

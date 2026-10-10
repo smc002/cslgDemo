@@ -1,0 +1,10 @@
+{
+  "id": "story-gate-damaged",
+  "mode": "edit",
+  "prompt": "Edit target first image: restyle the whole ruined camp gate background to the supporting style image's soft rounded toy-like 3D chibi mobile game world. Cream chunky stone gateposts, muted navy-blue roofs, weathered olive-metal double gate with a few broad dents, sparse rounded grass. Keep vertical composition and distant gate in upper quarter, broad empty warm beige courtyard occupying middle and bottom. No characters, no zombies, no text, no UI, no ink outlines, no gritty fine texture. Lighting soft daylight from upper left. Match the town terrain reference. Portrait 3:5 canvas. Fully opaque background.",
+  "references": [
+    "E:/cslgDemo/public/assets/prologue-v1/gate-damaged.png",
+    "E:/cslgDemo/public/assets/toy-v1/city-terrain.png"
+  ],
+  "source": "C:\\Users\\hy\\.codex\\generated_images\\01a1199e-8b3b-7362-bc82-b9b9b985dfbb\\exec-87027d52-1d98-476d-a37b-4cdb43e656f4.png"
+}

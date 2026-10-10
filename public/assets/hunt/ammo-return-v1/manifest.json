@@ -1,0 +1,22 @@
+{
+  "frameSize": 512,
+  "anchor": [
+    256,
+    448
+  ],
+  "bodyHeight": 397,
+  "frames": [
+    "death-0.png",
+    "death-1.png",
+    "death-2.png",
+    "death-3.png"
+  ],
+  "props": [
+    "cartridge-0.png",
+    "cartridge-1.png",
+    "cartridge-2.png",
+    "lid.png",
+    "corner.png",
+    "dust.png"
+  ]
+}

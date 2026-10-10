@@ -26,6 +26,7 @@ export const COURIER_RULES = {
   pity: 20,
   chance: 0.08,
   cooldown: 30,
+  ticketsPerBundle: 10,
 } as const;
 export type WeaponKind = 'laser' | 'shotgun';
 export type ExpeditionSave = {
@@ -46,7 +47,9 @@ export type WeaponSave = {
 };
 export type CourierReward = {
   serial: number;
-  hero: RecruitId;
+  tickets?: number;
+  /** Retained only for rewards earned before courier ticket rewards. */
+  hero?: RecruitId;
   heroes?: RecruitId[];
   newHeroes?: RecruitId[];
 };
@@ -86,6 +89,7 @@ export const freshCourier = (): CourierSave => ({
 /** Device-local campaign shared by battle, reward modes and recruitment. */
 export const CAMPAIGN_KEY = 'mori-campaign-v1';
 export type HuntSave = {
+  arrivalSeen: boolean;
   level: number;
   xp: number;
   kills: number;
@@ -108,10 +112,12 @@ export type HuntSave = {
 export type Campaign = {
   version: 1;
   ammo: number;
+  ticketsEarned?: number;
   hunt: HuntSave;
   recruit: RecruitSave;
 };
 export const freshHunt = (): HuntSave => ({
+  arrivalSeen: false,
   level: 1,
   xp: 0,
   kills: 0,
@@ -127,6 +133,7 @@ export const freshHunt = (): HuntSave => ({
 });
 /** Only old pre-ledger saves receive one-off funding for already earned skills. */
 export function prepareHuntEconomy(h: HuntSave) {
+  h.arrivalSeen ??= (h.economy?.spentAmmo ?? 0) > 0 || h.kills > 0;
   h.ammoCarrier ??= freshAmmoCarrier();
   if (h.ammoCarrier.active)
     h.ammoCarrier.active.refundAmount ??=
@@ -207,25 +214,32 @@ function parseCourier(raw: unknown, legacy = false): CourierSave {
   const completed = finiteInt(c.completed);
   const validOrange = (id: unknown) =>
     RECRUIT_HEROES.some((h) => h.id === id && h.rarity === 'orange');
-  const reveal =
-    c.reveal &&
-    c.reveal.serial === completed &&
-    completed > 0 &&
-    RECRUIT_HEROES.some((h) => h.id === c.reveal?.hero && h.rarity === 'orange')
+  const parseReward = (
+    reward: CourierReward | null | undefined,
+  ): CourierReward | null => {
+    if (!reward || reward.serial !== completed || completed <= 0) return null;
+    if (reward.tickets !== undefined)
+      return validCourierTickets(reward.tickets)
+        ? { serial: completed, tickets: reward.tickets }
+        : null;
+    return validOrange(reward.hero)
       ? {
           serial: completed,
-          hero: c.reveal.hero,
+          hero: reward.hero,
           heroes:
-            Array.isArray(c.reveal.heroes) &&
-            c.reveal.heroes.length &&
-            c.reveal.heroes.every(validOrange)
-              ? c.reveal.heroes
-              : [c.reveal.hero],
-          newHeroes: Array.isArray(c.reveal.newHeroes)
-            ? [...new Set(c.reveal.newHeroes.filter(validOrange))]
+            Array.isArray(reward.heroes) &&
+            reward.heroes.length &&
+            reward.heroes.every(validOrange)
+              ? reward.heroes
+              : [reward.hero!],
+          newHeroes: Array.isArray(reward.newHeroes)
+            ? [...new Set(reward.newHeroes.filter(validOrange))]
             : [],
         }
       : null;
+  };
+  const reveal = parseReward(c.reveal);
+  const lastReward = parseReward(c.lastReward);
   const bundle = Math.max(1, finiteInt(c.active?.bundle, 1));
   const durability = bundle > 1 ? 3 : 1;
   return {
@@ -238,21 +252,7 @@ function parseCourier(raw: unknown, legacy = false): CourierSave {
     completed,
     cooldown: Math.max(0, Math.min(30, Number(c.cooldown) || 0)),
     reveal,
-    ...(c.lastReward &&
-    c.lastReward.serial === completed &&
-    validOrange(c.lastReward.hero)
-      ? {
-          lastReward: {
-            ...c.lastReward,
-            heroes:
-              Array.isArray(c.lastReward.heroes) &&
-              c.lastReward.heroes.every(validOrange)
-                ? c.lastReward.heroes
-                : [c.lastReward.hero],
-            newHeroes: [],
-          },
-        }
-      : {}),
+    ...(lastReward ? { lastReward } : {}),
     active:
       !reveal && c.active && typeof c.active === 'object'
         ? {
@@ -273,7 +273,16 @@ function parseCourier(raw: unknown, legacy = false): CourierSave {
         : null,
   };
 }
-/** Commit the encounter and its hero together, before the acquisition dialog opens. */
+function validCourierTickets(value: unknown): value is number {
+  return (
+    typeof value === 'number' &&
+    Number.isSafeInteger(value) &&
+    value > 0 &&
+    value <= 1e9 &&
+    value % COURIER_RULES.ticketsPerBundle === 0
+  );
+}
+/** Commit the encounter and its reward together, before the acquisition dialog opens. */
 export function saveHunt(d: Campaign, h: HuntSave) {
   if (
     h.economy.spentAmmo < d.hunt.economy.spentAmmo ||
@@ -294,26 +303,40 @@ export function saveHunt(d: Campaign, h: HuntSave) {
     if (
       h.courier.completed !== previous + 1 ||
       !reward ||
-      reward.serial !== h.courier.completed ||
-      !RECRUIT_HEROES.some(
-        (hero) => hero.id === reward.hero && hero.rarity === 'orange',
-      )
+      reward.serial !== h.courier.completed
     )
       return false;
-    const heroes = reward.heroes ?? [reward.hero];
-    if (
-      !heroes.length ||
-      !heroes.every((id) =>
-        RECRUIT_HEROES.some(
-          (hero) => hero.id === id && hero.rarity === 'orange',
-        ),
+    if (reward.tickets !== undefined) {
+      if (!validCourierTickets(reward.tickets)) return false;
+      const active = d.hunt.courier.active;
+      if (
+        active &&
+        reward.tickets !== (active.bundle ?? 1) * COURIER_RULES.ticketsPerBundle
       )
-    )
-      return false;
-    reward.newHeroes = [
-      ...new Set(heroes.filter((id) => !d.recruit.owned[id])),
-    ];
-    for (const id of heroes) d.recruit.owned[id]++;
+        return false;
+      d.ticketsEarned = (d.ticketsEarned ?? 0) + reward.tickets;
+    } else {
+      if (
+        !RECRUIT_HEROES.some(
+          (hero) => hero.id === reward.hero && hero.rarity === 'orange',
+        )
+      )
+        return false;
+      const heroes = reward.heroes ?? (reward.hero ? [reward.hero] : []);
+      if (
+        !heroes.length ||
+        !heroes.every((id) =>
+          RECRUIT_HEROES.some(
+            (hero) => hero.id === id && hero.rarity === 'orange',
+          ),
+        )
+      )
+        return false;
+      reward.newHeroes = [
+        ...new Set(heroes.filter((id) => !d.recruit.owned[id])),
+      ];
+      for (const id of heroes) d.recruit.owned[id]++;
+    }
   }
   d.ammo += ammoRefund;
   // Do not retain the simulation's mutable object as the committed snapshot.
@@ -343,6 +366,7 @@ export function parseCampaign(raw: string | null): Campaign {
     const result: Campaign = {
       version: 1,
       ammo: finiteInt(d.ammo, 20),
+      ticketsEarned: finiteInt(d.ticketsEarned),
       recruit: {
         spent: finiteInt(d.recruit?.spent),
         owned: Object.fromEntries(
@@ -358,6 +382,10 @@ export function parseCampaign(raw: string | null): Campaign {
           : [],
       },
       hunt: {
+        arrivalSeen:
+          typeof h.arrivalSeen === 'boolean'
+            ? h.arrivalSeen
+            : (h.economy?.spentAmmo ?? 0) > 0 || finiteInt(h.kills) > 0,
         ammoCarrier: parseAmmoCarrier(h.ammoCarrier),
         economy: (parseEconomy(h.economy) ??
           (h.economy ? freshEconomy() : null)) as EconomySave,

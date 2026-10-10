@@ -1,0 +1,6 @@
+{
+  "id": "hero-tank",
+  "mode": "generate",
+  "prompt": "Create ONE transparent full-body 2D game sprite rendered as a polished 3D chibi toy, using attached reference hero poster for identity. Character 03 胖雷: red mohawk and enormous red beard, stocky short body, navy blue armor and wrist guards, brown belt, large dark gray hammer with golden square inset held in right hand. Square canvas 1024x1024, full body and hammer with 12% clear margin, no cropping. Orthographic elevated game camera 30 degrees downward, front three-quarter view facing to screen right, idle ready stance both feet planted. Consistent soft upper-left lighting, smooth rounded surfaces, broad clean color shapes, simple readable silhouette. Exactly one character. Real transparent alpha background, NO ground or cast shadow, NO text, no duplicate views, no display card, no separate props. Match approved project's cute 2.5D style.",
+  "reference": "C:/Users/hy/AppData/Local/Temp/codex-clipboard-b5e72959-83f7-4820-b379-0d5367e75bd5.jpg"
+}

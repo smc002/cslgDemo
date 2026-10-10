@@ -1,3 +1,4 @@
+import { HERO_ART, heroImage } from '../shared/toy-art';
 export type RecruitRarity = 'blue' | 'purple' | 'orange';
 export type Quality = RecruitRarity | 'red';
 export const QUALITIES: Quality[] = ['blue', 'purple', 'orange', 'red'];
@@ -13,21 +14,14 @@ export const QUALITY_COLORS = {
   orange: '#ffc25e',
   red: '#ff7079',
 };
-function hero(
-  id: string,
-  index: number,
-  name: string,
-  rarity: RecruitRarity,
-  role: string,
-  art: string,
-) {
+function hero(id: string, index: number, rarity: RecruitRarity, role: string) {
   return {
     id,
     index,
-    name,
+    name: HERO_ART[index][1],
     rarity,
     role,
-    art,
+    art: heroImage(index),
     title: role,
     quote: '守住这条路，把希望带回基地。',
     grade: rarity === 'blue' ? 'R' : rarity === 'purple' ? 'SR' : 'SSR',
@@ -35,22 +29,15 @@ function hero(
   };
 }
 export const RECRUIT_HEROES = [
-  hero('shield', 0, '铁壁队长', 'blue', '坦克', '/assets/recruit/shield.png'),
-  hero('medic', 1, '医疗兵', 'blue', '治疗', '/assets/recruit/medic.png'),
-  hero('drone', 2, '无人机手', 'blue', '输出', '/assets/recruit/drone.png'),
-  hero(
-    'samurai',
-    3,
-    '大刀战士',
-    'purple',
-    '坦克',
-    '/assets/recruit/samurai.png',
-  ),
-  hero('guitar', 4, '吉他手', 'purple', '治疗', '/assets/recruit/guitar.png'),
-  hero('assassin', 5, '暗影刺客', 'orange', '输出', ''),
-  hero('minigun', 6, '重机枪手', 'orange', '坦克', ''),
-  hero('priest', 7, '牧师', 'orange', '治疗', ''),
-  hero('sniper', 8, '狙击手', 'purple', '输出', '/assets/recruit/sniper.png'),
+  hero('shield', 0, 'blue', '坦克'),
+  hero('medic', 1, 'blue', '治疗'),
+  hero('drone', 2, 'blue', '输出'),
+  hero('samurai', 3, 'purple', '坦克'),
+  hero('guitar', 4, 'purple', '治疗'),
+  hero('assassin', 5, 'orange', '输出'),
+  hero('minigun', 6, 'orange', '坦克'),
+  hero('priest', 7, 'orange', '治疗'),
+  hero('sniper', 8, 'purple', '输出'),
 ];
 export type RecruitId = string;
 export type RecruitSave = {

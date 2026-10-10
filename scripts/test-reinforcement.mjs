@@ -66,8 +66,13 @@ const run = (g, n) => {
   assert.ok(z.hp > 0 && z.x !== x);
   assert.ok(g.heroes.find((h) => h.id === z.target)?.lane !== 0);
   assert.ok(
-    g.enemies.every((e) => e.target !== 6),
-    'assassin never gets targeted',
+    g.enemies
+      .filter((e) => e.hp > 0)
+      .every(
+        (e) =>
+          e.target !== 6 || e.id === g.heroes.find((h) => h.hero === 5).target,
+      ),
+    'only the duelling enemy targets the assassin',
   );
   g.heroes.filter((h) => h.hero !== 5).forEach((h) => (h.hp = 0));
   run(g, 0.1);

@@ -1,0 +1,8 @@
+.hero-level-region { position:absolute; inset:0; z-index:124; pointer-events:none; overflow:hidden; }
+.hero-level-float { position:absolute; top:43%; left:50%; width:max-content; max-width:90%; display:flex; align-items:center; gap:9px; padding:6px 14px 6px 9px; border:1px solid #ffdc78; border-radius:12px; background:linear-gradient(110deg,#173f3af2,#295b40f2); box-shadow:0 0 18px #ffc84455,inset 0 0 12px #ffdf5c22; color:#fff3bd; opacity:0; animation:hero-level-rise 1900ms linear var(--hero-delay) both; }
+.hero-level-float strong { display:block; font-size:15px; font-weight:900; text-shadow:0 2px 2px #102b25; white-space:nowrap; }
+.hero-level-float small { display:block; color:#ffe17c; font-size:13px; font-weight:900; }
+.hero-level-float small span { color:#a9ffbc; }
+.hero-level-spark { color:#ffdf6d; font-size:24px; }
+@keyframes hero-level-rise { 0% { opacity:0; transform:translate(-50%,70px) scale(.92); } 12% { opacity:1; transform:translate(-50%,48px) scale(1); } 82% { opacity:1; transform:translate(-50%,-78px) scale(1); } 100% { opacity:0; transform:translate(-50%,-110px) scale(.98); } }
+@media(prefers-reduced-motion:reduce) { .hero-level-float { animation-name:hero-level-fade; animation-duration:680ms; } @keyframes hero-level-fade { 0%,100% { opacity:0; transform:translate(-50%,0); } 12%,85% { opacity:1; transform:translate(-50%,0); } } }

@@ -1,0 +1,488 @@
+.summon-dialog[data-slot='dialog-content'] {
+  --summon-color: #63caff;
+  width: min(440px, calc(100vw - 24px));
+  max-width: 440px;
+  max-height: calc(100dvh - 24px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 20px;
+  isolation: isolate;
+  z-index: 400;
+  border: 1px solid color-mix(in srgb, var(--summon-color) 70%, transparent);
+  border-radius: 24px;
+  color: #fff5d9;
+  background: #091b29;
+  box-shadow:
+    0 0 70px #031117d9,
+    0 0 30px color-mix(in srgb, var(--summon-color) 25%, transparent),
+    inset 0 0 35px #030e1c;
+}
+body:has(.summon-dialog) .gm-tools {
+  z-index: 40;
+}
+.summon-effects {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: -1;
+  isolation: isolate;
+  border-radius: inherit;
+}
+.summon-sky {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(
+      ellipse at 50% 45%,
+      color-mix(in srgb, var(--summon-color) 35%, #112a42),
+      transparent 60%
+    ),
+    linear-gradient(155deg, #123a43, #091627 60%, #163332);
+}
+.summon-beams {
+  position: absolute;
+  width: 650px;
+  height: 650px;
+  left: 50%;
+  top: 47%;
+  z-index: -1;
+  opacity: 0.22;
+  background: repeating-conic-gradient(
+    from 15deg,
+    transparent 0deg 16deg,
+    var(--summon-color) 18deg 20deg,
+    transparent 23deg 40deg
+  );
+  animation: summon-spin 30s linear infinite;
+  border-radius: 50%;
+  mask-image: radial-gradient(#000, transparent 68%);
+}
+.summon-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: #b9d2d8;
+  z-index: 2;
+}
+.summon-header > span,
+.summon-skip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.summon-skip {
+  background: #ffffff0d;
+  border: 1px solid #ffffff30;
+  color: #e1ecec;
+  padding: 7px 9px;
+  border-radius: 20px;
+  font-size: 11px;
+  cursor: pointer;
+  letter-spacing: 0;
+}
+.summon-header .summon-saved {
+  color: #aee1b5;
+}
+.summon-heading {
+  text-align: center;
+  margin-top: 24px;
+  position: relative;
+  z-index: 1;
+}
+.summon-heading > small {
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: var(--summon-color);
+}
+.summon-heading [data-slot='dialog-title'] {
+  font-size: 25px;
+  font-weight: 900;
+  line-height: 1.4;
+  margin: 8px 0;
+  text-shadow: 0 2px 14px #0008;
+}
+.summon-heading [data-slot='dialog-description'] {
+  color: #b4cad0;
+  font-size: 12px;
+}
+.summon-stage {
+  position: relative;
+  flex-shrink: 0;
+  height: 330px;
+  display: grid;
+  place-items: center;
+}
+.summon-portal {
+  position: absolute;
+  left: 50%;
+  top: 43%;
+  width: 230px;
+  height: 230px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 2px solid var(--summon-color);
+  box-shadow:
+    0 0 22px var(--summon-color),
+    inset 0 0 25px color-mix(in srgb, var(--summon-color) 40%, transparent);
+  opacity: 0.75;
+}
+.summon-portal i {
+  position: absolute;
+  inset: 10px;
+  border: 2px dashed var(--summon-color);
+  border-radius: 50%;
+  animation: summon-orbit 8s linear infinite;
+}
+.summon-portal i:nth-child(2) {
+  inset: -17px;
+  border-style: solid;
+  border-width: 1px;
+  opacity: 0.3;
+}
+.summon-portal i:nth-child(3) {
+  inset: 28px;
+  border: 6px solid transparent;
+  border-top-color: var(--summon-color);
+  border-bottom-color: var(--summon-color);
+  animation-direction: reverse;
+}
+.summon-signal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  color: var(--summon-color);
+  margin-top: -35px;
+  filter: drop-shadow(0 0 14px var(--summon-color));
+}
+.summon-signal b {
+  font-size: 20px;
+  letter-spacing: 6px;
+}
+.summon-signal span {
+  font-size: 12px;
+  opacity: 0.7;
+  letter-spacing: 4px;
+}
+.summon-dialog[data-phase='0'] .summon-portal {
+  animation: summon-search 0.85s ease-out both;
+}
+.summon-dialog[data-phase='1'] .summon-portal {
+  animation: summon-charge 0.9s ease-in both;
+}
+.summon-dialog[data-phase='1'] .summon-signal {
+  animation: summon-charge-symbol 0.9s ease-in both;
+}
+.summon-arrival {
+  position: absolute;
+  inset: 0;
+  text-align: center;
+  animation: summon-arrive 0.7s cubic-bezier(0.15, 0.85, 0.25, 1) both;
+}
+.summon-grade {
+  position: absolute;
+  top: 18px;
+  left: 0;
+  right: 0;
+  font: italic 900 112px/1 sans-serif;
+  letter-spacing: 8px;
+  color: var(--summon-color);
+  opacity: 0.14;
+}
+.summon-portrait {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  height: 242px;
+  filter: drop-shadow(
+    0 0 16px color-mix(in srgb, var(--summon-color) 50%, transparent)
+  );
+}
+.summon-identity {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+}
+.summon-identity > span {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--summon-color);
+}
+.summon-identity > b {
+  font-size: 32px;
+  line-height: 1.25;
+  text-shadow: 0 3px 0 #071923;
+}
+.summon-identity > small {
+  font-size: 11px;
+  color: #abc6cb;
+}
+.summon-burst {
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(circle, #fff7cfb0, transparent 62%);
+  pointer-events: none;
+  animation: summon-burst 0.7s ease-out both;
+}
+.summon-motes {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  pointer-events: none;
+  z-index: -1;
+}
+.summon-motes i {
+  position: absolute;
+  width: 3px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--summon-color);
+  box-shadow: 0 0 6px var(--summon-color);
+  transform: rotate(var(--angle)) translateY(var(--distance));
+  animation: summon-mote 2.5s var(--delay) ease-out infinite;
+}
+.summon-loading {
+  height: 62px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  color: #aac3c7;
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+.summon-loading > div {
+  height: 3px;
+  width: 80%;
+  background: var(--summon-color);
+  box-shadow: 0 0 10px var(--summon-color);
+  transform-origin: left;
+  animation: summon-load 3.25s linear both;
+}
+.summon-results {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 7px;
+  position: relative;
+}
+.summon-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: end;
+  min-width: 0;
+  padding: 6px 2px;
+  border: 1px solid color-mix(in srgb, var(--card-color) 55%, transparent);
+  border-radius: 9px;
+  background: linear-gradient(
+    155deg,
+    color-mix(in srgb, var(--card-color) 20%, #15312f),
+    #0b2028
+  );
+  animation: summon-card 0.35s var(--card-delay) both;
+}
+.summon-card .merged-portrait {
+  max-width: 100%;
+}
+.summon-card b {
+  font-size: 10px;
+  white-space: nowrap;
+  margin-top: 4px;
+  color: #fff1d1;
+}
+.summon-card small {
+  font-size: 8px;
+  color: var(--card-color);
+}
+.summon-note {
+  font-size: 11px;
+  color: #b4cad0;
+  text-align: center;
+  margin: 12px 0;
+}
+.summon-actions {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.summon-actions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 46px;
+  border: 1px solid #8cc5bc;
+  border-radius: 12px;
+  background: linear-gradient(#2b6257, #194237);
+  color: #e7ffe9;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.summon-actions button:last-child {
+  background: linear-gradient(#ffe6a2, #e6b656);
+  border-color: #ffe7a4;
+  color: #343825;
+  box-shadow: 0 3px 0 #816327;
+}
+.summon-actions button:focus-visible,
+.summon-skip:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+.summon-dialog[data-phase='3']:has(.summon-results) .summon-stage {
+  height: 220px;
+}
+.summon-dialog[data-phase='3']:has(.summon-results) .summon-arrival {
+  transform-origin: top center;
+  scale: 0.67;
+}
+.summon-dialog[data-phase='3']:has(.summon-results) .summon-portal {
+  width: 155px;
+  height: 155px;
+}
+@keyframes summon-spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+  from {
+    transform: translate(-50%, -50%) rotate(0);
+  }
+}
+@keyframes summon-orbit {
+  to {
+    rotate: 360deg;
+  }
+}
+@keyframes summon-search {
+  from {
+    opacity: 0;
+    scale: 0.7;
+  }
+  to {
+    opacity: 0.8;
+    scale: 1;
+  }
+}
+@keyframes summon-charge {
+  0% {
+    scale: 1;
+  }
+  70% {
+    scale: 0.62;
+    box-shadow:
+      0 0 60px var(--summon-color),
+      inset 0 0 60px var(--summon-color);
+  }
+  100% {
+    scale: 0.12;
+    opacity: 0;
+  }
+}
+@keyframes summon-charge-symbol {
+  to {
+    scale: 0.3;
+    opacity: 0;
+  }
+}
+@keyframes summon-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(25px) scale(0.65);
+    filter: brightness(2);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: brightness(1);
+  }
+}
+@keyframes summon-burst {
+  from {
+    opacity: 0.8;
+    scale: 0.4;
+  }
+  to {
+    opacity: 0;
+    scale: 1.4;
+  }
+}
+@keyframes summon-mote {
+  0% {
+    opacity: 0;
+    transform: rotate(var(--angle)) translateY(55px);
+  }
+  25% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--angle)) translateY(var(--distance));
+  }
+}
+@keyframes summon-load {
+  from {
+    transform: scaleX(0.03);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes summon-card {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-height: 740px) {
+  .summon-dialog[data-slot='dialog-content'] {
+    padding: 14px;
+  }
+  .summon-heading {
+    margin-top: 12px;
+  }
+  .summon-stage {
+    height: 295px;
+  }
+  .summon-portrait {
+    height: 220px;
+    scale: 0.9;
+    transform-origin: bottom;
+  }
+  .summon-identity > b {
+    font-size: 27px;
+  }
+  .summon-dialog[data-phase='3']:has(.summon-results) .summon-stage {
+    height: 175px;
+  }
+  .summon-dialog[data-phase='3']:has(.summon-results) .summon-arrival {
+    scale: 0.58;
+  }
+  .summon-card .merged-portrait {
+    zoom: 0.85;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .summon-dialog *,
+  .summon-dialog *::before {
+    animation: none !important;
+    transition: none !important;
+  }
+}

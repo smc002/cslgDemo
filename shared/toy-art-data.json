@@ -1,0 +1,541 @@
+{
+  "city-factory": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      104,
+      101,
+      1186,
+      1112
+    ],
+    "facingLeft": false
+  },
+  "city-hq": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      112,
+      59,
+      1189,
+      1177
+    ],
+    "facingLeft": false
+  },
+  "city-power": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      95,
+      166,
+      1172,
+      1088
+    ],
+    "facingLeft": false
+  },
+  "city-research": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      190,
+      141,
+      1173,
+      1122
+    ],
+    "facingLeft": false
+  },
+  "city-terrain": {
+    "width": 948,
+    "height": 1659,
+    "bounds": [
+      0,
+      0,
+      948,
+      1659
+    ],
+    "facingLeft": false
+  },
+  "city-warehouse": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      81,
+      134,
+      1178,
+      1119
+    ],
+    "facingLeft": false
+  },
+  "city-workshop": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      75,
+      156,
+      1228,
+      1106
+    ],
+    "facingLeft": false
+  },
+  "hero-assassin": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      238,
+      86,
+      1074,
+      1144
+    ],
+    "facingLeft": false,
+    "emitter": [
+      1030,
+      800
+    ]
+  },
+  "hero-cyborg": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      306,
+      83,
+      1053,
+      1213
+    ],
+    "facingLeft": false,
+    "emitter": [
+      980,
+      765
+    ]
+  },
+  "hero-energy": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      279,
+      92,
+      998,
+      1195
+    ],
+    "facingLeft": true,
+    "emitter": [
+      390,
+      790
+    ]
+  },
+  "hero-fire": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      175,
+      42,
+      1115,
+      1208
+    ],
+    "facingLeft": false,
+    "emitter": [
+      1020,
+      650
+    ]
+  },
+  "hero-frost": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      162,
+      59,
+      1109,
+      1212
+    ],
+    "facingLeft": false,
+    "emitter": [
+      1030,
+      650
+    ]
+  },
+  "hero-medic": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      305,
+      61,
+      1001,
+      1196
+    ],
+    "facingLeft": true,
+    "emitter": [
+      390,
+      850
+    ]
+  },
+  "hero-priest": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      220,
+      81,
+      1093,
+      1189
+    ],
+    "facingLeft": false,
+    "emitter": [
+      1030,
+      550
+    ]
+  },
+  "hero-robot": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      174,
+      101,
+      1153,
+      1175
+    ],
+    "facingLeft": false,
+    "emitter": [
+      1010,
+      610
+    ]
+  },
+  "hero-tank": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      124,
+      93,
+      1224,
+      1193
+    ],
+    "facingLeft": false,
+    "emitter": [
+      980,
+      510
+    ]
+  },
+  "hunt-frozen": {
+    "width": 1024,
+    "height": 1536,
+    "bounds": [
+      0,
+      0,
+      1024,
+      1536
+    ],
+    "facingLeft": false
+  },
+  "hunt-ground": {
+    "width": 1024,
+    "height": 1536,
+    "bounds": [
+      0,
+      0,
+      1024,
+      1536
+    ],
+    "facingLeft": false
+  },
+  "hunt-substation": {
+    "width": 1024,
+    "height": 1536,
+    "bounds": [
+      0,
+      0,
+      1024,
+      1536
+    ],
+    "facingLeft": false
+  },
+  "street": {
+    "width": 948,
+    "height": 1659,
+    "bounds": [
+      0,
+      0,
+      948,
+      1659
+    ],
+    "facingLeft": false
+  },
+  "zombie-armored": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      212,
+      80,
+      1040,
+      1177
+    ],
+    "facingLeft": false
+  },
+  "zombie-courier": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      112,
+      58,
+      1141,
+      1188
+    ],
+    "facingLeft": false
+  },
+  "zombie-electric": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      212,
+      25,
+      1053,
+      1224
+    ],
+    "facingLeft": false
+  },
+  "zombie-explosive": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      188,
+      62,
+      1072,
+      1186
+    ],
+    "facingLeft": false
+  },
+  "zombie-giant": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      93,
+      62,
+      1190,
+      1197
+    ],
+    "facingLeft": false
+  },
+  "zombie-gold": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      178,
+      107,
+      1139,
+      1154
+    ],
+    "facingLeft": false
+  },
+  "zombie-ice": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      229,
+      79,
+      1033,
+      1211
+    ],
+    "facingLeft": false
+  },
+  "zombie-normal": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      245,
+      51,
+      1019,
+      1180
+    ],
+    "facingLeft": false
+  },
+  "zombie-prism": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      211,
+      38,
+      1096,
+      1212
+    ],
+    "facingLeft": false
+  },
+  "zombie-reward": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      197,
+      107,
+      1064,
+      1164
+    ],
+    "facingLeft": false
+  },
+  "zombie-runner": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      205,
+      56,
+      1101,
+      1206
+    ],
+    "facingLeft": false
+  },
+  "zombie-scatter": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      90,
+      134,
+      1169,
+      1149
+    ],
+    "facingLeft": false
+  },
+  "zombie-shotgun": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      139,
+      101,
+      1121,
+      1162
+    ],
+    "facingLeft": false
+  },
+  "city-armory": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      108,
+      61,
+      1193,
+      1178
+    ]
+  },
+  "city-barracks": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      43,
+      82,
+      1178,
+      1194
+    ]
+  },
+  "city-comms": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      100,
+      58,
+      1191,
+      1203
+    ]
+  },
+  "city-drone": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      104,
+      221,
+      1202,
+      1166
+    ]
+  },
+  "city-garage": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      111,
+      57,
+      1189,
+      1177
+    ]
+  },
+  "city-medical": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      98,
+      76,
+      1214,
+      1192
+    ]
+  },
+  "vehicle-chassis": {
+    "width": 1164,
+    "height": 1351,
+    "bounds": [
+      43,
+      47,
+      1107,
+      1294
+    ]
+  },
+  "vehicle-platform": {
+    "width": 1308,
+    "height": 1202,
+    "bounds": [
+      34,
+      39,
+      1272,
+      1139
+    ]
+  },
+  "vehicle-turret": {
+    "width": 980,
+    "height": 1605,
+    "bounds": [
+      49,
+      60,
+      929,
+      1552
+    ]
+  },
+  "story-ammo-crate": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      121,
+      96,
+      1179,
+      1191
+    ]
+  },
+  "story-gate-damaged": {
+    "width": 971,
+    "height": 1619,
+    "bounds": [
+      0,
+      0,
+      971,
+      1619
+    ]
+  },
+  "story-gate-restored": {
+    "width": 971,
+    "height": 1619,
+    "bounds": [
+      0,
+      0,
+      971,
+      1619
+    ]
+  },
+  "story-toolbox": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": [
+      90,
+      165,
+      1174,
+      1133
+    ]
+  },
+  "city-terrain-organic": {
+    "width": 948,
+    "height": 1659,
+    "bounds": [
+      0,
+      0,
+      947,
+      1658
+    ]
+  }
+}

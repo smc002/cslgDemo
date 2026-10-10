@@ -1,5 +1,5 @@
-import { HERO_FRAMES, HERO_ATLAS_SIZE } from '@/merged/frames';
-import { animations, poseClip } from './hero-animation';
+/* eslint-disable next/no-img-element -- Pixel-exact sprite crop uses the shared PNG source. */
+import { HERO_ART, TOY_META, heroImage } from './toy-art';
 export default function HeroPortrait({
   hero,
   height = 50,
@@ -8,28 +8,32 @@ export default function HeroPortrait({
   height?: number;
 }) {
   if (hero < 0) return <span>＋</span>;
-  const lib = animations[hero],
-    clip = hero <= 2 ? 'idle' : hero === 3 ? 'slash' : 'crouch',
-    pose = lib ? poseClip(hero, clip)! : null,
-    f = pose ? pose.frames[0] : HERO_FRAMES[hero],
-    starter = hero <= 2 ? pose?.frames[0] : undefined,
-    s = height / (starter?.visibleHeight ?? f.h),
-    trimTop = starter ? starter.anchorY - starter.visibleHeight : 0;
+  const id = HERO_ART[hero][0],
+    m = TOY_META[id],
+    b = m.bounds,
+    s = height / (b[3] - b[1]);
   return (
-    <span className="merged-portrait" style={{ width: f.w * s, height }}>
+    <span
+      className="merged-portrait"
+      style={{
+        width: (b[2] - b[0]) * s,
+        height,
+        display: 'inline-block',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
       <img
-        alt=""
+        alt={HERO_ART[hero][1]}
         draggable={false}
-        src={
-          lib
-            ? `/assets/animations/${lib.folder}/${clip}.png`
-            : '/assets/merged/heroes.png'
-        }
+        src={heroImage(hero)}
         style={{
-          width: (lib ? (pose?.sheetWidth ?? 1774) : HERO_ATLAS_SIZE[0]) * s,
-          height: (lib ? (pose?.sheetHeight ?? 887) : HERO_ATLAS_SIZE[1]) * s,
-          left: -f.x * s,
-          top: -(f.y + trimTop) * s,
+          position: 'absolute',
+          width: m.width * s,
+          height: m.height * s,
+          maxWidth: 'none',
+          left: -b[0] * s,
+          top: -b[1] * s,
         }}
       />
     </span>

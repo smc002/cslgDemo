@@ -33,13 +33,15 @@
   font-size: 24px;
 }
 .prologue-story {
-  padding: 0 !important;
+  padding: 22px 12px 12px !important;
   width: min(92vw, 420px) !important;
   height: min(88dvh, 720px);
   overflow: hidden;
   border: 3px solid #e5c46c !important;
   border-radius: 24px !important;
-  display: block !important;
+  display: flex !important;
+  flex-direction: column;
+  gap: 8px !important;
   background: #244d4a !important;
   isolation: isolate;
 }
@@ -59,9 +61,9 @@
   z-index: -1;
 }
 .prologue-story-title {
-  position: absolute;
-  top: 25px;
-  left: 25px;
+  position: relative;
+  flex-shrink: 0;
+  padding: 0 12px;
   color: #fff4c9;
   text-shadow: 0 2px 3px #172d2c;
 }
@@ -71,40 +73,49 @@
   letter-spacing: 0.12em;
 }
 .prologue-story-title h2 {
-  font-size: 30px !important;
+  font-size: 28px !important;
   margin-top: 7px;
   line-height: 1.15;
 }
+.prologue-stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
 .prologue-character {
   position: absolute;
-  height: 69%;
-  width: 80%;
+  width: 90%;
+  height: 100%;
   object-fit: contain;
   object-position: bottom;
-  bottom: 153px;
-  left: 8%;
+  bottom: 0;
+  left: 5%;
   filter: drop-shadow(0 5px 3px #173c4455);
 }
-.prologue-character.is-boss {
-  width: 100%;
-  left: 0;
-}
 .prologue-dialogue {
-  position: absolute;
-  left: 12px;
-  right: 12px;
-  bottom: 12px;
+  position: relative;
+  flex-shrink: 0;
+  max-height: 52%;
+  overflow: auto;
   border: 2px solid #aebf9b;
   border-radius: 17px;
-  padding: 15px;
+  padding: 14px;
   background: #fff9e9;
   color: #244845;
   box-shadow: 0 3px 0 #17393766;
 }
 .prologue-dialogue strong {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
   color: #377b70;
   font-size: 15px;
+}
+.prologue-speaker-role {
+  font-size: 10px;
+  color: #6a8073;
+  font-weight: 500;
 }
 .prologue-dialogue p {
   font-size: 14px !important;
@@ -133,41 +144,61 @@
   color: white !important;
   z-index: 3;
 }
+.prologue-prop {
+  position: absolute;
+  top: 4px;
+  right: 0;
+  width: 23%;
+  height: 30%;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 3px #193c4355);
+}
+.prologue-threat {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 29%;
+  margin: 0;
+  padding: 5px;
+  border: 1px solid #dc9765;
+  border-radius: 12px;
+  background: #fff5deed;
+  text-align: center;
+}
+.prologue-threat img {
+  width: 100%;
+  height: auto;
+}
+.prologue-threat figcaption {
+  font-size: 10px;
+  font-weight: 800;
+  color: #824e2c;
+}
 .mori-gameplay-shell:has(.prologue-task) .loop-notice {
   top: 135px;
   bottom: auto;
 }
 @media (max-height: 650px) {
+  .prologue-story {
+    padding-top: 14px !important;
+    gap: 5px !important;
+  }
   .prologue-story-title h2 {
-    font-size: 24px !important;
+    font-size: 22px !important;
+  }
+  .prologue-dialogue {
+    padding: 10px;
+    max-height: 56%;
   }
   .prologue-dialogue p {
     font-size: 12px !important;
-  }
-  .prologue-character {
-    height: 63%;
-    bottom: 155px;
+    line-height: 1.5 !important;
+    margin: 5px 0 8px;
   }
   .prologue-task {
     top: 68px;
     padding: 5px 9px;
   }
-}
-
-/* Keep the guide in document flow so it cannot cover battlefield controls. */
-.prologue-prop {
-  position: absolute;
-  top: 100px;
-  right: 15px;
-  width: 75px;
-  height: 150px;
-  background-image: url('/assets/prologue-v1/props.png');
-  background-size: 400% 100%;
-  background-position: 33.333% 0;
-  filter: drop-shadow(0 4px 4px #193c4355);
-}
-.prologue-prop.toolbox {
-  background-position: 100% 0;
 }
 .mori-gameplay-shell > .global-resources {
   order: 0;
@@ -186,4 +217,104 @@
 }
 .mori-gameplay-shell > .mori-gameplay-menu {
   order: 3;
+}
+/* Pending tasks remain visible; only the hunt uses continuous combat reminders. */
+.prologue-task.has-update {
+  border: 2px solid #ffc333;
+  background: #fff;
+  box-shadow:
+    0 0 0 2px #c9983933,
+    0 3px 12px #b3792c40;
+}
+.prologue-task small {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+.prologue-task em {
+  border-radius: 6px;
+  padding: 1px 5px;
+  background: #865223;
+  color: #fff5d0;
+  font-size: 9px;
+  font-style: normal;
+  letter-spacing: 0;
+}
+.prologue-task.has-update > b {
+  color: #ad6314;
+}
+.prologue-task:focus-visible {
+  outline: 3px solid #fff3a9;
+  outline-offset: 2px;
+}
+.prologue-task:disabled {
+  cursor: default;
+}
+@property --task-ring-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+.mori-gameplay-shell[data-gameplay='hunt'] .prologue-task.has-update:not(:disabled) {
+  animation: prologue-task-breathe 1.65s ease-in-out infinite;
+}
+.mori-gameplay-shell[data-gameplay='hunt'] .prologue-task.has-update::before,
+.mori-gameplay-shell[data-gameplay='hunt'] .prologue-task.has-update::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  padding: 5px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: conic-gradient(
+    from var(--task-ring-angle),
+    #ffb00018 0deg 65deg,
+    #ffb000 100deg,
+    #fff9b3 128deg,
+    #fff 148deg 167deg,
+    #ffb00018 180deg 245deg,
+    #ffb000 280deg,
+    #fff9b3 308deg,
+    #fff 328deg 347deg,
+    #ffb00018 360deg
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  animation: prologue-task-ring 1.55s linear infinite;
+}
+.mori-gameplay-shell[data-gameplay='hunt'] .prologue-task.has-update::after {
+  inset: -6px;
+  padding: 7px;
+  filter: blur(5px);
+  opacity: 0.85;
+}
+.mori-gameplay-shell[data-gameplay='hunt'] .prologue-task.has-update:disabled::before,
+.mori-gameplay-shell[data-gameplay='hunt'] .prologue-task.has-update:disabled::after {
+  animation-play-state: paused;
+}
+@keyframes prologue-task-ring {
+  to { --task-ring-angle: 360deg; }
+}
+@keyframes prologue-task-breathe {
+  0%, 100% {
+    box-shadow:
+      0 0 0 2px #ffd04480,
+      0 0 12px #ffb00099;
+  }
+  50% {
+    box-shadow:
+      0 0 0 4px #ffcb3bcc,
+      0 0 24px #ffb000dd,
+      0 0 8px #fff4baff;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mori-gameplay-shell[data-gameplay='hunt'] .prologue-task.has-update:not(:disabled),
+  .mori-gameplay-shell[data-gameplay='hunt'] .prologue-task.has-update::before,
+  .mori-gameplay-shell[data-gameplay='hunt'] .prologue-task.has-update::after {
+    animation: none;
+  }
 }

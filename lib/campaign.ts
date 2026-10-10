@@ -1,3 +1,4 @@
+import { ticketRewardSource } from './core-rewards';
 import {
   freshPrologue,
   parsePrologue,
@@ -57,6 +58,15 @@ export type Campaign = {
 };
 export const KEY =
   typeof window !== 'undefined' &&
+  new URLSearchParams(window.location.search).get('levelup') === 'preview'
+    ? 'mori.demo.levelup.preview.v1'
+    : typeof window !== 'undefined' &&
+  new URLSearchParams(window.location.search).get('elements') === 'preview'
+    ? 'mori.demo.elements.preview.v1'
+    : typeof window !== 'undefined' &&
+  new URLSearchParams(window.location.search).get('rewards') === 'preview'
+    ? 'mori.demo.rewards.preview.v1'
+    : typeof window !== 'undefined' &&
   new URLSearchParams(window.location.search).get('prologue') === 'preview'
     ? 'mori.demo.prologue.preview.v1'
     : 'mori.demo.campaign.v2';
@@ -259,8 +269,8 @@ export function completeStage(d: Campaign, stage: number, now = Date.now()) {
       d.city.facilities.hq.level = 0;
     });
     d.notice += d.prologue.rewards.includes('city-foundation')
-      ? '。第二路与内城开放。建营物资 +200：先搭指挥部，再建回收站和弹药工厂。'
-      : '。第二路与内城开放；工坊修复，建材 +100。';
+      ? '。两名援军抵达，内城开放。建营物资 +200：先搭指挥部，再建回收站和弹药工厂。'
+      : '。援军抵达、内城开放；工坊修复，建材 +100。';
     autoLineup(d);
   }
   if (stage === 4) {
@@ -283,10 +293,12 @@ export function completeStage(d: Campaign, stage: number, now = Date.now()) {
 }
 export function saveHunt(d: Campaign, h: HuntSave) {
   const before = Math.floor(d.hunt.expedition.points / BALANCE.corePerTicket),
-    level = d.hunt.level;
+    level = d.hunt.level,
+    earnedBefore = d.ticketsEarned;
   const adapter = {
     version: 1 as const,
     ammo: d.ammo,
+    ticketsEarned: d.ticketsEarned,
     recruit: d.recruit,
     hunt: d.hunt,
   };
@@ -294,6 +306,8 @@ export function saveHunt(d: Campaign, h: HuntSave) {
   d.ammo = adapter.ammo;
   d.hunt = adapter.hunt;
   d.recruit = adapter.recruit;
+  d.ticketsEarned = adapter.ticketsEarned;
+  const courierTickets = d.ticketsEarned - earnedBefore;
   const tickets =
     Math.floor(h.expedition.points / BALANCE.corePerTicket) - before;
   if (tickets > 0) {
@@ -302,6 +316,8 @@ export function saveHunt(d: Campaign, h: HuntSave) {
   }
   if (h.level > level)
     d.notice = `全队提升至 Lv.${h.level}！${tickets > 0 ? `抽卡券 +${tickets}，已自动到账。` : '所有已拥有与新招募英雄共享等级。'}`;
+  if (courierTickets > 0)
+    d.notice = `运钞僵尸奖励 · 抽奖券 +${courierTickets}，可进行${courierTickets / 10}次十连抽！`;
   return true;
 }
 export function promoteHero(d: Campaign, id: string) {
@@ -407,6 +423,8 @@ export function emergencySupply(d: Campaign, now = Date.now()) {
 let data = freshCampaign(),
   initialized = false;
 const listeners = new Set<() => void>(),
+  heroLevelListeners = new Set<(level: number, heroes: number[]) => void>(),
+  ticketRewardListeners = new Set<(amount: number, source: import('./core-rewards').TicketRewardSource) => void>(),
   owner = `${Date.now()}-${Math.random()}`;
 const emit = () => listeners.forEach((f) => f());
 export const campaign = {
@@ -461,12 +479,27 @@ export const campaign = {
     if (!this.owns()) return false;
     const next = structuredClone(data);
     fn(next);
+    const coreLevelUp = next.hunt.level > data.hunt.level &&
+      next.hunt.expedition.points > data.hunt.expedition.points;
+    const upgradedHeroes = coreLevelUp ? RECRUIT_HEROES.filter(h => next.recruit.owned[h.id] > 0).map(h => h.index) : [];
+    // Reward feedback is transient and only comes from a local transaction.
+    // Loading/syncing a save and spending tickets must never replay rewards.
+    const ticketsGained = Math.max(0, next.ticketsEarned - data.ticketsEarned);
+    const source = ticketRewardSource(
+      { level: data.hunt.level, xp: data.hunt.xp, points: data.hunt.expedition.points },
+      next.hunt.expedition.points,
+      ticketsGained,
+    );
     next.revision++;
     data = next;
     try {
       localStorage.setItem(KEY, JSON.stringify(data));
     } catch {}
     emit();
+    if (ticketsGained > 0)
+      ticketRewardListeners.forEach((notify) => notify(ticketsGained, source));
+    if (coreLevelUp)
+      heroLevelListeners.forEach(notify => notify(next.hunt.level, upgradedHeroes));
     return true;
   },
   completeStage(stage: number) {
@@ -480,6 +513,16 @@ export const campaign = {
     return () => {
       listeners.delete(fn);
     };
+  },
+  subscribeTicketRewards(fn: (amount: number, source: import('./core-rewards').TicketRewardSource) => void) {
+    ticketRewardListeners.add(fn);
+    return () => {
+      ticketRewardListeners.delete(fn);
+    };
+  },
+  subscribeHeroLevelUps(fn: (level: number, heroes: number[]) => void) {
+    heroLevelListeners.add(fn);
+    return () => { heroLevelListeners.delete(fn); };
   },
   reset() {
     return this.update((d) => Object.assign(d, freshCampaign()));

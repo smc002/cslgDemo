@@ -1,9 +1,8 @@
+import { ToyRenderer, ZOMBIE_ART, TOY_SCALE } from '../shared/toy-art';
 import {
   ARENA,
   HuntGame,
   SPECIES,
-  SPECIAL_LABELS,
-  SCATTER_HITS,
   COURIER_KIND,
   STAGES,
   courierScale,
@@ -12,16 +11,50 @@ import {
 } from './simulation';
 import { COURIER_RULES } from '../lib/hunt-save';
 import { AMMO_CARRIER } from '../lib/ammo-carrier';
+import { auditCombatFrame } from './combat-audit';
 import {
-  zombieFrame,
-  zombieDirection,
+  loadAmmoReturnArt,
+  drawAmmoDeath,
+  drawAmmoParticles,
+  ammoArrivalPulse,
+  AMMO_FINAL_ARRIVAL,
+  type AmmoReturnArt,
+} from './ammo-return-vfx';
+import {
+  drawProjectile,
+  drawMuzzleFlash,
+  drawHitSpark,
+  drawMaterialHit,
+  shotRecoil,
+} from './combat-vfx';
+import { loadCombatArt, type CombatArt } from './combat-art';
+import { functional } from '../lib/hunt-economy';
+import {
+  drawSpecialFoot,
+  drawSpecialBadge,
+  specialMarkerStyle,
+} from './special-markers';
+import { drawWeaponAttachments, drawWeaponGauge } from './weapon-state-vfx';
+import { drawSpecialBurst, drawCoreFlight, drawJackpot } from './reward-vfx';
+import { groupKillRewards } from './reward-groups';
+import {
+  CombatOverlayLayout,
+  comboRect,
+  jackpotTitle,
+  type OverlayRect,
+} from './overlay-layout';
+import { drawCourierDeath, courierDeathPose } from './courier-death-vfx';
+import { arrivalCamera, featherArrivalGround } from './arrival-vfx';
+import {
+  loadBodyDeathArt,
+  drawBodyDeath,
+  type BodyDeathArt,
+} from './body-death-vfx';
+import {
   advanceZombieClock,
-  zombieFilter,
-  type ZombieAnimationManifest,
   type ZombieClock,
   type ZombieFacing,
 } from './zombie-animation';
-import { ZombieGaitRenderer } from './zombie-gait';
 import {
   vehicleMuzzle,
   VEHICLE_RIG,
@@ -31,27 +64,22 @@ import {
 const FONT = '"Arial Black", "Microsoft YaHei", sans-serif';
 export type HuntArt = {
   ground: HTMLImageElement;
-  zombies: HTMLImageElement;
-  gunner: HTMLImageElement;
-  atlas: boolean;
-  rows?: number;
-  zombiePadding?: number;
-  supportSheet?: boolean;
-  courier?: HTMLImageElement;
-  vehicle?: HTMLImageElement;
-  chassis?: HTMLImageElement;
-  turret?: HTMLImageElement;
-  platform?: HTMLImageElement;
-  weapons?: HTMLImageElement;
-  ammoIcon?: HTMLImageElement;
-  scenes?: HTMLImageElement[];
-  zombieAnimation?: {
-    manifest: ZombieAnimationManifest;
-    sheets: Record<string, HTMLImageElement>;
-  };
+  overview: HTMLImageElement;
+  arrivalGround: HTMLCanvasElement;
+  chassis: HTMLImageElement;
+  turret: HTMLImageElement;
+  platform: HTMLImageElement;
+  ammoIcon: HTMLImageElement;
+  ammoReturn: AmmoReturnArt;
+  combat?: CombatArt;
+  bodyDeaths?: BodyDeathArt;
+  scenes: HTMLImageElement[];
 };
 export class HuntView {
+  /** Isolated review controls can hold a render frame without advancing the simulation. */
+  arrivalReviewAge?: number;
   private ctx: CanvasRenderingContext2D;
+  private toy = new ToyRenderer();
   private art?: HuntArt;
   private observer: ResizeObserver;
   private frame = 0;
@@ -61,9 +89,7 @@ export class HuntView {
   private displayScale = 1;
   private deviceRatio = 0;
   private zombieClocks = new Map<number, ZombieClock>();
-  private zombieGait?: ZombieGaitRenderer;
-  private ammoFlightLayer?: HTMLDivElement;
-  private ammoFlights = new Map<number, HTMLImageElement[]>();
+  private ammoFlightLayer?: HTMLCanvasElement;
   constructor(
     private canvas: HTMLCanvasElement,
     public game: HuntGame,
@@ -86,82 +112,56 @@ export class HuntView {
         i.onerror = () => reject(Error('美术载入失败'));
         i.src = url;
       });
-    const manifest = (await fetch('/assets/hunt/art.json?v=cartoon2', {
+    const manifest = (await fetch('/assets/hunt/art.json?v=toy-v1', {
       cache: 'no-store',
     }).then((r) => {
       if (!r.ok) throw Error('美术清单载入失败');
       return r.json();
     })) as {
       ground: string;
-      zombies: string;
-      gunner: string;
-      atlas: boolean;
-      rows?: number;
-      zombiePadding?: number;
-      supportSheet?: boolean;
-      courier: string;
-      vehicle: string;
-      chassis?: string;
-      turret?: string;
-      platform?: string;
-      weapons: string;
+      overview: string;
+      chassis: string;
+      turret: string;
+      platform: string;
       scenes: string[];
-      zombieAnimation?: string;
     };
-    const [ground, zombies, gunner, courier, vehicle, weapons, ...scenes] =
-      await Promise.all([
-        load(manifest.ground),
-        load(manifest.zombies),
-        load(manifest.gunner),
-        load(manifest.courier),
-        load(manifest.vehicle),
-        load(manifest.weapons),
-        ...manifest.scenes.map(load),
-      ]);
-    const [chassis, turret, platform, ammoIcon] = await Promise.all([
-      manifest.chassis ? load(manifest.chassis) : undefined,
-      manifest.turret ? load(manifest.turret) : undefined,
-      manifest.platform ? load(manifest.platform) : undefined,
-      load('/assets/loop/black-gold-ammo.png'),
-    ]);
-    let zombieAnimation: HuntArt['zombieAnimation'];
-    if (manifest.zombieAnimation) {
-      const animation: ZombieAnimationManifest = await fetch(
-        manifest.zombieAnimation,
-      ).then((r) => {
-        if (!r.ok) throw Error('僵尸动画清单载入失败');
-        return r.json();
-      });
-      const base = new URL(manifest.zombieAnimation, window.location.href);
-      const entries = await Promise.all(
-        Object.entries(animation.archetypes).map(
-          async ([id, value]) =>
-            [id, await load(new URL(value.atlas, base).href)] as const,
-        ),
-      );
-      zombieAnimation = {
-        manifest: animation,
-        sheets: Object.fromEntries(entries),
-      };
-    }
-    if (this.disposed) return;
-    this.art = {
+    const [
       ground,
-      zombies,
-      gunner,
-      courier,
-      vehicle,
+      overview,
       chassis,
       turret,
       platform,
       ammoIcon,
-      weapons,
       scenes,
-      zombieAnimation,
-      atlas: manifest.atlas,
-      rows: manifest.rows ?? 3,
-      zombiePadding: manifest.zombiePadding ?? 0,
-      supportSheet: manifest.supportSheet ?? true,
+      ammoReturn,
+      combat,
+      bodyDeaths,
+    ] = await Promise.all([
+      load(manifest.ground),
+      load(manifest.overview),
+      load(manifest.chassis),
+      load(manifest.turret),
+      load(manifest.platform),
+      load('/assets/loop/black-gold-ammo.png'),
+      Promise.all(manifest.scenes.map(load)),
+      loadAmmoReturnArt(load),
+      loadCombatArt(load),
+      loadBodyDeathArt(load),
+      this.toy.load(ZOMBIE_ART),
+    ]);
+    if (this.disposed) return;
+    this.art = {
+      ground,
+      overview,
+      arrivalGround: featherArrivalGround(ground),
+      chassis,
+      turret,
+      platform,
+      ammoIcon,
+      scenes,
+      ammoReturn,
+      combat,
+      bodyDeaths,
     };
     this.draw();
     this.start();
@@ -169,9 +169,8 @@ export class HuntView {
   private resize() {
     const r = this.canvas.getBoundingClientRect();
     if (r.width <= 0 || r.height <= 0) return;
-    this.game.visibleTop = Math.max(
-      0,
-      -arenaViewportOffset((r.height / r.width) * ARENA.w),
+    this.game.setViewportTop(
+      Math.max(0, -arenaViewportOffset((r.height / r.width) * ARENA.w)),
     );
     this.deviceRatio = window.devicePixelRatio || 1;
     // Supersample narrow 1x displays too; cap the surface to avoid excessive GPU memory.
@@ -180,7 +179,7 @@ export class HuntView {
       3,
       Math.sqrt(4_000_000 / (r.width * r.height)),
     );
-    this.displayScale = Math.min(r.width / ARENA.w, r.height / ARENA.h);
+    this.displayScale = r.width / ARENA.w;
     const width = Math.max(1, Math.round(r.width * d));
     const height = Math.max(1, Math.round(r.height * d));
     if (this.canvas.width !== width) this.canvas.width = width;
@@ -201,7 +200,7 @@ export class HuntView {
     if (this.disposed) return;
     const dt = Math.min(0.06, (now - this.last) / 1000);
     this.last = now;
-    this.game.advance(dt);
+    if (this.arrivalReviewAge === undefined) this.game.advance(dt);
     this.draw();
     this.syncClock += dt;
     if (this.syncClock > 0.05) {
@@ -225,10 +224,14 @@ export class HuntView {
     size: number,
     color: string,
     stroke = 5,
+    maxWidth = Infinity,
   ) {
     const c = this.ctx;
     // Keep small world-space labels legible after fitting into a portrait frame.
     c.font = `900 ${Math.max(size, 11 / this.displayScale)}px ${FONT}`;
+    const measured = c.measureText(t).width;
+    if (measured > maxWidth)
+      c.font = `900 ${(Math.max(size, 11 / this.displayScale) * maxWidth) / measured}px ${FONT}`;
     c.textAlign = 'center';
     c.textBaseline = 'middle';
     c.lineJoin = 'round';
@@ -261,131 +264,33 @@ export class HuntView {
     c.fill();
   }
   private zombieSprite(kind: number, size: number, facing: ZombieFacing = 'S') {
-    const art = this.art!;
-    const animation = art.zombieAnimation;
-    const definition = animation?.manifest.kinds[String(kind)];
-    const archetype =
-      definition && animation?.manifest.archetypes[definition.archetype];
-    const sheet = definition && animation?.sheets[definition.archetype];
-    if (animation && definition && archetype && sheet) {
-      const direction = zombieDirection(archetype, facing);
-      const index = direction.clips.idle.frames[0];
-      const columns = archetype.columns ?? 4;
-      const { cell, anchor } = animation.manifest;
-      const scale = (size * 1.12) / archetype.visibleHeight;
-      this.ctx.save();
-      this.ctx.filter =
-        [definition.filter, this.ctx.filter === 'none' ? '' : this.ctx.filter]
-          .filter(Boolean)
-          .join(' ') || 'none';
-      if (direction.mirror) this.ctx.scale(-1, 1);
-      // Defeated enemies retain their new identity during the existing fade.
-      this.ctx.drawImage(
-        sheet,
-        (index % columns) * cell,
-        Math.floor(index / columns) * cell,
-        cell,
-        cell,
-        -anchor.foot[0] * scale,
-        size * 0.37 - anchor.foot[1] * scale,
-        cell * scale,
-        cell * scale,
-      );
-      this.ctx.restore();
-      return;
-    }
-    const weapon = kind >= 10 && !!art.weapons;
-    const source = weapon ? art.weapons! : art.zombies;
-    const columns = weapon ? 2 : 3;
-    const index = weapon ? kind - 10 : kind;
-    const w = source.width / columns;
-    const h = source.height / (weapon ? 1 : (art.rows ?? 3));
-    // The isolated atlas adds transparent padding around the original 418px
-    // cells. Compensate in destination space to preserve size and position.
-    const padding = weapon ? 0 : (art.zombiePadding ?? 0);
-    const scaleX = size / (w - padding * 2);
-    const scaleY = (size * 1.15) / (h - padding * 2);
-    this.ctx.drawImage(
-      source,
-      (index % columns) * w,
-      Math.floor(index / columns) * h,
-      w,
-      h,
-      -size / 2 - padding * scaleX,
-      -size * 0.6 - padding * scaleY,
-      w * scaleX,
-      h * scaleY,
+    size *= this.game?.zombieScale ?? 1;
+    this.toy.draw(
+      this.ctx,
+      ZOMBIE_ART[kind],
+      0,
+      size * 0.37,
+      size * 1.12 * TOY_SCALE,
+      { left: facing.includes('W') },
     );
   }
   private animatedZombie(z: Zombie, size: number) {
-    const animation = this.art?.zombieAnimation;
-    if (!animation) return false;
-    const kind = animation.manifest.kinds[String(z.kind)];
-    const archetype = kind && animation.manifest.archetypes[kind.archetype];
-    const source = kind && animation.sheets[kind.archetype];
-    if (!archetype || !source) return false;
-    const legacyFps = archetype.clips?.walk.fps ?? 8;
-    const playbackRate = archetype.directions
-      ? (kind.playbackRate ?? 1)
-      : (kind.fps ?? legacyFps) / legacyFps;
-    const clock = advanceZombieClock(
-      this.zombieClocks.get(z.id),
-      z,
-      playbackRate,
-    );
+    const clock = advanceZombieClock(this.zombieClocks.get(z.id), z, 1);
     this.zombieClocks.set(z.id, clock);
-    const direction = zombieDirection(archetype, clock.facing);
-    const moving = Math.hypot(z.vx, z.vy) >= 0.01;
-    const authoredHit = archetype.authoredHit && z.hit > 0;
-    const clip = authoredHit
-      ? direction.clips.hit
-      : !moving
-        ? direction.clips.idle
-        : direction.clips.walk;
-    const index = zombieFrame(
-      clip,
-      authoredHit ? 1 - z.hit / 0.13 : clock.walk,
-      !!authoredHit,
+    return this.toy.draw(
+      this.ctx,
+      ZOMBIE_ART[z.kind],
+      0,
+      size * 0.37,
+      size * 1.12 * TOY_SCALE,
+      {
+        time: clock.walk,
+        moving: Math.hypot(z.vx, z.vy) >= 0.01,
+        left: clock.facing.includes('W'),
+        frozen: !!z.frozen,
+        hit: z.hit,
+      },
     );
-    const { cell, anchor } = animation.manifest;
-    const scale = (size * 1.12) / archetype.visibleHeight;
-    const c = this.ctx;
-    c.save();
-    if (direction.mirror) c.scale(-1, 1);
-    c.filter = zombieFilter(kind.filter, !!z.frozen, z.hit);
-    if (cell === 320 && archetype.columns === 8 && archetype.rows === 5) {
-      this.zombieGait ??= new ZombieGaitRenderer();
-      const drawn = this.zombieGait.draw(
-        c,
-        source,
-        kind.archetype,
-        direction.source,
-        direction.clips.idle.frames[0],
-        archetype.columns,
-        clock.walk,
-        moving,
-        -anchor.foot[0] * scale,
-        size * 0.37 - anchor.foot[1] * scale,
-        cell * scale,
-      );
-      if (drawn) {
-        c.restore();
-        return true;
-      }
-    }
-    c.drawImage(
-      source,
-      (index % (archetype.columns ?? 4)) * cell,
-      Math.floor(index / (archetype.columns ?? 4)) * cell,
-      cell,
-      cell,
-      -anchor.foot[0] * scale,
-      size * 0.37 - anchor.foot[1] * scale,
-      cell * scale,
-      cell * scale,
-    );
-    c.restore();
-    return true;
   }
   private zombie(z: Zombie) {
     if (!this.art) return;
@@ -394,13 +299,10 @@ export class HuntView {
       return;
     }
     const c = this.ctx,
-      s = SPECIES[z.kind],
-      bob =
-        (z.frozen ?? 0) > 0
-          ? 0
-          : Math.sin(z.age * (z.kind === 1 ? 14 : 8) + z.seed * 20);
+      s = SPECIES[z.kind];
     c.save();
     c.translate(z.x, z.y);
+    c.scale(this.game.zombieScale, this.game.zombieScale);
     c.fillStyle = '#09141160';
     c.beginPath();
     c.ellipse(
@@ -428,63 +330,22 @@ export class HuntView {
       c.stroke();
       c.setLineDash([]);
     }
-    const animated = this.animatedZombie(z, s.size);
-    if (!animated) {
-      c.rotate(bob * 0.025);
-      c.translate(0, bob * 1.5);
-      c.filter = zombieFilter('', !!z.frozen, z.hit);
-    }
-    if (animated) {
-      // Continuous articulated steps replace the legacy whole-sprite wobble.
-    } else if ((z.kind >= 10 && this.art.weapons) || this.art.atlas) {
-      this.zombieSprite(z.kind, s.size);
-    } else {
-      c.filter = 'none';
-      if (z.kind === 1) c.filter = 'hue-rotate(45deg)';
-      if (z.kind === 2) c.filter = 'saturate(.25)';
-      if (z.kind === 3) c.filter = 'hue-rotate(280deg)';
-      if (z.kind === 4) c.filter = 'sepia(1) saturate(3)';
-      c.filter = zombieFilter(
-        c.filter === 'none' ? '' : c.filter,
-        !!z.frozen,
-        z.hit,
-      );
-      c.drawImage(
-        this.art.zombies,
-        -s.size / 2,
-        -s.size * 0.6,
-        s.size,
-        s.size * 1.15,
-      );
-    }
+    drawSpecialFoot(c, z.kind, 0, 0, s.size, this.game.time);
+    const marker = specialMarkerStyle(z.kind);
+    if (marker) c.filter = `drop-shadow(0px 0px 2px ${marker.outline})`;
+    else if (z.hit > 0) c.filter = 'brightness(1.28)';
+    this.animatedZombie(z, s.size);
     c.filter = 'none';
-    if (z.kind === 4)
-      this.text('奖励', 0, -s.size * 0.82 - 8, 17, '#ffe977', 4);
-    if (z.kind === 3)
-      this.text('巨型', 0, -s.size * 0.82 - 8, 14, '#ffb968', 4);
-    if (z.kind >= 5 && z.kind !== AMMO_CARRIER.kind)
-      this.text(
-        z.kind === 6
-          ? `散射 ${z.hitsLeft ?? SCATTER_HITS}/${SCATTER_HITS}`
-          : SPECIAL_LABELS[z.kind],
-        0,
-        -s.size * 0.82 - 8,
-        13,
-        s.color,
-        4,
-      );
     if (z.kind === AMMO_CARRIER.kind) {
       const a = this.game.save.ammoCarrier.active;
       this.text(
-        `返弹 +${a?.refundAmount ?? 0}`,
+        a ? `+${a.refundAmount}` : '返弹',
         0,
-        -s.size * 0.82 - 8,
+        s.size * 0.38 + 20,
         14,
         '#ffe18a',
         4,
       );
-      if (this.art.ammoIcon)
-        c.drawImage(this.art.ammoIcon, -70, -s.size * 0.82 - 25, 22, 22);
       for (let i = 0; i < AMMO_CARRIER.hits; i++) {
         c.fillStyle = i < (a?.hits.length ?? 0) ? '#554b36' : '#f6cc5b';
         c.fillRect(-22 + i * 16, s.size * 0.38, 12, 5);
@@ -503,16 +364,16 @@ export class HuntView {
     c.restore();
   }
   private courier(z: Zombie) {
-    const art = this.art?.courier,
-      c = this.ctx,
+    const c = this.ctx,
       state = this.game.save.courier.active;
-    if (!art || !state) return;
+    if (!state) return;
     const broken = Math.floor(
       state.armorHits /
         (COURIER_RULES.hitsPerPlate * courierScale(state.bundle)),
     );
     c.save();
     c.translate(z.x, z.y);
+    c.scale(this.game.zombieScale, this.game.zombieScale);
     if ((state.bundle ?? 1) > 1) c.scale(1.4, 1.4);
     c.fillStyle = '#13243160';
     c.beginPath();
@@ -523,111 +384,54 @@ export class HuntView {
     c.beginPath();
     c.ellipse(0, 60, 71, 24, 0, 0, Math.PI * 2);
     c.stroke();
-    const w = art.width / 2,
-      h = art.height / 2;
-    c.save();
-    if (!this.animatedZombie(z, SPECIES[z.kind].size)) {
-      c.translate(0, z.frozen ? 0 : Math.sin(z.age * 5) * 1.5);
-      c.filter = zombieFilter('', !!z.frozen, z.hit);
-      c.drawImage(
-        art,
-        (broken % 2) * w,
-        Math.floor(broken / 2) * h + 65,
-        w,
-        h - 65,
-        -100,
-        -107,
-        200,
-        199,
-      );
-    }
-    c.restore();
+    this.animatedZombie(z, SPECIES[z.kind].size);
     c.restore();
   }
-  private courierLabel(z: Zombie) {
+  private courierLabel(_z: Zombie, box: OverlayRect) {
     const c = this.ctx,
       state = this.game.save.courier.active;
     if (!state) return;
-    const perPlate = COURIER_RULES.hitsPerPlate * courierScale(state.bundle);
-    const broken = Math.floor(state.armorHits / perPlate);
+    const broken = Math.floor(
+      state.armorHits /
+        (COURIER_RULES.hitsPerPlate * courierScale(state.bundle)),
+    );
     c.save();
-    c.translate(z.x, z.y);
-    if ((state.bundle ?? 1) > 1) c.scale(1.18, 1.18);
+    c.translate(box.x, box.y);
     c.fillStyle = '#142b43f2';
     c.strokeStyle = '#ffbf68';
-    c.lineWidth = 2;
+    c.lineWidth = 1.5;
     c.beginPath();
-    c.roundRect(-106, -159, 212, 45, 10);
+    c.roundRect(-box.w / 2, -box.h / 2, box.w, box.h, 8);
     c.fill();
     c.stroke();
     this.text(
-      (state.bundle ?? 1) > 1 ? '巨型装甲运钞僵尸' : '装甲运钞僵尸',
+      '运钞 · 抽奖券 ×' + (state.bundle ?? 1) * 10,
       0,
-      -146,
-      20,
-      '#f8f9e9',
+      -10,
+      17,
+      '#ffe4a3',
       0,
+      204,
     );
     this.text(
-      `击杀必得 · 橙色英雄 ×${state.bundle ?? 1}`,
+      broken < 3
+        ? '装甲 ' + Math.max(0, 3 - broken) + '/3'
+        : '装甲已破 · 集中火力',
       0,
-      -127,
+      12,
       13,
-      '#ffc16b',
+      '#c4edff',
       0,
     );
-    if (broken < 3) {
-      for (let i = 0; i < 3; i++) {
-        const x = (i - 1) * 46,
-          gone = i < broken;
-        const remaining = gone
-          ? 0
-          : i === broken
-            ? perPlate - (state.armorHits % perPlate)
-            : perPlate;
-        c.fillStyle = gone ? '#2b3943df' : i === broken ? '#27b5d7' : '#576b83';
-        c.strokeStyle = gone ? '#8b9caa' : '#ddf7ff';
-        c.lineWidth = 2;
-        c.beginPath();
-        c.moveTo(x - 20, -20);
-        c.lineTo(x + 20, -20);
-        c.lineTo(x + 18, 8);
-        c.lineTo(x, 19);
-        c.lineTo(x - 18, 8);
-        c.closePath();
-        c.fill();
-        c.stroke();
-        this.text(
-          gone ? '破' : '甲',
-          x,
-          -2,
-          gone ? 22 : 27,
-          gone ? '#a7bfbd' : '#fff',
-          2,
-        );
-      }
-    } else {
-      const left =
-        COURIER_RULES.pity * courierScale(state.bundle) - state.bodyHits;
-      c.fillStyle = '#122c42f5';
-      c.strokeStyle = left <= 5 ? '#ffb955' : '#78edf8';
-      c.lineWidth = 2;
-      c.beginPath();
-      c.roundRect(-108, 79, 216, 51, 9);
-      c.fill();
-      c.stroke();
-      this.text('装甲已破', 0, 94, 21, '#ffe0a0', 0);
-      this.text('集中火力！', 0, 116, 14, '#cff6ff', 0);
-    }
     c.restore();
   }
   private effect(e: FX) {
     const c = this.ctx,
-      t = e.age / e.life,
-      big = e.species >= 2,
-      s = big ? 1.6 : 1;
+      t = e.age / e.life;
     c.save();
-    if (e.kind === 'laser') {
+    if (e.kind === 'specialEntry') {
+      // Entry shares the placed actor badge; no duplicate text plate.
+    } else if (e.kind === 'laser') {
       c.globalAlpha = Math.min(1, (1 - t) * 2);
       c.lineCap = 'round';
       c.shadowColor = '#00ddff';
@@ -684,81 +488,46 @@ export class HuntView {
         c.fillRect(x - 6, y - 6, 12, 12);
         c.strokeRect(x - 6, y - 6, 12, 12);
       }
-      this.text(
-        e.angle === 3 ? '装甲全破！' : `第${e.angle}片击破！`,
-        e.x,
-        e.y - 58 - t * 38,
-        23,
-        '#e1fcff',
-        5,
-      );
-      this.text(
-        `+${e.points.toLocaleString()} 能源核心`,
-        e.x,
-        e.y - 25 - t * 38,
-        29,
-        '#fff5ca',
-        5,
-      );
     } else if (e.kind === 'ammoReturn') {
-      const animation = this.art?.zombieAnimation;
-      const definition = animation?.manifest.kinds[String(AMMO_CARRIER.kind)];
-      const archetype =
-        definition && animation?.manifest.archetypes[definition.archetype];
-      const sheet = definition && animation?.sheets[definition.archetype];
-      if (animation && archetype && sheet) {
-        const direction = zombieDirection(archetype, e.facing ?? 'S');
-        const clip = direction.clips.death ?? direction.clips.idle;
-        const index = zombieFrame(clip, e.age),
-          columns = archetype.columns ?? 10;
-        const { cell, anchor } = animation.manifest;
-        const size = SPECIES[AMMO_CARRIER.kind].size,
-          scale = (size * 1.12) / archetype.visibleHeight;
-        c.save();
-        c.translate(e.x, e.y);
-        if (direction.mirror) c.scale(-1, 1);
-        c.globalAlpha = Math.min(1, (1 - t) * 3);
-        c.drawImage(
-          sheet,
-          (index % columns) * cell,
-          Math.floor(index / columns) * cell,
-          cell,
-          cell,
-          -anchor.foot[0] * scale,
-          size * 0.37 - anchor.foot[1] * scale,
-          cell * scale,
-          cell * scale,
+      if (this.art?.ammoReturn) {
+        drawAmmoDeath(
+          c,
+          this.art.ammoReturn,
+          e,
+          this.game.zombieScale,
+          SPECIES[AMMO_CARRIER.kind].size * 1.12 * TOY_SCALE,
+          this.art.bodyDeaths,
         );
-        c.restore();
+        if (
+          !this.canvas
+            .closest('.hunt-page')
+            ?.querySelector('[data-hunt-ammo-inventory] img')
+        )
+          drawAmmoParticles(
+            c,
+            this.art.ammoReturn,
+            e,
+            e.x,
+            e.y - 95 * this.game.zombieScale,
+            45,
+            775,
+            this.game.zombieScale,
+          );
+      } else {
+        this.toy.draw(
+          c,
+          ZOMBIE_ART[AMMO_CARRIER.kind],
+          e.x,
+          e.y + SPECIES[AMMO_CARRIER.kind].size * 0.37 * this.game.zombieScale,
+          SPECIES[AMMO_CARRIER.kind].size *
+            1.12 *
+            TOY_SCALE *
+            this.game.zombieScale,
+          { death: e.age, left: e.facing?.includes('W') },
+        );
       }
-      this.text(
-        `黑金弹 +${e.points}`,
-        e.x,
-        e.y - 85 - t * 30,
-        21,
-        '#ffe596',
-        4,
-      );
     } else if (e.kind === 'courierArrival') {
-      c.globalAlpha = Math.min(1, (1 - t) * 3);
-      this.text(
-        '装甲运钞僵尸出现！',
-        e.x,
-        e.y + 112 - t * 24,
-        21,
-        '#ffe1a0',
-        5,
-      );
-    } else if (e.kind === 'xp') {
-      c.globalAlpha = Math.min(1, (1 - t) * 3);
-      this.text(
-        `射击 +${e.points} 能源核心`,
-        e.x + 67,
-        e.y - t * 24,
-        13,
-        '#ecffb8',
-        3,
-      );
+      // The stable courier callout replaces the duplicate arrival sentence.
     } else if (e.kind === 'scatter' && e.species === 11) {
       c.globalAlpha = 1 - t;
       c.strokeStyle = '#ffba62';
@@ -818,22 +587,15 @@ export class HuntView {
               : '#fff27b',
         );
       }
-      this.text(
-        e.kind === 'blast'
-          ? '连环爆破!'
-          : e.kind === 'freeze'
-            ? '冻结!'
-            : '散射!',
-        e.x,
-        e.y - 35 - t * 35,
-        24,
-        e.kind === 'freeze'
-          ? '#ddfcff'
-          : e.kind === 'scatter'
-            ? '#edcbff'
-            : '#fff2ae',
-        5,
-      );
+      if (e.kind !== 'scatter')
+        this.text(
+          e.kind === 'blast' ? '连环爆破!' : '冻结!',
+          e.x,
+          e.y - 35 - t * 35,
+          24,
+          e.kind === 'freeze' ? '#ddfcff' : '#fff2ae',
+          5,
+        );
     } else if (e.kind === 'arc') {
       const tx = e.endX ?? e.x,
         ty = e.endY ?? e.y;
@@ -860,147 +622,157 @@ export class HuntView {
       c.strokeStyle = '#e8ffff';
       c.stroke();
     } else if (e.kind === 'shot') {
-      c.translate(e.x, e.y);
-      c.rotate(e.angle);
-      c.globalAlpha = 1 - t;
-      this.burst(
-        10,
-        0,
-        (22 + t * 20) * (this.game.save.bonus ? 1.4 : 1),
-        5,
-        0,
-        '#ffb527',
+      // Follow the visible barrel while aiming; only the newest flash is drawn.
+      const muzzle = vehicleMuzzle(ARENA.gunX, ARENA.gunY, this.game.aim);
+      const recoil = shotRecoil(e.age);
+      drawMuzzleFlash(
+        c,
+        muzzle.x - Math.cos(muzzle.angle) * recoil,
+        muzzle.y - Math.sin(muzzle.angle) * recoil,
+        muzzle.angle,
+        e.age,
+        e.seed,
       );
-      this.burst(5, 0, 14, 4, 0.3, '#fff5ba');
-    } else if (e.kind === 'hit' || e.kind === 'bounce') {
-      c.globalAlpha = 1 - t;
-      this.burst(e.x, e.y, 10 + 18 * t, 4, e.seed * 4, '#ffe3a1');
-    } else {
-      if (t < 0.24 && this.art?.atlas) {
-        const size = SPECIES[e.species].size;
-        c.save();
-        c.globalAlpha = 1 - t / 0.24;
-        c.translate(
-          e.x + Math.cos(e.angle) * t * 100,
-          e.y + Math.sin(e.angle) * t * 100,
+    } else if (e.kind === 'hit') {
+      drawMaterialHit(
+        c,
+        this.art?.combat,
+        e.x,
+        e.y,
+        t,
+        e.species,
+        e.angle,
+        e.seed,
+      );
+    } else if (e.kind === 'bounce') {
+      drawHitSpark(c, e.x, e.y, t, e.seed, true);
+    } else if (e.kind === 'kill') {
+      const special = functional(e.species);
+      if (special)
+        drawSpecialBurst(
+          c,
+          this.art?.combat ?? {},
+          e.x,
+          e.y - 24,
+          e.age,
+          e.seed,
+          Math.min(1.1, this.game.zombieScale),
         );
-        c.rotate(Math.sin(e.seed * 12) * t * 2.5);
-        c.scale(1 + t, Math.max(0.1, 1 - t * 2));
-        this.zombieSprite(
-          e.species,
-          size,
-          (e.actorId !== undefined
-            ? this.zombieClocks.get(e.actorId)?.facing
-            : undefined) ??
-            e.facing ??
-            'S',
+      // Production HUD flights are drawn on the page overlay; review canvas has a safe local endpoint.
+      if (
+        !this.canvas
+          .closest('.mori-gameplay-shell')
+          ?.querySelector('.core-energy-track')
+      )
+        drawCoreFlight(
+          c,
+          this.art?.combat ?? {},
+          e.x,
+          e.y - 20,
+          300,
+          Math.max(this.game.visibleTop + 28, 42),
+          e.age,
+          special,
+          e.seed,
         );
-        c.restore();
-      }
-      if (t < 0.3) {
-        c.globalAlpha = 1 - t / 0.3;
-        this.burst(e.x, e.y, (24 + t * 220) * s, 9, e.seed * 7, '#ffbc38');
-        this.burst(e.x, e.y, (18 + t * 170) * s, 7, e.seed * 6, '#fff4c0');
-        c.strokeStyle = '#fff0b2';
-        c.lineWidth = 4 * (1 - t);
-        c.beginPath();
-        c.arc(e.x, e.y, (18 + t * 180) * s, 0, Math.PI * 2);
-        c.stroke();
-      }
-      c.globalAlpha = Math.max(0, 1 - t * 1.2);
-      for (let i = 0; i < (big ? 18 : 10); i++) {
-        const a = i * 2.399 + e.seed * 11,
-          speed = (32 + (i % 5) * 13) * s,
-          d = Math.sin((Math.min(1, t * 1.6) * Math.PI) / 2) * speed;
-        const x = e.x + Math.cos(a) * d,
-          y = e.y + Math.sin(a) * d + t * t * 40;
-        c.save();
-        c.translate(x, y);
-        c.rotate(a + t * 8);
-        c.fillStyle = i % 3 ? '#ffd967' : '#95c75d';
-        c.strokeStyle = '#29372c';
-        c.lineWidth = 2;
-        c.fillRect(-3, -3, 7, 7);
-        c.strokeRect(-3, -3, 7, 7);
-        c.restore();
-      }
-      // Only the glow travels. The real score was already credited by the simulation.
-      if (t > 0.25) {
-        const u = Math.min(1, (t - 0.25) / 0.65),
-          eased = u * u;
-        for (let i = 0; i < 5; i++) {
-          const x =
-              e.x + (300 - e.x) * eased + Math.sin(u * Math.PI) * (i - 2) * 22,
-            y = e.y + (82 - e.y) * eased - Math.sin(u * Math.PI) * 75;
-          c.globalAlpha = 1 - Math.max(0, (u - 0.8) * 5);
-          c.fillStyle = '#ffe27a';
-          c.shadowColor = '#ffac1b';
-          c.shadowBlur = 12;
-          c.beginPath();
-          c.arc(x, y, 3.5 + (i % 2), 0, Math.PI * 2);
-          c.fill();
-        }
-      }
     }
     c.restore();
   }
-  private score(e: FX) {
+  private score(e: FX, box: OverlayRect) {
     const c = this.ctx,
-      t = e.age / e.life,
-      big = e.species >= 2;
-    const x = Math.max(100, Math.min(500, e.x + Math.sin(e.id * 2.4) * 23)),
-      y = Math.max(143, Math.min(640, e.y - 22 - t * 76));
+      special = functional(e.species),
+      t = e.age / e.life;
+    const { x, y } = box;
     const pop =
-      t < 0.12
-        ? 0.55 + (t / 0.12) * 0.7
-        : 1 + Math.max(0, 0.25 - (t - 0.12) * 2);
+      Math.min(1, e.age / 0.09) *
+      (1 + Math.sin(Math.min(1, e.age / 0.22) * Math.PI) * 0.12);
     c.save();
     c.translate(x, y);
     c.scale(pop, pop);
-    c.rotate(e.id % 2 ? -0.055 : 0.045);
-    c.globalAlpha = Math.min(1, (1 - t) * 5);
-    if (big) {
-      c.fillStyle = e.species >= 3 ? '#e68b1de8' : '#253831e8';
-      c.strokeStyle = '#ffdb6c';
-      c.lineWidth = 2;
-      c.beginPath();
-      c.moveTo(-91, -25);
-      c.lineTo(94, -29);
-      c.lineTo(83, 23);
-      c.lineTo(-95, 29);
-      c.closePath();
-      c.fill();
-      c.stroke();
-    }
-    this.text(
-      `+${e.points.toLocaleString()}`,
-      0,
-      0,
-      big ? 35 : 28,
-      big ? '#fff2a1' : '#fff1b5',
-      5,
+    c.globalAlpha = Math.min(1, (1 - t) * 4);
+    if (special) {
+      const plaque = this.art?.combat?.specialPlaque;
+      if (plaque) c.drawImage(plaque, -108, -31, 216, 62);
+      else {
+        c.fillStyle = '#32164bea';
+        c.beginPath();
+        c.roundRect(-108, -31, 216, 62, 12);
+        c.fill();
+      }
+      this.text('特殊击破', 0, -13, 18, '#fff1ff', 3);
+      this.text(
+        `+${e.points.toLocaleString()} 能源核心`,
+        0,
+        14,
+        17,
+        '#afffed',
+        4,
+        204,
+      );
+    } else
+      this.text(`+${e.points.toLocaleString()}`, 0, 0, 21, '#d8ffe9', 3, 110);
+    c.restore();
+  }
+  private courierDeath() {
+    const v = this.game.courierVictory;
+    if (!v) return;
+    const c = this.ctx;
+    if (
+      this.art?.bodyDeaths &&
+      drawBodyDeath(
+        c,
+        this.art.bodyDeaths,
+        COURIER_KIND,
+        v.x,
+        v.y,
+        v.age,
+        SPECIES[COURIER_KIND].size,
+        this.game.zombieScale,
+        v.facing?.includes('W'),
+        TOY_SCALE,
+      )
+    )
+      return;
+    if (
+      drawCourierDeath(
+        c,
+        this.art?.combat?.courierDeath ?? [],
+        v.x,
+        v.y,
+        v.age,
+        SPECIES[COURIER_KIND].size,
+        this.game.zombieScale,
+        v.facing?.includes('W'),
+      )
+    )
+      return;
+    // Missing optional art falls back to a short fade, never a rotated standing card.
+    const pose = courierDeathPose(v.age);
+    if (!pose) return;
+    c.save();
+    c.globalAlpha *= pose.alpha * Math.max(0, 1 - v.age / 0.4);
+    c.translate(v.x, v.y);
+    this.zombieSprite(
+      COURIER_KIND,
+      SPECIES[COURIER_KIND].size,
+      v.facing ?? 'S',
     );
-    this.text('能源核心', 0, 28, 12, '#fff5ce', 3);
     c.restore();
   }
   private courierVictory() {
-    const animation = this.art?.zombieAnimation;
-    const kind = animation?.manifest.kinds[String(COURIER_KIND)];
-    const archetype = kind && animation?.manifest.archetypes[kind.archetype];
-    const sheet = kind && animation?.sheets[kind.archetype];
     const v = this.game.courierVictory,
-      art = sheet ?? this.art?.courier,
       c = this.ctx;
-    if (!v || !art) return;
-    const facing =
-      (v.actorId !== undefined
-        ? this.zombieClocks.get(v.actorId)?.facing
-        : undefined) ??
-      v.facing ??
-      'S';
-    const direction = archetype
-      ? zombieDirection(archetype, facing)
-      : undefined;
+    if (!v) return;
+    const tickets = this.game.save.courier.reveal?.tickets;
+    if (tickets) {
+      drawJackpot(c, this.art?.combat ?? {}, {
+        ...v,
+        tickets,
+        scale: this.game.zombieScale,
+        visibleTop: this.overlayTop(),
+      });
+      return;
+    }
     const t = v.age,
       clamp = (n: number) => Math.max(0, Math.min(1, n));
     const reveal = clamp((t - 0.55) / 0.55),
@@ -1024,68 +796,6 @@ export class HuntView {
       c.stroke();
     }
     c.globalAlpha = 1;
-    // Break apart the actual defeated sprite into large, readable armor chunks.
-    if (t < 1.05) {
-      const u = clamp((t - 0.1) / 0.95);
-      const cell = animation?.manifest.cell ?? 320;
-      const index = direction?.clips.idle.frames[0] ?? 7;
-      const columns = archetype?.columns ?? 4;
-      const frame = sheet
-        ? {
-            x: (index % columns) * cell,
-            y: Math.floor(index / columns) * cell,
-            w: cell,
-            h: cell,
-          }
-        : {
-            x: art.width / 2,
-            y: art.height / 2 + 65,
-            w: art.width / 2,
-            h: art.height / 2 - 65,
-          };
-      const scale = archetype
-        ? (SPECIES[COURIER_KIND].size * 1.12) / archetype.visibleHeight
-        : 1;
-      const width = sheet ? cell * scale : 200;
-      const height = sheet ? cell * scale : 200;
-      const left = sheet ? -animation!.manifest.anchor.foot[0] * scale : -100;
-      const top = sheet
-        ? SPECIES[COURIER_KIND].size * 0.37 -
-          animation!.manifest.anchor.foot[1] * scale
-        : -107;
-      for (let row = 0; row < 4; row++)
-        for (let col = 0; col < 4; col++) {
-          const dx = (col - 1.5) * 120 * u,
-            dy = (row - 1.5) * 70 * u + u * u * 140;
-          c.save();
-          c.globalAlpha = 1 - u;
-          c.translate(
-            v.x +
-              (direction?.mirror
-                ? -(left + ((col + 0.5) * width) / 4 + dx)
-                : left + ((col + 0.5) * width) / 4 + dx),
-            v.y + top + ((row + 0.5) * height) / 4 + dy,
-          );
-          c.rotate((col - 1.5) * u * 1.7);
-          if (direction?.mirror) c.scale(-1, 1);
-          c.filter =
-            [sheet ? kind?.filter : '', t < 0.18 ? 'brightness(2)' : '']
-              .filter(Boolean)
-              .join(' ') || 'none';
-          c.drawImage(
-            art,
-            frame.x + (col * frame.w) / 4,
-            frame.y + (row * frame.h) / 4,
-            frame.w / 4,
-            frame.h / 4,
-            -width / 8,
-            -height / 8,
-            width / 4,
-            height / 4,
-          );
-          c.restore();
-        }
-    }
     if (t > 0.4) {
       const x = v.x + (300 - v.x) * reveal,
         y = v.y + 30 + (305 - v.y - 30) * reveal;
@@ -1130,8 +840,24 @@ export class HuntView {
       c.beginPath();
       c.roundRect(-61, -77, 122, 158, 8);
       c.fill();
-      this.text('SSR', 0, -26, 51, '#ffc96a', 0);
-      this.text('英雄信标', 0, 25, 23, '#fff1cf', 0);
+      this.text(
+        this.game.save.courier.reveal?.tickets
+          ? `×${this.game.save.courier.reveal.tickets}`
+          : 'SSR',
+        0,
+        -26,
+        51,
+        '#ffc96a',
+        0,
+      );
+      this.text(
+        this.game.save.courier.reveal?.tickets ? '抽奖券' : '英雄信标',
+        0,
+        25,
+        23,
+        '#fff1cf',
+        0,
+      );
       c.strokeStyle = '#82f0fa';
       c.lineWidth = 4;
       for (let i = 0; i < 3; i++) {
@@ -1161,84 +887,323 @@ export class HuntView {
       c.closePath();
       c.fill();
       c.stroke();
-      this.text('橙将降临！', 0, 0, 52, '#fff6db', 7);
+      this.text(
+        this.game.save.courier.reveal?.tickets ? '十连抽到手！' : '橙将降临！',
+        0,
+        0,
+        48,
+        '#fff6db',
+        7,
+      );
       c.restore();
       this.text(
-        `随机橙色英雄 ×${this.game.save.courier.reveal?.heroes?.length ?? 1}`,
+        this.game.save.courier.reveal?.tickets
+          ? `抽奖券 ×${this.game.save.courier.reveal.tickets}`
+          : `随机橙色英雄 ×${this.game.save.courier.reveal?.heroes?.length ?? 1}`,
         300,
         530,
         25,
         '#ffd38a',
         3,
       );
-      this.text('信号已接入 · 正在迎接新伙伴', 300, 568, 16, '#d7f4fa', 3);
+      this.text(
+        this.game.save.courier.reveal?.tickets
+          ? '已到账 · 可前往英雄进行十连抽'
+          : '信号已接入 · 正在迎接新伙伴',
+        300,
+        568,
+        16,
+        '#d7f4fa',
+        3,
+      );
     }
     c.restore();
   }
   private drawAmmoFlights() {
-    const page = this.canvas.closest('.hunt-page');
+    const page =
+      this.canvas.closest('.mori-gameplay-shell') ??
+      this.canvas.closest('.hunt-page');
     const inventory = page?.querySelector('[data-hunt-ammo-inventory] img');
-    if (!page || !inventory || !this.art?.ammoIcon) return;
-    const effects = this.game.effects.filter((e) => e.kind === 'ammoReturn');
-    for (const [id, nodes] of this.ammoFlights) {
-      if (!effects.some((e) => e.id === id)) {
-        nodes.forEach((n) => n.remove());
-        this.ammoFlights.delete(id);
-      }
+    const coreTarget = page?.querySelector('.core-energy-track');
+    const art = this.art?.ammoReturn;
+    const effects = this.game.effects.filter(
+      (e) => e.kind === 'ammoReturn' || e.kind === 'kill',
+    );
+    if (!page || (!inventory && !coreTarget) || !art || !effects.length) {
+      if (this.ammoFlightLayer) this.ammoFlightLayer.style.display = 'none';
+      return;
     }
-    if (!effects.length) return;
     if (!this.ammoFlightLayer) {
-      this.ammoFlightLayer = document.createElement('div');
+      this.ammoFlightLayer = document.createElement('canvas');
       this.ammoFlightLayer.setAttribute('aria-hidden', 'true');
       Object.assign(this.ammoFlightLayer.style, {
         position: 'absolute',
         inset: '0',
+        width: '100%',
+        height: '100%',
         pointerEvents: 'none',
         zIndex: '40',
-        overflow: 'hidden',
       });
       page.appendChild(this.ammoFlightLayer);
     }
-    const pageRect = page.getBoundingClientRect(),
-      canvasRect = this.canvas.getBoundingClientRect(),
-      target = inventory.getBoundingClientRect();
-    const scale = canvasRect.width / ARENA.w,
-      offset = arenaViewportOffset(canvasRect.height / scale);
+    const layer = this.ammoFlightLayer;
+    layer.style.display = 'block';
+    const pr = page.getBoundingClientRect(),
+      cr = this.canvas.getBoundingClientRect();
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    const width = Math.max(1, Math.round(pr.width * dpr)),
+      height = Math.max(1, Math.round(pr.height * dpr));
+    if (layer.width !== width) layer.width = width;
+    if (layer.height !== height) layer.height = height;
+    const c = layer.getContext('2d')!;
+    c.setTransform(dpr, 0, 0, dpr, 0, 0);
+    c.clearRect(0, 0, pr.width, pr.height);
+    const scale = cr.width / ARENA.w,
+      offset = arenaViewportOffset(cr.height / scale);
     for (const e of effects) {
-      let nodes = this.ammoFlights.get(e.id);
-      if (!nodes) {
-        nodes = Array.from({ length: 4 }, () => {
-          const image = document.createElement('img');
-          image.src = this.art!.ammoIcon!.src;
-          image.alt = '';
-          Object.assign(image.style, {
-            position: 'absolute',
-            left: '0',
-            top: '0',
-            width: '25px',
-            height: '25px',
-            objectFit: 'contain',
-            filter: 'drop-shadow(0 0 5px #e9b847)',
-          });
-          this.ammoFlightLayer!.appendChild(image);
-          return image;
-        });
-        this.ammoFlights.set(e.id, nodes);
+      const target = (
+        e.kind === 'ammoReturn' ? inventory : coreTarget
+      )?.getBoundingClientRect();
+      if (!target || !target.width || !target.height) continue;
+      const tx = target.left - pr.left + target.width / 2,
+        ty = target.top - pr.top + target.height / 2;
+      const sx = cr.left - pr.left + e.x * scale;
+      const sy =
+        cr.top -
+        pr.top +
+        (e.y +
+          offset -
+          (e.kind === 'ammoReturn' ? 95 : 30) * this.game.zombieScale) *
+          scale;
+      if (e.kind === 'kill') {
+        // Draw in arena-sized coordinates for equal particle sizes on narrow phones.
+        c.save();
+        c.scale(scale, scale);
+        drawCoreFlight(
+          c,
+          this.art?.combat ?? {},
+          sx / scale,
+          sy / scale,
+          tx / scale,
+          ty / scale,
+          e.age,
+          functional(e.species),
+          e.seed,
+        );
+        c.restore();
+        if (e.age > 0.85 && e.age < 1.25) {
+          c.save();
+          c.globalAlpha = Math.sin(((e.age - 0.85) / 0.4) * Math.PI) * 0.7;
+          c.strokeStyle = '#9cffe4';
+          c.lineWidth = 2;
+          c.beginPath();
+          c.roundRect(
+            target.left - pr.left - 2,
+            target.top - pr.top - 2,
+            target.width + 4,
+            target.height + 4,
+            8,
+          );
+          c.stroke();
+          c.restore();
+        }
+        continue;
       }
-      nodes.forEach((node, i) => {
-        const elapsed = e.age - 0.25 - i * 0.045,
-          u = Math.max(0, Math.min(1, elapsed / 0.85)),
-          t = u * u;
-        const sx = canvasRect.left - pageRect.left + e.x * scale,
-          sy = canvasRect.top - pageRect.top + (e.y + offset - 32) * scale;
-        const tx = target.left - pageRect.left + target.width / 2,
-          ty = target.top - pageRect.top + target.height / 2;
-        const x = sx + (tx - sx) * t + Math.sin(u * Math.PI) * (i - 1.5) * 22,
-          y = sy + (ty - sy) * t - Math.sin(u * Math.PI) * 55;
-        node.style.transform = `translate(${x - 12}px, ${y - 12}px) scale(${1 - 0.2 * u})`;
-        node.style.opacity =
-          elapsed < 0 ? '0' : String(Math.max(0, Math.min(1, (1 - u) * 8)));
+      drawAmmoParticles(
+        c,
+        art,
+        e,
+        sx,
+        sy,
+        tx,
+        ty,
+        scale * this.game.zombieScale,
+      );
+      const pulse = ammoArrivalPulse(e.age);
+      if (pulse > 0) {
+        c.save();
+        c.globalAlpha = pulse;
+        c.strokeStyle = '#ffe395';
+        c.lineWidth = 2.5;
+        const box =
+          inventory
+            ?.closest('[data-hunt-ammo-inventory]')
+            ?.getBoundingClientRect() ?? target;
+        c.beginPath();
+        c.roundRect(
+          box.left - pr.left - 2,
+          box.top - pr.top - 2,
+          box.width + 4,
+          box.height + 4,
+          12,
+        );
+        c.stroke();
+        if (this.art?.ammoIcon) {
+          const size = target.width * (1 + pulse * 0.12);
+          c.drawImage(
+            this.art.ammoIcon,
+            tx - size / 2,
+            ty - size / 2,
+            size,
+            size,
+          );
+        }
+        c.restore();
+      }
+      if (e.age >= AMMO_FINAL_ARRIVAL) {
+        const u = (e.age - AMMO_FINAL_ARRIVAL) / 0.7;
+        c.save();
+        c.globalAlpha = Math.max(0, 1 - u);
+        c.font = '900 20px "Microsoft YaHei", sans-serif';
+        c.textAlign = 'left';
+        c.lineJoin = 'round';
+        c.lineWidth = 4;
+        c.strokeStyle = '#704207';
+        const text = '+' + e.points.toLocaleString();
+        c.strokeText(text, tx + 18, ty - 22 - u * 12);
+        c.fillStyle = '#fff1a0';
+        c.fillText(text, tx + 18, ty - 22 - u * 12);
+        c.restore();
+      }
+    }
+  }
+  private overlayTop() {
+    const coreAward = this.canvas
+      .closest('.mori-gameplay-shell')
+      ?.querySelector('[data-core-award="active"]');
+    // Ticket release is a CSS-sized HUD animation, independent of arena zoom.
+    return this.game.visibleTop + (coreAward ? 110 / this.displayScale : 0);
+  }
+  private drawCallouts() {
+    const c = this.ctx,
+      g = this.game;
+    const top = this.overlayTop();
+    const layout = new CombatOverlayLayout(top);
+    // Subject protection takes priority over every floating label.
+    for (const e of g.effects)
+      if (e.kind === 'ammoReturn' && e.age < 1.15)
+        layout.reserve({
+          x: e.x,
+          y: e.y - 48 * g.zombieScale,
+          w: 205 * g.zombieScale,
+          h: 212 * g.zombieScale,
+        });
+    if (g.courierVictory && g.courierVictory.age < 1.2)
+      layout.reserve({
+        x: g.courierVictory.x,
+        y: g.courierVictory.y - 50,
+        w: 220,
+        h: 210,
       });
+    if (g.courierVictory) {
+      const title = jackpotTitle(top);
+      layout.reserve({ ...title, w: 432, h: 126 });
+    }
+    if (g.save.weapons.active || g.weaponEnding)
+      layout.reserve({ x: 417, y: 604, w: 192, h: 42 });
+    if (g.combo > 1 && g.comboLife > 0) {
+      const preferred = comboRect(top);
+      const box = layout.place(
+        preferred.x,
+        preferred.y,
+        preferred.w,
+        preferred.h,
+      );
+      if (box) {
+        c.save();
+        c.translate(box.x, box.y);
+        c.fillStyle = '#21322ccd';
+        c.beginPath();
+        c.roundRect(-44, -31, 88, 62, 10);
+        c.fill();
+        this.text(`${g.combo}`, 0, -9, 30, '#ffdc72', 3, 78);
+        this.text('连杀', 0, 20, 14, '#fff4ce', 2);
+        c.restore();
+      }
+    }
+    const ammo = g.effects.filter((e) => e.kind === 'ammoReturn');
+    for (const e of ammo) {
+      const box = layout.place(e.x, e.y - 185 * g.zombieScale, 228, 42);
+      if (box) {
+        c.save();
+        c.globalAlpha = Math.min(1, e.age * 8, (e.life - e.age) * 3);
+        c.fillStyle = '#261e11e8';
+        c.strokeStyle = '#e8bd59';
+        c.lineWidth = 1.5;
+        c.beginPath();
+        c.roundRect(box.x - 114, box.y - 21, 228, 42, 10);
+        c.fill();
+        c.stroke();
+        this.text(`黑金回收 +${e.points}`, box.x, box.y, 23, '#ffe596', 3, 212);
+        c.restore();
+      }
+    }
+    const rewards = groupKillRewards(g.effects);
+    const special = rewards.filter((e) => functional(e.species));
+    const ordinary = rewards.filter((e) => !functional(e.species));
+    // A single special card and a single ordinary total are easier to read during chains.
+    for (const group of [special, ordinary]) {
+      if (!group.length) continue;
+      const e = {
+        ...group[0],
+        points: group.reduce((sum, item) => sum + item.points, 0),
+      };
+      const isSpecial = functional(e.species);
+      const box = layout.place(
+        isSpecial ? 240 : e.x,
+        isSpecial ? top + 52 : e.y + 32 - e.age * 18,
+        isSpecial ? 250 : 126,
+        isSpecial ? 82 : 38,
+      );
+      if (box) this.score(e, box);
+    }
+    for (const e of g.effects
+      .filter((e) => e.kind === 'armorBreak')
+      .slice(-1)) {
+      const box = layout.place(e.x, e.y - 115, 235, 44);
+      if (box)
+        this.text(`装甲击破 · +${e.points}`, box.x, box.y, 20, '#d8faff', 4);
+    }
+    for (const z of [...g.zombies].sort((a, b) => a.id - b.id)) {
+      if (z.kind === COURIER_KIND) {
+        const box = layout.place(z.x, z.y - 205 * g.zombieScale, 224, 54, true);
+        if (box) this.courierLabel(z, box);
+        continue;
+      }
+      const style = specialMarkerStyle(z.kind);
+      if (!style) continue;
+      const scale = Math.min(1.05, Math.max(0.9, g.zombieScale));
+      const size = SPECIES[z.kind].size;
+      const preferredY =
+        z.y - (size * (1.12 * TOY_SCALE - 0.37) + 15) * g.zombieScale;
+      const box = layout.place(
+        z.x,
+        preferredY,
+        (style.label.length * 16 + 33) * scale,
+        (z.kind === 6 ? 36 : 30) * scale,
+        true,
+      );
+      if (!box) continue;
+      if (Math.hypot(box.x - z.x, box.y - preferredY) > 18) {
+        c.save();
+        c.strokeStyle = style.color + '88';
+        c.lineWidth = 1;
+        c.beginPath();
+        c.moveTo(box.x, box.y + box.h / 2);
+        c.lineTo(z.x, preferredY + 20);
+        c.stroke();
+        c.restore();
+      }
+      drawSpecialBadge(
+        c,
+        z.kind,
+        box.x,
+        box.y + (size * (1.12 * TOY_SCALE - 0.37) + 15) * scale,
+        size,
+        g.time,
+        z.hitsLeft,
+        scale,
+      );
     }
   }
   draw() {
@@ -1261,6 +1226,8 @@ export class HuntView {
     const scaleToScreen = this.canvas.width / ARENA.w;
     const viewportHeight = this.canvas.height / scaleToScreen;
     const viewportOffset = arenaViewportOffset(viewportHeight);
+    const arrivalAge = this.arrivalReviewAge ?? g.arrivalAge;
+    const arrival = arrivalCamera(arrivalAge, viewportHeight);
     c.setTransform(
       scaleToScreen,
       0,
@@ -1273,6 +1240,8 @@ export class HuntView {
     c.fillRect(0, -viewportOffset, 600, viewportHeight);
     if (!art) return;
     c.save();
+    c.translate(arrival.translateX, arrival.translateY);
+    c.scale(arrival.zoom, arrival.zoom);
     if (g.courierVictory && g.courierVictory.age < 0.5) {
       const t = g.courierVictory.age,
         power = (1 - t / 0.5) * 14;
@@ -1292,20 +1261,30 @@ export class HuntView {
     const scale = Math.max(600 / ground.width, viewportHeight / ground.height);
     const w = ground.width * scale,
       h = ground.height * scale;
-    c.drawImage(
-      ground,
-      (600 - w) / 2,
-      -viewportOffset + (viewportHeight - h) / 2,
-      w,
-      h,
-    );
-    c.fillStyle = '#fff3be08';
-    c.fillRect(0, -viewportOffset, 600, viewportHeight);
+    const groundX = (600 - w) / 2;
+    const groundY = -viewportOffset + (viewportHeight - h) / 2;
+    if (arrivalAge !== null && arrival.cameraProgress < 1) {
+      // The generated overview places this exact arena at x=25%, y=12%, size=50%.
+      c.drawImage(
+        art.overview,
+        groundX - w / 2,
+        groundY - h * 0.24,
+        w * 2,
+        h * 2,
+      );
+      c.drawImage(art.arrivalGround, groundX, groundY, w, h);
+      c.globalAlpha = Math.max(0, (arrival.cameraProgress - 0.55) / 0.45);
+    }
+    c.drawImage(ground, groundX, groundY, w, h);
+    c.globalAlpha = 1;
+    c.fillStyle = '#31402f14';
+    // Cover the entire overview too; a close-view-sized tint creates a visible rectangle.
+    c.fillRect(groundX - w / 2, groundY - h * 0.24, w * 2, h * 2);
     const vignette = c.createRadialGradient(300, 380, 160, 300, 380, 490);
     vignette.addColorStop(0, '#06181000');
     vignette.addColorStop(1, '#50826925');
     c.fillStyle = vignette;
-    c.fillRect(0, 0, 600, 800);
+    c.fillRect(groundX - w / 2, groundY - h * 0.24, w * 2, h * 2);
     if (g.save.bonus) {
       c.fillStyle = '#ffae1914';
       c.fillRect(0, 0, 600, 800);
@@ -1316,7 +1295,7 @@ export class HuntView {
     const muzzle = vehicleMuzzle(ARENA.gunX, ARENA.gunY, g.aim);
     const a = muzzle.angle;
     c.save();
-    c.globalAlpha = g.firing ? 0.25 : 0.12;
+    c.globalAlpha = arrivalAge !== null ? 0 : g.firing ? 0.25 : 0.12;
     c.strokeStyle = '#fff5c6';
     c.setLineDash([6, 11]);
     c.lineWidth = 1.5;
@@ -1335,50 +1314,82 @@ export class HuntView {
         art.platform.height * rig.scale,
       );
     }
-    [...g.zombies].sort((a, b) => a.y - b.y).forEach((z) => this.zombie(z));
-    if (art.supportSheet && !art.chassis && !transition) {
-      const cell = art.gunner.width / 2;
-      c.drawImage(
-        art.gunner,
-        cell,
-        0,
-        cell,
-        art.gunner.height,
-        ARENA.gunX - 90,
-        ARENA.gunY - 90,
-        180,
-        180,
-      );
+    if (arrivalAge === null) {
+      for (const e of g.effects)
+        if (e.kind === 'kill') {
+          const drawn =
+            art.bodyDeaths &&
+            drawBodyDeath(
+              c,
+              art.bodyDeaths,
+              e.species,
+              e.x,
+              e.y,
+              e.age,
+              SPECIES[e.species].size,
+              g.zombieScale,
+              e.facing?.includes('W'),
+              TOY_SCALE,
+            );
+          if (!drawn && e.age < 0.25) {
+            c.save();
+            c.globalAlpha *= 1 - e.age / 0.25;
+            this.toy.draw(
+              c,
+              ZOMBIE_ART[e.species],
+              e.x,
+              e.y + SPECIES[e.species].size * 0.37 * g.zombieScale,
+              SPECIES[e.species].size * 1.12 * TOY_SCALE * g.zombieScale,
+              { left: e.facing?.includes('W') },
+            );
+            c.restore();
+          }
+        }
+      this.courierDeath();
     }
-    for (const b of g.bullets) {
-      const len = b.bonus ? 33 : 23,
-        n = Math.hypot(b.vx, b.vy);
-      c.save();
-      c.lineCap = 'round';
-      c.strokeStyle = b.generation
-        ? '#c170ff'
-        : b.bonus
-          ? '#ff9c1f'
-          : '#ffce57';
-      c.shadowColor = '#ffab22';
-      c.shadowBlur = b.bonus ? 18 : 9;
-      c.lineWidth = b.bonus ? 6 : 4;
-      c.beginPath();
-      c.moveTo(b.x - (b.vx / n) * len, b.y - (b.vy / n) * len);
-      c.lineTo(b.x, b.y);
-      c.stroke();
-      c.shadowBlur = 0;
-      c.strokeStyle = '#fff7d7';
-      c.lineWidth = 2;
-      c.stroke();
-      c.restore();
-    }
+    if (arrivalAge === null)
+      [...g.zombies].sort((a, b) => a.y - b.y).forEach((z) => this.zombie(z));
+    for (const b of g.bullets) drawProjectile(c, b);
+    const latestShot = g.effects.findLast((e) => e.kind === 'shot');
     c.save();
     const drive = transition
       ? Math.max(0, Math.min(1, (transition.age - 1.45) / 1.6))
       : 0;
     const arriving = transition && transition.age > 3.5;
-    c.translate(ARENA.gunX, ARENA.gunY - (arriving ? 0 : drive * 850));
+    c.translate(
+      ARENA.gunX,
+      ARENA.gunY - (arriving ? 0 : drive * 850) + arrival.vehicleOffset,
+    );
+    if (arrival.driving) {
+      c.save();
+      c.globalAlpha = 0.3;
+      c.strokeStyle = '#574e3a';
+      c.lineWidth = 13;
+      for (const side of [-1, 1]) {
+        c.beginPath();
+        c.moveTo(side * 48, 50);
+        c.lineTo(side * 48, 170);
+        c.stroke();
+      }
+      c.fillStyle = '#e5cc94';
+      for (let i = 0; i < 6; i++) {
+        const t = ((arrivalAge ?? 0) * 2 + i / 6) % 1;
+        c.globalAlpha = 0.23 * (1 - t);
+        c.beginPath();
+        c.ellipse(
+          (i % 2 ? 1 : -1) * (50 + t * 24),
+          75 + t * 85,
+          9 + t * 22,
+          6 + t * 12,
+          0,
+          0,
+          Math.PI * 2,
+        );
+        c.fill();
+      }
+      c.restore();
+      c.translate(0, Math.sin((arrivalAge ?? 0) * 38) * 0.8);
+    }
     c.fillStyle = '#0b171985';
     c.beginPath();
     c.ellipse(0, 40, 72, 53, 0, 0, Math.PI * 2);
@@ -1393,8 +1404,10 @@ export class HuntView {
         art.chassis.height * rig.chassisScale,
       );
       c.save();
+      const recoil = transition ? 0 : shotRecoil(latestShot?.age ?? 1);
+      c.translate(-Math.cos(a) * recoil, -Math.sin(a) * recoil);
       c.rotate(
-        transition
+        transition || arrivalAge !== null
           ? vehicleMuzzle(0, 0, { x: 0, y: -1 }).rotation
           : muzzle.rotation,
       );
@@ -1410,67 +1423,34 @@ export class HuntView {
         art.turret.width * rig.turretScale,
         art.turret.height * rig.turretScale,
       );
+      const ending = g.weaponEnding;
+      if (weapon || ending)
+        drawWeaponAttachments(
+          c,
+          art.combat ?? {},
+          weapon?.kind ?? ending!.kind,
+          weapon ? 20 - weapon.left : 20,
+          weapon?.left ?? 0,
+          weapon ? 0 : ending!.age,
+        );
       c.restore();
-    } else if (art.vehicle) {
-      const cell = art.vehicle.width / 2;
-      const weapon = g.save.weapons.active;
-      c.drawImage(
-        art.vehicle,
-        0,
-        0,
-        cell,
-        art.vehicle.height,
-        -63,
-        -70,
-        126,
-        140,
-      );
-      c.save();
-      c.rotate(transition ? 0 : a + Math.PI / 2);
-      if (weapon) {
-        c.shadowColor = weapon.kind === 'laser' ? '#00ddff' : '#ff973d';
-        c.shadowBlur = 18;
-      }
-      c.drawImage(
-        art.vehicle,
-        cell,
-        0,
-        cell,
-        art.vehicle.height,
-        -48,
-        -48,
-        96,
-        96,
-      );
-      c.restore();
-    } else {
-      c.rotate(a + Math.PI / 2);
-      c.drawImage(
-        art.gunner,
-        art.supportSheet ? 0 : art.gunner.width * 0.205,
-        0,
-        art.supportSheet ? art.gunner.width / 2 : art.gunner.width * 0.59,
-        art.gunner.height,
-        -52,
-        -52,
-        104,
-        104,
-      );
     }
     c.restore();
-    if (!transition && !art.chassis)
-      this.text(
-        '装甲车 · 安全区',
-        ARENA.gunX,
-        ARENA.gunY + 76,
-        12,
-        '#efffd9',
-        3,
+    for (const e of g.effects)
+      if (e.kind !== 'ammoReturn' && (e.kind !== 'shot' || e === latestShot))
+        this.effect(e);
+    for (const e of g.effects) if (e.kind === 'ammoReturn') this.effect(e);
+    const activeWeapon = g.save.weapons.active;
+    if (activeWeapon || g.weaponEnding)
+      drawWeaponGauge(
+        c,
+        activeWeapon?.kind ?? g.weaponEnding!.kind,
+        417,
+        604,
+        activeWeapon?.left ?? 0,
+        20,
+        activeWeapon ? 0 : g.weaponEnding!.age,
       );
-    for (const e of g.effects) this.effect(e);
-    for (const e of g.effects) if (e.kind === 'kill') this.score(e);
-    for (const z of g.zombies)
-      if (z.kind === COURIER_KIND) this.courierLabel(z);
     if (g.firing) {
       c.strokeStyle = '#fff1b8';
       c.lineWidth = 2;
@@ -1479,16 +1459,10 @@ export class HuntView {
       c.stroke();
     }
     c.restore();
-    if (g.combo > 1 && g.comboLife > 0) {
-      c.save();
-      c.translate(493, 172);
-      c.rotate(-0.1);
-      this.text(`${g.combo}`, 0, 0, 42, '#ffda61', 6);
-      this.text('连杀!', 0, 33, 17, '#fff4cc', 4);
-      c.restore();
-    }
     this.courierVictory();
+    if (arrivalAge === null) this.drawCallouts();
     this.sceneTransition();
+    auditCombatFrame(this.canvas, g);
   }
   private sceneTransition() {
     const t = this.game.save.expedition.transition;
@@ -1569,7 +1543,7 @@ export class HuntView {
   dispose() {
     this.disposed = true;
     this.ammoFlightLayer?.remove();
-    this.ammoFlights.clear();
+
     cancelAnimationFrame(this.frame);
     this.observer.disconnect();
   }

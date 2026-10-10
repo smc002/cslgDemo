@@ -205,8 +205,8 @@ export const cityMeta = (kind: CityKind) =>
   CITY_BUILDINGS.find((b) => b.id === kind)!;
 export const cityStage = (level: number) =>
   level >= 8 ? 2 : level >= 4 ? 1 : 0;
-export const cityArt = (kind: CityKind, level: number) =>
-  `/assets/city-v08/${kind}-${cityStage(level)}.png`;
+export const cityArt = (kind: CityKind, _level: number) =>
+  `/assets/toy-v1/city-${kind}.png`;
 export function freshFacilities(now = 0): Record<SupportKind, Building> {
   return Object.fromEntries(
     CITY_BUILDINGS.filter((b) => b.id !== 'workshop' && b.id !== 'factory').map(

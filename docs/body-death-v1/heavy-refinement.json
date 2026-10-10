@@ -1,0 +1,5 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Edit target: the supplied six-pose sprite sheet. Remove all background and floor and all colored atmosphere/shadows completely, creating genuinely transparent RGBA alpha around every character. Preserve character identities and 3D materials. Keep a STRICT 3 column by 2 row layout with at least 60px completely transparent gutters separating all six bodies, and ample outer padding; no touching or clipping. The giant's three poses are good, preserve them. For bottom row armored courier, improve the middle pose: both armored knees planted on the floor, upper body slumped FORWARD over knees with palms braced toward ground, heavy safe backpack pushing shoulders down. Final bottom-right pose is lying prone/on its side with safe still on back, entire body low on floor. Full-body sprites only, no new effects, no typography, no checkerboard, no environment, no cast shadows. No blood or debris. Each pose same anatomical scale, do not enlarge fallen pose.",
+  "output": "source/heavy.png"
+}

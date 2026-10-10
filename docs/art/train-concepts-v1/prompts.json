@@ -1,0 +1,45 @@
+{
+  "tool": "built-in imagegen",
+  "date": "2026-10-10",
+  "referenceImages": [
+    "C:/Users/hy/AppData/Local/Temp/codex-clipboard-56582428-6f0d-41fe-98fb-205d6deebb2a.png",
+    "E:/cslgDemo/public/art-style-v2/c-toy-hunt.png",
+    "E:/cslgDemo/public/assets/toy-v1/zombie-normal.png",
+    "E:/cslgDemo/public/assets/toy-v1/hero-fire.png",
+    "E:/cslgDemo/public/assets/toy-v1/hero-frost.png"
+  ],
+  "basePrompt": "Use case: stylized-concept. Create one polished landscape 3:2 game concept illustration for a mobile European/Western cartoon zombie survival game, exploring replacing three-lane combat with heroes fighting from a moving TRAIN. Input 1 is ONLY an inspiration reference for a scavenged mobile fortress, never copy its text; input 2 is the project's visual STYLE reference; remaining inputs are actual zombie and hero design references. Strongly match the current game's rounded chunky toy-like 3D-rendered European cartoon style, oversized heads/hands, readable faces, soft bevels, clean materials, saturated turquoise teal and ochre orange machinery, warm tan ruined city ground and vegetation, charming green zombies. Not realistic, not gritty painting, not anime, not pixel art.\nSame core vehicle design in this series: a compact armored teal and warm orange locomotive with wedge plow, headlamp and small chimney, followed by TWO clearly coupled shorter open combat wagons on steel railway wheels on a SINGLE pair of rails. Low railings, roomy open roof decks, salvaged habitation modules BELOW the decks, a little greenery and supplies suggest a moving home. Clearly a TRAIN, not a truck. Six distinctive large readable heroes standing securely ON THE TRAIN, including red-haired fire hero casting a fire projectile, pale-haired blue frost heroine casting icy shards, blue armored cyborg gunner firing yellow bullet tracers; add a medic and two gunners. Ground zombies surround and rush the train from BOTH sides and ahead/behind, ~25-35 total with breathing room, including a few chunky armored ones. Several clear projectile paths originate from hero hands/guns and end at zombie hit sparks, one frozen zombie and a couple of comical knocked-down zombies. No gore. Train visibly moving along track through abandoned sunlit overgrown industrial outskirts, dust and steam emphasize movement. Keep hero silhouettes readable, environment subdued, train and combat occupy center 65% of image. No HUD, no menu, no logos, no lettering, no split panels, one coherent scene. Camera choice is the primary subject of this study:",
+  "views": [
+    {
+      "file": "01-side.png",
+      "name": "正侧方",
+      "prompt": "EXACT SIDE ELEVATION CAMERA, optical axis perpendicular to train length, near ground level at hero waist height. Entire train runs horizontally LEFT TO RIGHT, locomotive at right. Almost pure side profile with only very slight roof visibility; no isometric composition. Side-scrolling gameplay concept. Train spans 75% image width. Heroes visible as bold silhouettes above roof deck, foreground zombies attacking near side and distant silhouettes on far side. Horizontal landscape depth layers, skyline and sky in upper third. Strong lateral motion."
+    },
+    {
+      "file": "02-overhead-45.png",
+      "name": "45°俯视",
+      "prompt": "TRUE 45-DEGREE elevated three-quarter/isometric game camera looking down at 45 degrees. Entire train diagonal from lower left rear to upper right locomotive. Clearly see roofs AND sides in balanced proportions. Full combat space on both sides of rail, ~30 zombies converge from all quadrants, all six heroes on open decks visible. Almost orthographic readable strategy game staging, no horizon. Make train large enough to appreciate heroes yet preserve surrounding tactical space."
+    },
+    {
+      "file": "03-topdown-90.png",
+      "name": "90°俯视",
+      "prompt": "STRICT EXACT 90-DEGREE VERTICAL BIRD'S-EYE ORTHOGRAPHIC TOP-DOWN CAMERA, looking straight down, NOT isometric, NO horizon, NO visible tall vehicle side walls. Rails and train run VERTICALLY from bottom toward top of composition with locomotive at top, two wagons below. Train fills 70% image height and around 25% width, ground battle space on both sides. Clearly see roofs/open combat decks, circular heads and shoulders and gun orientations from above. Radial outgoing bullets, fire and ice show 360-degree defense. Zombies seen strictly from above, same toy geometry and short ground shadows. Prioritize topdown camera accuracy over frontal character faces."
+    },
+    {
+      "file": "04-low-oblique.png",
+      "name": "低角度斜侧方",
+      "prompt": "LOW THREE-QUARTER SIDE CAMERA from FRONT-RIGHT of the train, about 15 degrees elevated above ground, looking diagonally ALONG its flank toward the tail. Locomotive large in lower right foreground facing diagonally toward viewer/right, two wagons recede toward upper left background. Perspective foreshortening distinctly different from both side elevation and 45 degree isometric. Visible big wheels, plow, tall side panels, heroes silhouetted across open upper decks. Zombies on both foreground and far side, epic but playful moving fortress feeling, horizon and soft ruined skyline in upper third."
+    },
+    {
+      "file": "05-rear-follow.png",
+      "name": "车尾追随",
+      "prompt": "REAR FOLLOW CHASE CAMERA centered BEHIND the train, looking FORWARD in its direction of travel, at 30 degrees downward. Near open rear combat wagon dominates lower center foreground; locomotive is farther ahead in upper center, tracks lead straight toward distant ruined bridge/horizon. Show backs/three-quarter backs of heroes on deck firing OUTWARD left and right, zombie waves flanking the train and a clear approaching threat ahead. Longitudinal vanishing point, strong forward journey feeling. This must obviously be the view FROM BEHIND, not a front engine view."
+    },
+    {
+      "file": "06-front-facing.png",
+      "name": "车头迎面",
+      "prompt": "FRONT-FACING REVERSE TRACKING CAMERA ahead of the train looking BACK at its approaching locomotive, low-to-medium 20 degree elevation. Locomotive plow and circular headlamp FRONT FACE centered lower middle, two combat wagons trail behind toward upper center; symmetric rails enter bottom edge, slight natural perspective offset lets both flanks be understood. Hero faces and guns visible above locomotive and wagons; heroes shoot diagonally outward at zombies crowding from left/right foreground, exaggerated green zombie silhouettes frame edges without obscuring train. Approaching force and siege pressure; sunlit ruined city horizon behind train. Not rear chase, not side isometric."
+    }
+  ],
+  "topdownRevision": "Edit this game concept illustration with ONE change: change camera to an EXACT 90 degree nadir orthographic view straight vertically down. Current image is too oblique, showing vertical cab rear and zombie faces. Physically rotate viewpoint to directly overhead: train cab rear/front walls MUST NOT be visible, only roofs and deck floors; vertical walls have zero height in projection; all zombies and heroes seen as TOP OF HAIR/HEADS and shoulders, NOT frontal faces. Rail sleepers remain exactly horizontal parallel, rails exactly vertical parallel, absolutely no perspective convergence, no horizon, no vanishing point. Keep the same toy-like European cartoon rendered style, teal orange train with locomotive on top and two open combat wagons below, six onboard heroes with red fire, blue ice and gunfire attacking surrounding green zombies on both sides, overgrown ruined city ground. Full train fits with ground margins. Landscape 3:2. Preserve visual quality, colors, design language, no text. This is a true topdown tactical view, not isometric or high-angle three-quarter."
+}

@@ -6,6 +6,8 @@ await build({
     'lib/prologue.ts',
     'lib/strong-guide.ts',
     'lib/city.ts',
+    'lib/recruit.ts',
+    'hunt/simulation.ts',
     'merged/simulation.ts',
   ],
   bundle: true,
@@ -18,9 +20,57 @@ const C = await import('../.test-cache/prologue/lib/campaign.js');
 const P = await import('../.test-cache/prologue/lib/prologue.js');
 const G = await import('../.test-cache/prologue/lib/strong-guide.js');
 const B = await import('../.test-cache/prologue/lib/city.js');
-const { MergedBattle } =
+const { MergedBattle, HEROES: battleHeroes } =
   await import('../.test-cache/prologue/merged/simulation.js');
-let d = C.freshCampaign();
+const { RECRUIT_HEROES } =
+  await import('../.test-cache/prologue/lib/recruit.js');
+const { HEROES: huntHeroes } =
+  await import('../.test-cache/prologue/hunt/simulation.js');
+for (const story of P.STORIES) {
+  const identity = P.storyIdentity(story),
+    hero = RECRUIT_HEROES[story.hero];
+  assert.equal(identity.name, hero.name);
+  assert.equal(
+    identity.portrait,
+    hero.art,
+    'story and recruitment share the same file',
+  );
+  assert.equal(identity.name, battleHeroes[story.hero].name);
+  assert.equal(identity.name, huntHeroes[story.hero]);
+  assert.ok(!/阿栓|维修员|路锥|护栏|举盾/.test(story.text));
+}
+const timeline = C.freshCampaign();
+const assertAvailable = (id) => {
+  const story = P.STORIES.find((s) => s.id === id);
+  assert.ok(story.ready(timeline));
+  assert.ok(
+    timeline.recruit.owned[RECRUIT_HEROES[story.hero].id] > 0,
+    `${id} speaker has already joined`,
+  );
+};
+assertAvailable('arrival');
+C.completeStage(timeline, 1);
+assertAvailable('ammo');
+timeline.hunt.expedition.points = 200;
+timeline.ticketsEarned = 1;
+assertAvailable('signal');
+P.storyRecruit(timeline);
+C.completeStage(timeline, 2);
+assertAvailable('city');
+for (const kind of ['hq', 'workshop', 'factory'])
+  assert.ok(C.buildCity(timeline, kind));
+assertAvailable('factory');
+for (let stage = 3; stage <= 10; stage++) {
+  C.completeStage(timeline, stage);
+  const id = { 4: 'three', 5: 'elite', 6: 'training', 9: 'boss', 10: 'ending' }[
+    stage
+  ];
+  if (id) assertAvailable(id);
+}
+console.log(
+  'PASS shared story/recruit/battle/hunt identities; every speaker has joined at its story milestone',
+);
+const d = C.freshCampaign();
 assert.deepEqual(C.unlockedSlotIndices(d), [3, 4, 5]);
 assert.deepEqual(d.lineup, [-1, -1, -1, 0, 1, 2, -1, -1, -1]);
 assert.ok(C.validLineup(d, d.lineup));
@@ -151,6 +201,8 @@ g.start();
 assert.equal(g.enemies.filter((e) => e.boss).length, 1);
 const boss = g.enemies.find((e) => e.boss);
 assert.equal(boss.lane, 1);
+// Test the ordinary forward slam; assassin-directed retaliation has its own test.
+g.heroes.find((h) => h.hero === 5).hp = 0;
 g.enemies = [boss];
 boss.hp = boss.maxHp = 100000;
 boss.cd = 0;

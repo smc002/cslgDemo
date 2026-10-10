@@ -1,0 +1,12 @@
+{
+  "frameSize": 512,
+  "anchor": [
+    256,
+    448
+  ],
+  "standingHeight": 446,
+  "frames": [
+    "death-0.png",
+    "death-1.png"
+  ]
+}

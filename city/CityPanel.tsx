@@ -183,17 +183,18 @@ export default function CityPanel({ active }: { active: boolean }) {
         <div className="city-map">
           <img
             className="city-terrain"
-            src="/assets/city-v08/terrain-barren.png"
+            style={{ filter: 'saturate(.65)' }}
+            src="/assets/toy-v1/city-terrain-organic.png"
             alt={
               constructed < 4
-                ? '荒废营地，裸土地块与残破围墙，等待逐步建设'
+                ? '曙光营地，等待逐步建设'
                 : '逐渐恢复生机的曙光营地'
             }
             draggable={false}
           />
           <img
             className="city-terrain city-terrain-renewal"
-            src="/assets/city-v08/terrain.png"
+            src="/assets/toy-v1/city-terrain-organic.png"
             alt=""
             draggable={false}
             style={{ opacity: Math.max(0, Math.min(1, (constructed - 3) / 3)) }}
@@ -407,7 +408,7 @@ export default function CityPanel({ active }: { active: boolean }) {
                 </span>
               </p>
             )}
-            <div className="city-stages" aria-label="建筑外观规划">
+            <div className="city-stages" aria-label="建筑成长阶段">
               {CITY_STAGES.map((level, index) => (
                 <div
                   className={

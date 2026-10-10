@@ -1,5 +1,39 @@
 import { BALANCE } from './balance';
 
+export type CoreAward = {
+  amount: number;
+  level: number;
+  xp: number;
+  points: number;
+  threshold: number;
+};
+export type TicketRewardSource = { core?: CoreAward; other: number };
+
+/** Snapshot the crossed node before a level-up replaces the visible bar. */
+export function ticketRewardSource(
+  before: { level: number; xp: number; points: number },
+  points: number,
+  gained: number,
+): TicketRewardSource {
+  const step = BALANCE.corePerTicket;
+  const amount = Math.min(
+    gained,
+    Math.max(0, Math.floor(points / step) - Math.floor(before.points / step)),
+  );
+  if (!amount) return { other: gained };
+  const threshold = (Math.floor(before.points / step) + 1) * step;
+  return {
+    core: {
+      amount,
+      level: before.level,
+      xp: threshold - (before.points - before.xp),
+      points: threshold,
+      threshold,
+    },
+    other: gained - amount,
+  };
+}
+
 /** Ticket milestones share the exact cumulative thresholds used by saveHunt. */
 export function coreRewardProgress(level: number, xp: number, points: number) {
   const step = BALANCE.corePerTicket;

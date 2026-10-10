@@ -1,0 +1,50 @@
+{
+  "tool": "built-in image_gen",
+  "groups": [
+    {
+      "key": "ordinary",
+      "names": [
+        "normal",
+        "runner",
+        "armored",
+        "reward"
+      ],
+      "rows": 4,
+      "detail": "Row 1 normal blue vest zombie; row 2 red headband runner: A side-collapse sequence. Row 3 bucket helmet armored zombie; row 4 red cape reward zombie: B backward knockdown sequence.",
+      "prompt": "Use case: stylized-concept. Asset type: production transparent game death animation sprite sheet. Input images are identity references, one per row in order. Match EXACT character identities, clothing, proportions, materials, colors and polished 3D rendering. Draw newly articulated full body poses, not rotated portraits. Orthographic elevated three-quarter front view, facing slightly screen-right. For A: column 1 body loses balance, knees buckle, arms droop; column 2 torso halfway falling sideways with one hand bracing, bent knees; column 3 entire body lies fully on its side on ground, head/torso/legs all low. For B: column 1 upper body recoils, arms raised loosely, knees bend; column 2 falling backward with hips low and legs folding, arms spreading; column 3 fully collapsed on back/side with heavy equipment resting on ground, head left and feet right. Weighty restrained defeat, no comedic expressions, NO blood, no gore, no pixel fragments, no disintegration, no floating stars. Characters remain intact. Transparent RGBA background, no floor, no background color, NO checkerboard, NO cast shadows, no smoke or VFX. These will be rendered separately. Strict uniform grid, 3 columns, equal square cells, all poses contained within each cell with 10% transparent gutters. Characters constant anatomical scale across columns: upright occupies 80% cell height, fallen occupies about 85% width and 35-45% height. Baseline consistent at 86% cell height. No lines, no labels, no text, no numbers. Clear large silhouettes; limbs visibly articulated across three poses.\nSheet layout 4 rows x 3 columns. Row 1 normal blue vest zombie; row 2 red headband runner: A side-collapse sequence. Row 3 bucket helmet armored zombie; row 4 red cape reward zombie: B backward knockdown sequence."
+    },
+    {
+      "key": "elemental",
+      "names": [
+        "explosive",
+        "scatter",
+        "electric",
+        "ice"
+      ],
+      "rows": 4,
+      "detail": "Row 1 lava zombie; row 2 purple round scatter armor zombie; row 3 white-haired gold electric zombie; row 4 ice-crystal zombie. Each row uses B backward knockdown. Keep crystals/equipment attached, extinguish emission slightly as it falls.",
+      "prompt": "Use case: stylized-concept. Asset type: production transparent game death animation sprite sheet. Input images are identity references, one per row in order. Match EXACT character identities, clothing, proportions, materials, colors and polished 3D rendering. Draw newly articulated full body poses, not rotated portraits. Orthographic elevated three-quarter front view, facing slightly screen-right. For A: column 1 body loses balance, knees buckle, arms droop; column 2 torso halfway falling sideways with one hand bracing, bent knees; column 3 entire body lies fully on its side on ground, head/torso/legs all low. For B: column 1 upper body recoils, arms raised loosely, knees bend; column 2 falling backward with hips low and legs folding, arms spreading; column 3 fully collapsed on back/side with heavy equipment resting on ground, head left and feet right. Weighty restrained defeat, no comedic expressions, NO blood, no gore, no pixel fragments, no disintegration, no floating stars. Characters remain intact. Transparent RGBA background, no floor, no background color, NO checkerboard, NO cast shadows, no smoke or VFX. These will be rendered separately. Strict uniform grid, 3 columns, equal square cells, all poses contained within each cell with 10% transparent gutters. Characters constant anatomical scale across columns: upright occupies 80% cell height, fallen occupies about 85% width and 35-45% height. Baseline consistent at 86% cell height. No lines, no labels, no text, no numbers. Clear large silhouettes; limbs visibly articulated across three poses.\nSheet layout 4 rows x 3 columns. Row 1 lava zombie; row 2 purple round scatter armor zombie; row 3 white-haired gold electric zombie; row 4 ice-crystal zombie. Each row uses B backward knockdown. Keep crystals/equipment attached, extinguish emission slightly as it falls."
+    },
+    {
+      "key": "heavy",
+      "names": [
+        "giant",
+        "courier"
+      ],
+      "rows": 2,
+      "detail": "Row 1 giant green muscular zombie in suspenders with red skin patches. Row 2 large armored cash courier with black safe backpack and orange-gold armor. Both use C heavy collapse: column 1 knees give way, crouched; column 2 both knees on ground, torso slumping forward, hands bracing; column 3 completely prone face/side-down, massive body resting on floor, arms forward, legs bent naturally. Safe remains on back.",
+      "prompt": "Use case: stylized-concept. Asset type: production transparent game death animation sprite sheet. Input images are identity references, one per row in order. Match EXACT character identities, clothing, proportions, materials, colors and polished 3D rendering. Draw newly articulated full body poses, not rotated portraits. Orthographic elevated three-quarter front view, facing slightly screen-right. For A: column 1 body loses balance, knees buckle, arms droop; column 2 torso halfway falling sideways with one hand bracing, bent knees; column 3 entire body lies fully on its side on ground, head/torso/legs all low. For B: column 1 upper body recoils, arms raised loosely, knees bend; column 2 falling backward with hips low and legs folding, arms spreading; column 3 fully collapsed on back/side with heavy equipment resting on ground, head left and feet right. Weighty restrained defeat, no comedic expressions, NO blood, no gore, no pixel fragments, no disintegration, no floating stars. Characters remain intact. Transparent RGBA background, no floor, no background color, NO checkerboard, NO cast shadows, no smoke or VFX. These will be rendered separately. Strict uniform grid, 3 columns, equal square cells, all poses contained within each cell with 10% transparent gutters. Characters constant anatomical scale across columns: upright occupies 80% cell height, fallen occupies about 85% width and 35-45% height. Baseline consistent at 86% cell height. No lines, no labels, no text, no numbers. Clear large silhouettes; limbs visibly articulated across three poses.\nSheet layout 2 rows x 3 columns. Row 1 giant green muscular zombie in suspenders with red skin patches. Row 2 large armored cash courier with black safe backpack and orange-gold armor. Both use C heavy collapse: column 1 knees give way, crouched; column 2 both knees on ground, torso slumping forward, hands bracing; column 3 completely prone face/side-down, massive body resting on floor, arms forward, legs bent naturally. Safe remains on back."
+    },
+    {
+      "key": "weapons",
+      "names": [
+        "prism",
+        "shotgun",
+        "gold"
+      ],
+      "rows": 3,
+      "detail": "Row 1 white hair cyan-goggle prism engineer; row 2 orange-goggle shotgun engineer; row 3 navy-cap black-gold ammunition carrier. All B backward knockdown. Preserve their distinctive backpack and weapon. Carrier remains intact with black/gold ammunition pack.",
+      "prompt": "Use case: stylized-concept. Asset type: production transparent game death animation sprite sheet. Input images are identity references, one per row in order. Match EXACT character identities, clothing, proportions, materials, colors and polished 3D rendering. Draw newly articulated full body poses, not rotated portraits. Orthographic elevated three-quarter front view, facing slightly screen-right. For A: column 1 body loses balance, knees buckle, arms droop; column 2 torso halfway falling sideways with one hand bracing, bent knees; column 3 entire body lies fully on its side on ground, head/torso/legs all low. For B: column 1 upper body recoils, arms raised loosely, knees bend; column 2 falling backward with hips low and legs folding, arms spreading; column 3 fully collapsed on back/side with heavy equipment resting on ground, head left and feet right. Weighty restrained defeat, no comedic expressions, NO blood, no gore, no pixel fragments, no disintegration, no floating stars. Characters remain intact. Transparent RGBA background, no floor, no background color, NO checkerboard, NO cast shadows, no smoke or VFX. These will be rendered separately. Strict uniform grid, 3 columns, equal square cells, all poses contained within each cell with 10% transparent gutters. Characters constant anatomical scale across columns: upright occupies 80% cell height, fallen occupies about 85% width and 35-45% height. Baseline consistent at 86% cell height. No lines, no labels, no text, no numbers. Clear large silhouettes; limbs visibly articulated across three poses.\nSheet layout 3 rows x 3 columns. Row 1 white hair cyan-goggle prism engineer; row 2 orange-goggle shotgun engineer; row 3 navy-cap black-gold ammunition carrier. All B backward knockdown. Preserve their distinctive backpack and weapon. Carrier remains intact with black/gold ammunition pack."
+    }
+  ]
+}

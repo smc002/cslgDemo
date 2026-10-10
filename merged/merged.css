@@ -207,3 +207,10 @@
   font-size: 13px;
   white-space: nowrap;
 }
+
+@media (max-height: 740px) {
+  /* Keep the compact battlefield free of instructions that overlap the front row. */
+  .merged-brief {
+    display: none;
+  }
+}

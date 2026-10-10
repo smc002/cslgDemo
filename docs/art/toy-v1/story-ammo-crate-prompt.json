@@ -1,0 +1,9 @@
+{
+  "id": "story-ammo-crate",
+  "mode": "generate",
+  "prompt": "Generate ONE isolated open olive and navy supply crate filled with chunky black and gold ammunition cartridges. Supporting reference is STYLE only, do NOT draw a building. Rounded polished 3D toy rendering, broad bevels, soft upper-left lighting, small square gold cartridge emblem, three-quarter elevated view. Entire box and lid visible with 15% padding on all sides. Real transparent alpha background, no floor, no shadows outside object, no text, no UI, no collage. Square image.",
+  "references": [
+    "E:/cslgDemo/public/assets/toy-v1/city-factory.png"
+  ],
+  "source": "C:\\Users\\hy\\.codex\\generated_images\\01a1199e-8b3b-7362-bc82-b9b9b985dfbb\\exec-5265d236-ad80-4d77-b7c8-47a89e731774.png"
+}
